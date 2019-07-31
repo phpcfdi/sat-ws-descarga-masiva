@@ -1,0 +1,46 @@
+language: php
+
+# php compatibility
+php:
+  - 7.2
+  - 7.3
+
+env:
+  - FULLBUILD_PHP_VERSION: 7.3
+
+# This triggers builds to run on the new TravisCI infrastructure.
+# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+
+cache:
+  - directories:
+    - $HOME/.composer
+
+before_script:
+  # - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-dist
+  - phpenv config-rm xdebug.ini
+
+script:
+  - mkdir -p build
+  - vendor/bin/phplint
+  - |
+    if [[ "${FULLBUILD_PHP_VERSION}" == "${TRAVIS_PHP_VERSION}" ]]; then
+      vendor/bin/php-cs-fixer fix --verbose
+      vendor/bin/phpcbf --colors -sp src/ tests/
+      php -dzend_extension=xdebug.so vendor/bin/phpunit --testdox --verbose --coverage-text --coverage-clover=build/tests/coverage.xml
+      vendor/bin/phpstan.phar analyse --no-progress --level max src/ tests/
+    else
+      vendor/bin/phpunit --testdox --verbose
+    fi
+
+after_success:
+  - |
+    if [[ "${FULLBUILD_PHP_VERSION}" == "${TRAVIS_PHP_VERSION}" ]]; then
+      mkdir -p build/ocular
+      travis_retry composer require scrutinizer/ocular --working-dir=build/ocular --dev --no-interaction --prefer-dist
+      build/ocular/vendor/bin/ocular code-coverage:upload --format=php-clover build/tests/coverage.xml
+    fi
+
+notifications:
+  email: false

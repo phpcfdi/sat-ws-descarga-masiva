@@ -1,0 +1,15 @@
+filter:
+    excluded_paths:
+        - 'tests/*'
+        - 'vendor/*'
+
+checks:
+    php:
+        code_rating: true
+        duplication: true
+
+tools:
+    php_code_sniffer:
+        config:
+            standard: "PSR2"
+    external_code_coverage: true
