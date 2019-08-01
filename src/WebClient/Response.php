@@ -52,5 +52,4 @@ class Response
     {
         return $this->statusCode < 600 && $this->statusCode >= 500;
     }
-
 }

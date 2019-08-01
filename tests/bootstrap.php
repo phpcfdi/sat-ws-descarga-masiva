@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // report all errors
 error_reporting(-1);
 

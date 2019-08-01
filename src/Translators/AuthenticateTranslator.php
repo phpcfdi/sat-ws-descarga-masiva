@@ -24,12 +24,18 @@ class AuthenticateTranslator
         return new Token($created, $expires, $value);
     }
 
-    public function createSoapRequest(Fiel $fiel, DateTime $since = null): string
+    public function createSoapRequest(Fiel $fiel): string
     {
+        $since = DateTime::now();
+        $until = $since->modify('+ 5 minutes');
         $uuid = $this->createUuid();
-        $since = $since ?? DateTime::now();
+        return $this->createSoapRequestWithData($fiel, $since, $until, $uuid);
+    }
+
+    public function createSoapRequestWithData(Fiel $fiel, DateTime $since, DateTime $until, string $uuid): string
+    {
         $created = $since->formatSat();
-        $expires = $since->modify('+ 10 minutes')->formatSat();
+        $expires = $until->formatSat();
         $toDigest = $this->nospaces(
             <<<EOT
 <u:Timestamp xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" u:Id="_0">
@@ -57,7 +63,7 @@ EOT
         );
         $signed = base64_encode($fiel->sign($toSign, OPENSSL_ALGO_SHA1));
 
-        $certificate = base64_encode($fiel->getCertificatePemContents());
+        $certificate = $this->cleanPemContents($fiel->getCertificatePemContents());
 
         $xml = <<<EOT
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><s:Header><o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
@@ -66,27 +72,27 @@ EOT
         <u:Expires>${expires}</u:Expires>
     </u:Timestamp>
         <o:BinarySecurityToken u:Id="${uuid}" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">
-            $certificate
+            ${certificate}
         </o:BinarySecurityToken>
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
             <SignedInfo>
                 <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-                    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-                        <Reference URI="#_0">
-                            <Transforms>
-                                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-                            </Transforms>
-                            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-                            <DigestValue>${toDigest}</DigestValue>
-                        </Reference>
-                    </SignedInfo>
-                    <SignatureValue>${signed}</SignatureValue>
-                    <KeyInfo>
-                        <o:SecurityTokenReference>
-                            <o:Reference ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" URI="#${uuid}"/>
-                        </o:SecurityTokenReference>
-                    </KeyInfo>
-                </Signature>
+                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+                <Reference URI="#_0">
+                    <Transforms>
+                        <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                    </Transforms>
+                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                    <DigestValue>${digested}</DigestValue>
+                </Reference>
+            </SignedInfo>
+            <SignatureValue>${signed}</SignatureValue>
+            <KeyInfo>
+                <o:SecurityTokenReference>
+                    <o:Reference ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" URI="#${uuid}"/>
+                </o:SecurityTokenReference>
+            </KeyInfo>
+        </Signature>
             </o:Security>
         </s:Header>
         <s:Body>
@@ -147,13 +153,12 @@ EOT;
         return $element;
     }
 
-
     public function findElement(DOMElement $element, string ... $names): ? DOMElement
     {
         $current = array_shift($names);
         $current = strtolower($current);
         foreach ($element->childNodes as $child) {
-            if ($child->nodeType instanceof DOMElement) {
+            if ($child instanceof DOMElement) {
                 $localName = strtolower($child->localName);
                 if ($localName === $current) {
                     if (count($names) > 0) {
@@ -192,5 +197,21 @@ EOT;
             }
         }
         return '';
+    }
+
+    public function cleanPemContents(string $pemContents): string
+    {
+        return implode(
+            '',
+            array_map(
+                'trim',
+                array_filter(
+                    explode("\n", $pemContents),
+                    function (string $line): bool {
+                        return (0 !== strpos($line, '-----'));
+                    }
+                )
+            )
+        );
     }
 }

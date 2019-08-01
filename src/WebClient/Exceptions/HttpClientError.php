@@ -6,5 +6,4 @@ namespace PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions;
 
 class HttpClientError extends WebClientException
 {
-
 }

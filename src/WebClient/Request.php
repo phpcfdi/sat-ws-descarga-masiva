@@ -58,5 +58,4 @@ class Request
             'Cache-Control' => 'no-cache',
         ];
     }
-
 }

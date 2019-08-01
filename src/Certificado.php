@@ -237,7 +237,7 @@ class Certificado
      * @throws UnexpectedValueException when the file does not exists or is not readable
      * @return void
      */
-    protected function assertFileExists(string $filename)
+    protected function assertFileExists(string $filename): void
     {
         if (! file_exists($filename) || ! is_readable($filename) || is_dir($filename)) {
             throw new UnexpectedValueException("File $filename does not exists or is not readable");

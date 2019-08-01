@@ -44,12 +44,12 @@ class Token
 
     public function isValueEmpty(): bool
     {
-        return ('' !== $this->value);
+        return ('' === $this->value);
     }
 
     public function isExpired(): bool
     {
-        return $this->expires->compareTo(DateTime::now()) >= 0;
+        return $this->expires->compareTo(DateTime::now()) < 0;
     }
 
     public function isValid(): bool

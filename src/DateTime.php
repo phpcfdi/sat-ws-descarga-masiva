@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
-
 use DateTimeImmutable;
 use InvalidArgumentException;
 
@@ -15,7 +14,7 @@ class DateTime
 
     public function __construct($value = null)
     {
-        if (is_integer($value)) {
+        if (is_int($value)) {
             $value = 'u' . $value;
         }
         if (null === $value || is_string($value)) {
@@ -42,8 +41,13 @@ class DateTime
         return new self($this->value->modify($modify));
     }
 
-    public function compareTo(DateTime $otherDate): int
+    public function compareTo(self $otherDate): int
     {
         return $this->formatSat() <=> $otherDate->formatSat();
+    }
+
+    public function equalsTo(self $expectedExpires): bool
+    {
+        return $this->formatSat() === $expectedExpires->formatSat();
     }
 }

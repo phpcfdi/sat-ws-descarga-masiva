@@ -7,7 +7,6 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Response;
@@ -37,12 +36,6 @@ class GuzzleWebClient implements WebClientInterface
             $gRequest->getBody()->rewind();
             $gResponse = $exception->getResponse();
             $gResponse->getBody()->rewind();
-            print_r([
-                'request.headers' => $gRequest->getHeaders(),
-                'request.body' => $gRequest->getBody()->getContents(),
-                'response.headers' => $gResponse->getHeaders(),
-                'response.body' => $gResponse->getBody()->getContents(),
-            ]);
             throw new HttpServerError(sprintf('Error connecting to %s', $request->getUri()), $request, $exception);
         }
         return new Response(
@@ -51,5 +44,4 @@ class GuzzleWebClient implements WebClientInterface
             $guzzleResponse->getHeaders()
         );
     }
-
 }

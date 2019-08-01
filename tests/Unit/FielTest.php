@@ -9,7 +9,7 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class FielTest extends TestCase
 {
-    public function testFielWithIncorrectPassword()
+    public function testFielWithIncorrectPassword(): void
     {
         $fiel = new Fiel(
             $this->fileContents('fake-fiel/aaa010101aaa_FIEL_password.key.pem'),
@@ -18,5 +18,16 @@ class FielTest extends TestCase
         );
 
         $this->assertFalse($fiel->isValid());
+    }
+
+    public function testFielWithCorrectPassword(): void
+    {
+        $fiel = new Fiel(
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL_password.key.pem'),
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
+            trim($this->fileContents('fake-fiel/password.txt'))
+        );
+
+        $this->assertTrue($fiel->isValid());
     }
 }
