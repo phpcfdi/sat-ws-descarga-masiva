@@ -20,8 +20,8 @@ class AuthenticateTranslatorTest extends TestCase
             trim($this->fileContents('fake-fiel/password.txt'))
         );
 
-        $since = new DateTime('2019-08-01T03:38:19');
-        $until = new DateTime('2019-08-01T03:43:19');
+        $since = new DateTime('2019-08-01T03:38:19Z');
+        $until = new DateTime('2019-08-01T03:43:19Z');
         $uuid = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
         $requestBody = $translator->createSoapRequestWithData($fiel, $since, $until, $uuid);
         $this->assertXmlStringEqualsXmlFile($this->filePath('soap_req_body_autentica.xml'), $requestBody);

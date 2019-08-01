@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use InvalidArgumentException;
 
 class DateTime
@@ -28,12 +29,22 @@ class DateTime
 
     public static function now(): self
     {
-        return new self('now');
+        return new self();
     }
 
     public function formatSat(): string
     {
-        return $this->value->format('Y-m-d\TH:i:s.000\Z');
+        return $this->formatTimeZone('Z');
+    }
+
+    public function formatDefaultTimeZone(): string
+    {
+        return $this->formatTimeZone(date_default_timezone_get());
+    }
+
+    public function formatTimeZone(string $timezone): string
+    {
+        return $this->value->setTimezone(new DateTimeZone($timezone))->format('Y-m-d\TH:i:s.000T');
     }
 
     public function modify(string $modify): self
