@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit;
 
-use PhpCfdi\SatWsDescargaMasiva\Example;
-use PHPUnit\Framework\TestCase;
+use PhpCfdi\SatWsDescargaMasiva\Service;
+use PhpCfdi\SatWsDescargaMasiva\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Tests\GuzzleWebClient;
+use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    public function testAssertIsworking()
+    public function testAuthenticationUsingFakeFiel()
     {
-        $example = new Example();
-        $this->assertInstanceOf(Example::class, $example);
-        $this->markTestSkipped('The unit test environment is working');
+        $fiel = new Fiel(
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
+            trim($this->fileContents('fake-fiel/password.txt'))
+        );
+        $webclient = new GuzzleWebClient();
+
+        $service = new Service($fiel, $webclient);
+        $token = $service->authenticate();
+        $this->assertTrue($token->isValid());
     }
 }

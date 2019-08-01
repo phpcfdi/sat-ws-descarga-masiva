@@ -1,0 +1,15 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <s:Header>
+        <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <u:Timestamp u:Id="_0">
+                <u:Created>2019-07-31T22:14:35.697Z</u:Created>
+                <u:Expires>2019-07-31T22:19:35.697Z</u:Expires>
+            </u:Timestamp>
+        </o:Security>
+    </s:Header>
+    <s:Body>
+        <AutenticaResponse xmlns="http://DescargaMasivaTerceros.gob.mx">
+            <AutenticaResult>eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1NjQ2MTEyNzUsImV4cCI6MTU2NDYxMTg3NSwiaWF0IjoxNTY0NjExMjc1LCJpc3MiOiJMb2FkU29saWNpdHVkRGVjYXJnYU1hc2l2YVRlcmNlcm9zIiwiYWN0b3J0IjoiMzAzMDMwMzAzMTMwMzAzMDMwMzAzMDM0MzEzMDMwMzczNDMzMzAzMSJ9.IVKYskXIemH-X_5Rj_7UVsQGra5NgliGgWq4ujC6xXA%26wrap_subject%3d3030303031303030303030343130303734333031</AutenticaResult>
+        </AutenticaResponse>
+    </s:Body>
+</s:Envelope>
