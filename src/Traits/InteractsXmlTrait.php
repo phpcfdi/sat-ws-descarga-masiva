@@ -73,18 +73,21 @@ trait InteractsXmlTrait
     public function findAttribute(DOMElement $element, string ...$search): string
     {
         $attributeName = strtolower(array_pop($search));
-        $found = $this->findElement($element, ... $search);
+        $attributes = $this->findAttributes($element, ...$search);
+        return $attributes[$attributeName] ?? '';
+    }
+
+    public function findAttributes(DOMElement $element, string ...$search): array
+    {
+        $found = $this->findElement($element, ...$search);
         if (null === $found) {
-            return '';
+            return [];
         }
+        $attributes = [];
+        /** @var DOMAttr $attribute */
         foreach ($found->attributes as $attribute) {
-            if ($attribute instanceof DOMAttr) {
-                $name = strtolower($attribute->localName);
-                if ($name === $attributeName) {
-                    return $attribute->textContent;
-                }
-            }
+            $attributes[$attribute->localName] = $attribute->value;
         }
-        return '';
+        return array_change_key_case($attributes, CASE_LOWER);
     }
 }

@@ -21,21 +21,11 @@ class DownloadRequestTranslator
     public function createDownloadRequestResultFromSoapResponse(string $content): DownloadRequestResult
     {
         $env = $this->readXmlElement($content);
-        $requestId = $this->findAttribute(
-            $env,
-            'body',
-            'solicitadescargaresponse',
-            'solicitadescargaresult',
-            'idsolicitud'
-        );
-        $statusCode = (int)$this->findAttribute(
-            $env,
-            'body',
-            'solicitadescargaresponse',
-            'solicitadescargaresult',
-            'codestatus'
-        );
-        $message = $this->findAttribute($env, 'body', 'solicitadescargaresponse', 'solicitadescargaresult', 'mensaje');
+
+        $values = $this->findAttributes($env, 'body', 'solicitaDescargaResponse', 'solicitaDescargaResult');
+        $requestId = $values['idsolicitud'] ?? '';
+        $statusCode = intval($values['codestatus'] ?? 0);
+        $message = $values['mensaje'] ?? '';
         return new DownloadRequestResult($requestId, $statusCode, $message);
     }
 
