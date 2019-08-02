@@ -92,7 +92,7 @@ EOT
 	<s:Header/>
 	<s:Body>
 		<des:SolicitaDescarga>
-			<des:solicitud ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" FechaFinal="${end}" FechaInicial="${start}" TipoSolicitud="${requestType}">
+			<des:solicitud ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" FechaInicial="${start}" FechaFinal="${end}" TipoSolicitud="${requestTypeValue}">
 				<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
 					<SignedInfo>
 						<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
