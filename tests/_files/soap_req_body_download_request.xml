@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+    <s:Header/>
+    <s:Body>
+        <des:SolicitaDescarga>
+            <des:solicitud RfcReceptor="aaa010101aaa" RfcSolicitante="aaa010101aaa" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" TipoSolicitud="CFDI">
+                <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                    <SignedInfo>
+                        <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
+                        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
+                        <Reference URI="#_0">
+                            <Transforms>
+                                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
+                            </Transforms>
+                            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+                            <DigestValue>RbOaRU+Ucqa3xNh0oGJZAiaJQMo=</DigestValue>
+                        </Reference>
+                    </SignedInfo>
+                    <SignatureValue>bhn5Gog5hDtVQHmwaUzBgt6+cp3/SY3EePuENk+3AuaFAMGAvifZHrJQl6id9bOfwhjAT5k0rA9lje2onuN0ndQ5sgfQZWIezxWfIn63ywSf6Mt3ueLQzeDf2Zwmj02aQ6WHiz9Ls64zyZlbW1tLiZjFRYlJs/0HJOZ4sUcJrql/oaT02hpTdZ/07A7X2ua0cvapPUKbAYzVaGTeT43MzkGeJjJQJ2Bpr+1c43HEfmZXPj/8FrbWXk6dlgzKew0qwmXXSTie27XQT0ZitkmrPLA9IaMwyNeLNPPVtYxmsCNs2Yhgw437hk+j6setj81QaELf6aNVT6A9MtU6ukOwEQ==</SignatureValue>
+                    <KeyInfo>
+                        <X509Data>
+                            <X509IssuerSerial>
+                                <X509IssuerName>/CN=ACCEM SERVICIOS EMPRESARIALES SC/name=ACCEM SERVICIOS EMPRESARIALES SC/O=ACCEM SERVICIOS EMPRESARIALES SC/C=MX/emailAddress=FactElect@sat.gob.mx/x500UniqueIdentifier=AAA010101AAA / HEGT7610034S2/serialNumber= / HEGT761003MDFRNN09</X509IssuerName>
+                                <X509SerialNumber>30001000000300023685</X509SerialNumber>
+                            </X509IssuerSerial>
+                            <X509Certificate>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</X509Certificate>
+                        </X509Data>
+                    </KeyInfo>
+                </Signature>
+            </des:solicitud>
+        </des:SolicitaDescarga>
+    </s:Body>
+</s:Envelope>
