@@ -9,7 +9,7 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class DateTimeTest extends TestCase
 {
-    public function testCreateUsingTimeZoneZulu()
+    public function testCreateUsingTimeZoneZulu(): void
     {
         // remember that per bootstrap default time zone is America/Mexico_City
         $date = new DateTime('2019-01-14T04:23:24.000Z');
@@ -17,7 +17,7 @@ class DateTimeTest extends TestCase
         $this->assertSame('2019-01-13T22:23:24.000CST', $date->formatDefaultTimeZone());
     }
 
-    public function testCreateWithoutTimeZone()
+    public function testCreateWithoutTimeZone(): void
     {
         // remember that per bootstrap default time zone is America/Mexico_City
         $date = new DateTime('2019-01-13 22:23:24'); // as it does not include time zone is created as default
@@ -25,7 +25,7 @@ class DateTimeTest extends TestCase
         $this->assertSame('2019-01-13T22:23:24.000CST', $date->formatDefaultTimeZone());
     }
 
-    public function testFormatSatUsesZuluTimeZone()
+    public function testFormatSatUsesZuluTimeZone(): void
     {
         // remember that per bootstrap default time zone is America/Mexico_City
         $date = new DateTime('2019-01-13 22:23:24'); // as it does not include time zone is created as default
