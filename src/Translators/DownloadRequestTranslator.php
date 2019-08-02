@@ -35,7 +35,7 @@ class DownloadRequestTranslator
 
         return $this->createSoapRequestWithData(
             $fiel,
-            $downloadRequestQuery->getRfc(),
+            $fiel->getRfc(),
             $dateTimePeriod->getStart(),
             $dateTimePeriod->getEnd(),
             $downloadRequestQuery->getDownloadType(),

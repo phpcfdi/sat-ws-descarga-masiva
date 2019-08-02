@@ -60,4 +60,9 @@ class Fiel
     {
         return $this->certificate;
     }
+
+    public function getRfc(): string
+    {
+        return $this->certificate->getRfc();
+    }
 }

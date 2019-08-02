@@ -40,13 +40,14 @@ class DownloadRequestTranslatorTest extends TestCase
             trim($this->fileContents('fake-fiel/password.txt'))
         );
 
-        $query = new DownloadRequestQuery(
-            new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00')),
-            'aaa010101aaa',
+        $requestBody = $translator->createSoapRequestWithData(
+            $fiel,
+            'aaa010101aaa', // the file was created using rfc in lower case
+            new DateTime('2019-01-01 00:00:00'),
+            new DateTime('2019-01-01 00:04:00'),
             DownloadType::received(),
             RequestType::cfdi()
         );
-        $requestBody = $translator->createSoapRequest($fiel, $query);
         $this->assertXmlStringEqualsXmlFile($this->filePath('soap_req_body_download_request.xml'), $requestBody);
     }
 }

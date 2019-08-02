@@ -39,8 +39,7 @@ class ExampleTest extends TestCase
         );
         $webclient = new GuzzleWebClient();
         $dateTimePeriod = new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00'));
-        $rfc = 'aaa010101aaa';
-        $downloadRequestQuery = new DownloadRequestQuery($dateTimePeriod, $rfc, DownloadType::received(), RequestType::cfdi());
+        $downloadRequestQuery = new DownloadRequestQuery($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
 
         $service = new Service($fiel, $webclient);
         $downloadRequestResult = $service->downloadRequest($downloadRequestQuery);
