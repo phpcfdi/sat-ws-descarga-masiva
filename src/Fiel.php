@@ -53,16 +53,18 @@ class Fiel
         return $this->certificate->getPemContents();
     }
 
-    /**
-     * @return Certificado
-     */
-    public function getCertificate(): Certificado
-    {
-        return $this->certificate;
-    }
-
     public function getRfc(): string
     {
         return $this->certificate->getRfc();
+    }
+
+    public function getCertificateSerial(): string
+    {
+        return $this->certificate->getSerial();
+    }
+
+    public function getCertificateIssuerName(): string
+    {
+        return $this->certificate->getCertificateName();
     }
 }

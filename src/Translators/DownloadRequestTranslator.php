@@ -84,8 +84,8 @@ EOT
         $signed = base64_encode($fiel->sign($toSign, OPENSSL_ALGO_SHA1));
 
         $certificate = Helpers::cleanPemContents($fiel->getCertificatePemContents());
-        $serial = $fiel->getCertificate()->getSerial();
-        $issuerName = $fiel->getCertificate()->getCertificateName();
+        $serial = $fiel->getCertificateSerial();
+        $issuerName = $fiel->getCertificateIssuerName();
 
         $xml = <<<EOT
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
