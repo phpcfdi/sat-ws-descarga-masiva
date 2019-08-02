@@ -43,6 +43,10 @@ class ExampleTest extends TestCase
 
         $service = new Service($fiel, $webclient);
         $downloadRequestResult = $service->downloadRequest($downloadRequestQuery);
-        $this->assertTrue($downloadRequestResult->isAccepted());
+        $this->assertSame(
+            305,
+            $downloadRequestResult->getStatusCode(),
+            'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
+        );
     }
 }
