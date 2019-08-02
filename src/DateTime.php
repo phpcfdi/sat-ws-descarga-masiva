@@ -37,6 +37,15 @@ class DateTime
         return $this->formatTimeZone('Z');
     }
 
+    public function format(string $format, string $timezone = ''): string
+    {
+        if (empty($timezone)) {
+            $timezone = date_default_timezone_get();
+        }
+
+        return $this->value->setTimezone(new DateTimeZone($timezone))->format($format);
+    }
+
     public function formatDefaultTimeZone(): string
     {
         return $this->formatTimeZone(date_default_timezone_get());
