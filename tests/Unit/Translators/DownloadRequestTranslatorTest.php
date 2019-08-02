@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Translators;
 
+use PhpCfdi\SatWsDescargaMasiva\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\DownloadRequestQuery;
+use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
+use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 use PhpCfdi\SatWsDescargaMasiva\Translators\DownloadRequestTranslator;
 
@@ -23,5 +29,24 @@ class DownloadRequestTranslatorTest extends TestCase
         $this->assertEquals($downloadResponse->getStatusCode(), $exptedStatusCode);
         $this->assertEquals($downloadResponse->getMessage(), $exptedMessage);
         $this->assertTrue($downloadResponse->isAccepted());
+    }
+
+    public function testCreateSoapRequest(): void
+    {
+        $translator = new DownloadRequestTranslator();
+        $fiel = new Fiel(
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
+            trim($this->fileContents('fake-fiel/password.txt'))
+        );
+
+        $query = new DownloadRequestQuery(
+            new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00')),
+            'aaa010101aaa',
+            DownloadType::received(),
+            RequestType::cfdi()
+        );
+        $requestBody = $translator->createSoapRequest($fiel, $query);
+        $this->assertXmlStringEqualsXmlFile($this->filePath('soap_req_body_download_request.xml'), $requestBody);
     }
 }
