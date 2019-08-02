@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva;
 
 use PhpCfdi\SatWsDescargaMasiva\Translators\AuthenticateTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Translators\DownloadRequestTranslator;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
@@ -37,9 +38,15 @@ class Service
         return $token;
     }
 
-    public function consume(string $soapAction, string $uri, string $body): string
+    public function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
     {
-        $request = new Request('POST', $uri, $body, ['SOAPAction' => $soapAction]);
+        $headers = ['SOAPAction' => $soapAction];
+
+        if (null !== $token) {
+            $headers['Authorization'] = 'WRAP access_token="' . $token->getValue() . '"';
+        }
+
+        $request = new Request('POST', $uri, $body, $headers);
         $response = $this->webclient->call($request);
         if ($response->statusCodeIsClientError()) {
             throw new HttpClientError(
@@ -58,5 +65,19 @@ class Service
         }
 
         return $response->getBody();
+    }
+
+    public function downloadRequest(DownloadRequestQuery $downloadRequestQuery): DownloadRequestResult
+    {
+        $downloadRequestTranslator = new DownloadRequestTranslator();
+        $soapBody = $downloadRequestTranslator->createSoapRequest($this->fiel, $downloadRequestQuery);
+        $responseBody = $this->consume(
+            'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
+            'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
+            $soapBody,
+            $this->authenticate()
+        );
+        $downloadRequestResponse = $downloadRequestTranslator->createDownloadRequestResultFromSoapResponse($responseBody);
+        return $downloadRequestResponse;
     }
 }
