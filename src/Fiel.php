@@ -52,4 +52,12 @@ class Fiel
     {
         return $this->certificate->getPemContents();
     }
+
+    /**
+     * @return Certificado
+     */
+    public function getCertificate(): Certificado
+    {
+        return $this->certificate;
+    }
 }
