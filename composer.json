@@ -15,7 +15,8 @@
         "php": ">=7.2",
         "ext-openssl": "*",
         "ext-dom": "*",
-        "eclipxe/cfdiutils": "^2.10"
+        "eclipxe/cfdiutils": "^2.10",
+        "eclipxe/enum": "^0.2.0"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^6.3",
