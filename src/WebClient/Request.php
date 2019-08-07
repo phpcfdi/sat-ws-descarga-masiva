@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
-class Request
+use JsonSerializable;
+
+class Request implements JsonSerializable
 {
     /** @var string */
     private $method;
@@ -57,5 +59,10 @@ class Request
             'Accept' => 'text/xml',
             'Cache-Control' => 'no-cache',
         ];
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

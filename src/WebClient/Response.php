@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
-class Response
+use JsonSerializable;
+
+class Response implements JsonSerializable
 {
     /** @var int */
     private $statusCode;
@@ -51,5 +53,10 @@ class Response
     public function statusCodeIsServerError(): bool
     {
         return $this->statusCode < 600 && $this->statusCode >= 500;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

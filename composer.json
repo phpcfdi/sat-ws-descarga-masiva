@@ -15,6 +15,7 @@
         "php": ">=7.2",
         "ext-openssl": "*",
         "ext-dom": "*",
+        "ext-json": "*",
         "eclipxe/cfdiutils": "^2.10",
         "eclipxe/enum": "^0.2.0"
     },
