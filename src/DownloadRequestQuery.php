@@ -20,7 +20,7 @@ class DownloadRequestQuery
     private $downloadType;
 
     /**
-     * @var string
+     * @var RequestType
      */
     private $requestType;
 
