@@ -19,16 +19,17 @@ class VerifyDownloadRequestTranslator
 
         $values = $this->findAttributes(
             $env,
-            'body',
-            'VerificaSolicitudDescargaResponse',
-            'VerificaSolicitudDescargaResult'
+            ...['body', 'VerificaSolicitudDescargaResponse', 'VerificaSolicitudDescargaResult']
         );
         $statusCode = intval($values['codestatus'] ?? 0);
         $requestStatus = intval($values['estadosolicitud'] ?? 0);
         $statusRequestCode = intval($values['codigoestadosolicitud'] ?? 0);
         $numberCfdis = intval($values['numerocfdis'] ?? 0);
         $message = $values['mensaje'] ?? '';
-        $packages = $values['idspaquetes'] ?? [];
+        $packages = $this->findContents(
+            $env,
+            ...['body', 'VerificaSolicitudDescargaResponse', 'VerificaSolicitudDescargaResult', 'IdsPaquetes']
+        );
         return new VerifyDownloadRequestResult(
             $statusCode,
             $requestStatus,

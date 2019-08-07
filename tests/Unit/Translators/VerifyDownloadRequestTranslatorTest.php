@@ -32,6 +32,31 @@ class VerifyDownloadRequestTranslatorTest extends TestCase
         $this->assertTrue($downloadResponse->isRejected());
     }
 
+    public function testCreateVerifyDownloadRequestResponseFromSoapResponseTwoPackages(): void
+    {
+        $expectedStatusCode = 5000;
+        $expectedStatusRequest = 3;
+        $expectedStatusCodeRequest = 5000;
+        $expectedNumberCfdis = 12345;
+        $expectedMessage = 'Solicitud Aceptada';
+        $expectedPackages = [
+            '4e80345d-917f-40bb-a98f-4a73939343c5_01',
+            '4e80345d-917f-40bb-a98f-4a73939343c5_02',
+        ];
+
+        $translator = new VerifyDownloadRequestTranslator();
+        $responseBody = $translator->nospaces($this->fileContents('soap_res_verify_download_request_two_packages.xml'));
+        $downloadResponse = $translator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
+
+        $this->assertEquals($expectedStatusCode, $downloadResponse->getStatusCode());
+        $this->assertEquals($expectedStatusRequest, $downloadResponse->getStatusRequest());
+        $this->assertEquals($expectedStatusCodeRequest, $downloadResponse->getStatusCodeRequest());
+        $this->assertEquals($expectedNumberCfdis, $downloadResponse->getNumberCfdis());
+        $this->assertEquals($expectedMessage, $downloadResponse->getMessage());
+        $this->assertEquals($expectedPackages, $downloadResponse->getPackages());
+        $this->assertTrue($downloadResponse->isFinished());
+    }
+
     public function testCreateSoapRequest(): void
     {
         $translator = new VerifyDownloadRequestTranslator();

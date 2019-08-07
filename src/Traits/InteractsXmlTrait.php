@@ -70,6 +70,46 @@ trait InteractsXmlTrait
         return $found->textContent;
     }
 
+    /**
+     * @param DOMElement $element
+     * @param string ...$names
+     * @return DOMElement[]
+     */
+    public function findElements(DOMElement $element, string ... $names): array
+    {
+        $current = strtolower(array_pop($names));
+        $element = $this->findElement($element, ...$names);
+        if (null === $element) {
+            return [];
+        }
+
+        $found = [];
+        foreach ($element->childNodes as $child) {
+            if ($child instanceof DOMElement) {
+                $localName = strtolower($child->localName);
+                if ($localName === $current) {
+                    $found[] = $child;
+                }
+            }
+        }
+        return $found;
+    }
+
+    /**
+     * @param DOMElement $element
+     * @param string ...$names
+     * @return string[]
+     */
+    public function findContents(DOMElement $element, string ... $names): array
+    {
+        return array_map(
+            function (DOMElement $element) {
+                return $element->nodeValue;
+            },
+            $this->findElements($element, ... $names)
+        );
+    }
+
     public function findAttribute(DOMElement $element, string ...$search): string
     {
         $attributeName = strtolower(array_pop($search));
