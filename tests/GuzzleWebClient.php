@@ -48,6 +48,7 @@ class GuzzleWebClient implements WebClientInterface
 
     public function call(Request $request): Response
     {
+        $this->fireRequest($request);
         try {
             /** @var ResponseInterface $guzzleResponse */
             $guzzleResponse = $this->client->request($request->getMethod(), $request->getUri(), [
@@ -62,6 +63,7 @@ class GuzzleWebClient implements WebClientInterface
             throw new HttpServerError(sprintf('Error connecting to %s', $request->getUri()), $request, $exception);
         }
         $response = $this->createResponseFromGuzzleResponse($guzzleResponse);
+        $this->fireResponse($response);
         return $response;
     }
 
