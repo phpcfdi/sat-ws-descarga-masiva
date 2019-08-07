@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 
+use Closure;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
@@ -18,9 +19,31 @@ class GuzzleWebClient implements WebClientInterface
     /** @var GuzzleClient */
     private $client;
 
-    public function __construct(GuzzleClient $client = null)
+    /** @var Closure|null */
+    public $fireRequestClousure;
+
+    /** @var Closure|null */
+    public $fireResponseClousure;
+
+    public function __construct(GuzzleClient $client = null, Closure $fireRequest = null, Closure $fireResponse = null)
     {
         $this->client = $client ?? new GuzzleClient();
+        $this->fireRequestClousure = $fireRequest;
+        $this->fireResponseClousure = $fireResponse;
+    }
+
+    public function fireRequest(Request $request): void
+    {
+        if (null !== $this->fireRequestClousure) {
+            call_user_func($this->fireRequestClousure, $request);
+        }
+    }
+
+    public function fireResponse(Response $response): void
+    {
+        if (null !== $this->fireResponseClousure) {
+            call_user_func($this->fireResponseClousure, $response);
+        }
     }
 
     public function call(Request $request): Response
