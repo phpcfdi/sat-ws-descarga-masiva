@@ -61,11 +61,8 @@ class GuzzleWebClient implements WebClientInterface
             $gResponse->getBody()->rewind();
             throw new HttpServerError(sprintf('Error connecting to %s', $request->getUri()), $request, $exception);
         }
-        return new Response(
-            $guzzleResponse->getStatusCode(),
-            $guzzleResponse->getBody()->getContents(),
-            $guzzleResponse->getHeaders()
-        );
+        $response = $this->createResponseFromGuzzleResponse($guzzleResponse);
+        return $response;
     }
 
     private function createResponseFromGuzzleResponse(? ResponseInterface $response): Response
