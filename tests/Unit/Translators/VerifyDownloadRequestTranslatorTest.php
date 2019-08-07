@@ -10,7 +10,7 @@ use PhpCfdi\SatWsDescargaMasiva\Translators\VerifyDownloadRequestTranslator;
 
 class VerifyDownloadRequestTranslatorTest extends TestCase
 {
-    public function testCreateVerifyDownloadRequestResponseFromSoapResponse(): void
+    public function testCreateVerifyDownloadRequestResponseFromSoapResponseZeroPackages(): void
     {
         $expectedStatusCode = 5000;
         $expectedStatusRequest = 5;
@@ -20,7 +20,7 @@ class VerifyDownloadRequestTranslatorTest extends TestCase
         $expectedPackages = [];
 
         $translator = new VerifyDownloadRequestTranslator();
-        $responseBody = $translator->nospaces($this->fileContents('soap_res_verify_download_request.xml'));
+        $responseBody = $translator->nospaces($this->fileContents('soap_res_verify_download_request_zero_packages.xml'));
         $downloadResponse = $translator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
 
         $this->assertEquals($downloadResponse->getStatusCode(), $expectedStatusCode);
