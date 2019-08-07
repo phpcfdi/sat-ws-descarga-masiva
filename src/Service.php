@@ -52,17 +52,19 @@ class Service
         if ($response->statusCodeIsClientError()) {
             throw new HttpClientError(
                 sprintf('Unexpected client error status code %d', $response->getStatusCode()),
-                $request
+                $request,
+                $response
             );
         }
         if ($response->statusCodeIsServerError()) {
             throw new HttpServerError(
                 sprintf('Unexpected client error status code %d', $response->getStatusCode()),
-                $request
+                $request,
+                $response
             );
         }
         if ($response->isEmpty()) {
-            throw new HttpServerError('Unexpected empty response from server', $request);
+            throw new HttpServerError('Unexpected empty response from server', $request, $response);
         }
 
         return $response->getBody();
