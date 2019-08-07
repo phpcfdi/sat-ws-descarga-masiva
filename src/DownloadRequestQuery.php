@@ -9,28 +9,15 @@ use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
 
 class DownloadRequestQuery
 {
-    /**
-     * @var DateTimePeriod
-     */
+    /** @var DateTimePeriod */
     private $dateTimePeriod;
 
-    /**
-     * @var DownloadType
-     */
+    /** @var DownloadType */
     private $downloadType;
 
-    /**
-     * @var RequestType
-     */
+    /** @var RequestType */
     private $requestType;
 
-    /**
-     * DownloadRequestQuery constructor.
-     *
-     * @param DateTimePeriod $dateTimePeriod
-     * @param DownloadType   $downloadType
-     * @param RequestType    $requestType
-     */
     public function __construct(
         DateTimePeriod $dateTimePeriod,
         DownloadType $downloadType,
