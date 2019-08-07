@@ -25,7 +25,9 @@ class Request implements JsonSerializable
         $this->method = $method;
         $this->uri = $uri;
         $this->body = $body;
-        $this->headers = array_filter(array_merge($this->defaultHeaders(), $headers));
+        /** @var array<string, string> $headers */
+        $headers = array_filter(array_merge($this->defaultHeaders(), $headers));
+        $this->headers = $headers;
     }
 
     /** @return string */
