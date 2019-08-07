@@ -67,4 +67,14 @@ class GuzzleWebClient implements WebClientInterface
             $guzzleResponse->getHeaders()
         );
     }
+
+    private function createResponseFromGuzzleResponse(? ResponseInterface $response): Response
+    {
+        if (null === $response) {
+            return new Response(500, '', []);
+        }
+        $response->getBody()->rewind();
+        $body = $response->getBody()->getContents();
+        return new Response($response->getStatusCode(), $body, $response->getHeaders());
+    }
 }
