@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^6.3",
+        "symfony/dotenv": "^4.3",
         "phpunit/phpunit": "^8.0",
         "overtrue/phplint": "^1.0",
         "squizlabs/php_codesniffer": "^3.0",
