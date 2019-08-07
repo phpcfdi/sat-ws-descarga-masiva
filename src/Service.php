@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva;
 
 use PhpCfdi\SatWsDescargaMasiva\Translators\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Translators\DownloadRequestTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Translators\VerifyDownloadRequestTranslator;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
@@ -78,6 +79,20 @@ class Service
             $this->authenticate()
         );
         $downloadRequestResponse = $downloadRequestTranslator->createDownloadRequestResultFromSoapResponse($responseBody);
+        return $downloadRequestResponse;
+    }
+
+    public function verifyDownloadRequest(string $requestId): VerifyDownloadRequestResult
+    {
+        $verifyDownloadRequestTranslator = new VerifyDownloadRequestTranslator();
+        $soapBody = $verifyDownloadRequestTranslator->createSoapRequest($this->fiel, $requestId);
+        $responseBody = $this->consume(
+            'http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga',
+            'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc',
+            $soapBody,
+            $this->authenticate()
+        );
+        $downloadRequestResponse = $verifyDownloadRequestTranslator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
         return $downloadRequestResponse;
     }
 }

@@ -60,11 +60,19 @@ class Fiel
 
     public function getCertificateSerial(): string
     {
-        return $this->certificate->getSerial();
+        return $this->certificate->getSerialObject()->asDecimal();
     }
 
     public function getCertificateIssuerName(): string
     {
-        return $this->certificate->getCertificateName();
+        $data = openssl_x509_parse($this->certificate->getPemContents());
+        $issuerData = $data['issuer'] ?? [];
+        return implode(',', array_map(
+            function ($key, $value): string {
+                return $key . '=' . $value;
+            },
+            array_keys($issuerData),
+            $issuerData
+        ));
     }
 }

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Translators;
 
 use PhpCfdi\SatWsDescargaMasiva\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\DateTimePeriod;
-use PhpCfdi\SatWsDescargaMasiva\DownloadRequestQuery;
 use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Fiel;
