@@ -124,4 +124,9 @@ class VerifyDownloadRequestResult
     {
         return 5 === $this->getStatusRequest();
     }
+
+    public function isExpired(): bool
+    {
+        return 6 === $this->getStatusRequest();
+    }
 }
