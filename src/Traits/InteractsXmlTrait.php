@@ -44,8 +44,7 @@ trait InteractsXmlTrait
 
     public function findElement(DOMElement $element, string ... $names): ?DOMElement
     {
-        $current = array_shift($names);
-        $current = strtolower($current);
+        $current = strtolower(strval(array_shift($names)));
         foreach ($element->childNodes as $child) {
             if ($child instanceof DOMElement) {
                 $localName = strtolower($child->localName);
@@ -77,7 +76,7 @@ trait InteractsXmlTrait
      */
     public function findElements(DOMElement $element, string ... $names): array
     {
-        $current = strtolower(array_pop($names));
+        $current = strtolower(strval(array_pop($names)));
         $element = $this->findElement($element, ...$names);
         if (null === $element) {
             return [];
@@ -112,7 +111,7 @@ trait InteractsXmlTrait
 
     public function findAttribute(DOMElement $element, string ...$search): string
     {
-        $attributeName = strtolower(array_pop($search));
+        $attributeName = strtolower(strval(array_pop($search)));
         $attributes = $this->findAttributes($element, ...$search);
         return $attributes[$attributeName] ?? '';
     }
