@@ -65,8 +65,11 @@ class Fiel
 
     public function getCertificateIssuerName(): string
     {
-        $data = openssl_x509_parse($this->certificate->getPemContents());
+        $data = openssl_x509_parse($this->certificate->getPemContents()) ?: [];
         $issuerData = $data['issuer'] ?? [];
+        if (! is_array($issuerData)) {
+            $issuerData = [];
+        }
         return implode(',', array_map(
             function ($key, $value): string {
                 return $key . '=' . $value;
