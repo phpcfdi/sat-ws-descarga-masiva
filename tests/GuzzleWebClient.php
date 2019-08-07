@@ -56,11 +56,10 @@ class GuzzleWebClient implements WebClientInterface
                 'body' => $request->getBody(),
             ]);
         } catch (ClientException | RequestException $exception) {
-            $gRequest = $exception->getRequest();
-            $gRequest->getBody()->rewind();
-            $gResponse = $exception->getResponse();
-            $gResponse->getBody()->rewind();
-            throw new HttpServerError(sprintf('Error connecting to %s', $request->getUri()), $request, $exception);
+            $response = $this->createResponseFromGuzzleResponse($exception->getResponse());
+            $this->fireResponse($response);
+            $message = sprintf('Error connecting to %s', $request->getUri());
+            throw new HttpServerError($message, $request, $response, $exception);
         }
         $response = $this->createResponseFromGuzzleResponse($guzzleResponse);
         $this->fireResponse($response);
