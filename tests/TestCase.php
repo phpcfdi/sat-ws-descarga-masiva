@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 
+use DOMDocument;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -26,5 +27,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
             $password ?? trim($this->fileContents('fake-fiel/password.txt'))
         );
         return $fiel;
+    }
+
+    public function xmlFormat(string $content): string
+    {
+        $document = new DOMDocument();
+        $document->preserveWhiteSpace = false;
+        $document->formatOutput = true;
+        $document->loadXML($content);
+        return $document->saveXML();
     }
 }
