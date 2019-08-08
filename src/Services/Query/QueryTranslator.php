@@ -7,14 +7,15 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\SignXmlHelpersTrait;
 
 /** @internal */
 class QueryTranslator
 {
     use InteractsXmlTrait;
+    use SignXmlHelpersTrait;
 
     public function createQueryResultFromSoapResponse(string $content): QueryResult
     {
@@ -57,67 +58,27 @@ class QueryTranslator
 
         $toDigest = $this->nospaces(
             <<<EOT
-<des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-    <des:solicitud ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" FechaInicial="${start}" FechaFinal="${end}" TipoSolicitud="${requestTypeValue}"></des:solicitud>
-</des:SolicitaDescarga>
+            <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+                <des:solicitud FechaFinal="${end}" FechaInicial="${start}" ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" TipoSolicitud="${requestTypeValue}"></des:solicitud>
+            </des:SolicitaDescarga>
 EOT
         );
-        $digested = base64_encode(sha1(str_replace(PHP_EOL, '', $toDigest), true));
-
-        $toSign = $this->nospaces(
-            <<<EOT
-<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-    <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></CanonicalizationMethod>
-    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-    <Reference URI="">
-        <Transforms>
-            <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
-        </Transforms>
-        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-        <DigestValue>${digested}</DigestValue>
-    </Reference>
-</SignedInfo>
-EOT
-        );
-        $signed = base64_encode($fiel->sign($toSign, OPENSSL_ALGO_SHA1));
-
-        $certificate = Helpers::cleanPemContents($fiel->getCertificatePemContents());
-        $serial = $fiel->getCertificateSerial();
-        $issuerName = $fiel->getCertificateIssuerName();
-
+        $digested = base64_encode(sha1($toDigest, true));
+        $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested);
+        $signed = base64_encode($fiel->sign($signedInfoData, OPENSSL_ALGO_SHA1));
+        $keyInfoData = $this->createKeyInfoData($fiel);
+        $signatureData = $this->createSignatureData($signedInfoData, $signed, $keyInfoData);
         $xml = <<<EOT
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
-	<s:Header/>
-	<s:Body>
-		<des:SolicitaDescarga>
-			<des:solicitud ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" FechaInicial="${start}" FechaFinal="${end}" TipoSolicitud="${requestTypeValue}">
-				<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-					<SignedInfo>
-						<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
-						<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-						<Reference URI="#_0">
-							<Transforms>
-								<Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
-							</Transforms>
-							<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-							<DigestValue>${digested}</DigestValue>
-						</Reference>
-					</SignedInfo>
-					<SignatureValue>${signed}</SignatureValue>
-					<KeyInfo>
-						<X509Data>
-							<X509IssuerSerial>
-								<X509IssuerName>${issuerName}</X509IssuerName>
-								<X509SerialNumber>${serial}</X509SerialNumber>
-							</X509IssuerSerial>
-							<X509Certificate>${certificate}</X509Certificate>
-						</X509Data>
-					</KeyInfo>
-				</Signature>
-			</des:solicitud>
-		</des:SolicitaDescarga>
-	</s:Body>
-</s:Envelope>
+            <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+                <s:Header/>
+                <s:Body>
+                    <des:SolicitaDescarga>
+                        <des:solicitud FechaFinal="${end}" FechaInicial="${start}" ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" TipoSolicitud="${requestTypeValue}">
+                            ${signatureData}
+                        </des:solicitud>
+                    </des:SolicitaDescarga>
+                </s:Body>
+            </s:Envelope>
 EOT;
 
         return $this->nospaces($xml);
