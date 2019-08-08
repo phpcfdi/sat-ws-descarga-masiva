@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit;
 
-use PhpCfdi\SatWsDescargaMasiva\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\DateTimePeriod;
-use PhpCfdi\SatWsDescargaMasiva\DownloadRequestQuery;
 use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Service;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\GuzzleWebClient;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
@@ -39,7 +39,7 @@ class ExampleTest extends TestCase
         );
         $webclient = new GuzzleWebClient();
         $dateTimePeriod = new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00'));
-        $downloadRequestQuery = new DownloadRequestQuery($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
+        $downloadRequestQuery = new QueryParameters($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
 
         $service = new Service($fiel, $webclient);
         $downloadRequestResult = $service->downloadRequest($downloadRequestQuery);

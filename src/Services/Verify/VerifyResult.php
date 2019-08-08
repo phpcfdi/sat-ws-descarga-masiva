@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva;
+namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
-class VerifyDownloadRequestResult
+class VerifyResult
 {
     /**
      * @var int

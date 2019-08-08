@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions;
 
-use PhpCfdi\SatWsDescargaMasiva\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\DateTimePeriod;
-use PhpCfdi\SatWsDescargaMasiva\DownloadRequestQuery;
 use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use RuntimeException;
 
 class Request extends AbstractAction
@@ -22,7 +22,7 @@ class Request extends AbstractAction
             throw new RuntimeException(sprintf('Unmatched arguments %s', implode(', ', $unmatched)));
         }
 
-        $query = new DownloadRequestQuery(
+        $query = new QueryParameters(
             new DateTimePeriod(new DateTime($values['s'] ?? ''), new DateTime($values['u'] ?? '')),
             new DownloadType($values['d'] ?? DownloadType::issued()),
             new RequestType($values['r'] ?? RequestType::cfdi())

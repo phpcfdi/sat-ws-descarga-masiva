@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva;
+namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use DateTimeImmutable;
 use DateTimeZone;

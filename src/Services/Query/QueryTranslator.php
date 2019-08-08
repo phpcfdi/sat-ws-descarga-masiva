@@ -2,23 +2,21 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Translators;
+namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
-use PhpCfdi\SatWsDescargaMasiva\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\DownloadRequestQuery;
-use PhpCfdi\SatWsDescargaMasiva\DownloadRequestResult;
 use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Helpers;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Traits\InteractsXmlTrait;
 
 /** @internal */
-class DownloadRequestTranslator
+class QueryTranslator
 {
     use InteractsXmlTrait;
 
-    public function createDownloadRequestResultFromSoapResponse(string $content): DownloadRequestResult
+    public function createDownloadRequestResultFromSoapResponse(string $content): QueryResult
     {
         $env = $this->readXmlElement($content);
 
@@ -26,10 +24,10 @@ class DownloadRequestTranslator
         $requestId = $values['idsolicitud'] ?? '';
         $statusCode = intval($values['codestatus'] ?? 0);
         $message = $values['mensaje'] ?? '';
-        return new DownloadRequestResult($requestId, $statusCode, $message);
+        return new QueryResult($requestId, $statusCode, $message);
     }
 
-    public function createSoapRequest(Fiel $fiel, DownloadRequestQuery $downloadRequestQuery): string
+    public function createSoapRequest(Fiel $fiel, QueryParameters $downloadRequestQuery): string
     {
         $dateTimePeriod = $downloadRequestQuery->getDateTimePeriod();
 

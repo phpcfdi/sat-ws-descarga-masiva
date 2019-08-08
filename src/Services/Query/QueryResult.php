@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva;
+namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
-class DownloadRequestResult
+class QueryResult
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ class DownloadRequestResult
     private $message;
 
     /**
-     * DownloadRequestResult constructor.
+     * QueryResult constructor.
      *
      * @param string $requestId
      * @param int    $statusCode

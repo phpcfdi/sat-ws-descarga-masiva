@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Translators;
 
-use PhpCfdi\SatWsDescargaMasiva\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
-use PhpCfdi\SatWsDescargaMasiva\Translators\AuthenticateTranslator;
 
 class AuthenticateTranslatorTest extends TestCase
 {
     public function testCreateSoapRequest(): void
     {
-        $translator = new AuthenticateTranslator();
+        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator();
         $fiel = new Fiel(
             $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
             $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
@@ -32,7 +31,7 @@ class AuthenticateTranslatorTest extends TestCase
         $expectedCreated = new DateTime('2019-08-01T03:38:20.044Z');
         $expectedExpires = new DateTime('2019-08-01T03:43:20.044Z');
 
-        $translator = new AuthenticateTranslator();
+        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator();
         $responseBody = $translator->nospaces($this->fileContents('soap_res_autentica.xml'));
         $token = $translator->createTokenFromSoapResponse($responseBody);
         $this->assertFalse($token->isValueEmpty());
@@ -58,7 +57,7 @@ class AuthenticateTranslatorTest extends TestCase
 
 EOT;
         $expected = '<root><foo a="1" b="2">foo</foo><bar><baz>BAZZ</baz></bar></root>';
-        $translator = new AuthenticateTranslator();
+        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator();
         $this->assertSame($expected, $translator->nospaces($source));
     }
 }

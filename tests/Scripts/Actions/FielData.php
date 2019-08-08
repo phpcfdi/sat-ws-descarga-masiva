@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions;
 
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use RuntimeException;
 
 class FielData

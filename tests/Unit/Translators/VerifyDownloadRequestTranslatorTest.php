@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Translators;
 
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
-use PhpCfdi\SatWsDescargaMasiva\Translators\VerifyDownloadRequestTranslator;
 
 class VerifyDownloadRequestTranslatorTest extends TestCase
 {
@@ -19,7 +18,7 @@ class VerifyDownloadRequestTranslatorTest extends TestCase
         $expectedMessage = 'Solicitud Aceptada';
         $expectedPackages = [];
 
-        $translator = new VerifyDownloadRequestTranslator();
+        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator();
         $responseBody = $translator->nospaces($this->fileContents('soap_res_verify_download_request_zero_packages.xml'));
         $downloadResponse = $translator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
 
@@ -44,7 +43,7 @@ class VerifyDownloadRequestTranslatorTest extends TestCase
             '4e80345d-917f-40bb-a98f-4a73939343c5_02',
         ];
 
-        $translator = new VerifyDownloadRequestTranslator();
+        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator();
         $responseBody = $translator->nospaces($this->fileContents('soap_res_verify_download_request_two_packages.xml'));
         $downloadResponse = $translator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
 
@@ -59,7 +58,7 @@ class VerifyDownloadRequestTranslatorTest extends TestCase
 
     public function testCreateSoapRequest(): void
     {
-        $translator = new VerifyDownloadRequestTranslator();
+        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator();
         $fiel = new Fiel(
             $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
             $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),

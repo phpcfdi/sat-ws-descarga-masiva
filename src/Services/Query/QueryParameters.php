@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva;
+namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 
-class DownloadRequestQuery
+class QueryParameters
 {
     /** @var DateTimePeriod */
     private $dateTimePeriod;

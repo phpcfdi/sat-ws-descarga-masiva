@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva;
+namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use CfdiUtils\Certificado\SerialNumber;
 use CfdiUtils\OpenSSL\OpenSSL;

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Translators;
+namespace PhpCfdi\SatWsDescargaMasiva\Services\Authenticate;
 
-use PhpCfdi\SatWsDescargaMasiva\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Helpers;
-use PhpCfdi\SatWsDescargaMasiva\Token;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Helpers;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 use PhpCfdi\SatWsDescargaMasiva\Traits\InteractsXmlTrait;
 
 /** @internal */

@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Translators;
+namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Helpers;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Traits\InteractsXmlTrait;
-use PhpCfdi\SatWsDescargaMasiva\VerifyDownloadRequestResult;
 
-class VerifyDownloadRequestTranslator
+class VerifyTranslator
 {
     use InteractsXmlTrait;
 
-    public function createVerifyDownloadRequestResultFromSoapResponse(string $content): VerifyDownloadRequestResult
+    public function createVerifyDownloadRequestResultFromSoapResponse(string $content): VerifyResult
     {
         $env = $this->readXmlElement($content);
 
@@ -30,7 +29,7 @@ class VerifyDownloadRequestTranslator
             $env,
             ...['body', 'VerificaSolicitudDescargaResponse', 'VerificaSolicitudDescargaResult', 'IdsPaquetes']
         );
-        return new VerifyDownloadRequestResult(
+        return new VerifyResult(
             $statusCode,
             $requestStatus,
             $statusRequestCode,

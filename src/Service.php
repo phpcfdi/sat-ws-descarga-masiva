@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
-use PhpCfdi\SatWsDescargaMasiva\Translators\AuthenticateTranslator;
-use PhpCfdi\SatWsDescargaMasiva\Translators\DownloadRequestTranslator;
-use PhpCfdi\SatWsDescargaMasiva\Translators\VerifyDownloadRequestTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryResult;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyResult;
+use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
@@ -95,9 +100,9 @@ class Service
         return $response->getBody();
     }
 
-    public function downloadRequest(DownloadRequestQuery $downloadRequestQuery): DownloadRequestResult
+    public function downloadRequest(QueryParameters $downloadRequestQuery): QueryResult
     {
-        $downloadRequestTranslator = new DownloadRequestTranslator();
+        $downloadRequestTranslator = new QueryTranslator();
         $soapBody = $downloadRequestTranslator->createSoapRequest($this->fiel, $downloadRequestQuery);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
@@ -109,9 +114,9 @@ class Service
         return $downloadRequestResponse;
     }
 
-    public function verifyDownloadRequest(string $requestId): VerifyDownloadRequestResult
+    public function verifyDownloadRequest(string $requestId): VerifyResult
     {
-        $verifyDownloadRequestTranslator = new VerifyDownloadRequestTranslator();
+        $verifyDownloadRequestTranslator = new VerifyTranslator();
         $soapBody = $verifyDownloadRequestTranslator->createSoapRequest($this->fiel, $requestId);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga',

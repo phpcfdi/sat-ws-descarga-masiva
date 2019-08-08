@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Translators;
 
-use PhpCfdi\SatWsDescargaMasiva\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
-use PhpCfdi\SatWsDescargaMasiva\Translators\DownloadRequestTranslator;
 
 class DownloadRequestTranslatorTest extends TestCase
 {
@@ -19,7 +19,7 @@ class DownloadRequestTranslatorTest extends TestCase
         $exptedStatusCode = 5000;
         $exptedMessage = 'Solicitud Aceptada';
 
-        $translator = new DownloadRequestTranslator();
+        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator();
         $responseBody = $translator->nospaces($this->fileContents('soap_res_download_request.xml'));
         $downloadResponse = $translator->createDownloadRequestResultFromSoapResponse($responseBody);
 
@@ -31,7 +31,7 @@ class DownloadRequestTranslatorTest extends TestCase
 
     public function testCreateSoapRequest(): void
     {
-        $translator = new DownloadRequestTranslator();
+        $translator = new QueryTranslator();
         $fiel = new Fiel(
             $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
             $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),

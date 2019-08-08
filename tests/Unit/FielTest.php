@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit;
 
-use PhpCfdi\SatWsDescargaMasiva\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class FielTest extends TestCase

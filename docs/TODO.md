@@ -5,6 +5,6 @@
 - Change `Service::authenticate()` behavior, store the last valid token, if token still valid return that value instead
   of creating a new one.
 
-- Verificar que los atributos en DownloadRequestTranslator SolicitaDescarga/solicitud son importantes,
+- Verificar que los atributos en QueryTranslator SolicitaDescarga/solicitud son importantes,
   En caso de ser posible, poner los atributos en orden alfabético
   Probar el resultado de la canonalización xml-exc-c14n de  

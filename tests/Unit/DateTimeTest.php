@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit;
 
-use PhpCfdi\SatWsDescargaMasiva\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class DateTimeTest extends TestCase
