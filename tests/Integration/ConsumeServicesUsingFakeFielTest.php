@@ -13,7 +13,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 use PhpCfdi\SatWsDescargaMasiva\Tests\WebClient\GuzzleWebClient;
 
-class ExampleTest extends TestCase
+class ConsumeServicesUsingFakeFielTest extends TestCase
 {
     protected function createService(): Service
     {
@@ -22,14 +22,14 @@ class ExampleTest extends TestCase
         return  new Service($fiel, $webclient);
     }
 
-    public function testAuthenticationUsingFakeFiel(): void
+    public function testAuthentication(): void
     {
         $service = $this->createService();
         $token = $service->authenticate();
         $this->assertTrue($token->isValid());
     }
 
-    public function testDownloadRequestUsingFakeFiel(): void
+    public function testQuery(): void
     {
         $service = $this->createService();
 
@@ -37,6 +37,19 @@ class ExampleTest extends TestCase
         $downloadRequestQuery = new QueryParameters($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
 
         $downloadRequestResult = $service->downloadRequest($downloadRequestQuery);
+        $this->assertSame(
+            305,
+            $downloadRequestResult->getStatusCode(),
+            'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
+        );
+    }
+
+    public function testVerifyUsing(): void
+    {
+        $service = $this->createService();
+
+        $requestId = '3edbd462-9fa0-4363-b60f-bac332338028';
+        $downloadRequestResult = $service->verifyDownloadRequest($requestId);
         $this->assertSame(
             305,
             $downloadRequestResult->getStatusCode(),
