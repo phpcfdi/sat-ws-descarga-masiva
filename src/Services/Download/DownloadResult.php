@@ -6,19 +6,13 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Download;
 
 class DownloadResult
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $statusCode;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $message;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $package;
 
     public function __construct(int $statusCode, string $message, string $package)
@@ -45,6 +39,6 @@ class DownloadResult
 
     public function isAccepted(): bool
     {
-        return 5000 === $this->getStatusCode();
+        return (5000 === $this->getStatusCode());
     }
 }

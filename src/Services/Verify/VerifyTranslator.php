@@ -29,14 +29,7 @@ class VerifyTranslator
             $env,
             ...['body', 'VerificaSolicitudDescargaResponse', 'VerificaSolicitudDescargaResult', 'IdsPaquetes']
         );
-        return new VerifyResult(
-            $statusCode,
-            $requestStatus,
-            $statusRequestCode,
-            $numberCfdis,
-            $message,
-            $packages
-        );
+        return new VerifyResult($statusCode, $requestStatus, $statusRequestCode, $numberCfdis, $message, ...$packages);
     }
 
     public function createSoapRequest(Fiel $fiel, string $requestId): string

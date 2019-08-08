@@ -54,6 +54,6 @@ class Token
 
     public function isValid(): bool
     {
-        return ! $this->isValueEmpty() && ! $this->isExpired();
+        return ! ($this->isValueEmpty() || $this->isExpired());
     }
 }

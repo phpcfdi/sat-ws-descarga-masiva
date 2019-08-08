@@ -30,19 +30,16 @@ class Request implements JsonSerializable
         $this->headers = $headers;
     }
 
-    /** @return string */
     public function getMethod(): string
     {
         return $this->method;
     }
 
-    /** @return string */
     public function getUri(): string
     {
         return $this->uri;
     }
 
-    /** @return string */
     public function getBody(): string
     {
         return $this->body;

@@ -8,19 +8,15 @@ use InvalidArgumentException;
 
 class DateTimePeriod
 {
-    /**
-     * @var DateTime
-     */
+    /** @var DateTime */
     private $start;
 
-    /**
-     * @var DateTime
-     */
+    /** @var DateTime */
     private $end;
 
     public function __construct(DateTime $start, DateTime $end)
     {
-        if (-1 === $end->compareTo($start)) {
+        if ($end->compareTo($start) < 0) {
             throw new InvalidArgumentException('The final date must be greater than the initial date');
         }
 

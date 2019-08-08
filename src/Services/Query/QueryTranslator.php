@@ -67,15 +67,15 @@ EOT
         $toSign = $this->nospaces(
             <<<EOT
 <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-  <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></CanonicalizationMethod>
-  <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-  <Reference URI="">
-    <Transforms>
-      <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
-    </Transforms>
-    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-    <DigestValue>${digested}</DigestValue>
-  </Reference>
+    <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></CanonicalizationMethod>
+    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
+    <Reference URI="">
+        <Transforms>
+            <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+        <DigestValue>${digested}</DigestValue>
+    </Reference>
 </SignedInfo>
 EOT
         );

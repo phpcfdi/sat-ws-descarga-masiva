@@ -47,12 +47,12 @@ class Response implements JsonSerializable
 
     public function statusCodeIsClientError(): bool
     {
-        return $this->statusCode < 500 && $this->statusCode >= 400;
+        return ($this->statusCode < 500 && $this->statusCode >= 400);
     }
 
     public function statusCodeIsServerError(): bool
     {
-        return $this->statusCode < 600 && $this->statusCode >= 500;
+        return ($this->statusCode < 600 && $this->statusCode >= 500);
     }
 
     public function jsonSerialize()

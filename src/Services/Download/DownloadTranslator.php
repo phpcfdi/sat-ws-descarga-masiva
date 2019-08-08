@@ -16,21 +16,11 @@ class DownloadTranslator
     {
         $env = $this->readXmlElement($content);
 
-        $values = $this->findAttributes(
-            $env,
-            ...['header', 'respuesta']
-        );
+        $values = $this->findAttributes($env, 'header', 'respuesta');
         $statusCode = intval($values['codestatus'] ?? 0);
         $message = $values['mensaje'] ?? '';
-        $package = $this->findContent(
-            $env,
-            ...['body', 'RespuestaDescargaMasivaTercerosSalida', 'Paquete']
-        );
-        return new DownloadResult(
-            $statusCode,
-            $message,
-            $package
-        );
+        $package = $this->findContent($env, 'body', 'RespuestaDescargaMasivaTercerosSalida', 'Paquete');
+        return new DownloadResult($statusCode, $message, $package);
     }
 
     public function createSoapRequest(Fiel $fiel, string $packageId): string
@@ -38,11 +28,8 @@ class DownloadTranslator
         return $this->createSoapRequestWithData($fiel, $fiel->getRfc(), $packageId);
     }
 
-    public function createSoapRequestWithData(
-        Fiel $fiel,
-        string $rfc,
-        string $packageId
-    ): string {
+    public function createSoapRequestWithData(Fiel $fiel, string $rfc, string $packageId): string
+    {
         $toDigest = $this->nospaces(
             <<<EOT
 <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
