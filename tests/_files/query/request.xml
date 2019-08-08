@@ -3,7 +3,7 @@
     <s:Header/>
     <s:Body>
         <des:SolicitaDescarga>
-            <des:solicitud RfcReceptor="aaa010101aaa" RfcSolicitante="aaa010101aaa" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" TipoSolicitud="CFDI">
+            <des:solicitud FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcReceptor="aaa010101aaa" RfcSolicitante="aaa010101aaa" TipoSolicitud="CFDI">
                 <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
                     <SignedInfo>
                         <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
