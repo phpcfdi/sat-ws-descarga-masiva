@@ -42,6 +42,17 @@ class AuthenticateTranslatorTest extends TestCase
         $this->assertFalse($token->isValid());
     }
 
+    public function testCreateTokenFromSoapResponseWithError(): void
+    {
+        $translator = new AuthenticateTranslator();
+        $responseBody = $translator->nospaces($this->fileContents('authenticate/response-with-error.xml'));
+        $token = $translator->createTokenFromSoapResponse($responseBody);
+        $this->assertTrue($token->isValueEmpty());
+        $this->assertTrue($token->isExpired());
+        $this->assertFalse($token->isValid());
+        $this->assertSame('', $token->getValue());
+    }
+
     public function testNoSpacesContents(): void
     {
         $source = <<<EOT
