@@ -33,7 +33,7 @@ class Verify extends AbstractAction
             '  Message: ' . $result->getMessage(),
             '  StatusCode: ' . $result->getStatusCode(),
             '  Number CFDI: ' . $result->getNumberCfdis(),
-            '  Packages: ' . implode(', ', $result->getPackages()),
+            '  Packages: ' . implode(', ', $result->getPackagesIds()),
             '  Has error: ' . (($result->hasError()) ? 'yes' : 'no'),
             '  In progress: ' . (($result->inProgress()) ? 'yes' : 'no'),
             '  Is finished: ' . (($result->isFinished()) ? 'yes' : 'no'),
