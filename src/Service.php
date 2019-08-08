@@ -9,6 +9,7 @@ use PhpCfdi\SatWsDescargaMasiva\Translators\DownloadRequestTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Translators\VerifyDownloadRequestTranslator;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
@@ -66,7 +67,13 @@ class Service
         }
 
         $request = new Request('POST', $uri, $body, $headers);
-        $response = $this->webclient->call($request);
+        $this->webclient->fireRequest($request);
+        try {
+            $response = $this->webclient->call($request);
+        } catch (WebClientException $exception) {
+            $this->webclient->fireResponse($exception->getResponse());
+            throw $exception;
+        }
         if ($response->statusCodeIsClientError()) {
             throw new HttpClientError(
                 sprintf('Unexpected client error status code %d', $response->getStatusCode()),
