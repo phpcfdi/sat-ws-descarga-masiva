@@ -16,7 +16,7 @@ class DateTime
     public function __construct($value = null)
     {
         if (is_int($value)) {
-            $value = 'u' . $value;
+            $value = '@' . $value;
         }
         if (null === $value || is_string($value)) {
             $value = new DateTimeImmutable($value ?? 'now');
