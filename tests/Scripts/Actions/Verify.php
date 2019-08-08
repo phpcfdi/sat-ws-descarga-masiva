@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions;
 
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\AbstractAction;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\Argument;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\Arguments;
 use RuntimeException;
 
 class Verify extends AbstractAction
@@ -42,7 +45,7 @@ class Verify extends AbstractAction
 
     public function help(): void
     {
-        $this->stdout('Perform a request, uses the following parameters:');
+        $this->stdout('Verify a request id, the result contains codes information and zero, one or more package id');
         $this->stdout(...$this->createArguments()->toArray());
     }
 

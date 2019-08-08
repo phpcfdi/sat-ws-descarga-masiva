@@ -9,6 +9,9 @@ use PhpCfdi\SatWsDescargaMasiva\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\DownloadRequestQuery;
 use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\AbstractAction;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\Argument;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\Arguments;
 use RuntimeException;
 
 class Request extends AbstractAction
@@ -22,11 +25,27 @@ class Request extends AbstractAction
             throw new RuntimeException(sprintf('Unmatched arguments %s', implode(', ', $unmatched)));
         }
 
-        $query = new DownloadRequestQuery(
-            new DateTimePeriod(new DateTime($values['s'] ?? ''), new DateTime($values['u'] ?? '')),
-            new DownloadType($values['d'] ?? DownloadType::issued()),
-            new RequestType($values['r'] ?? RequestType::cfdi())
-        );
+        // period
+        $period = new DateTimePeriod(new DateTime($values['s'] ?? ''), new DateTime($values['u'] ?? ''));
+        // download type
+        if ('issued' === strval($values['d'] ?? '')) {
+            $downloadType = DownloadType::issued();
+        } elseif ('received' === strval($values['d'] ?? '')) {
+            $downloadType = DownloadType::received();
+        } else {
+            throw new RuntimeException("Invalid download type");
+        }
+        // request type
+        if ('metadata' === strval($values['r'] ?? '')) {
+            $requestType = RequestType::metadata();
+        } elseif ('cfdi' === strval($values['r'] ?? '')) {
+            $requestType = RequestType::cfdi();
+        } else {
+            throw new RuntimeException("Invalid request type");
+        }
+        // query
+        $query = new DownloadRequestQuery($period, $downloadType, $requestType);
+
         $this->stdout(...[
             'Query:',
             '  Since: ' . $query->getDateTimePeriod()->getStart()->formatDefaultTimeZone(),

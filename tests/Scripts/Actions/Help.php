@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions;
 
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\AbstractAction;
+
 class Help extends AbstractAction
 {
     public function run(string ...$parameters): void

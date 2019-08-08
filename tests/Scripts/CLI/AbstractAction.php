@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions;
+namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI;
 
 use DateTimeImmutable;
 use PhpCfdi\SatWsDescargaMasiva\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Tests\GuzzleWebClient;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Response;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
+use RuntimeException;
 
 abstract class AbstractAction implements ActionInterface
 {
@@ -52,7 +54,11 @@ abstract class AbstractAction implements ActionInterface
 
     public function createService(): Service
     {
-        return new Service($this->createFiel(), $this->createWebClient());
+        $fiel = $this->createFiel();
+        if (! $fiel->isValid()) {
+            throw new RuntimeException('The current credential is not valid');
+        }
+        return new Service($fiel, $this->createWebClient());
     }
 
     private function createWebClient(): WebClientInterface
@@ -63,13 +69,13 @@ abstract class AbstractAction implements ActionInterface
             $jsonPrinter = function ($payload): void {
                 $now = new DateTimeImmutable();
                 $jsonFile = sprintf(
-                    '%s/%s_%s.json',
+                    'file://%s/%s_%s.json',
                     $this->outputDirectory,
                     $now->format('Ymd-His.u'),
                     strtolower(basename(str_replace('\\', '/', get_class($payload))))
                 );
                 file_put_contents($jsonFile, json_encode($payload, JSON_PRETTY_PRINT));
-                $bodyFile = str_replace('.json', '.xml', $jsonFile);
+                $bodyFile = substr($jsonFile, 0, -4) . 'xml';
                 $xmlBody = $payload->getBody();
                 if ('' !== $xmlBody) {
                     file_put_contents($bodyFile, $xmlBody);
