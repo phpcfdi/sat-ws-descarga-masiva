@@ -34,7 +34,7 @@ class VerifyResult
     /**
      * @var array
      */
-    private $packages;
+    private $packagesIds;
 
     public function __construct(
         int $statusCode,
@@ -42,14 +42,14 @@ class VerifyResult
         int $statusCodeRequest,
         int $numberCfdis,
         string $message,
-        array $packages
+        array $packagesIds
     ) {
         $this->statusCode = $statusCode;
         $this->statusRequest = $statusRequest;
         $this->statusCodeRequest = $statusCodeRequest;
         $this->numberCfdis = $numberCfdis;
         $this->message = $message;
-        $this->packages = $packages;
+        $this->packagesIds = $packagesIds;
     }
 
     /**
@@ -95,9 +95,9 @@ class VerifyResult
     /**
      * @return array
      */
-    public function getPackages(): array
+    public function getPackagesIds(): array
     {
-        return $this->packages;
+        return $this->packagesIds;
     }
 
     public function isAccepted(): bool
