@@ -37,6 +37,11 @@ class DownloadResult
         return $this->package;
     }
 
+    public function getPackageDecoded(): string
+    {
+        return base64_decode($this->package, true) ?: '';
+    }
+
     public function isAccepted(): bool
     {
         return (5000 === $this->getStatusCode());
