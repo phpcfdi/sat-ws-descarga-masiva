@@ -34,12 +34,12 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $service = $this->createService();
 
         $dateTimePeriod = new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00'));
-        $downloadRequestQuery = new QueryParameters($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
+        $parameters = new QueryParameters($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
 
-        $downloadRequestResult = $service->query($downloadRequestQuery);
+        $result = $service->query($parameters);
         $this->assertSame(
             305,
-            $downloadRequestResult->getStatusCode(),
+            $result->getStatusCode(),
             'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }
@@ -49,10 +49,10 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $service = $this->createService();
 
         $requestId = '3edbd462-9fa0-4363-b60f-bac332338028';
-        $downloadRequestResult = $service->verify($requestId);
+        $result = $service->verify($requestId);
         $this->assertSame(
             305,
-            $downloadRequestResult->getStatusCode(),
+            $result->getStatusCode(),
             'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }

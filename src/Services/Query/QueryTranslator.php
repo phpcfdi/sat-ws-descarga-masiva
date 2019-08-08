@@ -16,7 +16,7 @@ class QueryTranslator
 {
     use InteractsXmlTrait;
 
-    public function createDownloadRequestResultFromSoapResponse(string $content): QueryResult
+    public function createQueryResultFromSoapResponse(string $content): QueryResult
     {
         $env = $this->readXmlElement($content);
 
@@ -27,17 +27,17 @@ class QueryTranslator
         return new QueryResult($requestId, $statusCode, $message);
     }
 
-    public function createSoapRequest(Fiel $fiel, QueryParameters $downloadRequestQuery): string
+    public function createSoapRequest(Fiel $fiel, QueryParameters $parameters): string
     {
-        $dateTimePeriod = $downloadRequestQuery->getDateTimePeriod();
+        $dateTimePeriod = $parameters->getDateTimePeriod();
 
         return $this->createSoapRequestWithData(
             $fiel,
             $fiel->getRfc(),
             $dateTimePeriod->getStart(),
             $dateTimePeriod->getEnd(),
-            $downloadRequestQuery->getDownloadType(),
-            $downloadRequestQuery->getRequestType()
+            $parameters->getDownloadType(),
+            $parameters->getRequestType()
         );
     }
 

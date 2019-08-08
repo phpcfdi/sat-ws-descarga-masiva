@@ -12,7 +12,7 @@ class VerifyTranslator
 {
     use InteractsXmlTrait;
 
-    public function createVerifyDownloadRequestResultFromSoapResponse(string $content): VerifyResult
+    public function createVerifyResultFromSoapResponse(string $content): VerifyResult
     {
         $env = $this->readXmlElement($content);
 

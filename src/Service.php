@@ -98,17 +98,17 @@ class Service
         return $response->getBody();
     }
 
-    public function query(QueryParameters $downloadRequestQuery): QueryResult
+    public function query(QueryParameters $parameters): QueryResult
     {
         $queryTranslator = new QueryTranslator();
-        $soapBody = $queryTranslator->createSoapRequest($this->fiel, $downloadRequestQuery);
+        $soapBody = $queryTranslator->createSoapRequest($this->fiel, $parameters);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
             $soapBody,
             $this->obtainCurrentToken()
         );
-        $queryResult = $queryTranslator->createDownloadRequestResultFromSoapResponse($responseBody);
+        $queryResult = $queryTranslator->createQueryResultFromSoapResponse($responseBody);
         return $queryResult;
     }
 
@@ -122,7 +122,7 @@ class Service
             $soapBody,
             $this->obtainCurrentToken()
         );
-        $verifyResult = $verifyTranslator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
+        $verifyResult = $verifyTranslator->createVerifyResultFromSoapResponse($responseBody);
         return $verifyResult;
     }
 }

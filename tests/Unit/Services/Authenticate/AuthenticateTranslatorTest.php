@@ -47,24 +47,4 @@ class AuthenticateTranslatorTest extends TestCase
         $this->assertFalse($token->isValid());
         $this->assertSame('', $token->getValue());
     }
-
-    public function testNoSpacesContents(): void
-    {
-        $source = <<<EOT
-
-<root>
-    <foo a="1" b="2">foo</foo>
-    
-    <bar>
-        <baz>
-            BAZZ        
-        </baz>
-    </bar>
-</root>
-
-EOT;
-        $expected = '<root><foo a="1" b="2">foo</foo><bar><baz>BAZZ</baz></bar></root>';
-        $translator = new AuthenticateTranslator();
-        $this->assertSame($expected, $translator->nospaces($source));
-    }
 }

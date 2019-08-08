@@ -12,20 +12,20 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class QueryTranslatorTest extends TestCase
 {
-    public function testCreateDownloadRequestResponseFromSoapResponse(): void
+    public function testCreateQueryResultFromSoapResponse(): void
     {
-        $exptedRequestId = 'd49af78d-1c80-4221-a48d-345ace91626b';
-        $exptedStatusCode = 5000;
-        $exptedMessage = 'Solicitud Aceptada';
+        $expectedRequestId = 'd49af78d-1c80-4221-a48d-345ace91626b';
+        $expectedStatusCode = 5000;
+        $expectedMessage = 'Solicitud Aceptada';
 
         $translator = new QueryTranslator();
         $responseBody = $translator->nospaces($this->fileContents('query/response-with-id.xml'));
-        $downloadResponse = $translator->createDownloadRequestResultFromSoapResponse($responseBody);
+        $result = $translator->createQueryResultFromSoapResponse($responseBody);
 
-        $this->assertEquals($downloadResponse->getRequestId(), $exptedRequestId);
-        $this->assertEquals($downloadResponse->getStatusCode(), $exptedStatusCode);
-        $this->assertEquals($downloadResponse->getMessage(), $exptedMessage);
-        $this->assertTrue($downloadResponse->isAccepted());
+        $this->assertEquals($expectedRequestId, $result->getRequestId());
+        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
+        $this->assertEquals($expectedMessage, $result->getMessage());
+        $this->assertTrue($result->isAccepted());
     }
 
     public function testCreateSoapRequest(): void

@@ -9,7 +9,7 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class VerifyTranslatorTest extends TestCase
 {
-    public function testCreateVerifyDownloadRequestResponseFromSoapResponseZeroPackages(): void
+    public function testCreateVerifyResultFromSoapResponseWithZeroPackages(): void
     {
         $expectedStatusCode = 5000;
         $expectedStatusRequest = 5;
@@ -20,18 +20,18 @@ class VerifyTranslatorTest extends TestCase
 
         $translator = new VerifyTranslator();
         $responseBody = $translator->nospaces($this->fileContents('verify/response-0-packages.xml'));
-        $downloadResponse = $translator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
+        $result = $translator->createVerifyResultFromSoapResponse($responseBody);
 
-        $this->assertEquals($expectedStatusCode, $downloadResponse->getStatusCode());
-        $this->assertEquals($expectedStatusRequest, $downloadResponse->getStatusRequest());
-        $this->assertEquals($expectedStatusCodeRequest, $downloadResponse->getStatusCodeRequest());
-        $this->assertEquals($expectedNumberCfdis, $downloadResponse->getNumberCfdis());
-        $this->assertEquals($expectedMessage, $downloadResponse->getMessage());
-        $this->assertEquals($expectedPackages, $downloadResponse->getPackages());
-        $this->assertTrue($downloadResponse->isRejected());
+        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
+        $this->assertEquals($expectedStatusRequest, $result->getStatusRequest());
+        $this->assertEquals($expectedStatusCodeRequest, $result->getStatusCodeRequest());
+        $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
+        $this->assertEquals($expectedMessage, $result->getMessage());
+        $this->assertEquals($expectedPackages, $result->getPackages());
+        $this->assertTrue($result->isRejected());
     }
 
-    public function testCreateVerifyDownloadRequestResponseFromSoapResponseTwoPackages(): void
+    public function testCreateVerifyResultFromSoapResponseWithTwoPackages(): void
     {
         $expectedStatusCode = 5000;
         $expectedStatusRequest = 3;
@@ -45,15 +45,15 @@ class VerifyTranslatorTest extends TestCase
 
         $translator = new VerifyTranslator();
         $responseBody = $translator->nospaces($this->fileContents('verify/response-2-packages.xml'));
-        $downloadResponse = $translator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
+        $result = $translator->createVerifyResultFromSoapResponse($responseBody);
 
-        $this->assertEquals($expectedStatusCode, $downloadResponse->getStatusCode());
-        $this->assertEquals($expectedStatusRequest, $downloadResponse->getStatusRequest());
-        $this->assertEquals($expectedStatusCodeRequest, $downloadResponse->getStatusCodeRequest());
-        $this->assertEquals($expectedNumberCfdis, $downloadResponse->getNumberCfdis());
-        $this->assertEquals($expectedMessage, $downloadResponse->getMessage());
-        $this->assertEquals($expectedPackages, $downloadResponse->getPackages());
-        $this->assertTrue($downloadResponse->isFinished());
+        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
+        $this->assertEquals($expectedStatusRequest, $result->getStatusRequest());
+        $this->assertEquals($expectedStatusCodeRequest, $result->getStatusCodeRequest());
+        $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
+        $this->assertEquals($expectedMessage, $result->getMessage());
+        $this->assertEquals($expectedPackages, $result->getPackages());
+        $this->assertTrue($result->isFinished());
     }
 
     public function testCreateSoapRequest(): void
