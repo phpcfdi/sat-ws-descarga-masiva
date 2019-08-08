@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit;
+namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Shared;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
