@@ -23,12 +23,12 @@ class VerifyTranslatorTest extends TestCase
         $responseBody = $translator->nospaces($this->fileContents('verify/response-0-packages.xml'));
         $downloadResponse = $translator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
 
-        $this->assertEquals($downloadResponse->getStatusCode(), $expectedStatusCode);
-        $this->assertEquals($downloadResponse->getStatusRequest(), $expectedStatusRequest);
-        $this->assertEquals($downloadResponse->getStatusCodeRequest(), $expectedStatusCodeRequest);
-        $this->assertEquals($downloadResponse->getNumberCfdis(), $expectedNumberCfdis);
-        $this->assertEquals($downloadResponse->getMessage(), $expectedMessage);
-        $this->assertEquals($downloadResponse->getPackages(), $expectedPackages);
+        $this->assertEquals($expectedStatusCode, $downloadResponse->getStatusCode());
+        $this->assertEquals($expectedStatusRequest, $downloadResponse->getStatusRequest());
+        $this->assertEquals($expectedStatusCodeRequest, $downloadResponse->getStatusCodeRequest());
+        $this->assertEquals($expectedNumberCfdis, $downloadResponse->getNumberCfdis());
+        $this->assertEquals($expectedMessage, $downloadResponse->getMessage());
+        $this->assertEquals($expectedPackages, $downloadResponse->getPackages());
         $this->assertTrue($downloadResponse->isRejected());
     }
 
