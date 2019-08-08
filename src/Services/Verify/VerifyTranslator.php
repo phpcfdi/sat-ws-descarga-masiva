@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Helpers;
-use PhpCfdi\SatWsDescargaMasiva\Traits\InteractsXmlTrait;
+use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 
 class VerifyTranslator
 {

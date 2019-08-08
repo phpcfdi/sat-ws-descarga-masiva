@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Enums;
+namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use Eclipxe\Enum\Enum;
 

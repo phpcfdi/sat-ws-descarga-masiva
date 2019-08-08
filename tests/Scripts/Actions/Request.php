@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions;
 
-use PhpCfdi\SatWsDescargaMasiva\Enums\DownloadType;
-use PhpCfdi\SatWsDescargaMasiva\Enums\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use RuntimeException;
 
 class Request extends AbstractAction

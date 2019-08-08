@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Traits;
+namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use DOMAttr;
 use DOMDocument;
 use DOMElement;
 use InvalidArgumentException;
 
-/**
- * @internal
- */
+/** @internal */
 trait InteractsXmlTrait
 {
     public function nospaces(string $input): string

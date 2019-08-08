@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests;
+namespace PhpCfdi\SatWsDescargaMasiva\Tests\WebClient;
 
 use Closure;
 use GuzzleHttp\Client as GuzzleClient;
