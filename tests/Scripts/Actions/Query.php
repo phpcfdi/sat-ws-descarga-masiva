@@ -14,7 +14,7 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\Argument;
 use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI\Arguments;
 use RuntimeException;
 
-class Request extends AbstractAction
+class Query extends AbstractAction
 {
     public function run(string ...$parameters): void
     {

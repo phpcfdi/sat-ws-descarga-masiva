@@ -14,7 +14,7 @@ To setup the credentials use the following parameters:
 
 ## The output folder
 
-The request, verify and download commands can create output files, you must set the folder to use
+The query, verify and download commands can create output files, you must set the folder to use
 for dumping the request and response information.
 
 The files dumped has the format `<output-folder>/<date>_<name>.<format>` where:
@@ -27,7 +27,7 @@ The files dumped has the format `<output-folder>/<date>_<name>.<format>` where:
 You can specify the output directory path using the parameter `[-o|--output example/storage/logs]` like:
 
 ```shell
-php tests/Scripts/sat-ws-descarga-masiva.php request --output example/storage/logs
+php tests/Scripts/sat-ws-descarga-masiva.php query --output example/storage/logs
 ```
 
 ## The Actions
@@ -35,11 +35,11 @@ php tests/Scripts/sat-ws-descarga-masiva.php request --output example/storage/lo
 It offers the following actions:
 
 - `credentials`: show information about the credentials to use and if they are valid or not.
-- `request`: creates a *download request*, the result should contain a *request id*.
+- `query`: submit a *query*, the result should contain a *request id*.
 - `verify`: verify a *request id*, the result contains codes information and zero, one or more *package id*.
 - `download`: download a *package id*.
 
-On request, verify and download you can use output folder to dump request and responses.
+On query, verify and download you can use output folder to dump request and responses.
 
 ### Credentials
 
@@ -47,10 +47,10 @@ Show information about the credentials to use and if they are valid or not.
 
 It does not contact the webservice.
 
-### Request
+### Query
 
 ```shell
-php tests/Scripts/sat-ws-descarga-masiva.php request -h
+php tests/Scripts/sat-ws-descarga-masiva.php query -h
 Perform a request, uses the following parameters:
   -s, --since: start date time expression for period
   -u, --until: end date time expression for period
