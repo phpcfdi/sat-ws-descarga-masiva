@@ -69,7 +69,7 @@ abstract class AbstractAction implements ActionInterface
             $jsonPrinter = function ($payload): void {
                 $now = new DateTimeImmutable();
                 $jsonFile = sprintf(
-                    'file://%s/%s_%s.json',
+                    '%s/%s_%s.json',
                     $this->outputDirectory,
                     $now->format('Ymd-His.u'),
                     strtolower(basename(str_replace('\\', '/', get_class($payload))))
