@@ -22,7 +22,7 @@
         <SignatureValue>btSOQYgkof9OMKSJQv2GPnPojmX/JZ92NBeO8+zQ7vsp0iB0HWFK+Ov41hrHKLUQFg8g+F8+Nn5hVm8gX6jrRbiv9+nZppOmA791pkqI732lW5Zy2YWL+Er+yQERxtJaeABUVRNIfl6HE/SeeyJxJjMEpUOL5HoNc7wWeUHCU2sgESR/MPZBZ39uAB18zGKmqeX9fKCFJhtT4B8OAXSkMtno9b1ojH06OIbUVvAS6lalMkLKVkgnbg1DK1k7zln7uVYJ2bH5DzKq9YqME8aR/kWhU38np9BABimwhcU22H9Ph3kPdlZ27Fr4abdoTY7d8+IRmuRf/9alXF+B329F7A==</SignatureValue>
         <KeyInfo>
           <o:SecurityTokenReference>
-            <o:Reference ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" URI="#uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1"/>
+            <o:Reference URI="#uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/>
           </o:SecurityTokenReference>
         </KeyInfo>
       </Signature>
