@@ -33,7 +33,7 @@ class Query extends AbstractAction
         } elseif ('received' === strval($values['d'] ?? '')) {
             $downloadType = DownloadType::received();
         } else {
-            throw new RuntimeException("Invalid download type");
+            throw new RuntimeException('Invalid download type');
         }
         // request type
         if ('metadata' === strval($values['r'] ?? '')) {
@@ -41,7 +41,7 @@ class Query extends AbstractAction
         } elseif ('cfdi' === strval($values['r'] ?? '')) {
             $requestType = RequestType::cfdi();
         } else {
-            throw new RuntimeException("Invalid request type");
+            throw new RuntimeException('Invalid request type');
         }
         // query
         $query = new QueryParameters($period, $downloadType, $requestType);
