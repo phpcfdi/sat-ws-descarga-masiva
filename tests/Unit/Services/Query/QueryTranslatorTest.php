@@ -7,7 +7,6 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
@@ -32,11 +31,7 @@ class QueryTranslatorTest extends TestCase
     public function testCreateSoapRequest(): void
     {
         $translator = new QueryTranslator();
-        $fiel = new Fiel(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
-            trim($this->fileContents('fake-fiel/password.txt'))
-        );
+        $fiel = $this->createFielUsingTestingFiles();
 
         $requestBody = $translator->createSoapRequestWithData(
             $fiel,

@@ -6,7 +6,6 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Authenticate;
 
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class AuthenticateTranslatorTest extends TestCase
@@ -14,11 +13,7 @@ class AuthenticateTranslatorTest extends TestCase
     public function testCreateSoapRequest(): void
     {
         $translator = new AuthenticateTranslator();
-        $fiel = new Fiel(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
-            trim($this->fileContents('fake-fiel/password.txt'))
-        );
+        $fiel = $this->createFielUsingTestingFiles();
 
         $since = new DateTime('2019-08-01T03:38:19Z');
         $until = new DateTime('2019-08-01T03:43:19Z');

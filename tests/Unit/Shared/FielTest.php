@@ -11,23 +11,23 @@ class FielTest extends TestCase
 {
     public function testFielWithIncorrectPassword(): void
     {
-        $fiel = new Fiel(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL_password.key.pem'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
-            'this is not the password'
-        );
-
+        $fiel = $this->createFielUsingTestingFiles('invalid password');
         $this->assertFalse($fiel->isValid());
     }
 
     public function testFielWithCorrectPassword(): void
     {
-        $fiel = new Fiel(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL_password.key.pem'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
-            trim($this->fileContents('fake-fiel/password.txt'))
-        );
+        $fiel = $this->createFielUsingTestingFiles();
+        $this->assertTrue($fiel->isValid());
+    }
 
+    public function testFielUnprotected(): void
+    {
+        $fiel = new Fiel(
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
+            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
+            ''
+        );
         $this->assertTrue($fiel->isValid());
     }
 }

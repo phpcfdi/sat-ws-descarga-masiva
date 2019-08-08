@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Verify;
 
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class VerifyTranslatorTest extends TestCase
@@ -60,11 +59,7 @@ class VerifyTranslatorTest extends TestCase
     public function testCreateSoapRequest(): void
     {
         $translator = new VerifyTranslator();
-        $fiel = new Fiel(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
-            trim($this->fileContents('fake-fiel/password.txt'))
-        );
+        $fiel = $this->createFielUsingTestingFiles();
 
         $rfc = 'AAA010101AAA';
         $requestId = '3f30a4e1-af73-4085-8991-e4d97eef16bd';
