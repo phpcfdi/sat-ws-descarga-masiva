@@ -56,4 +56,17 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
             'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }
+
+    public function testDownload(): void
+    {
+        $service = $this->createService();
+
+        $requestId = '4e80345d-917f-40bb-a98f-4a73939343c5_01';
+        $result = $service->download($requestId);
+        $this->assertSame(
+            305,
+            $result->getStatusCode(),
+            'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
+        );
+    }
 }
