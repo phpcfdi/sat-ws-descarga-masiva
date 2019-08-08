@@ -16,7 +16,7 @@ class VerifyTranslatorTest extends TestCase
         $expectedStatusCodeRequest = 5004;
         $expectedNumberCfdis = 0;
         $expectedMessage = 'Solicitud Aceptada';
-        $expectedPackages = [];
+        $expectedPackagesIds = [];
 
         $translator = new VerifyTranslator();
         $responseBody = $translator->nospaces($this->fileContents('verify/response-0-packages.xml'));
@@ -27,7 +27,7 @@ class VerifyTranslatorTest extends TestCase
         $this->assertEquals($expectedStatusCodeRequest, $result->getStatusCodeRequest());
         $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
         $this->assertEquals($expectedMessage, $result->getMessage());
-        $this->assertEquals($expectedPackages, $result->getPackages());
+        $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
         $this->assertTrue($result->isRejected());
     }
 
@@ -38,7 +38,7 @@ class VerifyTranslatorTest extends TestCase
         $expectedStatusCodeRequest = 5000;
         $expectedNumberCfdis = 12345;
         $expectedMessage = 'Solicitud Aceptada';
-        $expectedPackages = [
+        $expectedPackagesIds = [
             '4e80345d-917f-40bb-a98f-4a73939343c5_01',
             '4e80345d-917f-40bb-a98f-4a73939343c5_02',
         ];
@@ -52,7 +52,7 @@ class VerifyTranslatorTest extends TestCase
         $this->assertEquals($expectedStatusCodeRequest, $result->getStatusCodeRequest());
         $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
         $this->assertEquals($expectedMessage, $result->getMessage());
-        $this->assertEquals($expectedPackages, $result->getPackages());
+        $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
         $this->assertTrue($result->isFinished());
     }
 
