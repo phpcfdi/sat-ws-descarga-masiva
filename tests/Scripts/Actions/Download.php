@@ -21,16 +21,28 @@ class Download extends AbstractAction
         }
 
         $packageId = strval($values['i'] ?? '');
-        $this->stdout('PackageId: ' . $packageId);
+        $destination = strval($values['d'] ?? '');
+        $this->stdout(
+            'Download: ',
+            '  PackageId: ' . $packageId,
+            '  Destination: ' . $destination
+        );
 
         $service = $this->createService();
         $result = $service->download($packageId);
+
+        if ('' !== $destination) {
+            /** @noinspection PhpUsageOfSilenceOperatorInspection */
+            $write = @file_put_contents($destination, $result->getPackageDecoded());
+        } else {
+            $write = strlen($result->getPackageDecoded());
+        }
 
         $this->stdout(...[
             'Result:',
             '  Message: ' . $result->getMessage(),
             '  StatusCode: ' . $result->getStatusCode(),
-            '  Package: ' . $result->getPackage(),
+            '  Package: ' . ((false === $write) ? 'error writting on destination' : "$write bytes"),
             '  Is accepted: ' . (($result->isAccepted()) ? 'yes' : 'no'),
         ]);
     }
@@ -45,6 +57,7 @@ class Download extends AbstractAction
     {
         return new Arguments(...[
             new Argument('i', 'package-id', 'package-id as received by verify command'),
+            new Argument('d', 'destination', 'file name store the package contents'),
         ]);
     }
 }
