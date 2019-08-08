@@ -32,68 +32,80 @@ class DownloadTranslator
     {
         $toDigest = $this->nospaces(
             <<<EOT
-<des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-    <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}"></des:peticionDescarga>
-</des:PeticionDescargaMasivaTercerosEntrada>
+            <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+                <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}"></des:peticionDescarga>
+            </des:PeticionDescargaMasivaTercerosEntrada>
 EOT
         );
+
         $digested = base64_encode(sha1(str_replace(PHP_EOL, '', $toDigest), true));
+        $signedInfoData = $this->createSignedInfoExclusive($digested);
+        $signed = base64_encode($fiel->sign($signedInfoData, OPENSSL_ALGO_SHA1));
+        $keyInfoData = $this->createKeyInfoData($fiel);
+        $signatureData = $this->createSignatureData($signedInfoData, $signed, $keyInfoData);
 
-        $toSign = $this->nospaces(
-            <<<EOT
-<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-	<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
-	<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-	<Reference URI="">
-		<Transforms>
-			<Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
-		</Transforms>
-		<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-		<DigestValue>${digested}</DigestValue>
-	</Reference>
-</SignedInfo>
-EOT
-        );
-        $signed = base64_encode($fiel->sign($toSign, OPENSSL_ALGO_SHA1));
+        $xml = <<<EOT
+            <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+                <s:Header/>
+                <s:Body>
+                    <des:PeticionDescargaMasivaTercerosEntrada>
+                        <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}">
+                            ${signatureData}
+                        </des:peticionDescarga>
+                    </des:PeticionDescargaMasivaTercerosEntrada>
+                </s:Body>
+            </s:Envelope>
+EOT;
+        return $this->nospaces($xml);
+    }
 
+    public function createSignedInfoExclusive(string $digested): string
+    {
+        $xml = <<<EOT
+            <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
+                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
+                <Reference URI="">
+                    <Transforms>
+                        <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
+                    </Transforms>
+                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+                    <DigestValue>${digested}</DigestValue>
+                </Reference>
+            </SignedInfo>
+EOT;
+        return $this->nospaces($xml);
+    }
+
+    public function createKeyInfoData(Fiel $fiel): string
+    {
         $certificate = Helpers::cleanPemContents($fiel->getCertificatePemContents());
         $serial = $fiel->getCertificateSerial();
         $issuerName = $fiel->getCertificateIssuerName();
 
         $xml = <<<EOT
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
-	<s:Header/>
-	<s:Body>
-		<des:PeticionDescargaMasivaTercerosEntrada>
-			<des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}">
-				<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-					<SignedInfo>
-						<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-						<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-						<Reference URI="">
-							<Transforms>
-								<Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></Transforms>
-								<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-								<DigestValue>${digested}</DigestValue>
-						</Reference>
-					</SignedInfo>
-					<SignatureValue>${signed}</SignatureValue>
-					<KeyInfo>
-						<X509Data>
-							<X509IssuerSerial>
-								<X509IssuerName>${issuerName}</X509IssuerName>
-								<X509SerialNumber>${serial}</X509SerialNumber>
-							</X509IssuerSerial>
-							<X509Certificate>${certificate}</X509Certificate>
-						</X509Data>
-					</KeyInfo>
-				</Signature>
-			</des:peticionDescarga>
-		</des:PeticionDescargaMasivaTercerosEntrada>
-	</s:Body>
-</s:Envelope>
+            <KeyInfo>
+                <X509Data>
+                    <X509IssuerSerial>
+                        <X509IssuerName>${issuerName}</X509IssuerName>
+                        <X509SerialNumber>${serial}</X509SerialNumber>
+                    </X509IssuerSerial>
+                    <X509Certificate>${certificate}</X509Certificate>
+                </X509Data>
+            </KeyInfo>
 EOT;
+        return $xml;
+    }
 
-        return $this->nospaces($xml);
+    public function createSignatureData(string $signedInfo, string $signatureValue, string $keyInfo): string
+    {
+        $xml = <<<EOT
+            <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                ${signedInfo}
+                <SignatureValue>${signatureValue}</SignatureValue>
+                ${keyInfo}
+            </Signature>
+EOT;
+        return $xml;
     }
 }
