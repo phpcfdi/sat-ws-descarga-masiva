@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Download;
+
+use PhpCfdi\SatWsDescargaMasiva\Services\Download\DownloadTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
+use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
+
+class DownloadTranslatorTest extends TestCase
+{
+    use InteractsXmlTrait;
+
+    public function testCreateDownloadResultFromSoapResponseWithPackage(): void
+    {
+        $expectedStatusCode = 5000;
+        $expectedMessage = 'Solicitud Aceptada';
+        $expectedPackageStartsWith = 'UEsDBBQAAAAIAAWsm0wmm';
+
+        $translator = new DownloadTranslator();
+        $responseBody = $translator->nospaces($this->fileContents('download/response-with-package.xml'));
+        $result = $translator->createDownloadResultFromSoapResponse($responseBody);
+
+        $this->assertStringStartsWith($expectedPackageStartsWith, $result->getPackage());
+        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
+        $this->assertEquals($expectedMessage, $result->getMessage());
+    }
+
+    public function testCreateSoapRequest(): void
+    {
+        $translator = new DownloadTranslator();
+        $fiel = $this->createFielUsingTestingFiles();
+
+        $rfc = 'AAA010101AAA';
+        $packageId = '4e80345d-917f-40bb-a98f-4a73939343c5_01';
+
+        $requestBody = $translator->createSoapRequestWithData($fiel, $rfc, $packageId);
+        $this->assertXmlStringEqualsXmlFile($this->filePath('download/request.xml'), $requestBody);
+    }
+}
