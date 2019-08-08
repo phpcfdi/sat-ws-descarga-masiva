@@ -20,10 +20,28 @@ class Service
     /** @var WebClientInterface */
     private $webclient;
 
-    public function __construct(Fiel $fiel, WebClientInterface $webclient)
+    /** @var Token|null */
+    public $currentToken;
+
+    public function __construct(Fiel $fiel, WebClientInterface $webclient, Token $currentToken = null)
     {
         $this->fiel = $fiel;
         $this->webclient = $webclient;
+        $this->currentToken = $currentToken;
+    }
+
+    /**
+     * This method will reuse the current token,
+     * it will create a new one if there is none or the current token is no longer valid
+     *
+     * @return Token
+     */
+    public function obtainCurrentToken(): Token
+    {
+        if (null === $this->currentToken || ! $this->currentToken->isValid()) {
+            $this->currentToken = $this->authenticate();
+        }
+        return $this->currentToken;
     }
 
     public function authenticate(): Token
@@ -78,7 +96,7 @@ class Service
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
             $soapBody,
-            $this->authenticate()
+            $this->obtainCurrentToken()
         );
         $downloadRequestResponse = $downloadRequestTranslator->createDownloadRequestResultFromSoapResponse($responseBody);
         return $downloadRequestResponse;
@@ -92,7 +110,7 @@ class Service
             'http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc',
             $soapBody,
-            $this->authenticate()
+            $this->obtainCurrentToken()
         );
         $downloadRequestResponse = $verifyDownloadRequestTranslator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
         return $downloadRequestResponse;
