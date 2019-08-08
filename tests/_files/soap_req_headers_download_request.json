@@ -1,7 +1,0 @@
-{
-  "Content-type": "text\/xml; charset=\"utf-8\"",
-  "Accept": "text\/xml",
-  "Cache-Control": "no-cache",
-  "SOAPAction": "http:\/\/DescargaMasivaTerceros.sat.gob.mx\/ISolicitaDescargaService\/SolicitaDescarga",
-  "Authorization": "WRAP access_token=\"eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1NjQ2NzU0MTgsImV4cCI6MTU2NDY3NjAxOCwiaWF0IjoxNTY0Njc1NDE4LCJpc3MiOiJMb2FkU29saWNpdHVkRGVjYXJnYU1hc2l2YVRlcmNlcm9zIiwiYWN0b3J0IjoiMzAzMDMwMzAzMTMwMzAzMDMwMzAzMDM0MzEzMDMwMzczNDMzMzAzMSJ9.IGIzP2BAZL3CBjyVZnbYWh2OGKG_hAj0313CdMoi3hY%26wrap_subject%3d3030303031303030303030343130303734333031\""
-}
