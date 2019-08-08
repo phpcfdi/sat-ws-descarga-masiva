@@ -8,6 +8,7 @@ use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Tests\EnvelopSignatureVerifier;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class QueryTranslatorTest extends TestCase
@@ -45,5 +46,9 @@ class QueryTranslatorTest extends TestCase
             $this->xmlFormat($translator->nospaces($this->fileContents('query/request.xml'))),
             $this->xmlFormat($requestBody)
         );
+
+        $xmlSecVerification = (new EnvelopSignatureVerifier())
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 }

@@ -29,7 +29,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $fiel;
     }
 
-    public function xmlFormat(string $content): string
+    public static function xmlFormat(string $content): string
     {
         $document = new DOMDocument();
         $document->preserveWhiteSpace = false;

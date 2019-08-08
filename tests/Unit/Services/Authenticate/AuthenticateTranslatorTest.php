@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Authenticate;
 
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Tests\EnvelopSignatureVerifier;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class AuthenticateTranslatorTest extends TestCase
@@ -23,6 +24,15 @@ class AuthenticateTranslatorTest extends TestCase
             $this->xmlFormat($translator->nospaces($this->fileContents('authenticate/request.xml'))),
             $this->xmlFormat($requestBody)
         );
+
+        $xmlSecVerification = (new EnvelopSignatureVerifier())->verify(
+            $requestBody,
+            'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
+            'Security',
+            ['http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'],
+            $fiel->getCertificatePemContents()
+        );
+        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
     public function testCreateTokenFromSoapResponseWithToken(): void
