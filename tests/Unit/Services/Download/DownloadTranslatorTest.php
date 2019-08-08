@@ -36,6 +36,9 @@ class DownloadTranslatorTest extends TestCase
         $packageId = '4e80345d-917f-40bb-a98f-4a73939343c5_01';
 
         $requestBody = $translator->createSoapRequestWithData($fiel, $rfc, $packageId);
-        $this->assertXmlStringEqualsXmlFile($this->filePath('download/request.xml'), $requestBody);
+        $this->assertSame(
+            $this->xmlFormat($translator->nospaces($this->fileContents('download/request.xml'))),
+            $this->xmlFormat($requestBody)
+        );
     }
 }

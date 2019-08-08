@@ -65,6 +65,9 @@ class VerifyTranslatorTest extends TestCase
         $requestId = '3f30a4e1-af73-4085-8991-e4d97eef16bd';
 
         $requestBody = $translator->createSoapRequestWithData($fiel, $rfc, $requestId);
-        $this->assertXmlStringEqualsXmlFile($this->filePath('verify/request.xml'), $requestBody);
+        $this->assertSame(
+            $this->xmlFormat($translator->nospaces($this->fileContents('verify/request.xml'))),
+            $this->xmlFormat($requestBody)
+        );
     }
 }

@@ -41,6 +41,9 @@ class QueryTranslatorTest extends TestCase
             DownloadType::received(),
             RequestType::cfdi()
         );
-        $this->assertXmlStringEqualsXmlFile($this->filePath('query/request.xml'), $requestBody);
+        $this->assertSame(
+            $this->xmlFormat($translator->nospaces($this->fileContents('query/request.xml'))),
+            $this->xmlFormat($requestBody)
+        );
     }
 }
