@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Translators;
+namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
@@ -11,7 +11,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
-class DownloadRequestTranslatorTest extends TestCase
+class QueryTranslatorTest extends TestCase
 {
     public function testCreateDownloadRequestResponseFromSoapResponse(): void
     {
@@ -19,8 +19,8 @@ class DownloadRequestTranslatorTest extends TestCase
         $exptedStatusCode = 5000;
         $exptedMessage = 'Solicitud Aceptada';
 
-        $translator = new \PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator();
-        $responseBody = $translator->nospaces($this->fileContents('soap_res_download_request.xml'));
+        $translator = new QueryTranslator();
+        $responseBody = $translator->nospaces($this->fileContents('query/response-with-id.xml'));
         $downloadResponse = $translator->createDownloadRequestResultFromSoapResponse($responseBody);
 
         $this->assertEquals($downloadResponse->getRequestId(), $exptedRequestId);
@@ -46,6 +46,6 @@ class DownloadRequestTranslatorTest extends TestCase
             DownloadType::received(),
             RequestType::cfdi()
         );
-        $this->assertXmlStringEqualsXmlFile($this->filePath('soap_req_body_download_request.xml'), $requestBody);
+        $this->assertXmlStringEqualsXmlFile($this->filePath('query/request.xml'), $requestBody);
     }
 }
