@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 trait SignXmlHelpersTrait
 {
-    public function createSignedInfoCanonicalExclusive(string $digested): string
+    public function createSignedInfoCanonicalExclusive(string $digested, $uri = ''): string
     {
         // see https://www.w3.org/TR/xmlsec-algorithms/ to understand the algorithm
         // http://www.w3.org/2001/10/xml-exc-c14n# - Exclusive Canonicalization XML 1.0 (omit comments)
@@ -14,7 +14,7 @@ trait SignXmlHelpersTrait
             <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
                 <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
                 <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-                <Reference URI="">
+                <Reference URI="${uri}">
                     <Transforms>
                         <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
                     </Transforms>
@@ -48,6 +48,7 @@ EOT;
 
     public function createSignatureData(string $signedInfo, string $signatureValue, string $keyInfo): string
     {
+        $signedInfo = str_replace('<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">', '<SignedInfo>', $signedInfo);
         $xml = <<<EOT
             <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
                 ${signedInfo}
