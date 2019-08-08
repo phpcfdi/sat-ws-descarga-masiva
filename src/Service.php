@@ -65,12 +65,13 @@ class Service
 
     public function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
     {
+        // prepare headers
         $headers = ['SOAPAction' => $soapAction];
-
         if (null !== $token) {
             $headers['Authorization'] = 'WRAP access_token="' . $token->getValue() . '"';
         }
 
+        // webclient interaction and notifications
         $request = new Request('POST', $uri, $body, $headers);
         $this->webclient->fireRequest($request);
         try {
@@ -79,19 +80,16 @@ class Service
             $this->webclient->fireResponse($exception->getResponse());
             throw $exception;
         }
+        $this->webclient->fireResponse($response);
+
+        // evaluate response
         if ($response->statusCodeIsClientError()) {
-            throw new HttpClientError(
-                sprintf('Unexpected client error status code %d', $response->getStatusCode()),
-                $request,
-                $response
-            );
+            $message = sprintf('Unexpected client error status code %d', $response->getStatusCode());
+            throw new HttpClientError($message, $request, $response);
         }
         if ($response->statusCodeIsServerError()) {
-            throw new HttpServerError(
-                sprintf('Unexpected client error status code %d', $response->getStatusCode()),
-                $request,
-                $response
-            );
+            $message = sprintf('Unexpected server error status code %d', $response->getStatusCode());
+            throw new HttpServerError($message, $request, $response);
         }
         if ($response->isEmpty()) {
             throw new HttpServerError('Unexpected empty response from server', $request, $response);
@@ -102,29 +100,29 @@ class Service
 
     public function query(QueryParameters $downloadRequestQuery): QueryResult
     {
-        $downloadRequestTranslator = new QueryTranslator();
-        $soapBody = $downloadRequestTranslator->createSoapRequest($this->fiel, $downloadRequestQuery);
+        $queryTranslator = new QueryTranslator();
+        $soapBody = $queryTranslator->createSoapRequest($this->fiel, $downloadRequestQuery);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
             $soapBody,
             $this->obtainCurrentToken()
         );
-        $downloadRequestResponse = $downloadRequestTranslator->createDownloadRequestResultFromSoapResponse($responseBody);
-        return $downloadRequestResponse;
+        $queryResult = $queryTranslator->createDownloadRequestResultFromSoapResponse($responseBody);
+        return $queryResult;
     }
 
     public function verify(string $requestId): VerifyResult
     {
-        $verifyDownloadRequestTranslator = new VerifyTranslator();
-        $soapBody = $verifyDownloadRequestTranslator->createSoapRequest($this->fiel, $requestId);
+        $verifyTranslator = new VerifyTranslator();
+        $soapBody = $verifyTranslator->createSoapRequest($this->fiel, $requestId);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc',
             $soapBody,
             $this->obtainCurrentToken()
         );
-        $downloadRequestResponse = $verifyDownloadRequestTranslator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
-        return $downloadRequestResponse;
+        $verifyResult = $verifyTranslator->createVerifyDownloadRequestResultFromSoapResponse($responseBody);
+        return $verifyResult;
     }
 }
