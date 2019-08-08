@@ -21,7 +21,7 @@ class Verify extends AbstractAction
         $this->stdout('RequestId: ' . $requestId);
 
         $service = $this->createService();
-        $result = $service->verifyDownloadRequest($requestId);
+        $result = $service->verify($requestId);
 
         $this->stdout(...[
             'Result:',

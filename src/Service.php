@@ -100,7 +100,7 @@ class Service
         return $response->getBody();
     }
 
-    public function downloadRequest(QueryParameters $downloadRequestQuery): QueryResult
+    public function query(QueryParameters $downloadRequestQuery): QueryResult
     {
         $downloadRequestTranslator = new QueryTranslator();
         $soapBody = $downloadRequestTranslator->createSoapRequest($this->fiel, $downloadRequestQuery);
@@ -114,7 +114,7 @@ class Service
         return $downloadRequestResponse;
     }
 
-    public function verifyDownloadRequest(string $requestId): VerifyResult
+    public function verify(string $requestId): VerifyResult
     {
         $verifyDownloadRequestTranslator = new VerifyTranslator();
         $soapBody = $verifyDownloadRequestTranslator->createSoapRequest($this->fiel, $requestId);

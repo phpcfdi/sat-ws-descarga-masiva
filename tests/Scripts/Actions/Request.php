@@ -36,7 +36,7 @@ class Request extends AbstractAction
         ]);
 
         $service = $this->createService();
-        $result = $service->downloadRequest($query);
+        $result = $service->query($query);
 
         $this->stdout(...[
             'Result:',

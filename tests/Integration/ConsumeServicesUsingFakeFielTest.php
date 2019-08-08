@@ -36,7 +36,7 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $dateTimePeriod = new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00'));
         $downloadRequestQuery = new QueryParameters($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
 
-        $downloadRequestResult = $service->downloadRequest($downloadRequestQuery);
+        $downloadRequestResult = $service->query($downloadRequestQuery);
         $this->assertSame(
             305,
             $downloadRequestResult->getStatusCode(),
@@ -49,7 +49,7 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $service = $this->createService();
 
         $requestId = '3edbd462-9fa0-4363-b60f-bac332338028';
-        $downloadRequestResult = $service->verifyDownloadRequest($requestId);
+        $downloadRequestResult = $service->verify($requestId);
         $this->assertSame(
             305,
             $downloadRequestResult->getStatusCode(),
