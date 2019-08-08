@@ -4,43 +4,37 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts;
 
-use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions\Argument;
-use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Actions\Arguments;
 use RuntimeException;
-use Symfony\Component\Dotenv\Dotenv;
 use Throwable;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 exit(call_user_func(
     function (string $action, string ...$parameters): int {
-        $printer = new Actions\Printer();
-        $arguments = new Arguments(
-            new Argument('o', 'output', 'output directory to write request and responses'),
-            new Argument('env', 'environment', 'environment file, default to working-directory/.env')
+        $printer = new CLI\Printer();
+        $arguments = new CLI\Arguments(
+            new CLI\Argument('o', 'output', 'output directory to write request and responses'),
+            new CLI\Argument('c', 'certificate', 'certificate file'),
+            new CLI\Argument('k', 'private-key', 'private key file in pem format'),
+            new CLI\Argument('p', 'pass-phrase', 'pass phrase to open private key')
         );
         if (in_array($action, ['-h', '--help'], true)) {
             $action = 'help';
         }
         ['matched' => $matched, 'unmatched' => $unmatched] = $arguments->parseParameters($parameters);
-        $envFile = strval($matched['env'] ?? '') ?: './.env';
-        if (file_exists($envFile)) {
-            $dotEnv = new Dotenv();
-            $dotEnv->load($envFile);
-        }
         $outputDirectory = strval($matched['o'] ?? '');
         try {
             $askForHelp = (in_array('-h', $unmatched, true) || in_array('--help', $unmatched, true));
-            $fielData = new Actions\FielData(
-                strval(getenv('WSDM_CERTIFICATE') ?? ''),
-                strval(getenv('WSDM_PRIVATEKEY') ?? ''),
-                strval(getenv('WSDM_PASSPHRASE') ?? '')
+            $fielData = new Helpers\FielData(
+                strval($matched['c'] ?? ''),
+                strval($matched['k'] ?? ''),
+                strval($matched['p'] ?? '')
             );
             $actionClass = __NAMESPACE__ . '\Actions\\' . ucfirst($action);
             if (! class_exists($actionClass)) {
                 throw new RuntimeException("Action $action not found");
             }
-            /** @var Actions\ActionInterface $actionObject */
+            /** @var CLI\ActionInterface $actionObject */
             $actionObject = new $actionClass($fielData, $printer, $outputDirectory);
             if ($askForHelp) {
                 $actionObject->help();
