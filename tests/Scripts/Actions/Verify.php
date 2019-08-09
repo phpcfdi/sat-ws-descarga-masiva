@@ -26,22 +26,18 @@ class Verify extends AbstractAction
         $service = $this->createService();
         $result = $service->verify($requestId);
         $status = $result->getStatus();
+        $codeRequest = $result->getCodeRequest();
+        $statusRequest = $result->getStatusRequest();
 
         $this->stdout(...[
             'Result:',
             '  Is accepted: ' . (($status->isAccepted()) ? 'yes' : 'no'),
             '  Message: ' . $status->getMessage(),
             '  StatusCode: ' . $status->getCode(),
-            '  Status Code Request: ' . $result->getStatusCodeRequest(),
-            '  Status Request: ' . $result->getStatusRequest(),
+            '  Code Request: ' . $codeRequest->getValue() . ' - ' . $codeRequest->getMessage(),
+            '  Status Request: ' . $statusRequest->getValue() . ' - ' . $statusRequest->getMessage(),
             '  Number CFDI: ' . $result->getNumberCfdis(),
             '  Packages: ' . implode(', ', $result->getPackagesIds()),
-            '  Has error: ' . (($result->hasError()) ? 'yes' : 'no'),
-            '  In progress: ' . (($result->inProgress()) ? 'yes' : 'no'),
-            '  Is finished: ' . (($result->isFinished()) ? 'yes' : 'no'),
-            '  Is accepted: ' . (($result->isAccepted()) ? 'yes' : 'no'),
-            '  Is rejected: ' . (($result->isRejected()) ? 'yes' : 'no'),
-            '  Is expired: ' . (($result->isExpired()) ? 'yes' : 'no'),
         ]);
     }
 

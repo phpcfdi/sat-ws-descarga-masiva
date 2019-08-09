@@ -37,8 +37,8 @@ EstadoSolicitud:
 * Verify
     CodEstatus <- Código de estado de la llamada
     Mensaje <- Pequeña descripcion del código de estado
-    CodigoEstadoSolicitud <- Estado de la solicitud de la descarga (X)
-    EstadoSolicitud <- número correspondiente al estado de la solicitud de descarga
+    CodigoEstadoSolicitud <- (CodeRequest) Estado de la solicitud de la descarga (X)
+    EstadoSolicitud <- (StatusRequest) número correspondiente al estado de la solicitud de descarga
     
 * Download: Envelope/Header/respuesta
     CodEstatus <- Código de estado de la llamada

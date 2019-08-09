@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
+use PhpCfdi\SatWsDescargaMasiva\Shared\CodeRequest;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
+use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
 
 class VerifyResult
 {
     /** @var StatusCode */
     private $status;
 
-    /** @var int */
+    /** @var StatusRequest */
     private $statusRequest;
 
-    /** @var int */
-    private $statusCodeRequest;
+    /** @var CodeRequest */
+    private $codeRequest;
 
     /** @var int */
     private $numberCfdis;
@@ -24,15 +26,15 @@ class VerifyResult
     private $packagesIds;
 
     public function __construct(
-        StatusCode $statusCode,
-        int $statusRequest,
-        int $statusCodeRequest,
+        StatusCode $status,
+        StatusRequest $statusRequest,
+        CodeRequest $codeRequest,
         int $numberCfdis,
         string ...$packagesIds
     ) {
-        $this->status = $statusCode;
+        $this->status = $status;
         $this->statusRequest = $statusRequest;
-        $this->statusCodeRequest = $statusCodeRequest;
+        $this->codeRequest = $codeRequest;
         $this->numberCfdis = $numberCfdis;
         $this->packagesIds = $packagesIds;
     }
@@ -42,14 +44,14 @@ class VerifyResult
         return $this->status;
     }
 
-    public function getStatusRequest(): int
+    public function getStatusRequest(): StatusRequest
     {
         return $this->statusRequest;
     }
 
-    public function getStatusCodeRequest(): int
+    public function getCodeRequest(): CodeRequest
     {
-        return $this->statusCodeRequest;
+        return $this->codeRequest;
     }
 
     public function getNumberCfdis(): int
@@ -66,35 +68,5 @@ class VerifyResult
     public function countPackages(): int
     {
         return count($this->packagesIds);
-    }
-
-    public function isAccepted(): bool
-    {
-        return (1 === $this->getStatusRequest());
-    }
-
-    public function inProgress(): bool
-    {
-        return (2 === $this->getStatusRequest());
-    }
-
-    public function isFinished(): bool
-    {
-        return (3 === $this->getStatusRequest());
-    }
-
-    public function hasError(): bool
-    {
-        return (4 === $this->getStatusRequest());
-    }
-
-    public function isRejected(): bool
-    {
-        return (5 === $this->getStatusRequest());
-    }
-
-    public function isExpired(): bool
-    {
-        return (6 === $this->getStatusRequest());
     }
 }

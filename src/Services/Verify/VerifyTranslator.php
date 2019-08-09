@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
+use PhpCfdi\SatWsDescargaMasiva\Shared\CodeRequest;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
+use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
 
 class VerifyTranslator
 {
@@ -21,15 +23,15 @@ class VerifyTranslator
             ...['body', 'VerificaSolicitudDescargaResponse', 'VerificaSolicitudDescargaResult']
         );
         $status = new StatusCode(intval($values['codestatus'] ?? 0), strval($values['mensaje'] ?? ''));
-        $requestStatus = intval($values['estadosolicitud'] ?? 0);
-        $statusRequestCode = intval($values['codigoestadosolicitud'] ?? 0);
+        $statusRequest = new StatusRequest(intval($values['estadosolicitud'] ?? 0));
+        $codeRequest = new CodeRequest(intval($values['codigoestadosolicitud'] ?? 0));
         $numberCfdis = intval($values['numerocfdis'] ?? 0);
         $packages = $this->findContents(
             $env,
             ...['body', 'VerificaSolicitudDescargaResponse', 'VerificaSolicitudDescargaResult', 'IdsPaquetes']
         );
 
-        return new VerifyResult($status, $requestStatus, $statusRequestCode, $numberCfdis, ...$packages);
+        return new VerifyResult($status, $statusRequest, $codeRequest, $numberCfdis, ...$packages);
     }
 
     public function createSoapRequest(Fiel $fiel, string $requestId): string

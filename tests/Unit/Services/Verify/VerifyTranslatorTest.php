@@ -14,7 +14,7 @@ class VerifyTranslatorTest extends TestCase
     {
         $expectedStatusCode = 5000;
         $expectedStatusRequest = 5;
-        $expectedStatusCodeRequest = 5004;
+        $expectedCodeRequest = 5004;
         $expectedNumberCfdis = 0;
         $expectedMessage = 'Solicitud Aceptada';
         $expectedPackagesIds = [];
@@ -23,15 +23,18 @@ class VerifyTranslatorTest extends TestCase
         $responseBody = $translator->nospaces($this->fileContents('verify/response-0-packages.xml'));
         $result = $translator->createVerifyResultFromSoapResponse($responseBody);
         $status = $result->getStatus();
+        $statusRequest = $result->getStatusRequest();
+        $codeRequest = $result->getCodeRequest();
 
         $this->assertTrue($status->isAccepted());
         $this->assertEquals($expectedStatusCode, $status->getCode());
         $this->assertEquals($expectedMessage, $status->getMessage());
-        $this->assertEquals($expectedStatusRequest, $result->getStatusRequest());
-        $this->assertEquals($expectedStatusCodeRequest, $result->getStatusCodeRequest());
+        $this->assertEquals($expectedStatusRequest, $statusRequest->getValue());
+        $this->assertTrue($statusRequest->isRejected());
+        $this->assertEquals($expectedCodeRequest, $codeRequest->getValue());
+        $this->assertTrue($codeRequest->isNotFound());
         $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
         $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
-        $this->assertTrue($result->isRejected());
     }
 
     public function testCreateVerifyResultFromSoapResponseWithTwoPackages(): void
