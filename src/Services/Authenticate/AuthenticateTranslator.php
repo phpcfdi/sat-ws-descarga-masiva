@@ -8,14 +8,12 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
-use PhpCfdi\SatWsDescargaMasiva\Shared\SignXmlHelpersTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 
 /** @internal */
 class AuthenticateTranslator
 {
     use InteractsXmlTrait;
-    use SignXmlHelpersTrait;
 
     public function createTokenFromSoapResponse(string $content): Token
     {

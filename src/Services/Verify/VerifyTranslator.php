@@ -6,12 +6,10 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
-use PhpCfdi\SatWsDescargaMasiva\Shared\SignXmlHelpersTrait;
 
 class VerifyTranslator
 {
     use InteractsXmlTrait;
-    use SignXmlHelpersTrait;
 
     public function createVerifyResultFromSoapResponse(string $content): VerifyResult
     {

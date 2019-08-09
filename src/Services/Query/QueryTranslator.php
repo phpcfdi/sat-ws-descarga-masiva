@@ -9,13 +9,11 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\SignXmlHelpersTrait;
 
 /** @internal */
 class QueryTranslator
 {
     use InteractsXmlTrait;
-    use SignXmlHelpersTrait;
 
     public function createQueryResultFromSoapResponse(string $content): QueryResult
     {

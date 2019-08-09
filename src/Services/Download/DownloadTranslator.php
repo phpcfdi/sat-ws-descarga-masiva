@@ -6,12 +6,10 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Download;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
-use PhpCfdi\SatWsDescargaMasiva\Shared\SignXmlHelpersTrait;
 
 class DownloadTranslator
 {
     use InteractsXmlTrait;
-    use SignXmlHelpersTrait;
 
     public function createDownloadResultFromSoapResponse(string $content): DownloadResult
     {
