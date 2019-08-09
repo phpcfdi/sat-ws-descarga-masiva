@@ -1,10 +1,14 @@
 {
-    "name": "phpcfdi/satwsdescargamasiva",
+    "name": "phpcfdi/sat-ws-descarga-masiva",
     "description": "Librería para usar el servicio web del SAT de Descarga Masiva",
-    "keywords": [],
+    "keywords": ["sat", "cfdi", "download", "descarga", "webservice"],
     "homepage": "https://github.com/phpcfdi/sat-ws-descarga-masiva",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Cesar Aguilera",
+            "email": "cesargnu29@gmail.com"
+        },
         {
             "name": "Carlos C Soto",
             "email": "eclipxe13@gmail.com",
@@ -12,9 +16,17 @@
         }
     ],
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "ext-openssl": "*",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-zip": "*",
+        "eclipxe/cfdiutils": "^2.10",
+        "eclipxe/enum": "^0.2.0"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^6.3",
+        "robrichards/xmlseclibs": "^3.0",
         "phpunit/phpunit": "^8.0",
         "overtrue/phplint": "^1.0",
         "squizlabs/php_codesniffer": "^3.0",

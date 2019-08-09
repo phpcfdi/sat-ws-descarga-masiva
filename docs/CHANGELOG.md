@@ -11,6 +11,6 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
 
-## Version 0.1.0 2019-03-20
+## Version 0.1.0 2019-08-09
 
-- Initial working release for testing with friends
+- Initial working release

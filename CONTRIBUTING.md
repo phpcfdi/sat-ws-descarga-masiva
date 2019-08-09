@@ -8,8 +8,8 @@ By participating in this project and its community, you are expected to uphold t
 
 ## Team members
 
-* [Carlos C Soto](https://github.com/eclipxe13) - original author and maintainer
-* [GitHub constributors](https://github.com/phpcfdi/sat-ws-descarga-masiva/graphs/contributors)
+* [phpCfdi](https://github.com/phpcfdi) - organization maintainer
+* [GitHub contributors](https://github.com/phpcfdi/sat-ws-descarga-masiva/graphs/contributors)
 
 ## Communication Channels
 
@@ -64,8 +64,7 @@ When you do begin working on your feature, here are some guidelines to consider:
 If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
 ```shell
-vendor/bin/php-cs-fixer fix -v
-vendor/bin/phpcbf src/ tests/
+composer dev:fix-style
 ```
 
 ## Running Tests
@@ -79,4 +78,5 @@ vendor/bin/parallel-lint src/ tests/
 vendor/bin/phpcs -sp src/ tests/
 vendor/bin/php-cs-fixer fix -v --dry-run
 vendor/bin/phpunit --coverage-text
+vendor/bin/phpstan.phar analyse --no-progress --level max src/ tests/
 ```
