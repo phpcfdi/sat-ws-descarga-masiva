@@ -2,7 +2,9 @@
 
 - Crear documentación de la librería y README, CI, etc.
 
-- Mejorar los objetos Result para que puedan compartir la misma lógica donde la comparten
+- Crear un objeto para los valores del servicio de verificación de CodigoEstadoSolicitud
+ 
+- Crear un objeto para los valores del servicio de verificación de EstadoSolicitud 
 
 - Crear lector de archivos ZIP de Metadata
 
@@ -15,6 +17,9 @@
 
 ## Tareas resueltas
 
+- Mejorar los objetos Result para que puedan compartir la misma lógica donde la comparten
+    2019-08-08: Se creó el StatusCode para exponer el código y mensaje en los servicios comúnes
+    
 - Mejorar la búsqueda de elementos con DOMXPath
   2019-08-08: No se cambia, aún cuando la búsqueda es costosa, si se cambia,
   nos meteremos en problemas de espacios de nombres y soporte de mayúsculas y minúsculas
