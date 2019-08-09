@@ -22,11 +22,12 @@ class QueryTranslatorTest extends TestCase
         $translator = new QueryTranslator();
         $responseBody = $translator->nospaces($this->fileContents('query/response-with-id.xml'));
         $result = $translator->createQueryResultFromSoapResponse($responseBody);
+        $status = $result->getStatus();
 
         $this->assertEquals($expectedRequestId, $result->getRequestId());
-        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
-        $this->assertEquals($expectedMessage, $result->getMessage());
-        $this->assertTrue($result->isAccepted());
+        $this->assertEquals($expectedStatusCode, $status->getCode());
+        $this->assertEquals($expectedMessage, $status->getMessage());
+        $this->assertTrue($status->isAccepted());
     }
 
     public function testCreateSoapRequest(): void

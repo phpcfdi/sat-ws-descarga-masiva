@@ -39,12 +39,12 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $result = $service->query($parameters);
         $this->assertSame(
             305,
-            $result->getStatusCode(),
+            $result->getStatus()->getCode(),
             'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }
 
-    public function testVerifyUsing(): void
+    public function testVerify(): void
     {
         $service = $this->createService();
 
@@ -52,7 +52,7 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $result = $service->verify($requestId);
         $this->assertSame(
             305,
-            $result->getStatusCode(),
+            $result->getStatus()->getCode(),
             'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }
@@ -65,7 +65,7 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $result = $service->download($requestId);
         $this->assertSame(
             305,
-            $result->getStatusCode(),
+            $result->getStatus()->getCode(),
             'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }

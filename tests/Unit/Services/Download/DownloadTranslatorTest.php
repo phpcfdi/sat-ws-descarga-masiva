@@ -22,10 +22,12 @@ class DownloadTranslatorTest extends TestCase
         $translator = new DownloadTranslator();
         $responseBody = $translator->nospaces($this->fileContents('download/response-with-package.xml'));
         $result = $translator->createDownloadResultFromSoapResponse($responseBody);
+        $status = $result->getStatus();
 
         $this->assertStringStartsWith($expectedPackageStartsWith, $result->getPackage());
-        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
-        $this->assertEquals($expectedMessage, $result->getMessage());
+        $this->assertEquals($expectedStatusCode, $status->getCode());
+        $this->assertEquals($expectedMessage, $status->getMessage());
+        $this->assertTrue($status->isAccepted());
     }
 
     public function testCreateSoapRequest(): void

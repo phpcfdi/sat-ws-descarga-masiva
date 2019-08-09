@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
+use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
+
 class VerifyResult
 {
-    /** @var int */
-    private $statusCode;
+    /** @var StatusCode */
+    private $status;
 
     /** @var int */
     private $statusRequest;
@@ -18,31 +20,26 @@ class VerifyResult
     /** @var int */
     private $numberCfdis;
 
-    /** @var string */
-    private $message;
-
     /** @var string[] */
     private $packagesIds;
 
     public function __construct(
-        int $statusCode,
+        StatusCode $statusCode,
         int $statusRequest,
         int $statusCodeRequest,
         int $numberCfdis,
-        string $message,
         string ...$packagesIds
     ) {
-        $this->statusCode = $statusCode;
+        $this->status = $statusCode;
         $this->statusRequest = $statusRequest;
         $this->statusCodeRequest = $statusCodeRequest;
         $this->numberCfdis = $numberCfdis;
-        $this->message = $message;
         $this->packagesIds = $packagesIds;
     }
 
-    public function getStatusCode(): int
+    public function getStatus(): StatusCode
     {
-        return $this->statusCode;
+        return $this->status;
     }
 
     public function getStatusRequest(): int
@@ -60,15 +57,15 @@ class VerifyResult
         return $this->numberCfdis;
     }
 
-    public function getMessage(): string
-    {
-        return $this->message;
-    }
-
     /** @return string[] */
     public function getPackagesIds(): array
     {
         return $this->packagesIds;
+    }
+
+    public function countPackages(): int
+    {
+        return count($this->packagesIds);
     }
 
     public function isAccepted(): bool

@@ -38,12 +38,13 @@ class Download extends AbstractAction
             $write = strlen($result->getPackageDecoded());
         }
 
+        $status = $result->getStatus();
         $this->stdout(...[
             'Result:',
-            '  Message: ' . $result->getMessage(),
-            '  StatusCode: ' . $result->getStatusCode(),
+            '  Is accepted: ' . (($status->isAccepted()) ? 'yes' : 'no'),
+            '  StatusCode: ' . $status->getCode(),
+            '  Message: ' . $status->getMessage(),
             '  Package: ' . ((false === $write) ? 'error writting on destination' : "$write bytes"),
-            '  Is accepted: ' . (($result->isAccepted()) ? 'yes' : 'no'),
         ]);
     }
 

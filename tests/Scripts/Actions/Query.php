@@ -57,11 +57,12 @@ class Query extends AbstractAction
         $service = $this->createService();
         $result = $service->query($query);
 
+        $status = $result->getStatus();
         $this->stdout(...[
             'Result:',
-            '  IsAccepted: ' . (($result->isAccepted()) ? 'yes' : 'no'),
-            '  Message: ' . $result->getMessage(),
-            '  StatusCode: ' . $result->getStatusCode(),
+            '  IsAccepted: ' . (($status->isAccepted()) ? 'yes' : 'no'),
+            '  Message: ' . $status->getMessage(),
+            '  StatusCode: ' . $status->getCode(),
             '  RequestId: ' . $result->getRequestId(),
         ]);
     }

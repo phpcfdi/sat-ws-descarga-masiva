@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Download;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
+use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 class DownloadTranslator
 {
@@ -14,12 +15,10 @@ class DownloadTranslator
     public function createDownloadResultFromSoapResponse(string $content): DownloadResult
     {
         $env = $this->readXmlElement($content);
-
         $values = $this->findAttributes($env, 'header', 'respuesta');
-        $statusCode = intval($values['codestatus'] ?? 0);
-        $message = $values['mensaje'] ?? '';
+        $status = new StatusCode(intval($values['codestatus'] ?? 0), strval($values['mensaje'] ?? ''));
         $package = $this->findContent($env, 'body', 'RespuestaDescargaMasivaTercerosSalida', 'Paquete');
-        return new DownloadResult($statusCode, $message, $package);
+        return new DownloadResult($status, $package);
     }
 
     public function createSoapRequest(Fiel $fiel, string $packageId): string

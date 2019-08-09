@@ -9,6 +9,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 /** @internal */
 class QueryTranslator
@@ -20,10 +21,9 @@ class QueryTranslator
         $env = $this->readXmlElement($content);
 
         $values = $this->findAttributes($env, 'body', 'solicitaDescargaResponse', 'solicitaDescargaResult');
-        $requestId = $values['idsolicitud'] ?? '';
-        $statusCode = intval($values['codestatus'] ?? 0);
-        $message = $values['mensaje'] ?? '';
-        return new QueryResult($requestId, $statusCode, $message);
+        $status = new StatusCode(intval($values['codestatus'] ?? 0), strval($values['mensaje'] ?? ''));
+        $requestId = strval($values['idsolicitud'] ?? '');
+        return new QueryResult($status, $requestId);
     }
 
     public function createSoapRequest(Fiel $fiel, QueryParameters $parameters): string

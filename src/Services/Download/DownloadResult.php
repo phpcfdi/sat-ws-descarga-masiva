@@ -4,32 +4,25 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Download;
 
+use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
+
 class DownloadResult
 {
-    /** @var int */
-    private $statusCode;
-
-    /** @var string */
-    private $message;
+    /** @var StatusCode */
+    private $status;
 
     /** @var string */
     private $package;
 
-    public function __construct(int $statusCode, string $message, string $package)
+    public function __construct(StatusCode $statusCode, string $package)
     {
-        $this->statusCode = $statusCode;
-        $this->message = $message;
+        $this->status = $statusCode;
         $this->package = $package;
     }
 
-    public function getStatusCode(): int
+    public function getStatus(): StatusCode
     {
-        return $this->statusCode;
-    }
-
-    public function getMessage(): string
-    {
-        return $this->message;
+        return $this->status;
     }
 
     public function getPackage(): string
@@ -40,10 +33,5 @@ class DownloadResult
     public function getPackageDecoded(): string
     {
         return base64_decode($this->package, true) ?: '';
-    }
-
-    public function isAccepted(): bool
-    {
-        return (5000 === $this->getStatusCode());
     }
 }

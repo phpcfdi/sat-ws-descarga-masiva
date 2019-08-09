@@ -22,23 +22,20 @@ class VerifyTranslatorTest extends TestCase
         $translator = new VerifyTranslator();
         $responseBody = $translator->nospaces($this->fileContents('verify/response-0-packages.xml'));
         $result = $translator->createVerifyResultFromSoapResponse($responseBody);
+        $status = $result->getStatus();
 
-        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
+        $this->assertTrue($status->isAccepted());
+        $this->assertEquals($expectedStatusCode, $status->getCode());
+        $this->assertEquals($expectedMessage, $status->getMessage());
         $this->assertEquals($expectedStatusRequest, $result->getStatusRequest());
         $this->assertEquals($expectedStatusCodeRequest, $result->getStatusCodeRequest());
         $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
-        $this->assertEquals($expectedMessage, $result->getMessage());
         $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
         $this->assertTrue($result->isRejected());
     }
 
     public function testCreateVerifyResultFromSoapResponseWithTwoPackages(): void
     {
-        $expectedStatusCode = 5000;
-        $expectedStatusRequest = 3;
-        $expectedStatusCodeRequest = 5000;
-        $expectedNumberCfdis = 12345;
-        $expectedMessage = 'Solicitud Aceptada';
         $expectedPackagesIds = [
             '4e80345d-917f-40bb-a98f-4a73939343c5_01',
             '4e80345d-917f-40bb-a98f-4a73939343c5_02',
@@ -47,14 +44,8 @@ class VerifyTranslatorTest extends TestCase
         $translator = new VerifyTranslator();
         $responseBody = $translator->nospaces($this->fileContents('verify/response-2-packages.xml'));
         $result = $translator->createVerifyResultFromSoapResponse($responseBody);
-
-        $this->assertEquals($expectedStatusCode, $result->getStatusCode());
-        $this->assertEquals($expectedStatusRequest, $result->getStatusRequest());
-        $this->assertEquals($expectedStatusCodeRequest, $result->getStatusCodeRequest());
-        $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
-        $this->assertEquals($expectedMessage, $result->getMessage());
         $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
-        $this->assertTrue($result->isFinished());
+        $this->assertSame(2, $result->countPackages());
     }
 
     public function testCreateSoapRequest(): void
