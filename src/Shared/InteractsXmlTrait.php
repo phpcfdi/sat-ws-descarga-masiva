@@ -64,7 +64,19 @@ trait InteractsXmlTrait
         if (null === $found) {
             return '';
         }
-        return $found->textContent;
+        return $this->extractElementContent($found);
+    }
+
+    private function extractElementContent(DOMElement $element): string
+    {
+        $buffer = [];
+        /** @var \DOMNode $node */
+        foreach ($element->childNodes as $node) {
+            if (XML_TEXT_NODE === $node->nodeType) {
+                $buffer[] = trim($node->textContent);
+            }
+        }
+        return implode('', $buffer);
     }
 
     /**
@@ -101,17 +113,10 @@ trait InteractsXmlTrait
     {
         return array_map(
             function (DOMElement $element) {
-                return $element->nodeValue;
+                return $this->extractElementContent($element);
             },
             $this->findElements($element, ... $names)
         );
-    }
-
-    public function findAttribute(DOMElement $element, string ...$search): string
-    {
-        $attributeName = strtolower(strval(array_pop($search)));
-        $attributes = $this->findAttributes($element, ...$search);
-        return $attributes[$attributeName] ?? '';
     }
 
     public function findAttributes(DOMElement $element, string ...$search): array
