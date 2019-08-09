@@ -177,7 +177,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [license]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/LICENSE
 [build]: https://travis-ci.org/phpcfdi/sat-ws-descarga-masiva?branch=master
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/code-structure/master/code-coverage
+[coverage]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/sat-ws-descarga-masiva
 
 [badge-source]: http://img.shields.io/badge/source-phpcfdi/sat-ws-descarga-masiva-blue.svg?style=flat-square
