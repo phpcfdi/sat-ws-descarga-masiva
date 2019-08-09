@@ -35,8 +35,11 @@ class MetadataItemTest extends TestCase
 
         $zipFilename = $this->filePath('zip/metadata.zip');
         $cfdiPackageReader = new MetadataPackageReader($zipFilename);
-
         $extracted = $cfdiPackageReader->fileContents()->current();
-        $this->assertEquals($expectedContent, $extracted);
+
+        // normalize line endings
+        $expectedContent = str_replace("\r\n", "\n", $expectedContent);
+        $extracted = str_replace("\r\n", "\n", $extracted);
+        $this->assertSame($expectedContent, $extracted);
     }
 }
