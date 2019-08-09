@@ -19,7 +19,7 @@ class CfdiPackageReaderTest extends TestCase
 
     public function testReaderZipWhenTheContentValid(): void
     {
-        $zipContents = $this->fileContents('zip/cfdi_with_other_file.zip');
+        $zipContents = $this->fileContents('zip/cfdi.zip');
         $cfdiPackageReader = CfdiPackageReader::createFromContents($zipContents);
         $temporaryFilename = $cfdiPackageReader->getFilename();
         unset($cfdiPackageReader);
@@ -33,7 +33,7 @@ class CfdiPackageReaderTest extends TestCase
     {
         $expectedNumberCfdis = 1;
 
-        $filename = $this->filePath('zip/cfdi_with_other_file.zip');
+        $filename = $this->filePath('zip/cfdi.zip');
         $cfdiPackageReader = new CfdiPackageReader($filename);
 
         $this->assertCount($expectedNumberCfdis, $cfdiPackageReader);

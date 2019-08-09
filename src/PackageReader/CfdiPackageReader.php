@@ -8,11 +8,10 @@ class CfdiPackageReader extends AbstractPackageReader
 {
     protected function filterEntryFilename(string $filename): bool
     {
-        $extension = strval(pathinfo($filename, PATHINFO_EXTENSION));
-        if (0 !== strcasecmp('xml', $extension)) {
-            return false;
+        if (boolval(preg_match('/^[\w\-]{36}\.xml$/i', $filename))) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     protected function filterContents(string &$contents): bool

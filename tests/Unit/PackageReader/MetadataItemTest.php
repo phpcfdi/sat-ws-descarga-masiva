@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\PackageReader;
 
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataItem;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class MetadataItemTest extends TestCase
@@ -26,5 +27,16 @@ class MetadataItemTest extends TestCase
         $this->assertSame('one data', $metadata->get('oneData'));
         $this->assertSame('one data', $metadata->{'oneData'});
         $this->assertSame($data, $metadata->all());
+    }
+
+    public function testReaderCfdiInZip(): void
+    {
+        $expectedContent = $this->fileContents('zip/metadata.txt');
+
+        $zipFilename = $this->filePath('zip/metadata.zip');
+        $cfdiPackageReader = new MetadataPackageReader($zipFilename);
+
+        $extracted = $cfdiPackageReader->fileContents()->current();
+        $this->assertEquals($expectedContent, $extracted);
     }
 }
