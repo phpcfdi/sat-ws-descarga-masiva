@@ -6,6 +6,10 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Cesar Aguilera",
+            "email": "cesargnu29@gmail.com"
+        },
+        {
             "name": "Carlos C Soto",
             "email": "eclipxe13@gmail.com",
             "homepage": "https://github.com/phpcfdi/sat-ws-descarga-masiva"
