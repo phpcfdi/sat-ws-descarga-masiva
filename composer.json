@@ -16,6 +16,7 @@
         "ext-openssl": "*",
         "ext-dom": "*",
         "ext-json": "*",
+        "ext-zip": "*",
         "eclipxe/cfdiutils": "^2.10",
         "eclipxe/enum": "^0.2.0"
     },
