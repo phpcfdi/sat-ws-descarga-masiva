@@ -12,12 +12,16 @@ class DownloadResult
     private $status;
 
     /** @var string */
-    private $package;
+    private $packageContent;
 
-    public function __construct(StatusCode $statusCode, string $package)
+    /** @var int */
+    private $packageLength;
+
+    public function __construct(StatusCode $statusCode, string $packageContent)
     {
         $this->status = $statusCode;
-        $this->package = $package;
+        $this->packageContent = $packageContent;
+        $this->packageLength = strlen($this->packageContent);
     }
 
     public function getStatus(): StatusCode
@@ -25,13 +29,13 @@ class DownloadResult
         return $this->status;
     }
 
-    public function getPackage(): string
+    public function getPackageContent(): string
     {
-        return $this->package;
+        return $this->packageContent;
     }
 
-    public function getPackageDecoded(): string
+    public function getPackageLenght(): int
     {
-        return base64_decode($this->package, true) ?: '';
+        return $this->packageLength;
     }
 }

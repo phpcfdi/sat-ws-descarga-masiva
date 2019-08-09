@@ -18,7 +18,7 @@ class DownloadTranslator
         $values = $this->findAttributes($env, 'header', 'respuesta');
         $status = new StatusCode(intval($values['codestatus'] ?? 0), strval($values['mensaje'] ?? ''));
         $package = $this->findContent($env, 'body', 'RespuestaDescargaMasivaTercerosSalida', 'Paquete');
-        return new DownloadResult($status, $package);
+        return new DownloadResult($status, base64_decode($package, true) ?: '');
     }
 
     public function createSoapRequest(Fiel $fiel, string $packageId): string

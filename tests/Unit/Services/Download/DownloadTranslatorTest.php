@@ -17,14 +17,13 @@ class DownloadTranslatorTest extends TestCase
     {
         $expectedStatusCode = 5000;
         $expectedMessage = 'Solicitud Aceptada';
-        $expectedPackageStartsWith = 'UEsDBBQAAAAIAAWsm0wmm';
 
         $translator = new DownloadTranslator();
         $responseBody = $translator->nospaces($this->fileContents('download/response-with-package.xml'));
         $result = $translator->createDownloadResultFromSoapResponse($responseBody);
         $status = $result->getStatus();
 
-        $this->assertStringStartsWith($expectedPackageStartsWith, $result->getPackage());
+        $this->assertNotEmpty($result->getPackageContent());
         $this->assertEquals($expectedStatusCode, $status->getCode());
         $this->assertEquals($expectedMessage, $status->getMessage());
         $this->assertTrue($status->isAccepted());

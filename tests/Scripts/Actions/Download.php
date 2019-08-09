@@ -33,9 +33,9 @@ class Download extends AbstractAction
 
         if ('' !== $destination) {
             /** @noinspection PhpUsageOfSilenceOperatorInspection */
-            $write = @file_put_contents($destination, $result->getPackageDecoded());
+            $write = @file_put_contents($destination, $result->getPackageContent());
         } else {
-            $write = strlen($result->getPackageDecoded());
+            $write = $result->getPackageLenght();
         }
 
         $status = $result->getStatus();
