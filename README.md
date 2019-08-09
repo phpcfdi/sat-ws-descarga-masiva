@@ -1,6 +1,7 @@
 # phpcfdi/sat-ws-descarga-masiva
 
 [![Source Code][badge-source]][source]
+[![Discord][badge-discord]][discord]
 [![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
@@ -13,6 +14,7 @@
 :us: The documentation of this project is in spanish as this is the natural language for intented audience.
 
 :mexico: La documentación del proyecto está en español porque ese es el lenguaje principal de los usuarios.
+También te esperamos en el [canal #phpcfdi de discord](https://discord.gg/aFGYXvX)
 
 Esta librería contiene un cliente (consumidor) del servicio del SAT de
 **Servicio Web de Descarga Masiva de CFDI y Retenciones**.
@@ -173,6 +175,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [todo]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/docs/TODO.md
 
 [source]: https://github.com/phpcfdi/sat-ws-descarga-masiva
+[discord]: https://discord.gg/aFGYXvX
 [release]: https://github.com/phpcfdi/sat-ws-descarga-masiva/releases
 [license]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/LICENSE
 [build]: https://travis-ci.org/phpcfdi/sat-ws-descarga-masiva?branch=master
@@ -180,7 +183,8 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/sat-ws-descarga-masiva
 
-[badge-source]: http://img.shields.io/badge/source-phpcfdi/sat-ws-descarga-masiva-blue.svg?style=flat-square
+[badge-source]: http://img.shields.io/badge/source-phpcfdi/sat--ws--descarga--masiva-blue.svg?style=flat-square
+[badge-discord]: https://img.shields.io/discord/459860554090283019.svg?logo=discord&style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/sat-ws-descarga-masiva.svg?style=flat-square
 [badge-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/sat-ws-descarga-masiva/master.svg?style=flat-square
