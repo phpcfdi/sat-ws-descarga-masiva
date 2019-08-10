@@ -67,7 +67,7 @@ class Query extends AbstractAction
         ]);
     }
 
-    public function help(): void
+    public function runHelp(): void
     {
         $this->stdout('Perform a request, uses the following parameters:');
         $this->stdout(...$this->createArguments()->toArray());

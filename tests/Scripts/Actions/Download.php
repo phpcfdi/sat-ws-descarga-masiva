@@ -48,7 +48,7 @@ class Download extends AbstractAction
         ]);
     }
 
-    public function help(): void
+    public function runHelp(): void
     {
         $this->stdout('Download a package id, the result contains codes information and zero or one package stream');
         $this->stdout(...$this->createArguments()->toArray());

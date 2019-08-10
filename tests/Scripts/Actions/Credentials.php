@@ -34,7 +34,7 @@ class Credentials extends AbstractAction
         }
     }
 
-    public function help(): void
+    public function runHelp(): void
     {
         $this->stdout('return information about current credentials');
     }

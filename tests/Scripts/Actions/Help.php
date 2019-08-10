@@ -22,7 +22,7 @@ class Help extends AbstractAction
         ]);
     }
 
-    public function help(): void
+    public function runHelp(): void
     {
         $this->run();
     }
