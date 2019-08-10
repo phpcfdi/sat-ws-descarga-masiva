@@ -107,7 +107,7 @@ abstract class AbstractPackageReader implements Countable
 
             $contents = $this->zip->getFromName($filename);
             if (false === $contents || ! $this->filterContents($contents)) {
-                $contents = '';
+                unset($contents); // release memory as it was filtered
                 continue; // did not pass the filename filter
             }
 
