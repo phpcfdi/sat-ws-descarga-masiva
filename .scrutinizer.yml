@@ -9,6 +9,8 @@ build:
       environment:
         php:
           version: "7.3"
+          pecl_extensions:
+            - "zip"
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
