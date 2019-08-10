@@ -1,15 +1,18 @@
 filter:
-    excluded_paths:
-        - 'tests/*'
-        - 'vendor/*'
+  excluded_paths:
+    - 'tests/'
+    - 'vendor/'
 
-checks:
-    php:
-        code_rating: true
-        duplication: true
-
-tools:
-    php_code_sniffer:
-        config:
-            standard: "PSR2"
-    external_code_coverage: true
+build:
+  nodes:
+    php73:
+      environment:
+        php:
+          version: "7.3"
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+          - command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+            coverage:
+              file: coverage.clover
+              format: clover
