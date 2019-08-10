@@ -55,8 +55,9 @@
         ],
         "dev:test": [
             "vendor/bin/phplint",
+            "@dev:check-style",
             "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "vendor/bin/phpstan analyse --verbose --level max src/ tests/"
+            "vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/"
         ],
         "dev:coverage": [
             "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"

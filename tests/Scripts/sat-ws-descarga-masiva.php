@@ -37,7 +37,7 @@ exit(call_user_func(
             /** @var CLI\ActionInterface $actionObject */
             $actionObject = new $actionClass($fielData, $printer, $outputDirectory);
             if ($askForHelp) {
-                $actionObject->help();
+                $actionObject->runHelp();
             } else {
                 $actionObject->run(...$unmatched);
             }

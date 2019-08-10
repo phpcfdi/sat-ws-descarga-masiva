@@ -1,21 +1,29 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
-- Crear documentación de la librería y README, CI, etc.
-
-- Crear un objeto para los valores del servicio de verificación de CodigoEstadoSolicitud
- 
-- Crear un objeto para los valores del servicio de verificación de EstadoSolicitud 
-
-- Crear lector de archivos ZIP de Metadata
-
-- Crear lector de archivos ZIP de CFDI
-
 - Mover la dependencia del certificado a phpcfdi/sat-credentials una vez que exista el proyecto
 
+- Mover el script de consumo con credenciales válidas a su propio proyecto dependiente de este.
+
 - Llevar el code coverage a 100% con test unitarios
-    2019-08-08: Current 84.04% 
+    2019-08-09: Current 86% 
+    2019-08-08: Current 84% 
 
 ## Tareas resueltas
+
+- Crear documentación de la librería y README, CI, etc.
+    2019-09-09: Hecho!
+
+- Crear un objeto para los valores del servicio de verificación de CodigoEstadoSolicitud
+    2019-09-09: Hecho!
+ 
+- Crear un objeto para los valores del servicio de verificación de EstadoSolicitud 
+    2019-09-09: Hecho!
+
+- Crear lector de archivos ZIP de Metadata
+    2019-09-09: Hecho!
+
+- Crear lector de archivos ZIP de CFDI
+    2019-09-09: Hecho!
 
 - Mejorar los objetos Result para que puedan compartir la misma lógica donde la comparten
     2019-08-08: Se creó el StatusCode para exponer el código y mensaje en los servicios comúnes

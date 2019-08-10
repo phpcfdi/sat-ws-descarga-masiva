@@ -8,5 +8,5 @@ interface ActionInterface
 {
     public function run(string ...$parameters): void;
 
-    public function help(): void;
+    public function runHelp(): void;
 }

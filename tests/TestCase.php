@@ -16,7 +16,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     public static function fileContents(string $filename): string
     {
-        return file_get_contents(static::filePath($filename)) ?: '';
+        /** @noinspection PhpUsageOfSilenceOperatorInspection */
+        return strval(@file_get_contents(static::filePath($filename))) ?: '';
     }
 
     public function createFielUsingTestingFiles(string $password = null): Fiel

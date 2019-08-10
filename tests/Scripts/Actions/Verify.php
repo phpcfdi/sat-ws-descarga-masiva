@@ -41,7 +41,7 @@ class Verify extends AbstractAction
         ]);
     }
 
-    public function help(): void
+    public function runHelp(): void
     {
         $this->stdout('Verify a request id, the result contains codes information and zero, one or more package id');
         $this->stdout(...$this->createArguments()->toArray());
