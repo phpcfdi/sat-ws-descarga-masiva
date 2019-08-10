@@ -94,14 +94,14 @@ Tu *debes* crear tu implementación para poderla utilizar, si así lo prefieres,
 [`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/tests/WebClient/GuzzleWebClient.php)
 
 En este momento no se provee esta implementación por defecto, es posible que en un futuro se incluya por default
-una clase que utilice [PSR-18 - HTTP Client](https://www.php-fig.org/psr/psr-18/). 
+una clase que utilice [PSR-18 - HTTP Client](https://www.php-fig.org/psr/psr-18/).
 
 
 ### Recomendación de fábrica del servicio
 
 Te recomendamos configurar el framework de tu aplicación (Dependency Injection Container) o crear una clase que
 fabrique los objetos `Service`, `Fiel` y `WebClient` usando tus propias configuraciones de certificado, llave privada
-y contraseña. 
+y contraseña.
 
 
 ## Acerca del Servicio Web de Descarga Masiva de CFDI y Retenciones
@@ -146,7 +146,7 @@ que eres tu y te extienda un nuevo permiso.
 
 Notas importantes del web service:
 - Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
-- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de una ocasión un XML. 
+- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de una ocasión un XML.
 
 
 ## Compatilibilidad
@@ -166,7 +166,7 @@ y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
 
 ## Copyright and License
 
-The phpcfdi/xml-cancelacion library is copyright © [PhpCfdi](https://github.com/phpcfdi)
+The phpcfdi/sat-ws-descarga-masiva library is copyright © [PhpCfdi](https://github.com/phpcfdi)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 
