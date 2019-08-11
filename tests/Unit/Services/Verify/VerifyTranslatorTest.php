@@ -32,7 +32,7 @@ class VerifyTranslatorTest extends TestCase
         $this->assertEquals($expectedStatusRequest, $statusRequest->getValue());
         $this->assertTrue($statusRequest->isRejected());
         $this->assertEquals($expectedCodeRequest, $codeRequest->getValue());
-        $this->assertTrue($codeRequest->isNotFound());
+        $this->assertTrue($codeRequest->isEmptyResult());
         $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
         $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
     }

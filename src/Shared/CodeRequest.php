@@ -8,7 +8,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
  * @method bool isAccepted()
  * @method bool isExhausted()
  * @method bool isMaximumLimitReaded()
- * @method bool isNotFound()
+ * @method bool isEmptyResult()
  * @method bool isDuplicated()
  */
 final class CodeRequest extends OpenEnum
@@ -27,8 +27,8 @@ final class CodeRequest extends OpenEnum
             'message' => 'Tope máximo: Indica que se está superando el tope máximo de CFDI o Metadata',
         ],
         5004 => [
-            'name' => 'NotFound',
-            'message' => 'No se encontró la solicitud',
+            'name' => 'EmptyResult',
+            'message' => 'No se encontró la información: Indica que no generó paquetes por falta de información.',
         ],
         5005 => [
             'name' => 'Duplicated',
