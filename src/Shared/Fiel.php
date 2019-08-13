@@ -16,7 +16,7 @@ class Fiel
         $this->credential = $credential;
     }
 
-    public function create(string $certificate, string $privateKey, string $passPhrase): self
+    public static function create(string $certificate, string $privateKey, string $passPhrase): self
     {
         $credential = Credential::create($certificate, $privateKey, $passPhrase);
         return new self($credential);
