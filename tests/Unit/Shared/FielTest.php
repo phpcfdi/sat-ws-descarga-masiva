@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Shared;
 
+use Exception;
 use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class FielTest extends TestCase
 {
-    public function testFielWithIncorrectPassword(): void
+    public function testFielWithIncorrectPasswordCreateAnException(): void
     {
-        $fiel = $this->createFielUsingTestingFiles('invalid password');
-        $this->assertFalse($fiel->isValid());
+        $this->expectException(Exception::class);
+        $this->createFielUsingTestingFiles('invalid password');
     }
 
     public function testFielWithCorrectPassword(): void

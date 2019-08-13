@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers;
 
+use PhpCfdi\Credentials\Credential;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use RuntimeException;
 
@@ -43,9 +44,11 @@ class FielData
     public function createFiel(): Fiel
     {
         return new Fiel(
-            $this->readContents($this->getPrivateKeyFile()),
-            $this->readContents($this->getCertificateFile()),
-            $this->getPassPhrase()
+            Credential::openFiles(
+                $this->getCertificateFile(),
+                $this->getPrivateKeyFile(),
+                $this->getPassPhrase()
+            )
         );
     }
 

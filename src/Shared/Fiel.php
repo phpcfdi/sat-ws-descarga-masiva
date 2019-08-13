@@ -4,78 +4,57 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
-use CfdiUtils\OpenSSL\OpenSSL;
-use CfdiUtils\PemPrivateKey\PemPrivateKey;
+use PhpCfdi\Credentials\Credential;
 
 class Fiel
 {
-    /** @var PemPrivateKey */
-    private $privateKey;
+    /** @var Credential */
+    private $credential;
 
-    /** @var Certificado*/
-    private $certificate;
-
-    /** @var string */
-    private $passPhrase;
-
-    public function __construct(string $pemPrivateKey, string $pemCertificate, string $passPhrase)
+    public function __construct(Credential $credential)
     {
-        $openSsl = new OpenSSL();
-        $this->privateKey = new PemPrivateKey($pemPrivateKey, $openSsl);
-        $this->certificate = new Certificado($pemCertificate, $openSsl);
-        $this->passPhrase = $passPhrase;
+        $this->credential = $credential;
+    }
+
+    public function create(string $certificate, string $privateKey, string $passPhrase): self
+    {
+        $credential = Credential::create($certificate, $privateKey, $passPhrase);
+        return new self($credential);
     }
 
     public function sign(string $toSign, int $algorithm = OPENSSL_ALGO_SHA1): string
     {
-        $this->privateKey->open($this->passPhrase);
-        try {
-            return $this->privateKey->sign($toSign, $algorithm);
-        } finally {
-            $this->privateKey->close();
-        }
+        return $this->credential->sign($toSign, $algorithm);
     }
 
     public function isValid(): bool
     {
-        if (! $this->privateKey->open($this->passPhrase)) {
+        if (! $this->credential->certificate()->satType()->isFiel()) {
             return false;
         }
-        try {
-            return $this->privateKey->belongsTo($this->getCertificatePemContents());
-        } finally {
-            $this->privateKey->close();
+        if (! $this->credential->certificate()->validOn()) {
+            return false;
         }
+        return true;
     }
 
     public function getCertificatePemContents(): string
     {
-        return $this->certificate->getPemContents();
+        return $this->credential->certificate()->pem();
     }
 
     public function getRfc(): string
     {
-        return $this->certificate->getRfc();
+        return $this->credential->rfc();
     }
 
     public function getCertificateSerial(): string
     {
-        return $this->certificate->getSerialObject()->asDecimal();
+        return $this->credential->certificate()->serialNumber()->decimal();
     }
 
     public function getCertificateIssuerName(): string
     {
-        $data = openssl_x509_parse($this->certificate->getPemContents()) ?: [];
-        $issuerData = $data['issuer'] ?? [];
-        if (! is_array($issuerData)) {
-            $issuerData = [];
-        }
-        return implode(',', array_map(
-            function ($key, $value): string {
-                return $key . '=' . $value;
-            },
-            array_keys($issuerData),
-            $issuerData
-        ));
+        return $this->credential->certificate()->issuerAsRfc4514();
     }
 }
