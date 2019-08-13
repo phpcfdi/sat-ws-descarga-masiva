@@ -44,7 +44,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
 // Creación de la fiel
-$fiel = new Fiel(
+$fiel = Fiel::create(
     file_get_contents('llaveprivada.key.pem'), // en formato PEM
     file_get_contents('certificado.cer'),      // en formato PEM o DER
     '12345678a'
