@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Shared;
 
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class FielTest extends TestCase
@@ -23,11 +23,11 @@ class FielTest extends TestCase
 
     public function testFielUnprotected(): void
     {
-        $fiel = new Fiel(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
+        $fiel = (new FielData(
+            $this->filePath('fake-fiel/aaa010101aaa_FIEL.cer'),
+            $this->filePath('fake-fiel/aaa010101aaa_FIEL.key.pem'),
             ''
-        );
+        ))->createFiel();
         $this->assertTrue($fiel->isValid());
     }
 }

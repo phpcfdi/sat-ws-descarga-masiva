@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 
 use DOMDocument;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -22,12 +23,12 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     public function createFielUsingTestingFiles(string $password = null): Fiel
     {
-        $fiel = new Fiel(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL_password.key.pem'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
+        $fielData = new FielData(
+            $this->filePath('fake-fiel/aaa010101aaa_FIEL.cer'),
+            $this->filePath('fake-fiel/aaa010101aaa_FIEL_password.key.pem'),
             $password ?? trim($this->fileContents('fake-fiel/password.txt'))
         );
-        return $fiel;
+        return $fielData->createFiel();
     }
 
     public static function xmlFormat(string $content): string
