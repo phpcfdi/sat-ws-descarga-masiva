@@ -21,7 +21,7 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-zip": "*",
-        "phpcfdi/credentials": "dev-master",
+        "phpcfdi/credentials": "^1.0",
         "eclipxe/enum": "^0.2.0"
     },
     "require-dev": {
