@@ -11,6 +11,24 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
 
+## Version 0.2.0 2019-08-13
+
+Breaking changes:
+
+- `CodeRequest::isNotFound` is replaced by `CodeRequest::isEmptyResult`
+- `Fiel` has been rewritten with other dependences.
+  To create a Fiel object use any of this:
+    - `FielData::createFiel()`
+    - `Fiel::create($certificateContents, $privateKeyContents, $passPhrase)`
+- XML SEC Signature now follow RFC 4514 on `X509IssuerName` node.
+- Removed dependence to `eclipxe/cfdiutils`, it depends now on `phpcfdi/credentials`.
+
+Other changes:
+
+- Fix & improve composer/phpunit/travis/scrutinizer calls.
+- Fix documentation typos.
+
+
 ## Version 0.1.0 2019-08-09
 
 - Initial working release
