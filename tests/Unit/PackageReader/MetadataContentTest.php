@@ -25,6 +25,33 @@ class MetadataContentTest extends TestCase
         $this->assertSame($expected, $extracted);
     }
 
+    public function testReadMetadataWithBlankLines(): void
+    {
+        $contents = implode(PHP_EOL, [
+            '', // leading blank line
+            'id~text',
+            '', // before data blank line
+            '1~one',
+            '2~two',
+            '', // inner data blank line
+            '3~three',
+            '', // trailing blank lines
+            '',
+        ]);
+        $reader = MetadataContent::createFromContents($contents);
+        $extracted = [];
+        foreach ($reader->eachItem() as $item) {
+            $extracted[] = $item->all();
+        }
+
+        $expected = [
+            ['id' => '1', 'text' => 'one'],
+            ['id' => '2', 'text' => 'two'],
+            ['id' => '3', 'text' => 'three'],
+        ];
+        $this->assertSame($expected, $extracted);
+    }
+
     public function testCreateMetadataWithLessValuesThanHeaders(): void
     {
         $headers = ['foo', 'bar'];

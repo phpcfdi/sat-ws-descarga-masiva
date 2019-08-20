@@ -52,12 +52,12 @@ class MetadataContent
         $onFirstLine = true;
         // process content lines
         foreach ($this->iterator as $data) {
+            if (! is_array($data) || 0 === count($data) | [null] === $data) {
+                continue;
+            }
             if ($onFirstLine) {
                 $onFirstLine = false;
                 $headers = array_map('lcfirst', $data);
-                continue;
-            }
-            if (! is_array($data)) {
                 continue;
             }
 
