@@ -11,6 +11,14 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
 
+## Version 0.2.1 2019-08-20
+
+- Make `PackageReader\MetadataContent` tolerant to non-strict CSV contents:
+    - Ignore lead/inner/trail blank lines
+    - Include as `#extra-01` any extra value (not listed in headers)
+    - Prefill with empty strings if values are less than headers
+
+
 ## Version 0.2.0 2019-08-13
 
 Breaking changes:
