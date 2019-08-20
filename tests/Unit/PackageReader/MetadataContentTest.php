@@ -24,4 +24,51 @@ class MetadataContentTest extends TestCase
         ];
         $this->assertSame($expected, $extracted);
     }
+
+    public function testReadMetadataWithBlankLines(): void
+    {
+        $contents = implode(PHP_EOL, [
+            '', // leading blank line
+            'id~text',
+            '', // before data blank line
+            '1~one',
+            '2~two',
+            '', // inner data blank line
+            '3~three',
+            '', // trailing blank lines
+            '',
+        ]);
+        $reader = MetadataContent::createFromContents($contents);
+        $extracted = [];
+        foreach ($reader->eachItem() as $item) {
+            $extracted[] = $item->all();
+        }
+
+        $expected = [
+            ['id' => '1', 'text' => 'one'],
+            ['id' => '2', 'text' => 'two'],
+            ['id' => '3', 'text' => 'three'],
+        ];
+        $this->assertSame($expected, $extracted);
+    }
+
+    public function testCreateMetadataWithLessValuesThanHeaders(): void
+    {
+        $headers = ['foo', 'bar'];
+        $values = ['x-foo'];
+        $expected = ['foo' => 'x-foo', 'bar' => ''];
+        $reader = MetadataContent::createFromContents('');
+        $metadata = $reader->createMetadataItem($headers, $values);
+        $this->assertSame($expected, $metadata->all());
+    }
+
+    public function testCreateMetadataWithMoreValuesThanHeaders(): void
+    {
+        $headers = ['xee', 'foo'];
+        $values = ['x-xee', 'x-foo', 'x-bar'];
+        $expected = ['xee' => 'x-xee', 'foo' => 'x-foo', '#extra-01' => 'x-bar'];
+        $reader = MetadataContent::createFromContents('');
+        $metadata = $reader->createMetadataItem($headers, $values);
+        $this->assertSame($expected, $metadata->all());
+    }
 }
