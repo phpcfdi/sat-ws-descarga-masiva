@@ -67,6 +67,16 @@ class MetadataContent
 
     public function createMetadataItem(array $headers, array $values): MetadataItem
     {
+        $countValues = count($values);
+        $countHeaders = count($headers);
+        if ($countHeaders > $countValues) {
+            $values = array_merge($values, array_fill($countValues, $countHeaders - $countValues, ''));
+        }
+        if ($countValues > $countHeaders) {
+            for ($i = 1; $i <= $countValues - $countHeaders; $i++) {
+                $headers[] = sprintf('#extra-%02d', $i);
+            }
+        }
         return new MetadataItem(array_combine($headers, $values) ?: []);
     }
 }

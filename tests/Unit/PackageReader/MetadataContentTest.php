@@ -24,4 +24,24 @@ class MetadataContentTest extends TestCase
         ];
         $this->assertSame($expected, $extracted);
     }
+
+    public function testCreateMetadataWithLessValuesThanHeaders(): void
+    {
+        $headers = ['foo', 'bar'];
+        $values = ['x-foo'];
+        $expected = ['foo' => 'x-foo', 'bar' => ''];
+        $reader = MetadataContent::createFromContents('');
+        $metadata = $reader->createMetadataItem($headers, $values);
+        $this->assertSame($expected, $metadata->all());
+    }
+
+    public function testCreateMetadataWithMoreValuesThanHeaders(): void
+    {
+        $headers = ['xee', 'foo'];
+        $values = ['x-xee', 'x-foo', 'x-bar'];
+        $expected = ['xee' => 'x-xee', 'foo' => 'x-foo', '#extra-01' => 'x-bar'];
+        $reader = MetadataContent::createFromContents('');
+        $metadata = $reader->createMetadataItem($headers, $values);
+        $this->assertSame($expected, $metadata->all());
+    }
 }
