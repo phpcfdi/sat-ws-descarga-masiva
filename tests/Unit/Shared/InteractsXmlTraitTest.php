@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Shared;
 
+use DOMDocument;
+use InvalidArgumentException;
+use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class InteractsXmlTraitTest extends TestCase
@@ -41,6 +44,30 @@ EOT;
             $specimen->findElements($root, ...$search)[0],
             $specimen->findElement($root, ...$search)
         );
+    }
+
+    public function testReadXmlDocumentWithoutContentThrowsException(): void
+    {
+        $specimen = new InteractsXmlTraitSpecimen();
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Cannot load an xml with empty content');
+        $specimen->readXmlDocument('');
+    }
+
+    public function testReadXmlElementWithoutDocumentRootElementThrowsException(): void
+    {
+        $specimen = new class() {
+            use InteractsXmlTrait;
+
+            public function readXmlDocument(string $source): DOMDocument
+            {
+                unset($source);
+                return new DOMDocument();
+            }
+        };
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Cannot load an xml without document element');
+        $specimen->readXmlElement('');
     }
 
     public function testFindElementExpectingNone(): void
