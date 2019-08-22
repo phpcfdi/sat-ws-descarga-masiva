@@ -23,6 +23,7 @@ class DownloadTranslatorTest extends TestCase
         $result = $translator->createDownloadResultFromSoapResponse($responseBody);
         $status = $result->getStatus();
 
+        $this->assertGreaterThan(0, $result->getPackageLenght());
         $this->assertNotEmpty($result->getPackageContent());
         $this->assertEquals($expectedStatusCode, $status->getCode());
         $this->assertEquals($expectedMessage, $status->getMessage());
