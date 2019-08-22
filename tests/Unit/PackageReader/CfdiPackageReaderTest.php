@@ -6,13 +6,14 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\PackageReader;
 
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\CfdiPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
+use RuntimeException;
 
 class CfdiPackageReaderTest extends TestCase
 {
     public function testReaderZipWhenTheContentIsInvalid(): void
     {
         $zipContents = 'INVALID_ZIP_CONTENT';
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Could not open zip');
         CfdiPackageReader::createFromContents($zipContents);
     }
