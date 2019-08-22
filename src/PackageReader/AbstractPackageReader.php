@@ -92,13 +92,16 @@ abstract class AbstractPackageReader implements Countable
     }
 
     /**
-     * @return Generator|string[]
+     * Generates the list of name => contents and yield only entries that pass name and content filters
+     *
+     * @return Generator|string[] pair of file name and contents
      */
     public function fileContents()
     {
         for ($i = 0; $i < $this->zip->numFiles; $i++) {
             $filename = strval($this->zip->getNameIndex($i));
             if ('' === $filename) {
+                /** @codeCoverageIgnore */
                 continue; // cannot get the file name
             }
             if (! $this->filterEntryFilename($filename)) {
