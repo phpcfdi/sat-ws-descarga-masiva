@@ -11,6 +11,12 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
 
+## Version 0.2.2 2019-08-20
+
+- Make sure that when constructing a `DateTime` it fails with an exception.
+- Improve code coverage.
+ 
+
 ## Version 0.2.1 2019-08-20
 
 - Make `PackageReader\MetadataContent` tolerant to non-strict CSV contents:

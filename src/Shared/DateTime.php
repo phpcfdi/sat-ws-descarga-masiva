@@ -7,6 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 use DateTimeImmutable;
 use DateTimeZone;
 use InvalidArgumentException;
+use Throwable;
 
 class DateTime
 {
@@ -15,11 +16,17 @@ class DateTime
 
     public function __construct($value = null)
     {
+        $value = $value ?? 'now';
         if (is_int($value)) {
-            $value = '@' . $value;
+            $value = sprintf('@%d', $value);
         }
-        if (null === $value || is_string($value)) {
-            $value = new DateTimeImmutable($value ?? 'now');
+        if (is_string($value)) {
+            try {
+                $value = new DateTimeImmutable($value ?? 'now');
+            } catch (Throwable $exception) {
+                $message = sprintf('Unable to create a Datetime("%s")', strval($value));
+                throw new InvalidArgumentException($message, 0, $exception);
+            }
         }
         if (! $value instanceof DateTimeImmutable) {
             throw new InvalidArgumentException('Unable to create a Datetime');

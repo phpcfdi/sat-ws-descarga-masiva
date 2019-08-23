@@ -36,6 +36,6 @@
     </cfdi:Traslados>
   </cfdi:Impuestos>
   <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" SelloCFD="SELLOCFD" NoCertificadoSAT="00001000000405332712" RfcProvCertif="FIN1203015JA" UUID="11111111-2222-3333-4444-000000000001" FechaTimbrado="2019-07-24T11:58:36" SelloSAT="SelloSAT"/>
   </cfdi:Complemento>
-  <cfdi:Addenda/>
 </cfdi:Comprobante>
