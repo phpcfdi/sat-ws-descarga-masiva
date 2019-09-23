@@ -11,6 +11,14 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
 
+## Version 0.2.3 2019-09-23
+
+- Improve usage of `ResponseInterface->getBody(): StreamInterface` using `__toString()` to retrieve contents at once.
+- Include `docs/` in package, exclude development file `.phplint.yml`.
+- Add PHP 7.4snapshot (allow fail) to Travis CI build matrix.
+- Other minor documentation typos
+ 
+
 ## Version 0.2.2 2019-08-20
 
 - Make sure that when constructing a `DateTime` it fails with an exception.
