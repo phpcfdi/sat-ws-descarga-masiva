@@ -1,12 +1,11 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
-- Mover la dependencia del certificado a phpcfdi/sat-credentials una vez que exista el proyecto
-
 - Mover el script de consumo con credenciales válidas a su propio proyecto dependiente de este.
 
 - Llevar el code coverage a 100% con test unitarios
-    2019-08-09: Current 86% 
-    2019-08-08: Current 84% 
+    2019-08-23: Current 93%
+    2019-08-09: Current 86%
+    2019-08-08: Current 84%
 
 ## Tareas resueltas
 
@@ -51,3 +50,7 @@
 - Verificar que los atributos en QueryTranslator SolicitaDescarga/solicitud son importantes,
   En caso de ser posible, poner los atributos en orden alfabético.
   2019-08-08: Se agregó la verificación de XmlSecLib para garantizar que está firmado correctamente
+
+- Mover la dependencia del certificado a `phpcfdi/sat-credentials` una vez que exista el proyecto
+  2019-08-13: Se agregó la dependencia a `phpcfdi/credentials` y el uso y explotación de certificados
+  y llaves privadas se recarga en esta otra librería.
