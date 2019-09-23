@@ -8,13 +8,18 @@ sudo: false
 php:
   - "7.2"
   - "7.3"
+  - "7.4snapshot"
+
+matrix:
+  allow_failures:
+    - php: "7.4snapshot"
 
 cache:
   - directories:
     - $HOME/.composer
 
 before_script:
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini || true
   - travis_retry composer install --no-interaction --prefer-dist
   - mkdir -p build
 
