@@ -11,10 +11,14 @@
         },
         {
             "name": "Carlos C Soto",
-            "email": "eclipxe13@gmail.com",
-            "homepage": "https://github.com/phpcfdi/sat-ws-descarga-masiva"
+            "email": "eclipxe13@gmail.com"
         }
     ],
+    "support": {
+        "source": "https://github.com/phpcfdi/sat-ws-descarga-masiva",
+        "issues": "https://github.com/phpcfdi/sat-ws-descarga-masiva/issues",
+        "chat": "https://discord.gg/aFGYXvX"
+    },
     "require": {
         "php": ">=7.2",
         "ext-openssl": "*",

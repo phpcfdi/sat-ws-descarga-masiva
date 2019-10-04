@@ -68,8 +68,7 @@ class GuzzleWebClient implements WebClientInterface
         if (null === $response) {
             return new Response(500, '', []);
         }
-        $response->getBody()->rewind();
-        $body = $response->getBody()->getContents();
+        $body = strval($response->getBody());
         $headers = [];
         foreach (array_keys($response->getHeaders()) as $header) {
             $headers[$header] = $response->getHeaderLine($header);
