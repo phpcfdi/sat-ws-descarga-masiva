@@ -27,4 +27,5 @@ script:
   - vendor/bin/phpstan.phar analyse --no-progress --verbose --level max src/ tests/
 
 notifications:
-  email: false
+  email:
+    if: branch = master
