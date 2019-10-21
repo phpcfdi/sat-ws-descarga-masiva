@@ -11,6 +11,14 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
 
+## **TO BE RELEASED**: Include this changes on next release, currently on `master` branch
+
+- Development environment (Travis CI):
+    - Fix code style issues.
+    - Add `PHP_CS_FIXER_FUTURE_MODE` and `PHP_CS_FIXER_IGNORE_ENV` to run `php-cs-fixer` on PHP 7.4.
+    - Remove deprecated config `sudo: false`.
+
+
 ## Version 0.2.3 2019-09-23
 
 - Improve usage of `ResponseInterface->getBody(): StreamInterface` using `__toString()` to retrieve contents at once.

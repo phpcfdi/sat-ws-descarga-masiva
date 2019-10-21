@@ -1,14 +1,15 @@
 language: php
 
-# This triggers builds to run on the new TravisCI infrastructure.
-# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
-sudo: false
-
 # php compatibility
 php:
   - "7.2"
   - "7.3"
   - "7.4snapshot"
+
+env:
+  global:
+    - PHP_CS_FIXER_FUTURE_MODE=1
+    - PHP_CS_FIXER_IGNORE_ENV=1
 
 matrix:
   allow_failures:
@@ -31,4 +32,5 @@ script:
   - vendor/bin/phpstan.phar analyse --no-progress --verbose --level max src/ tests/
 
 notifications:
-  email: false
+  email:
+    if: branch = master
