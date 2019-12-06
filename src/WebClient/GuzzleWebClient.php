@@ -10,8 +10,7 @@ use Closure;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
 use Psr\Http\Message\ResponseInterface;
 
 class GuzzleWebClient implements WebClientInterface
@@ -69,10 +68,7 @@ class GuzzleWebClient implements WebClientInterface
             $psr7Response = ($exception instanceof RequestException) ? $exception->getResponse() : null;
             $response = $this->createResponseFromPsr7Response($psr7Response);
             $message = sprintf('Error connecting to %s', $request->getUri());
-            if ($response->getStatusCode() >= 500) {
-                throw new HttpServerError($message, $request, $response, $exception);
-            }
-            throw new HttpClientError($message, $request, $response, $exception);
+            throw new WebClientException($message, $request, $response, $exception);
         }
         $response = $this->createResponseFromPsr7Response($psr7Response);
         return $response;
