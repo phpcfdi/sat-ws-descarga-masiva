@@ -16,7 +16,7 @@ class Help extends AbstractAction
             '  help: This command',
             '  credentials: Show credential information from environment',
             '    WSDM_CERTIFICATE path to certificate',
-            '    WSDM_PRIVATEKEY path to PEM private key',
+            '    WSDM_PRIVATEKEY path to private key',
             '    WSDM_PASSPHRASE pass phrase to open private key',
             '  request: Perform a request',
         ]);

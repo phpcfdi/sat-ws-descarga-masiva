@@ -9,7 +9,7 @@ It works with credentials (FIEL certificate, private key and pass phrase).
 To setup the credentials use the following parameters:
 
 - `-c|--certificate file.cer`: Certificate file.
-- `-k|--private-key file.key`: Private key file, in PEM format.
+- `-k|--private-key file.key`: Private key file.
 - `-p|--pass-phrase passphrase`: Pass phrase to open the private key.
 
 ## The output folder

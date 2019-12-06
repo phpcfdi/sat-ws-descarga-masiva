@@ -43,7 +43,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
-// Creación de la fiel
+// Creación de la fiel, puede leer archivos DER (como los envía el SAT) o PEM (convertidos)
 $fiel = Fiel::create(
     file_get_contents('llaveprivada.key.pem'), // en formato PEM
     file_get_contents('certificado.cer'),      // en formato PEM o DER
