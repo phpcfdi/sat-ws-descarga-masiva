@@ -96,7 +96,7 @@ foreach ($metadataReader->metadata() as $metadata) {
 
 Para hacer esta librería compatible con diferentes formas de comunicación se utiliza una interfaz de cliente HTTP.
 Tu *debes* crear tu implementación para poderla utilizar, si así lo prefieres, podrías usar la clase
-[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/tests/WebClient/GuzzleWebClient.php)
+[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/tests/WebClient/GuzzleWebClient.php).
 
 En este momento no se provee esta implementación por defecto, es posible que en un futuro se incluya por default
 una clase que utilice [PSR-18 - HTTP Client](https://www.php-fig.org/psr/psr-18/).
@@ -114,10 +114,10 @@ y contraseña.
 El servicio se compone de 4 partes:
 
 1. Autenticación: Esto se hace con tu fiel y la libería oculta la lógica de obtener y usar el Token.
-2. Solicitud: Presentar una solicitud incluyendo la fecha de inicio, fecha de fin, tipo de solicitud emitidas/recibidas
-y tipo de información solicitada (cfdi o metadata)
-3. Verificación: pregunta al SAT si ya tiene disponible la solicitud
-4. Descargar la solicitud.
+2. Solicitud: Presentar una solicitud incluyendo la fecha de inicio, fecha de fin, tipo de solicitud
+   emitidas/recibidas y tipo de información solicitada (cfdi o metadata).
+3. Verificación: pregunta al SAT si ya tiene disponible la solicitud.
+4. Descargar los paquetes emitidos por la solicitud.
 
 La mejor manera de entenderlo es la siguiente, imagina que el servicio del SAT se compone de tres ventanillas con tres
 personas diferentes atendiendo cada una de estas ventanillas.
