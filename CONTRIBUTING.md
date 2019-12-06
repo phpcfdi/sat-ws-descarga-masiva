@@ -74,7 +74,7 @@ If any of these do not pass, it will result in a complete build failure.
 Before you can run these, be sure to `composer install` or `composer update`.
 
 ```shell
-vendor/bin/parallel-lint src/ tests/
+vendor/bin/phplint
 vendor/bin/phpcs -sp src/ tests/
 vendor/bin/php-cs-fixer fix -v --dry-run
 vendor/bin/phpunit --coverage-text
