@@ -50,6 +50,11 @@ $fiel = Fiel::create(
     '12345678a'
 );
 
+// verificar que la fiel sea válida (no sea CSD y sea vigente acorde a la fecha del sistema)
+if (! $fiel->isValid()) {
+    return;
+}
+
 /** @var WebClientInterface $webClient */
 // Creación del servicio
 $service = new Service($fiel, $webClient);
