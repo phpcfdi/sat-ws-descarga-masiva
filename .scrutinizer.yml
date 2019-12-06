@@ -4,13 +4,14 @@ filter:
     - 'vendor/'
 
 build:
+  dependencies:
+    before:
+      - pecl install zip
+    override:
+      - composer self-update --no-interaction --no-progress
+      - composer install --no-interaction
   nodes:
-    php73:
-      environment:
-        php:
-          version: "7.3"
-          pecl_extensions:
-            - "zip"
+    php:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis

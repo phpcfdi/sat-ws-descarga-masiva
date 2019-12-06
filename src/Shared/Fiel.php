@@ -16,9 +16,17 @@ class Fiel
         $this->credential = $credential;
     }
 
-    public static function create(string $certificate, string $privateKey, string $passPhrase): self
+    /**
+     * Create a Fiel based on certificate and private key contents
+     *
+     * @param string $certificateContents Contents of X.509 formats PEM, DER or DER as base64
+     * @param string $privateKeyContents Contents of PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
+     * @param string $passPhrase Private key pass phrase
+     * @return static
+     */
+    public static function create(string $certificateContents, string $privateKeyContents, string $passPhrase): self
     {
-        $credential = Credential::create($certificate, $privateKey, $passPhrase);
+        $credential = Credential::create($certificateContents, $privateKeyContents, $passPhrase);
         return new self($credential);
     }
 

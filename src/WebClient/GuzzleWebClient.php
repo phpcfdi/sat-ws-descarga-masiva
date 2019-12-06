@@ -1,17 +1,16 @@
 <?php
 
+/** @noinspection PhpUndefinedClassInspection Guzzle has two definitions */
+
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests\WebClient;
+namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
 use Closure;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Response;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
 use Psr\Http\Message\ResponseInterface;
 
 class GuzzleWebClient implements WebClientInterface
@@ -25,11 +24,21 @@ class GuzzleWebClient implements WebClientInterface
     /** @var Closure|null */
     public $fireResponseClousure;
 
-    public function __construct(GuzzleClient $client = null, Closure $fireRequest = null, Closure $fireResponse = null)
-    {
+    /**
+     * GuzzleWebClient constructor.
+     *
+     * @param GuzzleClient|null $client If NULL will create an empty Guzzle Client object
+     * @param Closure|null $onFireRequest Called before make the http call
+     * @param Closure|null $onFireResponse Called after make the http call
+     */
+    public function __construct(
+        ?GuzzleClient $client = null,
+        ?Closure $onFireRequest = null,
+        ?Closure $onFireResponse = null
+    ) {
         $this->client = $client ?? new GuzzleClient();
-        $this->fireRequestClousure = $fireRequest;
-        $this->fireResponseClousure = $fireResponse;
+        $this->fireRequestClousure = $onFireRequest;
+        $this->fireResponseClousure = $onFireResponse;
     }
 
     public function fireRequest(Request $request): void
@@ -49,21 +58,23 @@ class GuzzleWebClient implements WebClientInterface
     public function call(Request $request): Response
     {
         try {
-            /** @var ResponseInterface $guzzleResponse */
-            $guzzleResponse = $this->client->request($request->getMethod(), $request->getUri(), [
+            /** @var ResponseInterface $psr7Response */
+            $psr7Response = $this->client->request($request->getMethod(), $request->getUri(), [
                 'headers' => $request->getHeaders(),
                 'body' => $request->getBody(),
             ]);
-        } catch (ClientException | RequestException $exception) {
-            $response = $this->createResponseFromGuzzleResponse($exception->getResponse());
+        } catch (GuzzleException $exception) {
+            /** @var ResponseInterface|null $psr7Response */
+            $psr7Response = ($exception instanceof RequestException) ? $exception->getResponse() : null;
+            $response = $this->createResponseFromPsr7Response($psr7Response);
             $message = sprintf('Error connecting to %s', $request->getUri());
-            throw new HttpServerError($message, $request, $response, $exception);
+            throw new WebClientException($message, $request, $response, $exception);
         }
-        $response = $this->createResponseFromGuzzleResponse($guzzleResponse);
+        $response = $this->createResponseFromPsr7Response($psr7Response);
         return $response;
     }
 
-    private function createResponseFromGuzzleResponse(? ResponseInterface $response): Response
+    private function createResponseFromPsr7Response(?ResponseInterface $response): Response
     {
         if (null === $response) {
             return new Response(500, '', []);

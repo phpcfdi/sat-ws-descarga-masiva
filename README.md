@@ -19,16 +19,15 @@ También te esperamos en el [canal #phpcfdi de discord](https://discord.gg/aFGYX
 Esta librería contiene un cliente (consumidor) del servicio del SAT de
 **Servicio Web de Descarga Masiva de CFDI y Retenciones**.
 
+## Instalación
 
-## Installation
+Utiliza [composer](https://getcomposer.org/), instala de la siguiente forma:
 
-Use [composer](https://getcomposer.org/), please run
 ```shell
 composer require phpcfdi/sat-ws-descarga-masiva
 ```
 
-
-## Basic usage
+## Ejemplo básico de uso
 
 ```php
 <?php
@@ -41,16 +40,24 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 
-// Creación de la fiel
+// Creación de la fiel, puede leer archivos DER (como los envía el SAT) o PEM (convertidos)
 $fiel = Fiel::create(
-    file_get_contents('llaveprivada.key.pem'), // en formato PEM
-    file_get_contents('certificado.cer'),      // en formato PEM o DER
+    file_get_contents('certificado.cer'),
+    file_get_contents('llaveprivada.key'),
     '12345678a'
 );
 
-/** @var WebClientInterface $webClient */
+// verificar que la fiel sea válida (no sea CSD y sea vigente acorde a la fecha del sistema)
+if (! $fiel->isValid()) {
+    return;
+}
+
+// creación del web client basado en Guzzle que implementa WebClientInterface
+// para usarlo necesitas instalar guzzlehttp/guzzle pues no es una dependencia directa
+$webClient = new GuzzleWebClient();
+
 // Creación del servicio
 $service = new Service($fiel, $webClient);
 
@@ -83,19 +90,15 @@ $metadataReader = new MetadataPackageReader($zipfile);
 foreach ($metadataReader->metadata() as $metadata) {
     echo $metadata->uuid, PHP_EOL;
 }
-
 ```
-
 
 ### Acerca de la interfaz `WebClientInterface`
 
 Para hacer esta librería compatible con diferentes formas de comunicación se utiliza una interfaz de cliente HTTP.
-Tu *debes* crear tu implementación para poderla utilizar, si así lo prefieres, podrías usar la clase
-[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/tests/WebClient/GuzzleWebClient.php)
-
-En este momento no se provee esta implementación por defecto, es posible que en un futuro se incluya por default
-una clase que utilice [PSR-18 - HTTP Client](https://www.php-fig.org/psr/psr-18/).
-
+Tu *puedes* crear tu implementación para poderla utilizar.
+ 
+Si lo prefieres -como en el ejemplo de uso- podrías instalar Guzzle `composer require guzzlehttp/guzzle` y usar la clase
+[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/src/WebClient/GuzzleWebClient.php).
 
 ### Recomendación de fábrica del servicio
 
@@ -103,16 +106,15 @@ Te recomendamos configurar el framework de tu aplicación (Dependency Injection 
 fabrique los objetos `Service`, `Fiel` y `WebClient` usando tus propias configuraciones de certificado, llave privada
 y contraseña.
 
-
 ## Acerca del Servicio Web de Descarga Masiva de CFDI y Retenciones
 
 El servicio se compone de 4 partes:
 
 1. Autenticación: Esto se hace con tu fiel y la libería oculta la lógica de obtener y usar el Token.
-2. Solicitud: Presentar una solicitud incluyendo la fecha de inicio, fecha de fin, tipo de solicitud emitidas/recibidas
-y tipo de información solicitada (cfdi o metadata)
-3. Verificación: pregunta al SAT si ya tiene disponible la solicitud
-4. Descargar la solicitud.
+2. Solicitud: Presentar una solicitud incluyendo la fecha de inicio, fecha de fin, tipo de solicitud
+   emitidas/recibidas y tipo de información solicitada (cfdi o metadata).
+3. Verificación: pregunta al SAT si ya tiene disponible la solicitud.
+4. Descargar los paquetes emitidos por la solicitud.
 
 La mejor manera de entenderlo es la siguiente, imagina que el servicio del SAT se compone de tres ventanillas con tres
 personas diferentes atendiendo cada una de estas ventanillas.
@@ -148,21 +150,18 @@ Notas importantes del web service:
 - Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
 - No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de una ocasión un XML.
 
-
 ## Compatilibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
-[soporte activo de PHP](http://php.net/supported-versions.php) más reciente.
+[soporte activo de PHP](https://www.php.net/supported-versions.php) más reciente.
 
 También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/)
 por lo que puedes usar esta librería sin temor a romper tu aplicación.
-
 
 ## Contribuciones
 
 Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
 y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
-
 
 ## Copyright and License
 
@@ -183,7 +182,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/sat-ws-descarga-masiva
 
-[badge-source]: http://img.shields.io/badge/source-phpcfdi/sat--ws--descarga--masiva-blue?style=flat-square
+[badge-source]: https://img.shields.io/badge/source-phpcfdi/sat--ws--descarga--masiva-blue?style=flat-square
 [badge-discord]: https://img.shields.io/discord/459860554090283019?logo=discord&style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/sat-ws-descarga-masiva?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/sat-ws-descarga-masiva?style=flat-square

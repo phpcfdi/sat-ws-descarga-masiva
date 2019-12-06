@@ -10,13 +10,27 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
+## Importante:
 
-## **TO BE RELEASED**: Include this changes on next release, currently on `master` branch
+- En Travis-CI pasar de `7.4snapshot` a `7.4` cuando se corrija el bug de construcción.
+  <https://travis-ci.community/t/some-extensions-are-missing-in-php-7-4-0-zip-gmp-sodium/6320/9>.
 
-- Development environment (Travis CI):
-    - Fix code style issues.
-    - Add `PHP_CS_FIXER_FUTURE_MODE` and `PHP_CS_FIXER_IGNORE_ENV` to run `php-cs-fixer` on PHP 7.4.
-    - Remove deprecated config `sudo: false`.
+## Version 0.2.4 2019-12-06
+
+- Se agrega la clase `PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient` que estaba en testing
+  a el código distribuible, aunque no se agrega la dependencia `guzzlehttp/guzzle`.
+- Se documenta el uso de `GuzzleWebClient`.
+- Forzar la dependencia de `phpcfdi/credentials` a `^1.1` para leer llaves privadas en formato DER.
+- Forzar la dependencia de `robrichards/xmlseclibs` a `^3.0.4` por reporte de seguridad `CVE-2019-3465`.
+- Agregar ejemplo en la documentación para crear y verificar un objeto `Fiel`.
+- Corrección en la documentación al crear una fiel, tenía los parámetros invertidos.
+- Integración continua (Travis CI):
+    - Se remueve la configuración `sudo: false`.
+    - No se permite el fallo del build en PHP `7.4snapshot`.
+- Integración continua (Scrutinizer):
+    - Se instala la extensión `zip` con `pecl`.
+    - Se elimina la información de la versión fija.
+    - Se modifica el archivo de configuración para que actualice `composer`.
 
 
 ## Version 0.2.3 2019-09-23

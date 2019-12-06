@@ -11,7 +11,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
-use PhpCfdi\SatWsDescargaMasiva\Tests\WebClient\GuzzleWebClient;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 
 class ConsumeServicesUsingFakeFielTest extends TestCase
 {

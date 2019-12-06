@@ -11,10 +11,6 @@ env:
     - PHP_CS_FIXER_FUTURE_MODE=1
     - PHP_CS_FIXER_IGNORE_ENV=1
 
-matrix:
-  allow_failures:
-    - php: "7.4snapshot"
-
 cache:
   - directories:
     - $HOME/.composer
@@ -22,10 +18,8 @@ cache:
 before_script:
   - phpenv config-rm xdebug.ini || true
   - travis_retry composer install --no-interaction --prefer-dist
-  - mkdir -p build
 
 script:
-  - vendor/bin/phplint
   - vendor/bin/php-cs-fixer fix --verbose --dry-run
   - vendor/bin/phpcs --colors -sp src/ tests/
   - vendor/bin/phpunit --testdox --verbose
