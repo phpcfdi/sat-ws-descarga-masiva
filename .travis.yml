@@ -4,16 +4,12 @@ language: php
 php:
   - "7.2"
   - "7.3"
-  - "7.4snapshot"
+  - "7.4"
 
 env:
   global:
     - PHP_CS_FIXER_FUTURE_MODE=1
     - PHP_CS_FIXER_IGNORE_ENV=1
-
-matrix:
-  allow_failures:
-    - php: "7.4snapshot"
 
 cache:
   - directories:
