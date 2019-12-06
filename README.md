@@ -19,14 +19,15 @@ También te esperamos en el [canal #phpcfdi de discord](https://discord.gg/aFGYX
 Esta librería contiene un cliente (consumidor) del servicio del SAT de
 **Servicio Web de Descarga Masiva de CFDI y Retenciones**.
 
-## Installation
+## Instalación
 
-Use [composer](https://getcomposer.org/), please run
+Utiliza [composer](https://getcomposer.org/), instala de la siguiente forma:
+
 ```shell
 composer require phpcfdi/sat-ws-descarga-masiva
 ```
 
-## Basic usage
+## Ejemplo básico de uso
 
 ```php
 <?php
