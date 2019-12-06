@@ -18,11 +18,11 @@ cache:
 before_script:
   - phpenv config-rm xdebug.ini || true
   - |
-    if [ "0" -eq "$(php -d extension=zip -m zip | grep -c '^zip$')" ]; then
+    if [ "0" -eq "$(php -m | grep -c '^zip$')" ]; then
+      pecl install zip
       php -m
-      php -i
-      php -d extension=zip -m
-      echo "extension=zip" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    else
+      echo "zip extension is available and enabled"
     fi
   - travis_retry composer install --no-interaction --prefer-dist
 
