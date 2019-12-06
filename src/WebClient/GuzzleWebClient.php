@@ -1,8 +1,10 @@
-<?php /** @noinspection PhpUndefinedClassInspection Guzzle has two definitions */
+<?php
+
+/** @noinspection PhpUndefinedClassInspection Guzzle has two definitions */
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests\WebClient;
+namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
 use Closure;
 use GuzzleHttp\Client as GuzzleClient;
@@ -10,9 +12,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Response;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class GuzzleWebClient implements WebClientInterface

@@ -41,7 +41,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 
 // Creación de la fiel, puede leer archivos DER (como los envía el SAT) o PEM (convertidos)
 $fiel = Fiel::create(
@@ -55,7 +55,10 @@ if (! $fiel->isValid()) {
     return;
 }
 
-/** @var WebClientInterface $webClient */
+// creación del web client basado en Guzzle que implementa WebClientInterface
+// para usarlo necesitas instalar guzzlehttp/guzzle pues no es una dependencia directa
+$webClient = new GuzzleWebClient();
+
 // Creación del servicio
 $service = new Service($fiel, $webClient);
 
@@ -88,19 +91,16 @@ $metadataReader = new MetadataPackageReader($zipfile);
 foreach ($metadataReader->metadata() as $metadata) {
     echo $metadata->uuid, PHP_EOL;
 }
-
 ```
 
 
 ### Acerca de la interfaz `WebClientInterface`
 
 Para hacer esta librería compatible con diferentes formas de comunicación se utiliza una interfaz de cliente HTTP.
-Tu *debes* crear tu implementación para poderla utilizar, si así lo prefieres, podrías usar la clase
-[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/tests/WebClient/GuzzleWebClient.php).
-
-En este momento no se provee esta implementación por defecto, es posible que en un futuro se incluya por default
-una clase que utilice [PSR-18 - HTTP Client](https://www.php-fig.org/psr/psr-18/).
-
+Tu *puedes* crear tu implementación para poderla utilizar.
+ 
+Si lo prefieres -como en el ejemplo de uso- podrías instalar Guzzle `composer require guzzlehttp/guzzle` y usar la clase
+[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/src/WebClient/GuzzleWebClient.php).
 
 ### Recomendación de fábrica del servicio
 

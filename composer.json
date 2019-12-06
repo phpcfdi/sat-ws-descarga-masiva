@@ -37,6 +37,9 @@
         "friendsofphp/php-cs-fixer": "^2.4",
         "phpstan/phpstan-shim": "^0.11"
     },
+    "suggest": {
+        "guzzlehttp/guzzle": "To use GuzzleWebClient implementation"
+    },
     "autoload": {
         "psr-4": {
             "PhpCfdi\\SatWsDescargaMasiva\\": "src/"
