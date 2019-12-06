@@ -4,7 +4,7 @@ language: php
 php:
   - "7.2"
   - "7.3"
-  - "7.4"
+  - "7.4snapshot"
 
 env:
   global:
@@ -17,13 +17,6 @@ cache:
 
 before_script:
   - phpenv config-rm xdebug.ini || true
-  - |
-    if [ "0" -eq "$(php -m | grep -c '^zip$')" ]; then
-      pecl install zip
-      php -m
-    else
-      echo "zip extension is available and enabled"
-    fi
   - travis_retry composer install --no-interaction --prefer-dist
 
 script:
