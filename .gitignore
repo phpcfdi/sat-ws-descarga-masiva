@@ -1,4 +1,3 @@
 # do not include this files on git
-/vendor
-/build
+/vendor/
 /composer.lock
