@@ -19,14 +19,12 @@ También te esperamos en el [canal #phpcfdi de discord](https://discord.gg/aFGYX
 Esta librería contiene un cliente (consumidor) del servicio del SAT de
 **Servicio Web de Descarga Masiva de CFDI y Retenciones**.
 
-
 ## Installation
 
 Use [composer](https://getcomposer.org/), please run
 ```shell
 composer require phpcfdi/sat-ws-descarga-masiva
 ```
-
 
 ## Basic usage
 
@@ -93,7 +91,6 @@ foreach ($metadataReader->metadata() as $metadata) {
 }
 ```
 
-
 ### Acerca de la interfaz `WebClientInterface`
 
 Para hacer esta librería compatible con diferentes formas de comunicación se utiliza una interfaz de cliente HTTP.
@@ -107,7 +104,6 @@ Si lo prefieres -como en el ejemplo de uso- podrías instalar Guzzle `composer r
 Te recomendamos configurar el framework de tu aplicación (Dependency Injection Container) o crear una clase que
 fabrique los objetos `Service`, `Fiel` y `WebClient` usando tus propias configuraciones de certificado, llave privada
 y contraseña.
-
 
 ## Acerca del Servicio Web de Descarga Masiva de CFDI y Retenciones
 
@@ -153,7 +149,6 @@ Notas importantes del web service:
 - Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
 - No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de una ocasión un XML.
 
-
 ## Compatilibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
@@ -162,12 +157,10 @@ Esta librería se mantendrá compatible con al menos la versión con
 También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/)
 por lo que puedes usar esta librería sin temor a romper tu aplicación.
 
-
 ## Contribuciones
 
 Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
 y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
-
 
 ## Copyright and License
 
