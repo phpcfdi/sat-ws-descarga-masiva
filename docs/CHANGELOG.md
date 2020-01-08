@@ -10,10 +10,13 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
-## Importante:
+## Version 0.2.5 2020-01-07
 
-- En Travis-CI pasar de `7.4snapshot` a `7.4` cuando se corrija el bug de construcción.
-  <https://travis-ci.community/t/some-extensions-are-missing-in-php-7-4-0-zip-gmp-sodium/6320/9>.
+- Se actualiza el año de licencia a 2020.
+- Se remueve método privado `FielData::readContents(): string` porque ya no está en uso.
+- Se corrige la construcción con PHP 7.4 en Travis.
+- Se cambia la dependencia de `phpstan-shim` a `phpstan`.
+
 
 ## Version 0.2.4 2019-12-06
 
