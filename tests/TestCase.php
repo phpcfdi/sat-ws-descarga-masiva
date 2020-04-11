@@ -24,9 +24,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function createFielUsingTestingFiles(string $password = null): Fiel
     {
         $fielData = new FielData(
-            $this->filePath('fake-fiel/aaa010101aaa_FIEL.cer'),
-            $this->filePath('fake-fiel/aaa010101aaa_FIEL_password.key.pem'),
-            $password ?? trim($this->fileContents('fake-fiel/password.txt'))
+            $this->filePath('fake-fiel/EKU9003173C9.cer'),
+            $this->filePath('fake-fiel/EKU9003173C9.key'),
+            $password ?? trim($this->fileContents('fake-fiel/EKU9003173C9-password.txt'))
         );
         return $fielData->createFiel();
     }
