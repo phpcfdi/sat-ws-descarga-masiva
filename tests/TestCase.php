@@ -37,6 +37,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $document->preserveWhiteSpace = false;
         $document->formatOutput = true;
         $document->loadXML($content);
-        return $document->saveXML();
+        return $document->saveXML() ?: '';
     }
 }

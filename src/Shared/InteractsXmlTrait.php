@@ -133,7 +133,7 @@ trait InteractsXmlTrait
         return array_change_key_case($attributes, CASE_LOWER);
     }
 
-    protected function createSignedInfoCanonicalExclusive(string $digested, $uri = ''): string
+    protected function createSignedInfoCanonicalExclusive(string $digested, string $uri = ''): string
     {
         // see https://www.w3.org/TR/xmlsec-algorithms/ to understand the algorithm
         // http://www.w3.org/2001/10/xml-exc-c14n# - Exclusive Canonicalization XML 1.0 (omit comments)

@@ -18,17 +18,17 @@ class Printer
         $this->stderr = $stderr;
     }
 
-    public function stdout(...$lines): void
+    public function stdout(string ...$lines): void
     {
         $this->print($this->stdout, ...$lines);
     }
 
-    public function stderr(...$lines): void
+    public function stderr(string ...$lines): void
     {
         $this->print($this->stderr, ...$lines);
     }
 
-    private function print(string $where, ...$lines): void
+    private function print(string $where, string ...$lines): void
     {
         foreach ($lines as $line) {
             file_put_contents($where, $line . PHP_EOL, FILE_APPEND);

@@ -38,7 +38,12 @@ abstract class OpenEnum
         $this->message = static::VALUES[$this->value]['message'] ?? static::UNKNOWN_MESSAGE;
     }
 
-    public function __call($name, $arguments)
+    /**
+     * @param string $name
+     * @param mixed[] $arguments
+     * @return mixed
+     */
+    public function __call(string $name, $arguments)
     {
         if (0 === strpos(strtolower($name), 'is') && strlen($name) > 2) {
             return (0 === strcasecmp(substr($name, 2), $this->name));

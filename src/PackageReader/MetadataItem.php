@@ -30,7 +30,7 @@ class MetadataItem
         $this->data = $data;
     }
 
-    public function __get(string $name)
+    public function __get(string $name): string
     {
         return $this->get($name);
     }

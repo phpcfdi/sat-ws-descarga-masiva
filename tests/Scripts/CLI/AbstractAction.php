@@ -42,12 +42,12 @@ abstract class AbstractAction implements ActionInterface
         return $this->fielData->createFiel();
     }
 
-    public function stdout(...$lines): void
+    public function stdout(string ...$lines): void
     {
         $this->printer->stdout(...$lines);
     }
 
-    public function stderr(...$lines): void
+    public function stderr(string ...$lines): void
     {
         $this->printer->stderr(...$lines);
     }
