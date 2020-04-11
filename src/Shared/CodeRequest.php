@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
+use Eclipxe\MicroCatalog\MicroCatalog;
+
 /**
  * @method bool isAccepted()
  * @method bool isExhausted()
  * @method bool isMaximumLimitReaded()
  * @method bool isEmptyResult()
  * @method bool isDuplicated()
+ * @method string getMessage()
+ * @method string getName()
  */
-final class CodeRequest extends OpenEnum
+final class CodeRequest extends MicroCatalog
 {
     protected const VALUES = [
         5000 => [
@@ -35,4 +39,24 @@ final class CodeRequest extends OpenEnum
             'message' => 'Solicitud duplicada: Si existe una solicitud vigente con los mismos parámetros',
         ],
     ];
+
+    public static function getEntriesArray(): array
+    {
+        return self::VALUES;
+    }
+
+    public function getEntryValueOnUndefined()
+    {
+        return ['name' => 'Unknown', 'message' => 'Desconocida'];
+    }
+
+    public function getEntryId(): string
+    {
+        return $this->getName();
+    }
+
+    public function getValue(): int
+    {
+        return intval($this->getEntryIndex());
+    }
 }
