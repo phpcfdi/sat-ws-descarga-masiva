@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 class Helpers
 {
-    public static function createUuid(): string
+    public static function createXmlSecurityTokenId(): string
     {
         $md5 = md5(uniqid());
         return sprintf(
