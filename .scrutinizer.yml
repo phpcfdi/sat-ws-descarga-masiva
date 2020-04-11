@@ -9,13 +9,14 @@ build:
       - pecl install zip
     override:
       - composer self-update --no-interaction --no-progress
+      - composer remove squizlabs/php_codesniffer friendsofphp/php-cs-fixer phpstan/phpstan --dev --no-interaction --no-progress --no-update
       - composer install --no-interaction
   nodes:
     php:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
-          - command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+          - command: vendor/bin/phpunit --testdox --verbose --coverage-clover=coverage.clover
             coverage:
               file: coverage.clover
               format: clover
