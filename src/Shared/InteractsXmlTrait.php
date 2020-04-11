@@ -119,6 +119,11 @@ trait InteractsXmlTrait
         );
     }
 
+    /**
+     * @param DOMElement $element
+     * @param string ...$search
+     * @return array<string, string>
+     */
     public function findAttributes(DOMElement $element, string ...$search): array
     {
         $found = $this->findElement($element, ...$search);

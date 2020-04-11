@@ -22,9 +22,14 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
  */
 class MetadataItem
 {
-    /** @var string[] */
+    /** @var array<string, string> */
     private $data;
 
+    /**
+     * MetadataItem constructor.
+     *
+     * @param array<string, string> $data
+     */
     public function __construct(array $data)
     {
         $this->data = $data;
@@ -35,6 +40,7 @@ class MetadataItem
         return $this->get($name);
     }
 
+    /** @return array<string, string> */
     public function all(): array
     {
         return $this->data;

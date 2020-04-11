@@ -14,9 +14,15 @@ class Arguments
         $this->arguments = $arguments;
     }
 
+    /**
+     * @param string[] $parameters
+     * @return array<string, string[]>
+     */
     public function parseParameters(array $parameters): array
     {
+        /** @var string[] $matches */
         $matches = [];
+        /** @var string[] $unmatched */
         $unmatched = [];
         $length = count($parameters);
         for ($i = 0; $i < $length; $i = $i + 1) {
@@ -42,6 +48,9 @@ class Arguments
         return null;
     }
 
+    /**
+     * @return array<string>
+     */
     public function toArray(): array
     {
         return array_map(

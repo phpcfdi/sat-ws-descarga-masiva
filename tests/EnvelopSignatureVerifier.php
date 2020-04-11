@@ -6,14 +6,29 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 
 use DOMDocument;
 use DOMElement;
+use Exception;
 use RobRichards\XMLSecLibs\XMLSecEnc;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RuntimeException;
 
 class EnvelopSignatureVerifier
 {
-    public function verify(string $soapMessage, string $namespaceURI, string $mainNodeName, array $includeNamespaces = [], string $certificateContents = ''): bool
-    {
+    /**
+     * @param string $soapMessage
+     * @param string $namespaceURI
+     * @param string $mainNodeName
+     * @param string[] $includeNamespaces
+     * @param string $certificateContents
+     * @return bool
+     * @throws Exception If an error on RobRichards\XMLSecLibs occurs
+     */
+    public function verify(
+        string $soapMessage,
+        string $namespaceURI,
+        string $mainNodeName,
+        array $includeNamespaces = [],
+        string $certificateContents = ''
+    ): bool {
         $soapDocument = new DOMDocument();
         $soapDocument->loadXML($soapMessage);
 

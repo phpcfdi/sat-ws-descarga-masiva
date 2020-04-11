@@ -11,7 +11,7 @@ use SplTempFileObject;
 /** @internal */
 class MetadataContent
 {
-    /** @var Iterator */
+    /** @var Iterator<mixed> */
     private $iterator;
 
     /**
@@ -19,7 +19,7 @@ class MetadataContent
      * The first iteration must contain an array of header names that will be renames to lower case first letter
      * The next iterations must contain an array with data
      *
-     * @param Iterator $iterator
+     * @param Iterator<mixed> $iterator
      */
     public function __construct(Iterator $iterator)
     {
@@ -65,6 +65,11 @@ class MetadataContent
         }
     }
 
+    /**
+     * @param array<string> $headers
+     * @param array<string> $values
+     * @return MetadataItem
+     */
     public function createMetadataItem(array $headers, array $values): MetadataItem
     {
         $countValues = count($values);
