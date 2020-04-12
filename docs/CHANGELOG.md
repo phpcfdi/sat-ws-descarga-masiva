@@ -10,6 +10,15 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
+## Version 0.2.6 2020-04-11
+
+- Se actualizan los test para que usen el RFC `EKU9003173C9`.
+- Se agrega un test para probar qué ocurre al usar un `CSD` en lugar de una `FIEL`.
+- Se actualiza el proyecto para satisfacer `phpstan: ^0.12`.
+- En Scrutinizer-CI se eliminan las dependencias de desarrollo que no son útiles para la generación del *code coverage*.
+- Se utiliza `eclipxe/micro-catalog` en lugar de la clase interna `OpenEnum`.
+- Se renombra `Helpers::createUuid` a `Helpers::createXmlSecurityTokenId`.
+
 ## Version 0.2.5 2020-01-07
 
 - Se actualiza el año de licencia a 2020.
