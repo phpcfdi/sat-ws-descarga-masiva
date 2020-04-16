@@ -1,32 +1,33 @@
+<?xml version="1.0"?>
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
-    <s:Header />
-    <s:Body>
-        <des:VerificaSolicitudDescarga>
-            <des:solicitud IdSolicitud="3f30a4e1-af73-4085-8991-e4d97eef16bd" RfcSolicitante="AAA010101AAA">
-                <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-                    <SignedInfo>
-                        <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-                        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
-                        <Reference URI="">
-                            <Transforms>
-                                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-                            </Transforms>
-                            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-                            <DigestValue>NrEtpjqrh86K5/IZmdvXPkP3nuw=</DigestValue>
-                        </Reference>
-                    </SignedInfo>
-                    <SignatureValue>a7QNniYhvfp4nBhEMf12ezmn1AJ1V4a2M/nBUMDRJAVv8FUykMp+fIzFJQfR6nHO7NI+YjQ33peCiNnHoTUR6/9aH33YzhXDmrkKKc687p/bl0liWGLAwVwrXEibiuVe/vHtTiZxAE2kHHRBdwSWIKcrvMlVQx6ZedItprBap/9vdzV+tvS1az8+rTC3hF7e0tvLq19D/uSIVqtD3+XueSipeufhWTlLkgqq35oV7GLRYzXhY0ehrGiFWo/qja3qqUswn38P7REcRTeITN17jefK/HhNdnxwMYL7sbd748g/YAdJyxM4y0Kp7R4EMwRdp5xIFPrE7RXbRkcQMQ+6pQ==</SignatureValue>
-                    <KeyInfo>
-                        <X509Data>
-                            <X509IssuerSerial>
-                                <X509IssuerName>CN=A.C. 2 de pruebas(4096),O=Servicio de Administración Tributaria,OU=Administración de Seguridad de la Información,emailAddress=asisnet@pruebas.sat.gob.mx,street=Av. Hidalgo 77\2c Col. Guerrero,postalCode=06300,C=MX,ST=Distrito Federal,L=Coyoacán,x500UniqueIdentifier=SAT970701NN3,unstructuredName=Responsable: ACDMA</X509IssuerName>
-                                <X509SerialNumber>292233162870206001759766198425879490508935804981</X509SerialNumber>
-                            </X509IssuerSerial>
-                            <X509Certificate>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</X509Certificate>
-                        </X509Data>
-                    </KeyInfo>
-                </Signature>
-            </des:solicitud>
-        </des:VerificaSolicitudDescarga>
-    </s:Body>
+  <s:Header/>
+  <s:Body>
+    <des:VerificaSolicitudDescarga>
+      <des:solicitud IdSolicitud="3f30a4e1-af73-4085-8991-e4d97eef16bd" RfcSolicitante="AAA010101AAA">
+        <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+          <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <Reference URI="">
+              <Transforms>
+                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+              </Transforms>
+              <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+              <DigestValue>NrEtpjqrh86K5/IZmdvXPkP3nuw=</DigestValue>
+            </Reference>
+          </SignedInfo>
+          <SignatureValue>ZzdIbHvrXUfPfCTubJKZgckfRZtMf39148tC4mjU4DXi1OpFWysf7JaGmli1JxY05SXKyOYRrtNpmyDHSNTuNn4iS6yfV5VZl1bJ685o9p8LWeYmdlWKzzx/2zzd0spaYYiiO6yk0aB5l27qQwJCBT4Z+waGe8EJOkjjZP+GzUSOc/pzsptpFk94V4eMK4HgBKyoN74txSHwMrGJjKDKUJeWn5x1unPkU+uzi0sxl2iozIzQUSsE4Swvt98Kwhruu6TA31FT1Xq6UTEz6muVoO9zKYaYpAe+ww98whdUMGZFyencR1nh7O7HFL/w3FK0b31vOVoA0HMa0L97zcn4ZA==</SignatureValue>
+          <KeyInfo>
+            <X509Data>
+              <X509IssuerSerial>
+                <X509IssuerName>CN=AC UAT,O=SERVICIO DE ADMINISTRACION TRIBUTARIA,OU=SAT-IES Authority,emailAddress=oscar.martinez@sat.gob.mx,street=3ra cerrada de cadiz,postalCode=06370,C=MX,ST=CIUDAD DE MEXICO,L=COYOACAN,x500UniqueIdentifier=2.5.4.45,unstructuredName=responsable: ACDMA-SAT</X509IssuerName>
+                <X509SerialNumber>292233162870206001759766198444326234574038511927</X509SerialNumber>
+              </X509IssuerSerial>
+              <X509Certificate>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</X509Certificate>
+            </X509Data>
+          </KeyInfo>
+        </Signature>
+      </des:solicitud>
+    </des:VerificaSolicitudDescarga>
+  </s:Body>
 </s:Envelope>

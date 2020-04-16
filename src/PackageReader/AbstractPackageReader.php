@@ -38,7 +38,7 @@ abstract class AbstractPackageReader implements Countable
      * @param string $filename
      * @throws RuntimeException Could not open zip file
      */
-    public function __construct(string $filename)
+    final public function __construct(string $filename)
     {
         $this->zip = new ZipArchive();
         $zipCode = $this->zip->open($filename, ZipArchive::CREATE);

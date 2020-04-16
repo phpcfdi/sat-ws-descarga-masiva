@@ -20,6 +20,14 @@ class Request implements JsonSerializable
     /** @var array<string, string> */
     private $headers;
 
+    /**
+     * Request constructor.
+     *
+     * @param string $method
+     * @param string $uri
+     * @param string $body
+     * @param array<string, string> $headers
+     */
     public function __construct(string $method, string $uri, string $body, array $headers)
     {
         $this->method = $method;
@@ -51,6 +59,11 @@ class Request implements JsonSerializable
         return $this->headers;
     }
 
+    /**
+     * Default headers used on every request
+     *
+     * @return array<string, string>
+     */
     public function defaultHeaders(): array
     {
         return [
@@ -60,7 +73,8 @@ class Request implements JsonSerializable
         ];
     }
 
-    public function jsonSerialize()
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
     {
         return get_object_vars($this);
     }

@@ -28,7 +28,7 @@ class AuthenticateTranslator
     {
         $since = DateTime::now();
         $until = $since->modify('+ 5 minutes');
-        $uuid = Helpers::createUuid();
+        $uuid = Helpers::createXmlSecurityTokenId();
         return $this->createSoapRequestWithData($fiel, $since, $until, $uuid);
     }
 

@@ -1,17 +1,20 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
-- Traducir CHANGELOG.md a español
+- Poner la versión mínima de PHP a 7.3
 
 - Mover el script de consumo con credenciales válidas a su propio proyecto dependiente de este.
 
 - Llevar el code coverage a 100% con test unitarios
     2019-12-06: Cersion 0.2.4 92%
-    2019-09-23: Version 0.2.3 93% 
+    2019-09-23: Version 0.2.3 93%
     2019-08-23: Current 93%
     2019-08-09: Current 86%
     2019-08-08: Current 84%
 
 ## Tareas resueltas
+
+- Traducir CHANGELOG.md a español
+    2019-12-06: Hecho!
 
 - Crear documentación de la librería y README, CI, etc.
     2019-09-09: Hecho!

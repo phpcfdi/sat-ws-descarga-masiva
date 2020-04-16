@@ -23,11 +23,11 @@ class FielTest extends TestCase
         $this->assertTrue($fiel->isValid());
     }
 
-    public function testFielUnprotected(): void
+    public function testFielUnprotectedPEM(): void
     {
         $fiel = (new FielData(
-            $this->filePath('fake-fiel/aaa010101aaa_FIEL.cer'),
-            $this->filePath('fake-fiel/aaa010101aaa_FIEL.key.pem'),
+            $this->filePath('fake-fiel/EKU9003173C9.cer'),
+            $this->filePath('fake-fiel/EKU9003173C9.key.pem'),
             ''
         ))->createFiel();
         $this->assertTrue($fiel->isValid());
@@ -36,10 +36,20 @@ class FielTest extends TestCase
     public function testFielCreatingFromContents(): void
     {
         $fiel = Fiel::create(
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.cer'),
-            $this->fileContents('fake-fiel/aaa010101aaa_FIEL.key.pem'),
-            ''
+            $this->fileContents('fake-fiel/EKU9003173C9.cer'),
+            $this->fileContents('fake-fiel/EKU9003173C9.key'),
+            trim($this->fileContents('fake-fiel/EKU9003173C9-password.txt'))
         );
         $this->assertTrue($fiel->isValid());
+    }
+
+    public function testIsNotValidUsingCsd(): void
+    {
+        $fiel = Fiel::create(
+            $this->fileContents('fake-csd/EKU9003173C9.cer'),
+            $this->fileContents('fake-csd/EKU9003173C9.key'),
+            trim($this->fileContents('fake-csd/EKU9003173C9-password.txt'))
+        );
+        $this->assertFalse($fiel->isValid());
     }
 }

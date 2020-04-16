@@ -14,9 +14,15 @@ class Response implements JsonSerializable
     /** @var string */
     private $body;
 
-    /** @var array */
+    /** @var array<string, string> */
     private $headers;
 
+    /**
+     * Response constructor.
+     * @param int $statusCode
+     * @param string $body
+     * @param array<string, string> $headers
+     */
     public function __construct(int $statusCode, string $body, array $headers = [])
     {
         $this->statusCode = $statusCode;
@@ -55,7 +61,8 @@ class Response implements JsonSerializable
         return ($this->statusCode < 600 && $this->statusCode >= 500);
     }
 
-    public function jsonSerialize()
+    /** @return array<string, string> */
+    public function jsonSerialize(): array
     {
         return get_object_vars($this);
     }

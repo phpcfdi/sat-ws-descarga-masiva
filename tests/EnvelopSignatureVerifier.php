@@ -6,20 +6,37 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 
 use DOMDocument;
 use DOMElement;
+use Exception;
 use RobRichards\XMLSecLibs\XMLSecEnc;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RuntimeException;
 
 class EnvelopSignatureVerifier
 {
-    public function verify(string $soapMessage, string $namespaceURI, string $mainNodeName, array $includeNamespaces = [], string $certificateContents = ''): bool
-    {
+    /**
+     * @param string $soapMessage
+     * @param string $namespaceURI
+     * @param string $mainNodeName
+     * @param string[] $includeNamespaces
+     * @param string $certificateContents
+     * @return bool
+     * @throws Exception If an error on RobRichards\XMLSecLibs occurs
+     */
+    public function verify(
+        string $soapMessage,
+        string $namespaceURI,
+        string $mainNodeName,
+        array $includeNamespaces = [],
+        string $certificateContents = ''
+    ): bool {
         $soapDocument = new DOMDocument();
         $soapDocument->loadXML($soapMessage);
 
         /** @var DOMElement $mainNode */
         $mainNode = $soapDocument->getElementsByTagNameNS($namespaceURI, $mainNodeName)->item(0);
-        $mainNode->parentNode->removeChild($mainNode);
+        /** @var DOMElement $parentNode */
+        $parentNode = $mainNode->parentNode;
+        $parentNode->removeChild($mainNode);
         $soapDocument->appendChild($mainNode);
 
         $document = new DOMDocument();
@@ -27,7 +44,7 @@ class EnvelopSignatureVerifier
             str_replace(
                 ['<default:', '</default:', ' xmlns:default="http://www.w3.org/2000/09/xmldsig#"'],
                 ['<', '</', ''],
-                $soapDocument->saveXML($mainNode)
+                $soapDocument->saveXML($mainNode) ?: ''
             )
         );
 

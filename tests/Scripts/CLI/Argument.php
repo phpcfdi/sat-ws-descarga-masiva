@@ -32,7 +32,7 @@ class Argument
         return $this->alias;
     }
 
-    public function matchParameter(string $parameter)
+    public function matchParameter(string $parameter): bool
     {
         return ($parameter === '-' . $this->key || $parameter === '--' . $this->alias);
     }
