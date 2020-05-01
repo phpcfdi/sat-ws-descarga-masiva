@@ -38,7 +38,7 @@ class Arguments
         return ['matched' => $matches, 'unmatched' => $unmatched];
     }
 
-    public function findArgumentByParameter(string $parameter): ? Argument
+    public function findArgumentByParameter(string $parameter): ?Argument
     {
         foreach ($this->arguments as $argument) {
             if ($argument->matchParameter($parameter)) {
