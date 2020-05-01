@@ -1,5 +1,7 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
+- Generar excepciones del proyecto en lugar de excepciones genéricas
+
 - Mover el script de consumo con credenciales válidas a su propio proyecto dependiente de este.
 
 - Llevar el code coverage a 100% con test unitarios
