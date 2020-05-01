@@ -95,7 +95,7 @@ foreach ($metadataReader->metadata() as $metadata) {
 ### Acerca de la interfaz `WebClientInterface`
 
 Para hacer esta librería compatible con diferentes formas de comunicación se utiliza una interfaz de cliente HTTP.
-Tu *puedes* crear tu implementación para poderla utilizar.
+Tú *puedes* crear tu implementación para poderla utilizar.
  
 Si lo prefieres -como en el ejemplo de uso- podrías instalar Guzzle `composer require guzzlehttp/guzzle` y usar la clase
 [`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/src/WebClient/GuzzleWebClient.php).
@@ -116,15 +116,15 @@ El servicio se compone de 4 partes:
 3. Verificación: pregunta al SAT si ya tiene disponible la solicitud.
 4. Descargar los paquetes emitidos por la solicitud.
 
-La mejor manera de entenderlo es la siguiente, imagina que el servicio del SAT se compone de tres ventanillas con tres
+Una forma burda de entenderlo es: imagina que el servicio del SAT se compone de tres ventanillas con tres
 personas diferentes atendiendo cada una de estas ventanillas.
 
 * En la primera vas y presentas una solicitud de información. Te firman de recibido, pero eso no significa que tu
 información esté lista, solo que han recibido tu solicitud.
 
-* En la segunda ventanilla preguntas por tu número de solicitud y te responden que aun no la tienen lista, regresas
-después y te dicen que aun no la tienen hasta que finalmente te dicen que ya está lista, y te piden pasar a otra
-ventanilla por las cajas con tu información.
+* En la segunda ventanilla preguntas por tu número de solicitud y te responden que aún no tienen lista la solicitud,
+regresas después y te dicen que aún no está lista, hasta que finalmente te dicen que ya está completada, y te piden
+pasar a otra ventanilla por las cajas con tu información.
 
 * En la última ventanilla llegas y pides cada una de las cajas, una a la vez, te las entregan y te las llevas.
 Si perdiste tu caja y regresaste varios días después y pides la caja, puede que ya no esté disponible.
@@ -133,7 +133,7 @@ al funcionario del SAT y no te la da más.
 
 * Todo esto sucede con un máximo de seguridad, cada vez que hablas con un funcionario te pide que le enseñes tu permiso
 y si no lo tienes o ya está vencido (duran apenas unos minutos) te mandan con el de la entrada para que le demuestres
-que eres tu y te extienda un nuevo permiso.
+que eres tú y te extienda un nuevo permiso.
 
 ### Información oficial
 
