@@ -59,7 +59,7 @@ class QueryTranslator
             <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
                 <des:solicitud FechaFinal="${end}" FechaInicial="${start}" ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" TipoSolicitud="${requestTypeValue}"></des:solicitud>
             </des:SolicitaDescarga>
-EOT
+            EOT
         );
         $digested = base64_encode(sha1($toDigest, true));
         $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested);
@@ -77,7 +77,7 @@ EOT
                     </des:SolicitaDescarga>
                 </s:Body>
             </s:Envelope>
-EOT;
+            EOT;
 
         return $this->nospaces($xml);
     }

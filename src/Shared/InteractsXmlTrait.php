@@ -154,7 +154,7 @@ trait InteractsXmlTrait
                     <DigestValue>${digested}</DigestValue>
                 </Reference>
             </SignedInfo>
-EOT;
+            EOT;
         return $this->nospaces($xml);
     }
 
@@ -174,20 +174,19 @@ EOT;
                     <X509Certificate>${certificate}</X509Certificate>
                 </X509Data>
             </KeyInfo>
-EOT;
+            EOT;
         return $xml;
     }
 
     protected function createSignatureData(string $signedInfo, string $signatureValue, string $keyInfo): string
     {
         $signedInfo = str_replace('<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">', '<SignedInfo>', $signedInfo);
-        $xml = <<<EOT
+        return <<<EOT
             <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
                 ${signedInfo}
                 <SignatureValue>${signatureValue}</SignatureValue>
                 ${keyInfo}
             </Signature>
-EOT;
-        return $xml;
+            EOT;
     }
 }
