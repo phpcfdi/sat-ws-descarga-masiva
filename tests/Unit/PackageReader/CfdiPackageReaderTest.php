@@ -24,7 +24,7 @@ class CfdiPackageReaderTest extends TestCase
         $cfdiPackageReader = CfdiPackageReader::createFromContents($zipContents);
         $temporaryFilename = $cfdiPackageReader->getFilename();
         unset($cfdiPackageReader);
-        $this->assertFileNotExists(
+        $this->assertFileDoesNotExist(
             $temporaryFilename,
             'When creating a CfdiPackageReader from contents, once it is destroyed relative file must not exists'
         );
