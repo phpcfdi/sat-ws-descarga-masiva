@@ -10,9 +10,15 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
+## Version 0.3.0 2020-05-01
+
+- Se actualizan las dependencias `php: >=7.3` y `phpunit: ^9.1`.
+- Se actualiza `php-cs-fixer` para usar `@PHP73Migration`.
+
+
 ## Version 0.2.6 2020-04-11
 
-- Se actualizan los test para que usen el RFC `EKU9003173C9`.
+- Se actualizan los tests para que usen el RFC `EKU9003173C9`.
 - Se agrega un test para probar qué ocurre al usar un `CSD` en lugar de una `FIEL`.
 - Se actualiza el proyecto para satisfacer `phpstan: ^0.12`.
 - En Scrutinizer-CI se eliminan las dependencias de desarrollo que no son útiles para la generación del *code coverage*.

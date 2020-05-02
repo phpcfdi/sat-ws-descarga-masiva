@@ -1,7 +1,7 @@
 language: php
 
 # php compatibility
-php: ["7.2", "7.3", "7.4"]
+php: ["7.3", "7.4"]
 
 cache:
   - directories:

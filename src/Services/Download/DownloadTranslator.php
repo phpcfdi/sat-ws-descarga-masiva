@@ -30,10 +30,10 @@ class DownloadTranslator
     {
         $toDigest = $this->nospaces(
             <<<EOT
-            <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}"></des:peticionDescarga>
-            </des:PeticionDescargaMasivaTercerosEntrada>
-EOT
+                <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+                    <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}"></des:peticionDescarga>
+                </des:PeticionDescargaMasivaTercerosEntrada>
+                EOT
         );
 
         $digested = base64_encode(sha1($toDigest, true));
@@ -53,7 +53,7 @@ EOT
                     </des:PeticionDescargaMasivaTercerosEntrada>
                 </s:Body>
             </s:Envelope>
-EOT;
+            EOT;
         return $this->nospaces($xml);
     }
 }

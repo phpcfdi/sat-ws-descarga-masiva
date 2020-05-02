@@ -20,7 +20,7 @@
         "chat": "https://discord.gg/aFGYXvX"
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-openssl": "*",
         "ext-dom": "*",
         "ext-json": "*",
@@ -32,7 +32,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^6.3",
         "robrichards/xmlseclibs": "^3.0.4",
-        "phpunit/phpunit": "^8.0",
+        "phpunit/phpunit": "^9.1",
         "squizlabs/php_codesniffer": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.4",
         "phpstan/phpstan": "^0.12"

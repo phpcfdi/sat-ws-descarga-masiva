@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
-    ->setCacheFile(__DIR__ . '/build/.php_cs.cache')
+    ->setCacheFile(__DIR__ . '/build/php-cs-fixer.cache')
     ->setRules([
         '@PSR2' => true,
         '@PHP70Migration' => true,
         '@PHP70Migration:risky' => true,
         '@PHP71Migration' => true,
         '@PHP71Migration:risky' => true,
+        '@PHP73Migration' => true,
         // symfony
         'class_attributes_separation' => true,
         'whitespace_after_comma_in_array' => true,
