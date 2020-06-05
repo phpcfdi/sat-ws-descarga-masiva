@@ -1,14 +1,18 @@
 # CHANGELOG
 
-## About SemVer
+## Acerca de los números de versiones
 
-In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature . Fix `, where:
+Respetamos el estándar [Versionado Semántico 2.0.0](https://semver.org/lang/es/).
 
-- Breaking version = includes incompatible changes to the API
-- Feature version = adds new feature(s) in a backwards-compatible manner
-- Fix version = includes backwards-compatible bug fixes
+En resumen, [SemVer](https://semver.org/) es un sistema de versiones de tres componentes `X.Y.Z`
+que nombraremos así: ` Breaking . Feature . Fix `, donde:
 
-**Version `0.x.x` doesn't have to apply any of the SemVer rules**
+- `Breaking`: Rompe la compatibilidad de código con versiones anteriores.
+- `Feature`: Agrega una nueva característica que es compatible con lo anterior.
+- `Fix`: Incluye algún cambio (generalmente correcciones) que no agregan nueva funcionalidad.
+
+**Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
+o estás usando una versión cero (por ejemplo `0.18.4`).
 
 ## Version 0.3.1 2020-06-04
 
