@@ -4,6 +4,12 @@
 
 - Mover el script de consumo con credenciales válidas a su propio proyecto dependiente de este.
 
+- Los objetos CfdiPackageReader y MetadataPackageReader deberían de utilizar objetos independientes para
+  el filtrado, las forma de estructurarlo a través de un AbstractPackageReader no es la mejor opción.
+  Un ejemplo claro es la imposibilidad de crear tests unitarios correctos, porque el objeto encargado
+  de leer las entradas del archivo zip comparte la responsabilidad de filtrar por nombre o por contenido, estas
+  últimas dos responsabilidades deberían ser independientes.
+
 - Llevar el code coverage a 100% con test unitarios
     2020-05-01: Version 0.3.0 93%
     2019-12-06: Version 0.2.4 92%
