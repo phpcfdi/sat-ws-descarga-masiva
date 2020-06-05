@@ -10,6 +10,11 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 
 **Version `0.x.x` doesn't have to apply any of the SemVer rules**
 
+## Version 0.3.1 2020-06-04
+
+- Se corrige el problema de que recientemente los archivos ZIP de consultas de CFDI vienen con doble extensión,
+  por ejemplo `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml.xml`.
+
 ## Version 0.3.0 2020-05-01
 
 - Se actualizan las dependencias `php: >=7.3` y `phpunit: ^9.1`.
