@@ -15,7 +15,6 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 - Se actualizan las dependencias `php: >=7.3` y `phpunit: ^9.1`.
 - Se actualiza `php-cs-fixer` para usar `@PHP73Migration`.
 
-
 ## Version 0.2.6 2020-04-11
 
 - Se actualizan los tests para que usen el RFC `EKU9003173C9`.
@@ -61,7 +60,7 @@ In summary, [SemVer](https://semver.org/) can be viewed as ` Breaking . Feature 
 
 ## Version 0.2.2 2019-08-20
 
-- Make sure that when constructing a `DateTime` it fails with an exception.
+- Make sure when constructing a `DateTime` that it fails with an exception.
 - Improve code coverage.
  
 
