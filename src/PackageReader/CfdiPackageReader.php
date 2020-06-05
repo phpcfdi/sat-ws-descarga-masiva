@@ -8,7 +8,9 @@ class CfdiPackageReader extends AbstractPackageReader
 {
     protected function filterEntryFilename(string $filename): bool
     {
-        if (boolval(preg_match('/^[\w\-]{36}\.xml$/i', $filename))) {
+        // this regexp means that start with al least 1 char that is not "/" or "\"
+        // and continues and ends with ".xml". So x.xml x.xml.xml are valid, but not a/x.xml
+        if (boolval(preg_match('/^[^\/\\\\]+\.xml$/i', $filename))) {
             return true;
         }
         return false;
