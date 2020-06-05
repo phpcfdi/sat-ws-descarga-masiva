@@ -58,8 +58,8 @@ class CfdiPackageReaderTest extends TestCase
         // "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml" and
         // "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml.xml"
         $expectedFilenames = [
-            "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml",
-            "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml.xml"
+            'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml',
+            'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml.xml',
         ];
         sort($expectedFilenames);
 
