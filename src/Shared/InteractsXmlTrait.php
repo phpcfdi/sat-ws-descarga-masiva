@@ -14,9 +14,7 @@ trait InteractsXmlTrait
 {
     public function nospaces(string $input): string
     {
-        return implode('', array_filter(array_map(function (string $line): string {
-            return trim($line);
-        }, explode("\n", str_replace("\r", '', $input)))));
+        return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input);
     }
 
     public function readXmlDocument(string $source): DOMDocument
