@@ -14,6 +14,11 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## UNRELEASED
+
+- PHPStan estaba dando un falso positivo al detectar que `DOMElement::$attributes` puede contener `null`.
+  Esto es solo cierto para cualquier `DOMNode` pero no para `DOMElement`.
+
 ## Version 0.3.1 2020-06-04
 
 - Se corrige el problema de que recientemente los archivos ZIP de consultas de CFDI vienen con doble extensión,
