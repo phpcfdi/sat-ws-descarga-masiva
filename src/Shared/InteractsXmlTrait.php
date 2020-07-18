@@ -8,6 +8,7 @@ use DOMAttr;
 use DOMDocument;
 use DOMElement;
 use DOMNamedNodeMap;
+use DOMNode;
 use InvalidArgumentException;
 
 /** @internal */
@@ -15,7 +16,7 @@ trait InteractsXmlTrait
 {
     public function nospaces(string $input): string
     {
-        return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input);
+        return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input) ?? '';
     }
 
     public function readXmlDocument(string $source): DOMDocument
@@ -39,6 +40,13 @@ trait InteractsXmlTrait
         return $element;
     }
 
+    /**
+     * Find the element determined by the chain of children
+     *
+     * @param DOMElement $element
+     * @param string ...$names
+     * @return DOMElement|null
+     */
     public function findElement(DOMElement $element, string ...$names): ?DOMElement
     {
         $current = strtolower(strval(array_shift($names)));
@@ -69,7 +77,7 @@ trait InteractsXmlTrait
     private function extractElementContent(DOMElement $element): string
     {
         $buffer = [];
-        /** @var \DOMNode $node */
+        /** @var DOMNode $node */
         foreach ($element->childNodes as $node) {
             if (XML_TEXT_NODE === $node->nodeType) {
                 $buffer[] = trim($node->textContent);
@@ -119,6 +127,9 @@ trait InteractsXmlTrait
     }
 
     /**
+     * Find the element determined by the chain of children and return the attributes as an
+     * array using the attribute name as array key and attribute value as entry value.
+     *
      * @param DOMElement $element
      * @param string ...$search
      * @return array<string, string>
@@ -167,7 +178,7 @@ trait InteractsXmlTrait
         $serial = $fiel->getCertificateSerial();
         $issuerName = $fiel->getCertificateIssuerName();
 
-        $xml = <<<EOT
+        return <<<EOT
             <KeyInfo>
                 <X509Data>
                     <X509IssuerSerial>
@@ -178,7 +189,6 @@ trait InteractsXmlTrait
                 </X509Data>
             </KeyInfo>
             EOT;
-        return $xml;
     }
 
     protected function createSignatureData(string $signedInfo, string $signatureValue, string $keyInfo): string
