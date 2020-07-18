@@ -19,6 +19,7 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - PHPStan estaba dando un falso positivo al detectar que `DOMElement::$attributes` puede contener `null`.
   Esto es solo cierto para cualquier `DOMNode` pero no para `DOMElement`.
 - Se corrigieron las ligas a Travis-CI.
+- Se agrega a Travis-CI la versión "php: nightly" pero se le permite fallar.
 
 ## Version 0.3.1 2020-06-04
 
