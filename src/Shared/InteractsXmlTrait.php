@@ -7,6 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 use DOMAttr;
 use DOMDocument;
 use DOMElement;
+use DOMNamedNodeMap;
 use InvalidArgumentException;
 
 /** @internal */
@@ -129,8 +130,12 @@ trait InteractsXmlTrait
             return [];
         }
         $attributes = [];
-        /** @var DOMAttr $attribute */
-        foreach ($found->attributes as $attribute) {
+        /**
+         * @var DOMNamedNodeMap<DOMAttr> $elementAttributes
+         * phpstan doesn't know that $found->attributes cannot be null since $found is a DOMElement
+         */
+        $elementAttributes = $found->attributes;
+        foreach ($elementAttributes as $attribute) {
             $attributes[$attribute->localName] = $attribute->value;
         }
         return array_change_key_case($attributes, CASE_LOWER);
