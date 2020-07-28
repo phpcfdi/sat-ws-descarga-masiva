@@ -79,9 +79,9 @@ class MetadataContentTest extends TestCase
             'simple' => ['Receptor SA', 'Receptor SA'],
             'quotes on complete field' => ['"Receptor SA"', '"Receptor SA"'],
             'quotes on first word' => ['"Receptor" SA', '"Receptor" SA'],
-            'quotes on last word' => ['Receptor "SA"', 'Receptor """SA"""'],            // is this a bug?
-            'quotes on middle word' => ['Receptor "Foo" SA', 'Receptor """Foo""" SA'],  // is this a bug?
-            'quote in the middle' => ['Receptor " SA', 'Receptor """ SA'],              // is this a bug?
+            'quotes on last word' => ['Receptor "SA"', 'Receptor "SA"'],
+            'quotes on middle word' => ['Receptor "Foo" SA', 'Receptor "Foo" SA'],
+            'quote in the middle' => ['Receptor " SA', 'Receptor " SA'],
             'LF after first quote' => ["\"\nReceptor SA\"", '"Receptor SA"'],
             'LF before last quote' => ["\"Receptor SA\n\"", '"Receptor SA"'],
             'LF between quotes' => ["\"Receptor\nSA\"", '"ReceptorSA"'],

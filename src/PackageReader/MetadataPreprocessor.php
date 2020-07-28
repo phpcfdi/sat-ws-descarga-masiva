@@ -43,16 +43,9 @@ class MetadataPreprocessor
 
     public function fix(): void
     {
-        $this->fixQuotes();
         if ($this->eolHasCr) {
             $this->fixInnerLineFeed();
         }
-    }
-
-    private function fixQuotes(): void
-    {
-        // A single quote " should be scaped to three quotes """
-        $this->contents = str_replace('"', '"""', $this->contents);
     }
 
     private function fixInnerLineFeed(): void

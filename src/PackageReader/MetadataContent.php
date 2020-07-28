@@ -43,7 +43,7 @@ class MetadataContent
         $iterator->fwrite($preprocessor->getContents());
         $iterator->rewind();
         $iterator->setFlags(SplTempFileObject::READ_CSV);
-        $iterator->setCsvControl('~');
+        $iterator->setCsvControl('~', '|');
         return new self($iterator);
     }
 
