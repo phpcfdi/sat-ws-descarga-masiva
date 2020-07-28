@@ -1,6 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-/tests/_files/metadata/*.txt eol=crlf
 
 # Do not put this files on a distribution package (by .gitignore)
 /vendor/             export-ignore
