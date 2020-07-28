@@ -71,4 +71,41 @@ class MetadataContentTest extends TestCase
         $metadata = $reader->createMetadataItem($headers, $values);
         $this->assertSame($expected, $metadata->all());
     }
+
+    /** @return array<string, array{int, string}> */
+    public function providerReadMetadataWithSpecialCharacters(): array
+    {
+        return [
+            'row 0 => Receptor SA' => [0, 'Receptor SA'],
+            'row 1 => "Receptor SA"' => [1, '"Receptor SA"'],
+            'row 2 => "Receptor SA\n"' => [2, '"Receptor SA"'],
+            'row 3 => Receptor SA\n' => [3, 'Receptor SA'],
+        ];
+    }
+
+    /**
+     * @param int $index
+     * @param string $expectedValue
+     * @dataProvider providerReadMetadataWithSpecialCharacters
+     */
+    public function testReadMetadataWithSpecialCharacters(int $index, string $expectedValue): void
+    {
+        $contents = $this->fileContents('metadata/special-caracters.txt');
+        $reader = MetadataContent::createFromContents($contents);
+
+        $extracted = [];
+        foreach ($reader->eachItem() as $item) {
+            $extracted[] = $item->nombreReceptor;
+        }
+
+        $this->assertSame($expectedValue, $extracted[$index]);
+    }
+
+    public function testReadMetadataWithSpecialCharactersMatchRows(): void
+    {
+        $contents = $this->fileContents('metadata/special-caracters.txt');
+        $reader = MetadataContent::createFromContents($contents);
+
+        $this->assertCount(4, $reader->eachItem());
+    }
 }
