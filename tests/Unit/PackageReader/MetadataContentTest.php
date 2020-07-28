@@ -72,40 +72,47 @@ class MetadataContentTest extends TestCase
         $this->assertSame($expected, $metadata->all());
     }
 
-    /** @return array<string, array{int, string}> */
+    /** @return array<string, array{string, string}> */
     public function providerReadMetadataWithSpecialCharacters(): array
     {
         return [
-            'row 0 => Receptor SA' => [0, 'Receptor SA'],
-            'row 1 => "Receptor SA"' => [1, '"Receptor SA"'],
-            'row 2 => "Receptor SA\n"' => [2, '"Receptor SA"'],
-            'row 3 => Receptor SA\n' => [3, 'Receptor SA'],
+            'simple' => ['Receptor SA', 'Receptor SA'],
+            'quotes on complete field' => ['"Receptor SA"', '"Receptor SA"'],
+            'quotes on first word' => ['"Receptor" SA', '"Receptor" SA'],
+            'quotes on last word' => ['Receptor "SA"', 'Receptor """SA"""'],            // is this a bug?
+            'quotes on middle word' => ['Receptor "Foo" SA', 'Receptor """Foo""" SA'],  // is this a bug?
+            'quote in the middle' => ['Receptor " SA', 'Receptor """ SA'],              // is this a bug?
+            'LF after first quote' => ["\"\nReceptor SA\"", '"Receptor SA"'],
+            'LF before last quote' => ["\"Receptor SA\n\"", '"Receptor SA"'],
+            'LF between quotes' => ["\"Receptor\nSA\"", '"ReceptorSA"'],
+            'LFLF between quotes' => ["\"Receptor\n\nSA\"", '"ReceptorSA"'],
+            'LF at end' => ["Receptor SA\n", 'Receptor SA'],
+            'LF at start' => ["\nReceptor SA", 'Receptor SA'],
+            'LF in the middle' => ["Receptor\nSA", 'ReceptorSA'],
+            'LFLF at start' => ["Receptor\n\nSA", 'ReceptorSA'],
         ];
     }
 
     /**
-     * @param int $index
+     * @param string $sourceValue
      * @param string $expectedValue
      * @dataProvider providerReadMetadataWithSpecialCharacters
      */
-    public function testReadMetadataWithSpecialCharacters(int $index, string $expectedValue): void
+    public function testReadMetadataWithSpecialCharacters(string $sourceValue, string $expectedValue): void
     {
-        $contents = $this->fileContents('metadata/special-caracters.txt');
+        $contents = implode("\r\n", [
+            implode('~', ['id', 'value', 'foo', 'bar']),
+            implode('~', ['1', $sourceValue, 'x-foo', 'x-bar']),
+            implode('~', ['2', 'second', 'x-foo', 'x-bar']),
+        ]);
         $reader = MetadataContent::createFromContents($contents);
 
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
-            $extracted[] = $item->nombreReceptor;
+            $extracted[] = $item->all();
         }
 
-        $this->assertSame($expectedValue, $extracted[$index]);
-    }
-
-    public function testReadMetadataWithSpecialCharactersMatchRows(): void
-    {
-        $contents = $this->fileContents('metadata/special-caracters.txt');
-        $reader = MetadataContent::createFromContents($contents);
-
-        $this->assertCount(4, $reader->eachItem());
+        $this->assertSame($expectedValue, $extracted[0]['value']);
+        $this->assertCount(2, $extracted);
     }
 }
