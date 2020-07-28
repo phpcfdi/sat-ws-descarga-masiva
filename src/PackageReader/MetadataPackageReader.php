@@ -23,7 +23,7 @@ class MetadataPackageReader extends AbstractPackageReader
 
     protected function filterEntryFilename(string $filename): bool
     {
-        if (boolval(preg_match('/^[\w\-]{36}_[\d]+\.txt$/i', $filename))) {
+        if (boolval(preg_match('/^[\w\-]{36}(_|-)[\d]+\.txt$/i', $filename))) {
             return true;
         }
         return false;
