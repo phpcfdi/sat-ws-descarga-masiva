@@ -27,19 +27,23 @@ class MetadataContent
     }
 
     /**
-     * This method create a SplTempFileObject to store the information
+     * This method fix the content and create a SplTempFileObject to store the information
      *
      * @param string $contents
      * @return MetadataContent
      */
     public static function createFromContents(string $contents): self
     {
+        // fix known errors on metadata text file
+        $preprocessor = new MetadataPreprocessor($contents);
+        $preprocessor->fix();
+
         // If the temporary file exceeds this size, it will be moved to a file in the system's temp directory
         $iterator = new SplTempFileObject();
-        $iterator->fwrite($contents);
+        $iterator->fwrite($preprocessor->getContents());
         $iterator->rewind();
         $iterator->setFlags(SplTempFileObject::READ_CSV);
-        $iterator->setCsvControl('~');
+        $iterator->setCsvControl('~', '|');
         return new self($iterator);
     }
 

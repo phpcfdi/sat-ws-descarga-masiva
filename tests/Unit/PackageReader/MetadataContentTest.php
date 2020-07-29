@@ -71,4 +71,48 @@ class MetadataContentTest extends TestCase
         $metadata = $reader->createMetadataItem($headers, $values);
         $this->assertSame($expected, $metadata->all());
     }
+
+    /** @return array<string, array{string, string}> */
+    public function providerReadMetadataWithSpecialCharacters(): array
+    {
+        return [
+            'simple' => ['Receptor SA', 'Receptor SA'],
+            'quotes on complete field' => ['"Receptor SA"', '"Receptor SA"'],
+            'quotes on first word' => ['"Receptor" SA', '"Receptor" SA'],
+            'quotes on last word' => ['Receptor "SA"', 'Receptor "SA"'],
+            'quotes on middle word' => ['Receptor "Foo" SA', 'Receptor "Foo" SA'],
+            'quote in the middle' => ['Receptor " SA', 'Receptor " SA'],
+            'LF after first quote' => ["\"\nReceptor SA\"", '"Receptor SA"'],
+            'LF before last quote' => ["\"Receptor SA\n\"", '"Receptor SA"'],
+            'LF between quotes' => ["\"Receptor\nSA\"", '"ReceptorSA"'],
+            'LFLF between quotes' => ["\"Receptor\n\nSA\"", '"ReceptorSA"'],
+            'LF at end' => ["Receptor SA\n", 'Receptor SA'],
+            'LF at start' => ["\nReceptor SA", 'Receptor SA'],
+            'LF in the middle' => ["Receptor\nSA", 'ReceptorSA'],
+            'LFLF at start' => ["Receptor\n\nSA", 'ReceptorSA'],
+        ];
+    }
+
+    /**
+     * @param string $sourceValue
+     * @param string $expectedValue
+     * @dataProvider providerReadMetadataWithSpecialCharacters
+     */
+    public function testReadMetadataWithSpecialCharacters(string $sourceValue, string $expectedValue): void
+    {
+        $contents = implode("\r\n", [
+            implode('~', ['id', 'value', 'foo', 'bar']),
+            implode('~', ['1', $sourceValue, 'x-foo', 'x-bar']),
+            implode('~', ['2', 'second', 'x-foo', 'x-bar']),
+        ]);
+        $reader = MetadataContent::createFromContents($contents);
+
+        $extracted = [];
+        foreach ($reader->eachItem() as $item) {
+            $extracted[] = $item->all();
+        }
+
+        $this->assertSame($expectedValue, $extracted[0]['value']);
+        $this->assertCount(2, $extracted);
+    }
 }
