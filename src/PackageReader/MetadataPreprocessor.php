@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 
 /**
- * This preprocesor fixes metadata common issues:
+ * This preprocesor fixes metadata issues:
  * - SAT CSV EOL is <CR><LF> and might contain <LF> inside a field
- * - Quotes do not delimitate fields, they are unscaped
  *
  * @internal
  */
@@ -22,18 +21,9 @@ class MetadataPreprocessor
     /** @var string The data to process */
     private $contents;
 
-    /** @var bool Define if the EOL contains <CR><LF> or only <LF> */
-    private $eolHasCr;
-
     public function __construct(string $contents)
     {
         $this->contents = $contents;
-        $firstLineFeedPosition = strpos($contents, self::CONTROL_LF);
-        if (false === $firstLineFeedPosition) {
-            $this->eolHasCr = false;
-        } else {
-            $this->eolHasCr = (self::CONTROL_CR === substr($contents, $firstLineFeedPosition - 1, 1));
-        }
     }
 
     public function getContents(): string
@@ -43,13 +33,25 @@ class MetadataPreprocessor
 
     public function fix(): void
     {
-        if ($this->eolHasCr) {
-            $this->fixInnerLineFeed();
-        }
+        // all the fixes should exists here
+        $this->fixEolCrLf();
     }
 
-    private function fixInnerLineFeed(): void
+    public function fixEolCrLf(): void
     {
+        // check if EOL is <CR><LF>
+        $firstLineFeedPosition = strpos($this->contents, self::CONTROL_LF);
+        if (false === $firstLineFeedPosition) {
+            $eolIsCrLf = false;
+        } else {
+            $eolIsCrLf = (self::CONTROL_CR === substr($this->contents, $firstLineFeedPosition - 1, 1));
+        }
+
+        // exit early if nothing to do
+        if (! $eolIsCrLf) {
+            return;
+        }
+
         // repair inner <LF>, EOL must be <CR><LF>
         $lines = explode(self::CONTROL_CRLF, $this->contents);
         foreach ($lines as &$line) {
