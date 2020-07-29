@@ -23,7 +23,7 @@ class MetadataPackageReader extends AbstractPackageReader
 
     protected function filterEntryFilename(string $filename): bool
     {
-        if (boolval(preg_match('^[^\/\\]+\.txt$', $filename))) {
+        if (boolval(preg_match('^[^\/\\\\]+\.txt$', $filename))) {
             return true;
         }
         return false;
