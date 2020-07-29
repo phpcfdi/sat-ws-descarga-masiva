@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
+namespace PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal;
 
 /**
  * This preprocesor fixes metadata issues:
  * - SAT CSV EOL is <CR><LF> and might contain <LF> inside a field
  *
+ * @see MetadataContent
  * @internal
  */
-class MetadataPreprocessor
+final class MetadataPreprocessor
 {
     private const CONTROL_CR = "\r";
 

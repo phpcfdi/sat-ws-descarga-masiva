@@ -47,7 +47,7 @@ class CfdiPackageReaderTest extends TestCase
         $expectedNumberCfdis = 2;
 
         $filename = $this->filePath('zip/cfdi.zip');
-        $cfdiPackageReader = new CfdiPackageReader($filename);
+        $cfdiPackageReader = CfdiPackageReader::createFromFile($filename);
 
         $this->assertCount($expectedNumberCfdis, $cfdiPackageReader);
     }
@@ -64,21 +64,21 @@ class CfdiPackageReaderTest extends TestCase
         sort($expectedFilenames);
 
         $filename = $this->filePath('zip/cfdi.zip');
-        $cfdiPackageReader = new CfdiPackageReader($filename);
+        $cfdiPackageReader = CfdiPackageReader::createFromFile($filename);
 
         $filenames = array_keys(iterator_to_array($cfdiPackageReader->fileContents()));
         sort($filenames);
         $this->assertEquals($expectedFilenames, $filenames);
     }
 
-    public function testReaderCfdiInZip(): void
+    public function testCfdiReaderObtainFirstFileAsExpected(): void
     {
         $expectedCfdi = $this->fileContents('zip/cfdi.xml');
 
         $zipFilename = $this->filePath('zip/cfdi.zip');
-        $cfdiPackageReader = new CfdiPackageReader($zipFilename);
+        $cfdiPackageReader = CfdiPackageReader::createFromFile($zipFilename);
 
-        $cfdi = $cfdiPackageReader->fileContents()->current();
-        $this->assertEquals($expectedCfdi, $cfdi);
+        $cfdi = current(iterator_to_array($cfdiPackageReader->fileContents()));
+        $this->assertSame($expectedCfdi, $cfdi);
     }
 }

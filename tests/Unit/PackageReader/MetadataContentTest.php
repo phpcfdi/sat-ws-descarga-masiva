@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\PackageReader;
 
-use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataContent;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class MetadataContentTest extends TestCase
@@ -12,7 +12,7 @@ class MetadataContentTest extends TestCase
     public function testReadMetadata(): void
     {
         $contents = $this->fileContents('zip/metadata.txt');
-        $reader = MetadataContent::createFromContents($contents);
+        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
             $extracted[] = $item->uuid;
@@ -38,7 +38,7 @@ class MetadataContentTest extends TestCase
             '', // trailing blank lines
             '',
         ]);
-        $reader = MetadataContent::createFromContents($contents);
+        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
             $extracted[] = $item->all();
@@ -67,7 +67,7 @@ class MetadataContentTest extends TestCase
         $headers = ['xee', 'foo'];
         $values = ['x-xee', 'x-foo', 'x-bar'];
         $expected = ['xee' => 'x-xee', 'foo' => 'x-foo', '#extra-01' => 'x-bar'];
-        $reader = MetadataContent::createFromContents('');
+        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents('');
         $metadata = $reader->createMetadataItem($headers, $values);
         $this->assertSame($expected, $metadata->all());
     }
@@ -105,7 +105,7 @@ class MetadataContentTest extends TestCase
             implode('~', ['1', $sourceValue, 'x-foo', 'x-bar']),
             implode('~', ['2', 'second', 'x-foo', 'x-bar']),
         ]);
-        $reader = MetadataContent::createFromContents($contents);
+        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
 
         $extracted = [];
         foreach ($reader->eachItem() as $item) {

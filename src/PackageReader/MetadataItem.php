@@ -6,7 +6,9 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 
 /**
  * Metadata DTO object
- * @internal This struct is reported as of 2019-08-01, if changes use all()/get() methods
+ *
+ * @internal This collection of magic properties is reported as of 2019-08-01, if it changes use all()/get() methods
+ *
  * @property-read string $uuid
  * @property-read string $rfcEmisor
  * @property-read string $nombreEmisor
@@ -20,7 +22,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
  * @property-read string $estatus
  * @property-read string $fechaCancelacion
  */
-class MetadataItem
+final class MetadataItem
 {
     /** @var array<string, string> */
     private $data;

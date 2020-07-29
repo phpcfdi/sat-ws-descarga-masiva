@@ -1,7 +1,5 @@
 # Tareas pendientes para la versión 0.4
 
-- Refactor `PackageReader` namespace, use composition over extension.
-
 - Fix code style signature of `VerifyTranslator::createSoapRequestWithData`.
 
 - Improve documentation blocks on `Shared`.

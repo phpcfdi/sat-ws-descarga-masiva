@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
+namespace PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal;
 
 use Generator;
 use Iterator;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataItem;
 use SplTempFileObject;
 
-/** @internal */
-class MetadataContent
+/**
+ * Helper to iterate inside a Metadata CSV file
+ *
+ * @internal
+ */
+final class MetadataContent
 {
     /** @var Iterator<mixed> */
     private $iterator;

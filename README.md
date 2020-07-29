@@ -31,6 +31,7 @@ composer require phpcfdi/sat-ws-descarga-masiva
 
 ```php
 <?php
+
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\CfdiPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\Service;
@@ -80,15 +81,15 @@ $zipfile = "$packageId.zip";
 file_put_contents($zipfile, $download->getPackageContent());
 
 // obtener los CFDI del archivo ZIP
-$cfdiReader = new CfdiPackageReader($zipfile);
-foreach ($cfdiReader->fileContents() as $name => $content) {
-    file_put_contents("cfdis/$name", $content);
+$cfdiReader = CfdiPackageReader::createFromFile($zipfile);
+foreach ($cfdiReader->cfdis() as $uuid => $content) {
+    file_put_contents("cfdis/$uuid.xml", $content);
 }
 
 // y si el contenido fuera un metadata
-$metadataReader = new MetadataPackageReader($zipfile);
-foreach ($metadataReader->metadata() as $metadata) {
-    echo $metadata->uuid, PHP_EOL;
+$metadataReader = MetadataPackageReader::createFromFile($zipfile);
+foreach ($metadataReader->metadata() as $uuid => $metadata) {
+    echo $metadata->uuid, ': ', $metadata->fechaEmision, PHP_EOL;
 }
 ```
 
@@ -146,6 +147,7 @@ que eres tú y te extienda un nuevo permiso.
 <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770327&ssbinary=true>
 
 Notas importantes del web service:
+
 - Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
 - No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de dos ocasiones un XML. 
 

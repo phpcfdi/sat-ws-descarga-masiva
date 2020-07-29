@@ -1,0 +1,151 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal;
+
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\FileFilterInterface;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\NullFileFilter;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
+use RuntimeException;
+use Throwable;
+use ZipArchive;
+
+/**
+ * Generic package reader, depends on a filter to know if the file in the archive is valid.
+ *
+ * @internal
+ */
+final class FilteredPackageReader implements PackageReaderInterface
+{
+    /** @var string */
+    private $filename;
+
+    /** @var ZipArchive */
+    private $archive;
+
+    /** @var bool */
+    private $removeOnDestruct = false;
+
+    /** @var FileFilterInterface */
+    private $filter;
+
+    private function __construct(string $filename, ZipArchive $archive)
+    {
+        $this->filename = $filename;
+        $this->archive = $archive;
+    }
+
+    public function __destruct()
+    {
+        if ($this->removeOnDestruct) {
+            /** @noinspection PhpUsageOfSilenceOperatorInspection */
+            @unlink($this->filename);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     * @throws RuntimeException if could not open zip file
+     */
+    public static function createFromFile(string $filename): self
+    {
+        $archive = new ZipArchive();
+        $zipCode = $archive->open($filename, ZipArchive::CREATE);
+        if (true !== $zipCode) {
+            throw new RuntimeException(sprintf('Could not open zip file (code %s)', $zipCode));
+        }
+
+        return new self($filename, $archive);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws RuntimeException if cannot create a temporary file
+     * @throws RuntimeException if cannot store contents on temporary file
+     * @throws RuntimeException if could not open zip file
+     */
+    public static function createFromContents(string $content): self
+    {
+        // create temp file
+        try {
+            $tmpfile = tempnam(sys_get_temp_dir(), '');
+        } catch (Throwable $exception) {
+            /** @codeCoverageIgnore */
+            throw new RuntimeException('Cannot create a temporary file', 0, $exception);
+        }
+        if (false === $tmpfile) {
+            /** @codeCoverageIgnore */
+            throw new RuntimeException('Cannot not create a temporary file');
+        }
+
+        // write contents
+        try {
+            $write = file_put_contents($tmpfile, $content);
+        } catch (Throwable $exception) {
+            /** @codeCoverageIgnore */
+            throw new RuntimeException('Cannot store contents on temporary file', 0, $exception);
+        }
+        if (false === $write) {
+            /** @codeCoverageIgnore */
+            throw new RuntimeException('Cannot store contents on temporary file');
+        }
+
+        // build object
+        try {
+            $package = static::createFromFile($tmpfile);
+        } catch (RuntimeException $exception) {
+            unlink($tmpfile);
+            throw $exception;
+        }
+
+        // set special flag to remove file when this object is destroyed
+        $package->removeOnDestruct = true;
+        return $package;
+    }
+
+    public function fileContents()
+    {
+        $archive = $this->getArchive();
+        $filter = $this->getFilter();
+        for ($i = 0; $i < $archive->numFiles; $i++) {
+            $filename = $archive->getNameIndex($i);
+            if (false === $filename || ! $filter->filterFilename($filename)) {
+                continue; // did not pass the filename filter
+            }
+
+            $contents = $archive->getFromName($filename);
+            if (false === $contents || ! $filter->filterContents($contents)) {
+                unset($contents); // release memory as it was filtered
+                continue; // did not pass the filename filter
+            }
+
+            yield $filename => $contents;
+        }
+    }
+
+    public function count(): int
+    {
+        return iterator_count($this->fileContents());
+    }
+
+    public function getFilename(): string
+    {
+        return $this->filename;
+    }
+
+    protected function getArchive(): ZipArchive
+    {
+        return $this->archive;
+    }
+
+    public function getFilter(): FileFilterInterface
+    {
+        return $this->filter;
+    }
+
+    public function setFilter(?FileFilterInterface $filter): void
+    {
+        $this->filter = $filter ?? new NullFileFilter();
+    }
+}
