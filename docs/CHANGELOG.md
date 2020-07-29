@@ -14,12 +14,22 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
-## UNRELEASED
+## Version 0.3.2 2020-07-28
 
+- Se corrige el problema de cambio de formato al definir el nombre de los archivos contenidos en
+  un paquete de Metadata, el formato anterior era `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee_01.txt` y
+  el nuevo es `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee-0001.txt`. La corrección se relajó para que
+  admita cualquier nombre de archivo con extensión `.txt` y que esté en el la raíz. Esta es la
+  misma estrategia utilizada en el lector de paquetes de CFDI (issue #23).
+- Se corrige el problema en que dentro de un archivo de Metadata donde puede contener caracteres
+  extraños en los campos de *nombre emisor* y *nombre receptor*. La corrección se consideró tomando
+  en cuenta que estos campos pueden contener *comillas* `"`, para ello se considera el pipe `|` como
+  delimitador de cadenas. La segunda corrección identifica si el `EOL` es `<CR><LF>` y en ese caso
+  elimina cualquier `<LF>` intermedio (issue #23).
 - PHPStan estaba dando un falso positivo al detectar que `DOMElement::$attributes` puede contener `null`.
   Esto es solo cierto para cualquier `DOMNode` pero no para `DOMElement`.
 - Se corrigieron las ligas a Travis-CI.
-- Se agrega a Travis-CI la versión "php: nightly" pero se le permite fallar.
+- Se agrega a Travis-CI la versión `php: nightly`, pero se le permite fallar.
 
 ## Version 0.3.1 2020-06-04
 
