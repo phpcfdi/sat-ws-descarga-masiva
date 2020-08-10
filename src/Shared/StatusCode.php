@@ -7,7 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 /**
  * Defines "CodEstatus" and "Mensaje"
  */
-class StatusCode
+final class StatusCode
 {
     /** @var int */
     private $code;
