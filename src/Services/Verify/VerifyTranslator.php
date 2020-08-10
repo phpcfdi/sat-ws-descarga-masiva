@@ -39,11 +39,8 @@ class VerifyTranslator
         return $this->createSoapRequestWithData($fiel, $fiel->getRfc(), $requestId);
     }
 
-    public function createSoapRequestWithData(
-        Fiel $fiel,
-        string $rfc,
-        string $requestId
-    ): string {
+    public function createSoapRequestWithData(Fiel $fiel, string $rfc, string $requestId): string
+    {
         $toDigest = $this->nospaces(
             <<<EOT
                 <des:VerificaSolicitudDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">

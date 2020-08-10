@@ -1,7 +1,5 @@
 # Tareas pendientes para la versión 0.4
 
-- Fix code style signature of `VerifyTranslator::createSoapRequestWithData`.
-
 - Improve documentation blocks on `Shared`.
 
 - Make `Enum` & `Shared` finals.
