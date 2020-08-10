@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpUndefinedClassInspection Guzzle has two definitions */
-
 declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
@@ -58,20 +56,17 @@ class GuzzleWebClient implements WebClientInterface
     public function call(Request $request): Response
     {
         try {
-            /** @var ResponseInterface $psr7Response */
             $psr7Response = $this->client->request($request->getMethod(), $request->getUri(), [
                 'headers' => $request->getHeaders(),
                 'body' => $request->getBody(),
             ]);
         } catch (GuzzleException $exception) {
-            /** @var ResponseInterface|null $psr7Response */
             $psr7Response = ($exception instanceof RequestException) ? $exception->getResponse() : null;
             $response = $this->createResponseFromPsr7Response($psr7Response);
             $message = sprintf('Error connecting to %s', $request->getUri());
             throw new WebClientException($message, $request, $response, $exception);
         }
-        $response = $this->createResponseFromPsr7Response($psr7Response);
-        return $response;
+        return $this->createResponseFromPsr7Response($psr7Response);
     }
 
     private function createResponseFromPsr7Response(?ResponseInterface $response): Response

@@ -30,7 +30,7 @@
         "eclipxe/micro-catalog": "^0.1.2"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.0.1",
         "robrichards/xmlseclibs": "^3.0.4",
         "phpunit/phpunit": "^9.1",
         "squizlabs/php_codesniffer": "^3.0",
