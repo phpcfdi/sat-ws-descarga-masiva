@@ -7,13 +7,15 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 use Eclipxe\MicroCatalog\MicroCatalog;
 
 /**
+ * Defines "CodigoEstadoSolicitud"
+ *
  * @method bool isAccepted()
  * @method bool isExhausted()
  * @method bool isMaximumLimitReaded()
  * @method bool isEmptyResult()
  * @method bool isDuplicated()
- * @method string getMessage()
- * @method string getName()
+ * @method string getMessage() Contains the known message in spanish
+ * @method string getName() Contains the internal name
  */
 final class CodeRequest extends MicroCatalog
 {
@@ -55,6 +57,11 @@ final class CodeRequest extends MicroCatalog
         return $this->getName();
     }
 
+    /**
+     * Contains the value of "CodigoEstadoSolicitud"
+     *
+     * @return int
+     */
     public function getValue(): int
     {
         return intval($this->getEntryIndex());
