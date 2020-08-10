@@ -38,11 +38,11 @@ class AuthenticateTranslator
         $expires = $until->formatSat();
         $toDigest = $this->nospaces(
             <<<EOT
-                <u:Timestamp xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" u:Id="_0">
-                    <u:Created>${created}</u:Created>
-                    <u:Expires>${expires}</u:Expires>
-                </u:Timestamp>
-                EOT
+            <u:Timestamp xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" u:Id="_0">
+                <u:Created>${created}</u:Created>
+                <u:Expires>${expires}</u:Expires>
+            </u:Timestamp>
+            EOT
         );
         $digested = base64_encode(sha1($toDigest, true));
         $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested, '#_0');

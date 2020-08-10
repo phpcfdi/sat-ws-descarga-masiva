@@ -43,10 +43,10 @@ class VerifyTranslator
     {
         $toDigest = $this->nospaces(
             <<<EOT
-                <des:VerificaSolicitudDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                    <des:solicitud IdSolicitud="${requestId}" RfcSolicitante="${rfc}"></des:solicitud>
-                </des:VerificaSolicitudDescarga>
-                EOT
+            <des:VerificaSolicitudDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+                <des:solicitud IdSolicitud="${requestId}" RfcSolicitante="${rfc}"></des:solicitud>
+            </des:VerificaSolicitudDescarga>
+            EOT
         );
         $digested = base64_encode(sha1($toDigest, true));
         $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested);
