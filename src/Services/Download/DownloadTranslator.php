@@ -28,19 +28,12 @@ class DownloadTranslator
 
     public function createSoapRequestWithData(Fiel $fiel, string $rfc, string $packageId): string
     {
-        $toDigest = $this->nospaces(
-            <<<EOT
-                <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                    <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}"></des:peticionDescarga>
-                </des:PeticionDescargaMasivaTercerosEntrada>
-                EOT
-        );
-
-        $digested = base64_encode(sha1($toDigest, true));
-        $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested);
-        $signed = base64_encode($fiel->sign($signedInfoData, OPENSSL_ALGO_SHA1));
-        $keyInfoData = $this->createKeyInfoData($fiel);
-        $signatureData = $this->createSignatureData($signedInfoData, $signed, $keyInfoData);
+        $toDigestXml = <<<EOT
+            <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+                <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}"></des:peticionDescarga>
+            </des:PeticionDescargaMasivaTercerosEntrada>
+            EOT;
+        $signatureData = $this->createSignature($fiel, $toDigestXml);
 
         $xml = <<<EOT
             <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">

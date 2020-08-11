@@ -41,18 +41,13 @@ class VerifyTranslator
 
     public function createSoapRequestWithData(Fiel $fiel, string $rfc, string $requestId): string
     {
-        $toDigest = $this->nospaces(
-            <<<EOT
+        $toDigestXml = <<<EOT
             <des:VerificaSolicitudDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
                 <des:solicitud IdSolicitud="${requestId}" RfcSolicitante="${rfc}"></des:solicitud>
             </des:VerificaSolicitudDescarga>
-            EOT
-        );
-        $digested = base64_encode(sha1($toDigest, true));
-        $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested);
-        $signed = base64_encode($fiel->sign($signedInfoData, OPENSSL_ALGO_SHA1));
-        $keyInfoData = $this->createKeyInfoData($fiel);
-        $signatureData = $this->createSignatureData($signedInfoData, $signed, $keyInfoData);
+            EOT;
+        $signatureData = $this->createSignature($fiel, $toDigestXml);
+
         $xml = <<<EOT
             <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
                 <s:Header/>

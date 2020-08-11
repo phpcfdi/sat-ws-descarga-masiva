@@ -197,8 +197,15 @@ trait InteractsXmlTrait
             EOT;
     }
 
-    protected function createSignatureData(string $signedInfo, string $signatureValue, string $keyInfo): string
+    protected function createSignature(Fiel $fiel, string $toDigestXml, string $signedInfoUri = '', string $keyInfo = ''): string
     {
+        $toDigest = $this->nospaces($toDigestXml);
+        $digested = base64_encode(sha1($toDigest, true));
+        $signedInfo = $this->createSignedInfoCanonicalExclusive($digested, $signedInfoUri);
+        $signatureValue = base64_encode($fiel->sign($signedInfo, OPENSSL_ALGO_SHA1));
+        if ('' === $keyInfo) {
+            $keyInfo = $this->createKeyInfoData($fiel);
+        }
         $signedInfo = str_replace('<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">', '<SignedInfo>', $signedInfo);
         return <<<EOT
             <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">

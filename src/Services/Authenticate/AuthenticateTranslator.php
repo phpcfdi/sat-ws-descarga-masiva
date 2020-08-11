@@ -36,20 +36,16 @@ class AuthenticateTranslator
     {
         $created = $since->formatSat();
         $expires = $until->formatSat();
-        $toDigest = $this->nospaces(
-            <<<EOT
-                <u:Timestamp xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" u:Id="_0">
-                    <u:Created>${created}</u:Created>
-                    <u:Expires>${expires}</u:Expires>
-                </u:Timestamp>
-                EOT
-        );
-        $digested = base64_encode(sha1($toDigest, true));
-        $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested, '#_0');
-        $signed = base64_encode($fiel->sign($signedInfoData, OPENSSL_ALGO_SHA1));
-        $keyInfoData = $this->createKeyInfoSecurityToken($uuid);
-        $signatureData = $this->createSignatureData($signedInfoData, $signed, $keyInfoData);
         $certificate = Helpers::cleanPemContents($fiel->getCertificatePemContents());
+        $keyInfoData = $this->createKeyInfoSecurityToken($uuid); // override default $keyInfo
+
+        $toDigestXml = <<<EOT
+            <u:Timestamp xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" u:Id="_0">
+                <u:Created>${created}</u:Created>
+                <u:Expires>${expires}</u:Expires>
+            </u:Timestamp>
+            EOT;
+        $signatureData = $this->createSignature($fiel, $toDigestXml, '#_0', $keyInfoData);
 
         $xml = <<<EOT
             <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">

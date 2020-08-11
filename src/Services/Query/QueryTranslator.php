@@ -54,18 +54,13 @@ class QueryTranslator
         $rfcKey = $downloadType->value();
         $requestTypeValue = $requestType->value();
 
-        $toDigest = $this->nospaces(
-            <<<EOT
-                <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                    <des:solicitud FechaFinal="${end}" FechaInicial="${start}" ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" TipoSolicitud="${requestTypeValue}"></des:solicitud>
-                </des:SolicitaDescarga>
-                EOT
-        );
-        $digested = base64_encode(sha1($toDigest, true));
-        $signedInfoData = $this->createSignedInfoCanonicalExclusive($digested);
-        $signed = base64_encode($fiel->sign($signedInfoData, OPENSSL_ALGO_SHA1));
-        $keyInfoData = $this->createKeyInfoData($fiel);
-        $signatureData = $this->createSignatureData($signedInfoData, $signed, $keyInfoData);
+        $toDigestXml = <<<EOT
+            <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+                <des:solicitud FechaFinal="${end}" FechaInicial="${start}" ${rfcKey}="${rfc}" RfcSolicitante="${rfc}" TipoSolicitud="${requestTypeValue}"></des:solicitud>
+            </des:SolicitaDescarga>
+            EOT;
+        $signatureData = $this->createSignature($fiel, $toDigestXml);
+
         $xml = <<<EOT
             <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
                 <s:Header/>
