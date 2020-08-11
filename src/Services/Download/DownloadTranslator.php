@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Download;
 
+use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 class DownloadTranslator

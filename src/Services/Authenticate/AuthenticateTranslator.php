@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Authenticate;
 
+use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
+use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Helpers;
-use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 
 /** @internal */

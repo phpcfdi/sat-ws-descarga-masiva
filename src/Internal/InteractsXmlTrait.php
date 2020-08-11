@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Shared;
+namespace PhpCfdi\SatWsDescargaMasiva\Internal;
 
 use DOMAttr;
 use DOMDocument;
@@ -10,6 +10,7 @@ use DOMElement;
 use DOMNamedNodeMap;
 use DOMNode;
 use InvalidArgumentException;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 
 /**
  * Contain functions to interact with XML contents and XML DOM

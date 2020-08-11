@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Shared;
+namespace PhpCfdi\SatWsDescargaMasiva\Internal;
 
 /**
  * Helper functions used by the library.

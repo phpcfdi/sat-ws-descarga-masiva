@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Shared;
+namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Internal;
 
 use DOMDocument;
 use InvalidArgumentException;
-use PhpCfdi\SatWsDescargaMasiva\Shared\InteractsXmlTrait;
+use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class InteractsXmlTraitTest extends TestCase
