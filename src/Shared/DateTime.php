@@ -9,6 +9,9 @@ use DateTimeZone;
 use InvalidArgumentException;
 use Throwable;
 
+/**
+ * Defines a date and time
+ */
 class DateTime
 {
     /** @var DateTimeImmutable */

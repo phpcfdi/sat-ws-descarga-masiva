@@ -7,6 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 use Eclipxe\Enum\Enum;
 
 /**
+ * Defines the request type (cfdi or metadata)
  *
  * @method static self cfdi()
  * @method static self metadata()

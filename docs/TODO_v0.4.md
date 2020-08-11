@@ -1,7 +1,5 @@
 # Tareas pendientes para la versión 0.4
 
-- Improve documentation blocks on `Shared`.
-
 - Make `Enum` & `Shared` finals.
 
 - Make an interface `XmlSignatureBuilderInterface` and implement `LocalXmlSignatureBuilder`.

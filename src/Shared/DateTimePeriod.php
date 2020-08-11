@@ -6,6 +6,9 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use InvalidArgumentException;
 
+/**
+ * Defines a period of time by start of period and end of period values
+ */
 class DateTimePeriod
 {
     /** @var DateTime */

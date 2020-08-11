@@ -6,6 +6,12 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use PhpCfdi\Credentials\Credential;
 
+/**
+ * Defines a eFirma/FIEL/FEA
+ * This object is based on phpcfdi/credentials Credential object
+ *
+ * @see Credential
+ */
 class Fiel
 {
     /** @var Credential */

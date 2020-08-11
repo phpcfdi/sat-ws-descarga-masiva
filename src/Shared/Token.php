@@ -6,6 +6,9 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use InvalidArgumentException;
 
+/**
+ * Defines a Token as given from SAT
+ */
 class Token
 {
     /** @var DateTime */

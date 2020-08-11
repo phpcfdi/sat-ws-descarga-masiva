@@ -11,7 +11,12 @@ use DOMNamedNodeMap;
 use DOMNode;
 use InvalidArgumentException;
 
-/** @internal */
+/**
+ * Contain functions to interact with XML contents and XML DOM
+ *
+ * This class is internal, do not use it outside this project
+ * @internal
+ */
 trait InteractsXmlTrait
 {
     public function nospaces(string $input): string

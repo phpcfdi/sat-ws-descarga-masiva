@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
+/**
+ * Helper functions used by the library.
+ *
+ * This class is internal, do not use it outside this project
+ * @internal
+ */
 class Helpers
 {
     public static function createXmlSecurityTokenId(): string
@@ -21,17 +27,12 @@ class Helpers
 
     public static function cleanPemContents(string $pemContents): string
     {
-        return implode(
-            '',
-            array_map(
-                'trim',
-                array_filter(
-                    explode("\n", $pemContents),
-                    function (string $line): bool {
-                        return (0 !== strpos($line, '-----'));
-                    }
-                )
-            )
+        $filteredLines = array_filter(
+            explode("\n", $pemContents),
+            function (string $line): bool {
+                return (0 !== strpos($line, '-----'));
+            }
         );
+        return implode('', array_map('trim', $filteredLines));
     }
 }
