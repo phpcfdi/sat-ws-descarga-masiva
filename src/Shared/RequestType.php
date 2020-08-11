@@ -15,7 +15,7 @@ use Eclipxe\Enum\Enum;
  * @method bool isCfdi()
  * @method bool isMetadata()
  */
-class RequestType extends Enum
+final class RequestType extends Enum
 {
     protected static function overrideValues(): array
     {

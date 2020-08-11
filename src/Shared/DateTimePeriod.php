@@ -9,7 +9,7 @@ use InvalidArgumentException;
 /**
  * Defines a period of time by start of period and end of period values
  */
-class DateTimePeriod
+final class DateTimePeriod
 {
     /** @var DateTime */
     private $start;

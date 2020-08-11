@@ -9,7 +9,7 @@ use InvalidArgumentException;
 /**
  * Defines a Token as given from SAT
  */
-class Token
+final class Token
 {
     /** @var DateTime */
     private $created;

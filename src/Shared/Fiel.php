@@ -12,7 +12,7 @@ use PhpCfdi\Credentials\Credential;
  *
  * @see Credential
  */
-class Fiel
+final class Fiel
 {
     /** @var Credential */
     private $credential;

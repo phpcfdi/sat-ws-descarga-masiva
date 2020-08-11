@@ -15,7 +15,7 @@ use Eclipxe\Enum\Enum;
  * @method bool isIssued()
  * @method bool isReceived()
  */
-class DownloadType extends Enum
+final class DownloadType extends Enum
 {
     protected static function overrideValues(): array
     {

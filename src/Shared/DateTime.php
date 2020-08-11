@@ -12,7 +12,7 @@ use Throwable;
 /**
  * Defines a date and time
  */
-class DateTime
+final class DateTime
 {
     /** @var DateTimeImmutable */
     private $value;
