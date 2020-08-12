@@ -8,6 +8,7 @@ use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
+/** @internal */
 class DownloadTranslator
 {
     use InteractsXmlTrait;

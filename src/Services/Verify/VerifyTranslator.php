@@ -10,6 +10,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\CodeRequest;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
 
+/** @internal */
 class VerifyTranslator
 {
     use InteractsXmlTrait;
