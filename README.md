@@ -27,24 +27,21 @@ Utiliza [composer](https://getcomposer.org/), instala de la siguiente forma:
 composer require phpcfdi/sat-ws-descarga-masiva
 ```
 
-## Ejemplo básico de uso
+## Ejemplos de uso
+
+### Creación el servicio
+
+Ejemplo creando el servicio usando una FIEL.
 
 ```php
 <?php
 
-use PhpCfdi\SatWsDescargaMasiva\PackageReader\CfdiPackageReader;
-use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 use PhpCfdi\SatWsDescargaMasiva\Service;
-use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 
-// Creación de la FIEL, puede leer archivos DER (como los envía el SAT) o PEM (convertidos)
+// Creación de la FIEL, puede leer archivos DER (como los envía el SAT) o PEM (convertidos con openssl)
 $fiel = Fiel::create(
     file_get_contents('certificado.cer'),
     file_get_contents('llaveprivada.key'),
@@ -65,37 +62,116 @@ $requestBuilder = new FielRequestBuilder($fiel);
 
 // Creación del servicio
 $service = new Service($requestBuilder, $webClient);
+```
 
-// presentar una solicitud
+### Realizar una consulta
+
+Una vez creado el servicio se puede presentar la consulta
+
+```php
+<?php
+
+use PhpCfdi\SatWsDescargaMasiva\Service;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+
+/**
+ * El servicio ya existe
+ * @var Service $service
+ */
+
+// crear una consulta
 $request = new QueryParameters(
     DateTimePeriod::create(DateTime::create('2019-01-13 00:00:00'), DateTime::create('2019-01-13 23:59:59')),
     DownloadType::issued(),
     RequestType::metadata()
 );
+
+// presentar la consulta
 $query = $service->query($request);
-$requestId = $query->getRequestId();
+```
+
+### Verificar una consulta
+
+La verificación depende de que la consulta haya sido aceptada.
+
+```php
+<?php
+
+use PhpCfdi\SatWsDescargaMasiva\Service;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryResult;
+
+/**
+ * @var Service $service
+ * @var QueryResult $query
+ */
 
 // consultar el servicio de verificación
-$verify = $service->verify($requestId);
-$packageId = $verify->getPackagesIds()[0];
+$verify = $service->verify($query->getRequestId());
+echo 'Packages: ', $verify->countPackages();
+```
 
-// descargar
-$download = $service->download($packageId);
-$zipfile = "$packageId.zip";
-file_put_contents($zipfile, $download->getPackageContent());
+### Descargar los paquetes de la consulta
 
-// obtener los CFDI del archivo ZIP
-$cfdiReader = CfdiPackageReader::createFromFile($zipfile);
-foreach ($cfdiReader->cfdis() as $uuid => $content) {
-    file_put_contents("cfdis/$uuid.xml", $content);
+La descarga depende de que la consulta haya sido correctamente verificada.
+
+```php
+<?php
+
+use PhpCfdi\SatWsDescargaMasiva\Service;
+use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyResult;
+
+/**
+ * @var Service $service
+ * @var VerifyResult $verify
+ */
+
+// consultar el servicio de verificación
+foreach($verify->getPackagesIds() as $packageId) {
+    $download = $service->download($packageId);
+    $zipfile = "$packageId.zip";
+    file_put_contents($zipfile, $download->getPackageContent());
 }
+```
 
-// y si el contenido fuera un metadata
+### Lectura de paquetes
+
+Para leer todo el contenido de los registros de metadata dentro del paquete.
+
+```php
+<?php
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
+
+/**
+ * $zipfile contiene la ruta al archivo de paquete
+ * @var string $zipfile
+ */
 $metadataReader = MetadataPackageReader::createFromFile($zipfile);
 foreach ($metadataReader->metadata() as $uuid => $metadata) {
     echo $metadata->uuid, ': ', $metadata->fechaEmision, PHP_EOL;
 }
 ```
+
+Para leer todos los archivos CFDI dentro del paquete.
+
+```php
+<?php
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\CfdiPackageReader;
+
+/**
+ * $zipfile contiene la ruta al archivo de paquete
+ * @var string $zipfile
+ */
+$cfdiReader = CfdiPackageReader::createFromFile($zipfile);
+foreach ($cfdiReader->cfdis() as $uuid => $content) {
+    file_put_contents("cfdis/$uuid.xml", $content);
+}
+```
+
+## Información técnica
 
 ### Acerca de la interfaz `RequestBuilderInterface`
 
