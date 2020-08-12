@@ -20,11 +20,21 @@ final class QueryResult
         $this->requestId = $requestId;
     }
 
+    /**
+     * Status of the verification call
+     *
+     * @return StatusCode
+     */
     public function getStatus(): StatusCode
     {
         return $this->status;
     }
 
+    /**
+     * If accepted, contains the request identification required for verification
+     *
+     * @return string
+     */
     public function getRequestId(): string
     {
         return $this->requestId;

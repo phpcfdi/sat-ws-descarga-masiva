@@ -24,16 +24,31 @@ final class DownloadResult
         $this->packageLength = strlen($this->packageContent);
     }
 
+    /**
+     * Status of the download call
+     *
+     * @return StatusCode
+     */
     public function getStatus(): StatusCode
     {
         return $this->status;
     }
 
+    /**
+     * If available, contains the package contents
+     *
+     * @return string
+     */
     public function getPackageContent(): string
     {
         return $this->packageContent;
     }
 
+    /**
+     * If available, contains the package contents length in bytes
+     *
+     * @return int
+     */
     public function getPackageLenght(): int
     {
         return $this->packageLength;

@@ -8,6 +8,9 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\CodeRequest;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
 
+/**
+ * Service Verify Result
+ */
 final class VerifyResult
 {
     /** @var StatusCode */
@@ -39,32 +42,61 @@ final class VerifyResult
         $this->packagesIds = $packagesIds;
     }
 
+    /**
+     * Status of the verification call
+     *
+     * @return StatusCode
+     */
     public function getStatus(): StatusCode
     {
         return $this->status;
     }
 
+    /**
+     * Status of the query
+     *
+     * @return StatusRequest
+     */
     public function getStatusRequest(): StatusRequest
     {
         return $this->statusRequest;
     }
 
+    /**
+     * Code related to the status of the query
+     *
+     * @return CodeRequest
+     */
     public function getCodeRequest(): CodeRequest
     {
         return $this->codeRequest;
     }
 
+    /**
+     * Number of CFDI given by the query
+     *
+     * @return int
+     */
     public function getNumberCfdis(): int
     {
         return $this->numberCfdis;
     }
 
-    /** @return string[] */
+    /**
+     * An array containing the package identifications, required to perform the download process
+     *
+     * @return string[]
+     */
     public function getPackagesIds(): array
     {
         return $this->packagesIds;
     }
 
+    /**
+     * Count of package identifications
+     *
+     * @return int
+     */
     public function countPackages(): int
     {
         return count($this->packagesIds);
