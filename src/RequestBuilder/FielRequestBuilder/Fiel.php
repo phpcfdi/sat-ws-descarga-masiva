@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Shared;
+namespace PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder;
 
 use PhpCfdi\Credentials\Credential;
 

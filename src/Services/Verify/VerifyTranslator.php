@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
 use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CodeRequest;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
 
@@ -34,33 +34,8 @@ class VerifyTranslator
         return new VerifyResult($status, $statusRequest, $codeRequest, $numberCfdis, ...$packages);
     }
 
-    public function createSoapRequest(Fiel $fiel, string $requestId): string
+    public function createSoapRequest(RequestBuilderInterface $requestBuilder, string $requestId): string
     {
-        return $this->createSoapRequestWithData($fiel, $fiel->getRfc(), $requestId);
-    }
-
-    public function createSoapRequestWithData(Fiel $fiel, string $rfc, string $requestId): string
-    {
-        $toDigestXml = <<<EOT
-            <des:VerificaSolicitudDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:solicitud IdSolicitud="${requestId}" RfcSolicitante="${rfc}"></des:solicitud>
-            </des:VerificaSolicitudDescarga>
-            EOT;
-        $signatureData = $this->createSignature($fiel, $toDigestXml);
-
-        $xml = <<<EOT
-            <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
-                <s:Header/>
-                <s:Body>
-                    <des:VerificaSolicitudDescarga>
-                        <des:solicitud IdSolicitud="${requestId}" RfcSolicitante="${rfc}">
-                            ${signatureData}
-                        </des:solicitud>
-                    </des:VerificaSolicitudDescarga>
-                </s:Body>
-            </s:Envelope>
-            EOT;
-
-        return $this->nospaces($xml);
+        return $requestBuilder->verify($requestId);
     }
 }

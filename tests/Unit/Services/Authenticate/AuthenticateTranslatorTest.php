@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Authenticate;
 
+use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Tests\EnvelopSignatureVerifier;
@@ -14,14 +15,15 @@ class AuthenticateTranslatorTest extends TestCase
     public function testCreateSoapRequest(): void
     {
         $translator = new AuthenticateTranslator();
-        $fiel = $this->createFielUsingTestingFiles();
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
+        $fiel = $requestBuilder->getFiel();
 
         $since = new DateTime('2019-08-01T03:38:19Z');
         $until = new DateTime('2019-08-01T03:43:19Z');
-        $uuid = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
-        $requestBody = $translator->createSoapRequestWithData($fiel, $since, $until, $uuid);
+        $securityTokenId = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
+        $requestBody = $translator->createSoapRequestWithData($requestBuilder, $since, $until, $securityTokenId);
         $this->assertSame(
-            $this->xmlFormat($translator->nospaces($this->fileContents('authenticate/request.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('authenticate/request.xml'))),
             $this->xmlFormat($requestBody)
         );
 
@@ -41,7 +43,7 @@ class AuthenticateTranslatorTest extends TestCase
         $expectedExpires = new DateTime('2019-08-01T03:43:20.044Z');
 
         $translator = new AuthenticateTranslator();
-        $responseBody = $translator->nospaces($this->fileContents('authenticate/response-with-token.xml'));
+        $responseBody = Helpers::nospaces($this->fileContents('authenticate/response-with-token.xml'));
         $token = $translator->createTokenFromSoapResponse($responseBody);
         $this->assertFalse($token->isValueEmpty());
         $this->assertTrue($token->isExpired());
@@ -53,7 +55,7 @@ class AuthenticateTranslatorTest extends TestCase
     public function testCreateTokenFromSoapResponseWithError(): void
     {
         $translator = new AuthenticateTranslator();
-        $responseBody = $translator->nospaces($this->fileContents('authenticate/response-with-error.xml'));
+        $responseBody = Helpers::nospaces($this->fileContents('authenticate/response-with-error.xml'));
         $token = $translator->createTokenFromSoapResponse($responseBody);
         $this->assertTrue($token->isValueEmpty());
         $this->assertTrue($token->isExpired());

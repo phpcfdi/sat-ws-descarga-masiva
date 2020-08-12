@@ -12,6 +12,11 @@ namespace PhpCfdi\SatWsDescargaMasiva\Internal;
  */
 class Helpers
 {
+    public static function nospaces(string $input): string
+    {
+        return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input) ?? '';
+    }
+
     public static function createXmlSecurityTokenId(): string
     {
         $md5 = md5(uniqid());

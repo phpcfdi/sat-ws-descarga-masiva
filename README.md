@@ -34,23 +34,24 @@ composer require phpcfdi/sat-ws-descarga-masiva
 
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\CfdiPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 
-// Creación de la fiel, puede leer archivos DER (como los envía el SAT) o PEM (convertidos)
+// Creación de la FIEL, puede leer archivos DER (como los envía el SAT) o PEM (convertidos)
 $fiel = Fiel::create(
     file_get_contents('certificado.cer'),
     file_get_contents('llaveprivada.key'),
     '12345678a'
 );
 
-// verificar que la fiel sea válida (no sea CSD y sea vigente acorde a la fecha del sistema)
+// verificar que la FIEL sea válida (no sea CSD y sea vigente acorde a la fecha del sistema)
 if (! $fiel->isValid()) {
     return;
 }
@@ -59,8 +60,11 @@ if (! $fiel->isValid()) {
 // para usarlo necesitas instalar guzzlehttp/guzzle pues no es una dependencia directa
 $webClient = new GuzzleWebClient();
 
+// creación del objeto encargado de crear las solicitudes firmadas usando una FIEL
+$requestBuilder = new FielRequestBuilder($fiel);
+
 // Creación del servicio
-$service = new Service($fiel, $webClient);
+$service = new Service($requestBuilder, $webClient);
 
 // presentar una solicitud
 $request = new QueryParameters(
@@ -93,6 +97,21 @@ foreach ($metadataReader->metadata() as $uuid => $metadata) {
 }
 ```
 
+### Acerca de la interfaz `RequestBuilderInterface`
+
+El Servicio Web del SAT de Descarga Masiva requiere comunicación SOAP especial, con autenticación
+y mensajes firmados. Generar estos mensajes requiere de gran detalle porque si el mensaje contiene
+errores será inmediatamente rechazado.
+
+La firma de estos mensajes es con la FIEL, así que se puede utilizar la clase `FielRequestBuilder` que
+junto con la clase `Fiel` y la librería [phpcfdi/credentials](https://github.com/phpcfdi/credentials)
+hacen la combinación adecuada para firmar los mensajes.
+
+Sin embargo, existen escenarios distribuidos donde lo mejor sería contar con la creación de estos mensajes
+firmados en un lugar externo, de esta forma la FIEL (la llave privada y contraseña) no se necesita exponer
+al exterior. Para estos (u otros) escenarios, es posible crear una implementación de `RequestBuilderInterface`
+que contenga la lógica adecuada y entregue los mensajes firmados necesarios para la comunicación. 
+
 ### Acerca de la interfaz `WebClientInterface`
 
 Para hacer esta librería compatible con diferentes formas de comunicación se utiliza una interfaz de cliente HTTP.
@@ -104,8 +123,8 @@ Si lo prefieres -como en el ejemplo de uso- podrías instalar Guzzle `composer r
 ### Recomendación de fábrica del servicio
 
 Te recomendamos configurar el framework de tu aplicación (Dependency Injection Container) o crear una clase que
-fabrique los objetos `Service`, `Fiel` y `WebClient` usando tus propias configuraciones de certificado, llave privada
-y contraseña.
+fabrique los objetos `Service`, `RequestBuilder` y `WebClient`, usando tus propias configuraciones de `Fiel`
+en caso de que tengas disponible el certificado, llave privada y contraseña.
 
 ## Acerca del Servicio Web de Descarga Masiva de CFDI y Retenciones
 

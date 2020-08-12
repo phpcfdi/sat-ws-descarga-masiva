@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Download;
 
 use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 class DownloadTranslator
@@ -21,32 +21,8 @@ class DownloadTranslator
         return new DownloadResult($status, base64_decode($package, true) ?: '');
     }
 
-    public function createSoapRequest(Fiel $fiel, string $packageId): string
+    public function createSoapRequest(RequestBuilderInterface $requestBuilder, string $packageId): string
     {
-        return $this->createSoapRequestWithData($fiel, $fiel->getRfc(), $packageId);
-    }
-
-    public function createSoapRequestWithData(Fiel $fiel, string $rfc, string $packageId): string
-    {
-        $toDigestXml = <<<EOT
-            <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}"></des:peticionDescarga>
-            </des:PeticionDescargaMasivaTercerosEntrada>
-            EOT;
-        $signatureData = $this->createSignature($fiel, $toDigestXml);
-
-        $xml = <<<EOT
-            <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
-                <s:Header/>
-                <s:Body>
-                    <des:PeticionDescargaMasivaTercerosEntrada>
-                        <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfc}">
-                            ${signatureData}
-                        </des:peticionDescarga>
-                    </des:PeticionDescargaMasivaTercerosEntrada>
-                </s:Body>
-            </s:Envelope>
-            EOT;
-        return $this->nospaces($xml);
+        return $requestBuilder->download($packageId);
     }
 }

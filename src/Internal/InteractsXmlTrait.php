@@ -10,7 +10,6 @@ use DOMElement;
 use DOMNamedNodeMap;
 use DOMNode;
 use InvalidArgumentException;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 
 /**
  * Contain functions to interact with XML contents and XML DOM
@@ -20,11 +19,6 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
  */
 trait InteractsXmlTrait
 {
-    public function nospaces(string $input): string
-    {
-        return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input) ?? '';
-    }
-
     public function readXmlDocument(string $source): DOMDocument
     {
         if ('' === $source) {
@@ -156,63 +150,5 @@ trait InteractsXmlTrait
             $attributes[$attribute->localName] = $attribute->value;
         }
         return array_change_key_case($attributes, CASE_LOWER);
-    }
-
-    protected function createSignedInfoCanonicalExclusive(string $digested, string $uri = ''): string
-    {
-        // see https://www.w3.org/TR/xmlsec-algorithms/ to understand the algorithm
-        // http://www.w3.org/2001/10/xml-exc-c14n# - Exclusive Canonicalization XML 1.0 (omit comments)
-        $xml = <<<EOT
-            <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-                <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
-                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-                <Reference URI="${uri}">
-                    <Transforms>
-                        <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
-                    </Transforms>
-                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-                    <DigestValue>${digested}</DigestValue>
-                </Reference>
-            </SignedInfo>
-            EOT;
-        return $this->nospaces($xml);
-    }
-
-    protected function createKeyInfoData(Fiel $fiel): string
-    {
-        $certificate = Helpers::cleanPemContents($fiel->getCertificatePemContents());
-        $serial = $fiel->getCertificateSerial();
-        $issuerName = $fiel->getCertificateIssuerName();
-
-        return <<<EOT
-            <KeyInfo>
-                <X509Data>
-                    <X509IssuerSerial>
-                        <X509IssuerName>${issuerName}</X509IssuerName>
-                        <X509SerialNumber>${serial}</X509SerialNumber>
-                    </X509IssuerSerial>
-                    <X509Certificate>${certificate}</X509Certificate>
-                </X509Data>
-            </KeyInfo>
-            EOT;
-    }
-
-    protected function createSignature(Fiel $fiel, string $toDigestXml, string $signedInfoUri = '', string $keyInfo = ''): string
-    {
-        $toDigest = $this->nospaces($toDigestXml);
-        $digested = base64_encode(sha1($toDigest, true));
-        $signedInfo = $this->createSignedInfoCanonicalExclusive($digested, $signedInfoUri);
-        $signatureValue = base64_encode($fiel->sign($signedInfo, OPENSSL_ALGO_SHA1));
-        if ('' === $keyInfo) {
-            $keyInfo = $this->createKeyInfoData($fiel);
-        }
-        $signedInfo = str_replace('<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">', '<SignedInfo>', $signedInfo);
-        return <<<EOT
-            <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-                ${signedInfo}
-                <SignatureValue>${signatureValue}</SignatureValue>
-                ${keyInfo}
-            </Signature>
-            EOT;
     }
 }

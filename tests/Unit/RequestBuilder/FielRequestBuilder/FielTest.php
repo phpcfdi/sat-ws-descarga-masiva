@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Shared;
+namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\RequestBuilder\FielRequestBuilder;
 
 use Exception;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class FielTest extends TestCase
@@ -25,11 +24,11 @@ class FielTest extends TestCase
 
     public function testFielUnprotectedPEM(): void
     {
-        $fiel = (new FielData(
-            $this->filePath('fake-fiel/EKU9003173C9.cer'),
-            $this->filePath('fake-fiel/EKU9003173C9.key.pem'),
+        $fiel = Fiel::create(
+            $this->fileContents('fake-fiel/EKU9003173C9.cer'),
+            $this->fileContents('fake-fiel/EKU9003173C9.key.pem'),
             ''
-        ))->createFiel();
+        );
         $this->assertTrue($fiel->isValid());
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Services\Download\DownloadResult;
 use PhpCfdi\SatWsDescargaMasiva\Services\Download\DownloadTranslator;
@@ -12,7 +13,6 @@ use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryResult;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyResult;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
@@ -22,8 +22,8 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
 class Service
 {
-    /** @var Fiel */
-    private $fiel;
+    /** @var RequestBuilderInterface */
+    private $requestBuilder;
 
     /** @var WebClientInterface */
     private $webclient;
@@ -31,9 +31,9 @@ class Service
     /** @var Token|null */
     public $currentToken;
 
-    public function __construct(Fiel $fiel, WebClientInterface $webclient, Token $currentToken = null)
+    public function __construct(RequestBuilderInterface $requestBuilder, WebClientInterface $webclient, Token $currentToken = null)
     {
-        $this->fiel = $fiel;
+        $this->requestBuilder = $requestBuilder;
         $this->webclient = $webclient;
         $this->currentToken = $currentToken;
     }
@@ -55,14 +55,13 @@ class Service
     public function authenticate(): Token
     {
         $authenticateTranslator = new AuthenticateTranslator();
-        $soapBody = $authenticateTranslator->createSoapRequest($this->fiel);
+        $soapBody = $authenticateTranslator->createSoapRequest($this->requestBuilder);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc',
             $soapBody
         );
-        $token = $authenticateTranslator->createTokenFromSoapResponse($responseBody);
-        return $token;
+        return $authenticateTranslator->createTokenFromSoapResponse($responseBody);
     }
 
     public function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
@@ -103,42 +102,39 @@ class Service
     public function query(QueryParameters $parameters): QueryResult
     {
         $queryTranslator = new QueryTranslator();
-        $soapBody = $queryTranslator->createSoapRequest($this->fiel, $parameters);
+        $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
             $soapBody,
             $this->obtainCurrentToken()
         );
-        $queryResult = $queryTranslator->createQueryResultFromSoapResponse($responseBody);
-        return $queryResult;
+        return $queryTranslator->createQueryResultFromSoapResponse($responseBody);
     }
 
     public function verify(string $requestId): VerifyResult
     {
         $verifyTranslator = new VerifyTranslator();
-        $soapBody = $verifyTranslator->createSoapRequest($this->fiel, $requestId);
+        $soapBody = $verifyTranslator->createSoapRequest($this->requestBuilder, $requestId);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc',
             $soapBody,
             $this->obtainCurrentToken()
         );
-        $verifyResult = $verifyTranslator->createVerifyResultFromSoapResponse($responseBody);
-        return $verifyResult;
+        return $verifyTranslator->createVerifyResultFromSoapResponse($responseBody);
     }
 
     public function download(string $packageId): DownloadResult
     {
         $downloadTranslator = new DownloadTranslator();
-        $soapBody = $downloadTranslator->createSoapRequest($this->fiel, $packageId);
+        $soapBody = $downloadTranslator->createSoapRequest($this->requestBuilder, $packageId);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/IDescargaMasivaTercerosService/Descargar',
             'https://cfdidescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc',
             $soapBody,
             $this->obtainCurrentToken()
         );
-        $downloadResult = $downloadTranslator->createDownloadResultFromSoapResponse($responseBody);
-        return $downloadResult;
+        return $downloadTranslator->createDownloadResultFromSoapResponse($responseBody);
     }
 }

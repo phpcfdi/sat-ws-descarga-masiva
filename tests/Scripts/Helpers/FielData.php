@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers;
 
 use PhpCfdi\Credentials\Credential;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 
 class FielData
 {
@@ -49,5 +50,11 @@ class FielData
                 $this->getPassPhrase()
             )
         );
+    }
+
+    public function createFielRequestBuilder(): FielRequestBuilder
+    {
+        $fiel = $this->createFiel();
+        return new FielRequestBuilder($fiel);
     }
 }

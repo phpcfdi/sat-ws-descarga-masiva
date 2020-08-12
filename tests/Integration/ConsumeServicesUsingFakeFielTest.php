@@ -17,9 +17,9 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
 {
     protected function createService(): Service
     {
-        $fiel = $this->createFielUsingTestingFiles();
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $webclient = new GuzzleWebClient();
-        return  new Service($fiel, $webclient);
+        return new Service($requestBuilder, $webclient);
     }
 
     public function testAuthentication(): void

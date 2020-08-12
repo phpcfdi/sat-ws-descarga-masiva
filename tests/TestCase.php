@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 
 use DOMDocument;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
@@ -19,6 +20,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         return strval(@file_get_contents(static::filePath($filename))) ?: '';
+    }
+
+    public function createFielRequestBuilderUsingTestingFiles(string $password = null): FielRequestBuilder
+    {
+        $fiel = $this->createFielUsingTestingFiles($password);
+        return new FielRequestBuilder($fiel);
     }
 
     public function createFielUsingTestingFiles(string $password = null): Fiel

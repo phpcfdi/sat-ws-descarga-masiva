@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Authenticate;
 
-use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 
 /** @internal */
@@ -24,60 +23,19 @@ class AuthenticateTranslator
         return new Token($created, $expires, $value);
     }
 
-    public function createSoapRequest(Fiel $fiel): string
+    public function createSoapRequest(RequestBuilderInterface $requestBuilder): string
     {
         $since = DateTime::now();
         $until = $since->modify('+ 5 minutes');
-        $uuid = Helpers::createXmlSecurityTokenId();
-        return $this->createSoapRequestWithData($fiel, $since, $until, $uuid);
+        return $this->createSoapRequestWithData($requestBuilder, $since, $until);
     }
 
-    public function createSoapRequestWithData(Fiel $fiel, DateTime $since, DateTime $until, string $uuid): string
-    {
-        $created = $since->formatSat();
-        $expires = $until->formatSat();
-        $certificate = Helpers::cleanPemContents($fiel->getCertificatePemContents());
-        $keyInfoData = $this->createKeyInfoSecurityToken($uuid); // override default $keyInfo
-
-        $toDigestXml = <<<EOT
-            <u:Timestamp xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" u:Id="_0">
-                <u:Created>${created}</u:Created>
-                <u:Expires>${expires}</u:Expires>
-            </u:Timestamp>
-            EOT;
-        $signatureData = $this->createSignature($fiel, $toDigestXml, '#_0', $keyInfoData);
-
-        $xml = <<<EOT
-            <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-                <s:Header>
-                    <o:Security xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" s:mustUnderstand="1">
-                        <u:Timestamp u:Id="_0">
-                            <u:Created>${created}</u:Created>
-                            <u:Expires>${expires}</u:Expires>
-                        </u:Timestamp>
-                        <o:BinarySecurityToken u:Id="${uuid}" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">
-                            ${certificate}
-                        </o:BinarySecurityToken>
-                        ${signatureData}
-                    </o:Security>
-                </s:Header>
-                <s:Body>
-                    <Autentica xmlns="http://DescargaMasivaTerceros.gob.mx"/>
-                </s:Body>
-            </s:Envelope>
-            EOT;
-
-        return $this->nospaces($xml);
-    }
-
-    public function createKeyInfoSecurityToken(string $uuid): string
-    {
-        return <<<EOT
-            <KeyInfo>
-                <o:SecurityTokenReference>
-                    <o:Reference URI="#${uuid}" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/>
-                </o:SecurityTokenReference>
-            </KeyInfo>
-            EOT;
+    public function createSoapRequestWithData(
+        RequestBuilderInterface $requestBuilder,
+        DateTime $since,
+        DateTime $until,
+        string $securityTokenId = ''
+    ): string {
+        return $requestBuilder->authorization($since->formatSat(), $until->formatSat(), $securityTokenId);
     }
 }

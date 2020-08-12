@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\CLI;
 
 use DateTimeImmutable;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 use PhpCfdi\SatWsDescargaMasiva\Service;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
@@ -58,7 +59,8 @@ abstract class AbstractAction implements ActionInterface
         if (! $fiel->isValid()) {
             throw new RuntimeException('The current credential is not valid');
         }
-        return new Service($fiel, $this->createWebClient());
+        $requestBuilder = new FielRequestBuilder($fiel);
+        return new Service($requestBuilder, $this->createWebClient());
     }
 
     private function createWebClient(): WebClientInterface
