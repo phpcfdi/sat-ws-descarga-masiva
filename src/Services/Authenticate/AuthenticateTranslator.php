@@ -17,8 +17,8 @@ class AuthenticateTranslator
     public function createTokenFromSoapResponse(string $content): Token
     {
         $env = $this->readXmlElement($content);
-        $created = new DateTime($this->findContent($env, 'header', 'security', 'timestamp', 'created') ?: 0);
-        $expires = new DateTime($this->findContent($env, 'header', 'security', 'timestamp', 'expires') ?: 0);
+        $created = DateTime::create($this->findContent($env, 'header', 'security', 'timestamp', 'created') ?: 0);
+        $expires = DateTime::create($this->findContent($env, 'header', 'security', 'timestamp', 'expires') ?: 0);
         $value = $this->findContent($env, 'body', 'autenticaResponse', 'autenticaResult');
         return new Token($created, $expires, $value);
     }

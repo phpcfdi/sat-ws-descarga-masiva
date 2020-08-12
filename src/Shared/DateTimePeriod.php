@@ -27,6 +27,11 @@ final class DateTimePeriod
         $this->end = $end;
     }
 
+    public static function create(DateTime $start, DateTime $end): self
+    {
+        return new self($start, $end);
+    }
+
     public function getStart(): DateTime
     {
         return $this->start;

@@ -46,6 +46,20 @@ final class DateTime
         $this->value = $value;
     }
 
+    /**
+     * Create a DateTime instance
+     *
+     * If $value is an integer is used as a timestamp, if is a string is evaluated
+     * as an argument for DateTimeImmutable and if it is DateTimeImmutable is used as is.
+     *
+     * @param int|string|DateTimeImmutable|null $value
+     * @return self
+     */
+    public static function create($value = null): self
+    {
+        return new self($value);
+    }
+
     public static function now(): self
     {
         return new self();

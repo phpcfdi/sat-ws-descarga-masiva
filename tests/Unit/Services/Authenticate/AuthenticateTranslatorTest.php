@@ -18,8 +18,8 @@ class AuthenticateTranslatorTest extends TestCase
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $fiel = $requestBuilder->getFiel();
 
-        $since = new DateTime('2019-08-01T03:38:19Z');
-        $until = new DateTime('2019-08-01T03:43:19Z');
+        $since = DateTime::create('2019-08-01T03:38:19Z');
+        $until = DateTime::create('2019-08-01T03:43:19Z');
         $securityTokenId = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
         $requestBody = $translator->createSoapRequestWithData($requestBuilder, $since, $until, $securityTokenId);
         $this->assertSame(
@@ -39,8 +39,8 @@ class AuthenticateTranslatorTest extends TestCase
 
     public function testCreateTokenFromSoapResponseWithToken(): void
     {
-        $expectedCreated = new DateTime('2019-08-01T03:38:20.044Z');
-        $expectedExpires = new DateTime('2019-08-01T03:43:20.044Z');
+        $expectedCreated = DateTime::create('2019-08-01T03:38:20.044Z');
+        $expectedExpires = DateTime::create('2019-08-01T03:43:20.044Z');
 
         $translator = new AuthenticateTranslator();
         $responseBody = Helpers::nospaces($this->fileContents('authenticate/response-with-token.xml'));

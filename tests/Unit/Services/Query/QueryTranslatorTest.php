@@ -37,8 +37,8 @@ class QueryTranslatorTest extends TestCase
     {
         $translator = new QueryTranslator();
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $query = new QueryParameters(
-            new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00')),
+        $query = QueryParameters::create(
+            DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00')),
             DownloadType::received(),
             RequestType::cfdi()
         );

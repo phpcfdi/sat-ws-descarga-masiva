@@ -13,21 +13,21 @@ class DateTimePeriodTest extends TestCase
 {
     public function testCreateWithCorrectStartDateTimeAndEndDateTime(): void
     {
-        $start = new DateTime('2019-01-01 00:00:59');
-        $end = new DateTime('2019-01-01 00:01:00');
+        $start = DateTime::create('2019-01-01 00:00:59');
+        $end = DateTime::create('2019-01-01 00:01:00');
 
-        $dateTimePeriod = new DateTimePeriod($start, $end);
+        $dateTimePeriod = DateTimePeriod::create($start, $end);
         $this->assertTrue($start->equalsTo($dateTimePeriod->getStart()));
         $this->assertTrue($end->equalsTo($dateTimePeriod->getEnd()));
     }
 
     public function testCreateWithEndDateTimeLessThanStartDateTime(): void
     {
-        $start = new DateTime('2019-01-01 00:00:59');
-        $end = new DateTime('2019-01-01 00:00:55');
+        $start = DateTime::create('2019-01-01 00:00:59');
+        $end = DateTime::create('2019-01-01 00:00:55');
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The final date must be greater than the initial date');
-        new DateTimePeriod($start, $end);
+        DateTimePeriod::create($start, $end);
     }
 }

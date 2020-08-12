@@ -33,8 +33,8 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
     {
         $service = $this->createService();
 
-        $dateTimePeriod = new DateTimePeriod(new DateTime('2019-01-01 00:00:00'), new DateTime('2019-01-01 00:04:00'));
-        $parameters = new QueryParameters($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
+        $dateTimePeriod = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
+        $parameters = QueryParameters::create($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
 
         $result = $service->query($parameters);
         $this->assertSame(

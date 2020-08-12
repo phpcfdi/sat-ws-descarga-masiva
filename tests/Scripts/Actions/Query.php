@@ -26,7 +26,7 @@ class Query extends AbstractAction
         }
 
         // period
-        $period = new DateTimePeriod(new DateTime($values['s'] ?? ''), new DateTime($values['u'] ?? ''));
+        $period = DateTimePeriod::create(DateTime::create($values['s'] ?? ''), DateTime::create($values['u'] ?? ''));
         // download type
         if ('issued' === strval($values['d'] ?? '')) {
             $downloadType = DownloadType::issued();
@@ -44,7 +44,7 @@ class Query extends AbstractAction
             throw new RuntimeException('Invalid request type');
         }
         // query
-        $query = new QueryParameters($period, $downloadType, $requestType);
+        $query = QueryParameters::create($period, $downloadType, $requestType);
 
         $this->stdout(...[
             'Query:',
