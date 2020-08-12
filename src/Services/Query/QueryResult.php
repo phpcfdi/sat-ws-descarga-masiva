@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
-class QueryResult
+final class QueryResult
 {
     /** @var StatusCode */
     private $status;

@@ -8,7 +8,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 
-class QueryParameters
+final class QueryParameters
 {
     /** @var DateTimePeriod */
     private $dateTimePeriod;

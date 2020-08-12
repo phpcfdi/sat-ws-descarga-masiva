@@ -8,7 +8,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\CodeRequest;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
 
-class VerifyResult
+final class VerifyResult
 {
     /** @var StatusCode */
     private $status;
