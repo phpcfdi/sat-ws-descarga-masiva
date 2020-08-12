@@ -48,8 +48,8 @@ class Query extends AbstractAction
 
         $this->stdout(...[
             'Query:',
-            '  Since: ' . $query->getDateTimePeriod()->getStart()->formatDefaultTimeZone(),
-            '  Until: ' . $query->getDateTimePeriod()->getEnd()->formatDefaultTimeZone(),
+            '  Since: ' . $query->getPeriod()->getStart()->formatDefaultTimeZone(),
+            '  Until: ' . $query->getPeriod()->getEnd()->formatDefaultTimeZone(),
             '  Download type: ' . $query->getDownloadType()->value(),
             '  Request type: ' . $query->getRequestType()->value(),
         ]);

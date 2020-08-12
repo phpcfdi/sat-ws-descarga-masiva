@@ -25,7 +25,7 @@ class QueryTranslator
 
     public function createSoapRequest(RequestBuilderInterface $requestBuilder, QueryParameters $parameters): string
     {
-        $dateTimePeriod = $parameters->getDateTimePeriod();
+        $dateTimePeriod = $parameters->getPeriod();
 
         return $requestBuilder->query(
             $dateTimePeriod->getStart()->format('Y-m-d\TH:i:s'),
