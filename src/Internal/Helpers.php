@@ -17,19 +17,6 @@ class Helpers
         return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input) ?? '';
     }
 
-    public static function createXmlSecurityTokenId(): string
-    {
-        $md5 = md5(uniqid());
-        return sprintf(
-            'uuid-%08s-%04s-%04s-%04s-%012s-1',
-            substr($md5, 0, 8),
-            substr($md5, 8, 4),
-            substr($md5, 12, 4),
-            substr($md5, 16, 4),
-            substr($md5, 20)
-        );
-    }
-
     public static function cleanPemContents(string $pemContents): string
     {
         $filteredLines = array_filter(
