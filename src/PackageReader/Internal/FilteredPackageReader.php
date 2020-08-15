@@ -148,4 +148,13 @@ final class FilteredPackageReader implements PackageReaderInterface
     {
         $this->filter = $filter ?? new NullFileFilter();
     }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'source' => $this->getFilename(),
+            'files' => iterator_to_array($this->fileContents()),
+        ];
+    }
 }

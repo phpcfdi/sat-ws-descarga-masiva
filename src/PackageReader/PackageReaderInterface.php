@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 
 use Countable;
+use JsonSerializable;
 use Traversable;
 
 /**
  * Expected behavior of a PackageReader contract
  */
-interface PackageReaderInterface extends Countable
+interface PackageReaderInterface extends Countable, JsonSerializable
 {
     /**
      * Open a file as a package

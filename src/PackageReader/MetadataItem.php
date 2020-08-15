@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 
+use JsonSerializable;
+
 /**
  * Metadata DTO object
  *
@@ -22,7 +24,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
  * @property-read string $estatus
  * @property-read string $fechaCancelacion
  */
-final class MetadataItem
+final class MetadataItem implements JsonSerializable
 {
     /** @var array<string, string> */
     private $data;
@@ -51,5 +53,11 @@ final class MetadataItem
     public function get(string $key): string
     {
         return $this->data[$key] ?? '';
+    }
+
+    /** @return array<string, string> */
+    public function jsonSerialize(): array
+    {
+        return ['uuid' => $this->get('uuid')] + $this->data;
     }
 }

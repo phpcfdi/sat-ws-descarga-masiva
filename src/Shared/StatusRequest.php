@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use Eclipxe\MicroCatalog\MicroCatalog;
+use JsonSerializable;
 
 /**
  * Defines "EstadoSolicitud"
@@ -19,7 +20,7 @@ use Eclipxe\MicroCatalog\MicroCatalog;
  * @method string getMessage() Contains the known message in spanish
  * @method string getName() Contains the internal name
  */
-final class StatusRequest extends MicroCatalog
+final class StatusRequest extends MicroCatalog implements JsonSerializable
 {
     protected const VALUES = [
         1 => ['name' => 'Accepted', 'message' => 'Aceptada'],
@@ -53,5 +54,14 @@ final class StatusRequest extends MicroCatalog
     public function getValue(): int
     {
         return intval($this->getEntryIndex());
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'value' => $this->getValue(),
+            'message' => $this->getMessage(),
+        ];
     }
 }

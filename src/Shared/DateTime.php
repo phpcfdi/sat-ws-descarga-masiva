@@ -7,12 +7,13 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 use DateTimeImmutable;
 use DateTimeZone;
 use InvalidArgumentException;
+use JsonSerializable;
 use Throwable;
 
 /**
  * Defines a date and time
  */
-final class DateTime
+final class DateTime implements JsonSerializable
 {
     /** @var DateTimeImmutable */
     private $value;
@@ -102,5 +103,10 @@ final class DateTime
     public function equalsTo(self $expectedExpires): bool
     {
         return $this->formatSat() === $expectedExpires->formatSat();
+    }
+
+    public function jsonSerialize(): int
+    {
+        return intval($this->value->format('U'));
     }
 }

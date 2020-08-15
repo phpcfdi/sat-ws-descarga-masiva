@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use InvalidArgumentException;
+use JsonSerializable;
 
 /**
  * Defines a period of time by start of period and end of period values
  */
-final class DateTimePeriod
+final class DateTimePeriod implements JsonSerializable
 {
     /** @var DateTime */
     private $start;
@@ -40,5 +41,14 @@ final class DateTimePeriod
     public function getEnd(): DateTime
     {
         return $this->end;
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'start' => $this->start,
+            'end' => $this->end,
+        ];
     }
 }

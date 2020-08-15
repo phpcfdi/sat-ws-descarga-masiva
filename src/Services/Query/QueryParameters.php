@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
+use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
@@ -11,7 +12,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 /**
  * This class contains all the information required to perform a query on the SAT Web Service
  */
-final class QueryParameters
+final class QueryParameters implements JsonSerializable
 {
     /** @var DateTimePeriod */
     private $period;
@@ -47,5 +48,15 @@ final class QueryParameters
     public function getRequestType(): RequestType
     {
         return $this->requestType;
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'period' => $this->period,
+            'downloadType' => $this->downloadType,
+            'requestType' => $this->requestType,
+        ];
     }
 }

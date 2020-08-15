@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Verify;
 
+use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CodeRequest;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
@@ -11,7 +12,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
 /**
  * Service Verify Result
  */
-final class VerifyResult
+final class VerifyResult implements JsonSerializable
 {
     /** @var StatusCode */
     private $status;
@@ -100,5 +101,17 @@ final class VerifyResult
     public function countPackages(): int
     {
         return count($this->packagesIds);
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'status' => $this->status,
+            'codeRequest' => $this->codeRequest,
+            'statusRequest' => $this->statusRequest,
+            'numberCfdis' => $this->numberCfdis,
+            'packagesIds' => $this->packagesIds,
+        ];
     }
 }

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use InvalidArgumentException;
+use JsonSerializable;
 
 /**
  * Defines a Token as given from SAT
  */
-final class Token
+final class Token implements JsonSerializable
 {
     /** @var DateTime */
     private $created;
@@ -87,5 +88,15 @@ final class Token
     public function isValid(): bool
     {
         return ! ($this->isValueEmpty() || $this->isExpired());
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'created' => $this->created,
+            'expires' => $this->expires,
+            'value' => $this->value,
+        ];
     }
 }

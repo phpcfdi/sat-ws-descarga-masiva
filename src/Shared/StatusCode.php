@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
+use JsonSerializable;
+
 /**
  * Defines "CodEstatus" and "Mensaje"
  */
-final class StatusCode
+final class StatusCode implements JsonSerializable
 {
     /** @var int */
     private $code;
@@ -50,5 +52,14 @@ final class StatusCode
     public function isAccepted(): bool
     {
         return (5000 === $this->code);
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'code' => $this->code,
+            'message' => $this->message,
+        ];
     }
 }

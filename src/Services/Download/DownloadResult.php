@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Download;
 
+use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
-final class DownloadResult
+final class DownloadResult implements JsonSerializable
 {
     /** @var StatusCode */
     private $status;
@@ -52,5 +53,14 @@ final class DownloadResult
     public function getPackageLenght(): int
     {
         return $this->packageLength;
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'status' => $this->status,
+            'length' => $this->packageLength,
+        ];
     }
 }
