@@ -140,15 +140,15 @@ que eres tú y te extienda un nuevo permiso.
 -  Liga oficial del SAT
 <https://www.sat.gob.mx/consultas/42968/consulta-y-recuperacion-de-comprobantes-(nuevo)>
 - Solicitud de descargas para CFDI y retenciones:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173578576&ssbinary=true>
+<>
 - Verificación de descargas de solicitudes exitosas:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173578594&ssbinary=true>
+<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770350&ssbinary=true>
 - Descarga de solicitudes exitosas:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173578561&ssbinary=true>
+<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770327&ssbinary=true>
 
 Notas importantes del web service:
 - Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
-- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de una ocasión un XML.
+- No existe limitante en cuanto al número de solicitudes siempre y cuando no se solicite más de 2 veces el mismo período.
 
 ## Compatilibilidad
 
