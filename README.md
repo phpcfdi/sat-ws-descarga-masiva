@@ -148,7 +148,7 @@ que eres tú y te extienda un nuevo permiso.
 
 Notas importantes del web service:
 - Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
-- No existe limitante en cuanto al número de solicitudes siempre y cuando no se solicite más de 2 veces el mismo período.
+- No existe limitante en cuanto al número de solicitudes siempre y cuando no se solicite más de 2 veces el mismo período en una consulta del tipo CFDI.
 
 ## Compatilibilidad
 
