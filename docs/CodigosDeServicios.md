@@ -37,7 +37,7 @@ Las respuestas de los servivios cuentan con la propiedad `getStatusCode(): Statu
 | All               | 5000 | Solicitud recibida con éxito                                                            |
 | Query             | 5001 | Tercero no autorizado                                                                   |
 | Query             | 5002 | Se agotó las solicitudes de por vida: Máximo para solicitudes con los mismos parámetros |
-| Verity & download | 5004 | No se encontró la solicitud                                                             |
+| Verify & download | 5004 | No se encontró la solicitud                                                             |
 | Query             | 5005 | Solicitud duplicada: Si existe una solicitud vigente con los mismos parámetros          |
 | Query & download  | 404  | Error no controlado: Reintentar más tarde la petición                                   |
 
