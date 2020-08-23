@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal;
 
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\CreateTemporaryZipFileException;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\OpenZipFileException;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\FileFilterInterface;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\NullFileFilter;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
-use RuntimeException;
 use Throwable;
 use ZipArchive;
 
@@ -44,27 +45,17 @@ final class FilteredPackageReader implements PackageReaderInterface
         }
     }
 
-    /**
-     * @inheritDoc
-     * @throws RuntimeException if could not open zip file
-     */
     public static function createFromFile(string $filename): self
     {
         $archive = new ZipArchive();
         $zipCode = $archive->open($filename, ZipArchive::CREATE);
         if (true !== $zipCode) {
-            throw new RuntimeException(sprintf('Could not open zip file (code %s)', $zipCode));
+            throw OpenZipFileException::create($filename, $zipCode);
         }
 
         return new self($filename, $archive);
     }
 
-    /**
-     * @inheritDoc
-     * @throws RuntimeException if cannot create a temporary file
-     * @throws RuntimeException if cannot store contents on temporary file
-     * @throws RuntimeException if could not open zip file
-     */
     public static function createFromContents(string $content): self
     {
         // create temp file
@@ -72,11 +63,11 @@ final class FilteredPackageReader implements PackageReaderInterface
             $tmpfile = tempnam(sys_get_temp_dir(), '');
         } catch (Throwable $exception) {
             /** @codeCoverageIgnore */
-            throw new RuntimeException('Cannot create a temporary file', 0, $exception);
+            throw CreateTemporaryZipFileException::create('Cannot create a temporary file', $exception);
         }
         if (false === $tmpfile) {
             /** @codeCoverageIgnore */
-            throw new RuntimeException('Cannot not create a temporary file');
+            throw CreateTemporaryZipFileException::create('Cannot not create a temporary file');
         }
 
         // write contents
@@ -84,17 +75,17 @@ final class FilteredPackageReader implements PackageReaderInterface
             $write = file_put_contents($tmpfile, $content);
         } catch (Throwable $exception) {
             /** @codeCoverageIgnore */
-            throw new RuntimeException('Cannot store contents on temporary file', 0, $exception);
+            throw CreateTemporaryZipFileException::create('Cannot store contents on temporary file', $exception);
         }
         if (false === $write) {
             /** @codeCoverageIgnore */
-            throw new RuntimeException('Cannot store contents on temporary file');
+            throw CreateTemporaryZipFileException::create('Cannot store contents on temporary file');
         }
 
         // build object
         try {
             $package = static::createFromFile($tmpfile);
-        } catch (RuntimeException $exception) {
+        } catch (CreateTemporaryZipFileException $exception) {
             unlink($tmpfile);
             throw $exception;
         }

@@ -6,6 +6,8 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 
 use Countable;
 use JsonSerializable;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\CreateTemporaryZipFileException;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\OpenZipFileException;
 use Traversable;
 
 /**
@@ -18,6 +20,7 @@ interface PackageReaderInterface extends Countable, JsonSerializable
      *
      * @param string $filename
      * @return static
+     * @throws OpenZipFileException
      */
     public static function createFromFile(string $filename);
 
@@ -27,6 +30,8 @@ interface PackageReaderInterface extends Countable, JsonSerializable
      *
      * @param string $content
      * @return static
+     * @throws CreateTemporaryZipFileException
+     * @throws OpenZipFileException
      */
     public static function createFromContents(string $content);
 

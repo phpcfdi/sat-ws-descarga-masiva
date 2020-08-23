@@ -146,10 +146,18 @@ Para leer todo el contenido de los registros de metadata dentro del paquete.
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
 
 /**
- * $zipfile contiene la ruta al archivo de paquete
- * @var string $zipfile
+ * @var string $zipfile contiene la ruta al archivo de paquete de Metadata
  */
-$metadataReader = MetadataPackageReader::createFromFile($zipfile);
+
+// abrir el archivo de Metadata
+try {
+    $metadataReader = MetadataPackageReader::createFromFile($zipfile);
+} catch (OpenZipFileException $exception) {
+    echo $exception->getMessage(), PHP_EOL;
+    return;
+}
+
+// leer todos los registros de metadata dentro de todos los archivos del archivo ZIP
 foreach ($metadataReader->metadata() as $uuid => $metadata) {
     echo $metadata->uuid, ': ', $metadata->fechaEmision, PHP_EOL;
 }
@@ -159,13 +167,20 @@ Para leer todos los archivos CFDI dentro del paquete.
 
 ```php
 <?php
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\OpenZipFileException;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\CfdiPackageReader;
 
 /**
- * $zipfile contiene la ruta al archivo de paquete
- * @var string $zipfile
+ * @var string $zipfile contiene la ruta al archivo de paquete de archivos ZIP
  */
-$cfdiReader = CfdiPackageReader::createFromFile($zipfile);
+try {
+    $cfdiReader = CfdiPackageReader::createFromFile($zipfile);
+} catch (OpenZipFileException $exception) {
+    echo $exception->getMessage(), PHP_EOL;
+    return;
+}
+
+// leer todos los CFDI dentro del archivo ZIP con el UUID como llave
 foreach ($cfdiReader->cfdis() as $uuid => $content) {
     file_put_contents("cfdis/$uuid.xml", $content);
 }
