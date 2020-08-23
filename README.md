@@ -29,6 +29,8 @@ composer require phpcfdi/sat-ws-descarga-masiva
 
 ## Ejemplos de uso
 
+Todos los objetos de entrada y salida se pueden exportar como JSON para su fácil depuración.
+
 ### Creación el servicio
 
 Ejemplo creando el servicio usando una FIEL.
@@ -92,6 +94,15 @@ $request = new QueryParameters(
 
 // presentar la consulta
 $query = $service->query($request);
+
+// verificar que el proceso de consulta fue correcto
+if (! $query->getStatus()->isAccepted()) {
+    echo "Fallo al presentar la consulta: {$query->getStatus()->getMessage()}";
+    return;
+}
+
+// el identificador de la consulta está en $query->getRequestId()
+echo "Se generó la solicitud {$query->getRequestId()}", PHP_EOL;
 ```
 
 ### Verificar una consulta
@@ -102,16 +113,45 @@ La verificación depende de que la consulta haya sido aceptada.
 <?php
 
 use PhpCfdi\SatWsDescargaMasiva\Service;
-use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryResult;
 
 /**
  * @var Service $service
- * @var QueryResult $query
+ * @var string $requestId es el identificador generado al presentar la consulta
  */
 
 // consultar el servicio de verificación
-$verify = $service->verify($query->getRequestId());
-echo 'Packages: ', $verify->countPackages();
+$verify = $service->verify($requestId);
+
+// revisar que el proceso de verificación fue correcto
+if (! $verify->getStatus()->isAccepted()) {
+    echo "Fallo al verificar la consulta {$requestId}: {$verify->getStatus()->getMessage()}";
+    return;
+}
+
+// revisar que la consulta no haya sido rechazada
+if (! $verify->getCodeRequest()->isAccepted()) {
+    echo "La solicitud {$requestId} fue rechazada: {$verify->getCodeRequest()->getMessage()}", PHP_EOL;
+    return;
+}
+
+// revisar el progreso de la generación de los paquetes
+$statusRequest = $verify->getStatusRequest();
+if ($statusRequest->isExpired() || $statusRequest->isFailure() || $statusRequest->isRejected()) {
+    echo "La solicitud {$requestId} no se puede completar", PHP_EOL;
+    return;
+}
+if ($statusRequest->isInProgress() || $statusRequest->isAccepted()) {
+    echo "La solicitud {$requestId} se está procesando", PHP_EOL;
+    return;
+}
+if ($statusRequest->isFinished()) {
+    echo "La solicitud {$requestId} está lista", PHP_EOL;
+}
+
+echo "Se encontraron {$verify->countPackages()} paquetes", PHP_EOL;
+foreach ($verify->getPackagesIds() as $packageId) {
+    echo " > {$packageId}", PHP_EOL;
+}
 ```
 
 ### Descargar los paquetes de la consulta
@@ -122,27 +162,36 @@ La descarga depende de que la consulta haya sido correctamente verificada.
 <?php
 
 use PhpCfdi\SatWsDescargaMasiva\Service;
-use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyResult;
 
 /**
  * @var Service $service
- * @var VerifyResult $verify
+ * @var string[] $packagesIds El listado de identificadores de paquetes generado en la (correcta) verificación
  */
 
 // consultar el servicio de verificación
-foreach($verify->getPackagesIds() as $packageId) {
+foreach($packagesIds as $packageId) {
     $download = $service->download($packageId);
+    if ($download->getStatus()->isAccepted()) {
+        echo "El paquete {$packageId} no se ha podido descargar: {$download->getStatus()->getMessage()}", PHP_EOL;
+        continue;
+    }
     $zipfile = "$packageId.zip";
     file_put_contents($zipfile, $download->getPackageContent());
+    echo "El paquete {$packageId} se ha almacenado", PHP_EOL;
 }
 ```
 
 ### Lectura de paquetes
 
-Para leer todo el contenido de los registros de metadata dentro del paquete.
+Los paquetes de Metadata y CFDI se pueden leer con las clases `MetadataPackageReader` y `CfdiPackageReader` respectivamente.
+Para fabricar los objetos, se pueden usar sus métodos `createFromFile` para crearlo a partir de un archivo existente
+o `createFromContents` para crearlo a partir del contenido del archivo en memoria.
+
+#### Lectura de paquetes de tipo Metadata
 
 ```php
 <?php
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\OpenZipFileException;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
 
 /**
@@ -163,7 +212,7 @@ foreach ($metadataReader->metadata() as $uuid => $metadata) {
 }
 ```
 
-Para leer todos los archivos CFDI dentro del paquete.
+#### Lectura de paquetes de tipo CFDI
 
 ```php
 <?php
