@@ -74,46 +74,6 @@ class Service
         return $authenticateTranslator->createTokenFromSoapResponse($responseBody);
     }
 
-    public function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
-    {
-        // prepare headers
-        $headers = ['SOAPAction' => $soapAction];
-        if (null !== $token) {
-            $headers['Authorization'] = 'WRAP access_token="' . $token->getValue() . '"';
-        }
-
-        // webclient interaction and notifications
-        $request = new Request('POST', $uri, $body, $headers);
-        $this->webclient->fireRequest($request);
-        try {
-            $response = $this->webclient->call($request);
-        } catch (WebClientException $exception) {
-            $response = $exception->getResponse();
-        }
-        $this->webclient->fireResponse($response);
-
-        // evaluate SoapFaultInfo
-        $fault = SoapFaultInfoExtractor::extract($response->getBody());
-        if (null !== $fault) {
-            throw new SoapFaultError($request, $response, $fault);
-        }
-
-        // evaluate response
-        if ($response->statusCodeIsClientError()) {
-            $message = sprintf('Unexpected client error status code %d', $response->getStatusCode());
-            throw new HttpClientError($message, $request, $response);
-        }
-        if ($response->statusCodeIsServerError()) {
-            $message = sprintf('Unexpected server error status code %d', $response->getStatusCode());
-            throw new HttpServerError($message, $request, $response);
-        }
-        if ($response->isEmpty()) {
-            throw new HttpServerError('Unexpected empty response from server', $request, $response);
-        }
-
-        return $response->getBody();
-    }
-
     /**
      * Consume the "SolicitaDescarga" web service
      *
@@ -169,5 +129,45 @@ class Service
             $this->obtainCurrentToken()
         );
         return $downloadTranslator->createDownloadResultFromSoapResponse($responseBody);
+    }
+
+    private function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
+    {
+        // prepare headers
+        $headers = ['SOAPAction' => $soapAction];
+        if (null !== $token) {
+            $headers['Authorization'] = 'WRAP access_token="' . $token->getValue() . '"';
+        }
+
+        // webclient interaction and notifications
+        $request = new Request('POST', $uri, $body, $headers);
+        $this->webclient->fireRequest($request);
+        try {
+            $response = $this->webclient->call($request);
+        } catch (WebClientException $exception) {
+            $response = $exception->getResponse();
+        }
+        $this->webclient->fireResponse($response);
+
+        // evaluate SoapFaultInfo
+        $fault = SoapFaultInfoExtractor::extract($response->getBody());
+        if (null !== $fault) {
+            throw new SoapFaultError($request, $response, $fault);
+        }
+
+        // evaluate response
+        if ($response->statusCodeIsClientError()) {
+            $message = sprintf('Unexpected client error status code %d', $response->getStatusCode());
+            throw new HttpClientError($message, $request, $response);
+        }
+        if ($response->statusCodeIsServerError()) {
+            $message = sprintf('Unexpected server error status code %d', $response->getStatusCode());
+            throw new HttpServerError($message, $request, $response);
+        }
+        if ($response->isEmpty()) {
+            throw new HttpServerError('Unexpected empty response from server', $request, $response);
+        }
+
+        return $response->getBody();
     }
 }
