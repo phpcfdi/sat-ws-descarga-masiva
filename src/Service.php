@@ -88,8 +88,7 @@ class Service
         try {
             $response = $this->webclient->call($request);
         } catch (WebClientException $exception) {
-            $this->webclient->fireResponse($exception->getResponse());
-            throw $exception;
+            $response = $exception->getResponse();
         }
         $this->webclient->fireResponse($response);
 
