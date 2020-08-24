@@ -92,6 +92,12 @@ class Service
         }
         $this->webclient->fireResponse($response);
 
+        // evaluate SoapFaultInfo
+        $fault = SoapFaultInfoExtractor::extract($response->getBody());
+        if (null !== $fault) {
+            throw new SoapFaultError($request, $response, $fault);
+        }
+
         // evaluate response
         if ($response->statusCodeIsClientError()) {
             $message = sprintf('Unexpected client error status code %d', $response->getStatusCode());
