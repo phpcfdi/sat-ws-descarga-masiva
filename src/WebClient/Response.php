@@ -18,7 +18,8 @@ class Response implements JsonSerializable
     private $headers;
 
     /**
-     * Response constructor.
+     * Minimal representation of http response object.
+     *
      * @param int $statusCode
      * @param string $body
      * @param array<string, string> $headers

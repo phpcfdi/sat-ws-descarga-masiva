@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
+use PhpCfdi\SatWsDescargaMasiva\Internal\SoapFaultInfoExtractor;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Services\Download\DownloadResult;
@@ -16,10 +17,14 @@ use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\SoapFaultError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
+/**
+ * Main class to consume the SAT web service Descarga Masiva
+ */
 class Service
 {
     /** @var RequestBuilderInterface */
@@ -52,6 +57,11 @@ class Service
         return $this->currentToken;
     }
 
+    /**
+     * Perform authentication and return a Token, the token might be invalid
+     *
+     * @return Token
+     */
     public function authenticate(): Token
     {
         $authenticateTranslator = new AuthenticateTranslator();
@@ -99,6 +109,12 @@ class Service
         return $response->getBody();
     }
 
+    /**
+     * Consume the "SolicitaDescarga" web service
+     *
+     * @param QueryParameters $parameters
+     * @return QueryResult
+     */
     public function query(QueryParameters $parameters): QueryResult
     {
         $queryTranslator = new QueryTranslator();
@@ -112,6 +128,12 @@ class Service
         return $queryTranslator->createQueryResultFromSoapResponse($responseBody);
     }
 
+    /**
+     * Consume the "VerificaSolicitudDescarga" web service
+     *
+     * @param string $requestId
+     * @return VerifyResult
+     */
     public function verify(string $requestId): VerifyResult
     {
         $verifyTranslator = new VerifyTranslator();
@@ -125,6 +147,12 @@ class Service
         return $verifyTranslator->createVerifyResultFromSoapResponse($responseBody);
     }
 
+    /**
+     * Consume the "Descargar" web service
+     *
+     * @param string $packageId
+     * @return DownloadResult
+     */
     public function download(string $packageId): DownloadResult
     {
         $downloadTranslator = new DownloadTranslator();

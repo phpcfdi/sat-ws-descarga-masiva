@@ -21,7 +21,7 @@ class Request implements JsonSerializable
     private $headers;
 
     /**
-     * Request constructor.
+     * Minimal representation of http request object.
      *
      * @param string $method
      * @param string $uri
