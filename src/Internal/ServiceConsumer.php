@@ -21,12 +21,12 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
  */
 class ServiceConsumer
 {
-    public static function consume(WebClientInterface $webclient, string $soapAction, string $uri, string $body, ?Token $token = null): string
+    public static function consume(WebClientInterface $webclient, string $soapAction, string $uri, string $body, ?Token $token): string
     {
         return (new self())->execute($webclient, $soapAction, $uri, $body, $token);
     }
 
-    public function execute(WebClientInterface $webclient, string $soapAction, string $uri, string $body, ?Token $token = null): string
+    public function execute(WebClientInterface $webclient, string $soapAction, string $uri, string $body, ?Token $token): string
     {
         $headers = $this->createHeaders($soapAction, $token);
         $request = $this->createRequest($uri, $body, $headers);
@@ -51,7 +51,7 @@ class ServiceConsumer
      * @param Token|null $token
      * @return array<string, string>
      */
-    public function createHeaders(string $soapAction, ?Token $token = null): array
+    public function createHeaders(string $soapAction, ?Token $token): array
     {
         $headers = ['SOAPAction' => $soapAction];
         if (null !== $token) {
