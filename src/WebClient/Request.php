@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
 use JsonSerializable;
 
-class Request implements JsonSerializable
+final class Request implements JsonSerializable
 {
     /** @var string */
     private $method;

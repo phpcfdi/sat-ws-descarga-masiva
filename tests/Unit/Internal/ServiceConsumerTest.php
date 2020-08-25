@@ -107,8 +107,7 @@ class ServiceConsumerTest extends TestCase
 
     public function testCheckErrorWithFault(): void
     {
-        /** @var Request&MockObject $request */
-        $request = $this->createMock(Request::class);
+        $request = new Request('POST', 'uri', 'body', []);
         $responseBody = $this->fileContents('authenticate/response-with-error.xml');
         $response = new Response(200, $responseBody);
         $consumer = new ServiceConsumer();
@@ -119,8 +118,7 @@ class ServiceConsumerTest extends TestCase
 
     public function testCheckErrorOnClientSide(): void
     {
-        /** @var Request&MockObject $request */
-        $request = $this->createMock(Request::class);
+        $request = new Request('POST', 'uri', 'body', []);
         $response = new Response(400, '<xml/>');
         $consumer = new ServiceConsumer();
 
@@ -131,8 +129,7 @@ class ServiceConsumerTest extends TestCase
 
     public function testCheckErrorOnServerSide(): void
     {
-        /** @var Request&MockObject $request */
-        $request = $this->createMock(Request::class);
+        $request = new Request('POST', 'uri', 'body', []);
         $response = new Response(500, '<xml/>');
         $consumer = new ServiceConsumer();
 
@@ -143,8 +140,7 @@ class ServiceConsumerTest extends TestCase
 
     public function testCheckErrorOnEmptyResponse(): void
     {
-        /** @var Request&MockObject $request */
-        $request = $this->createMock(Request::class);
+        $request = new Request('POST', 'uri', 'body', []);
         $response = new Response(200, '');
         $consumer = new ServiceConsumer();
 

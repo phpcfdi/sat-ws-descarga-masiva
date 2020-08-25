@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
 use JsonSerializable;
 
-class Response implements JsonSerializable
+final class Response implements JsonSerializable
 {
     /** @var int */
     private $statusCode;
