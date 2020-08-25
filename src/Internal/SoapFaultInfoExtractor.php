@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Internal;
 
 use PhpCfdi\SatWsDescargaMasiva\WebClient\SoapFaultInfo;
+use Throwable;
 
 /**
  * Extract information about SoapFault
@@ -23,12 +24,22 @@ final class SoapFaultInfoExtractor
 
     public function obtainFault(string $source): ?SoapFaultInfo
     {
-        $env = $this->readXmlElement($source);
+        try {
+            /**
+             * don't care about errors from invalid xml
+             * @noinspection PhpUsageOfSilenceOperatorInspection
+             */
+            $env = @$this->readXmlElement($source);
+        } catch (Throwable $exception) {
+            return null;
+        }
+
         $code = trim($this->findElement($env, 'body', 'fault', 'faultcode')->textContent ?? '');
         $message = trim($this->findElement($env, 'body', 'fault', 'faultstring')->textContent ?? '');
         if ('' === $code && '' === $message) {
             return null;
         }
+
         return new SoapFaultInfo($code, $message);
     }
 }
