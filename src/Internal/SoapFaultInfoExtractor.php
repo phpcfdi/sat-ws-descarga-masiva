@@ -18,16 +18,14 @@ final class SoapFaultInfoExtractor
 
     public static function extract(string $source): ?SoapFaultInfo
     {
-        $self = new self();
-        return $self->obtainFault($source);
+        return (new self())->obtainFault($source);
     }
 
     public function obtainFault(string $source): ?SoapFaultInfo
     {
         $env = $this->readXmlElement($source);
-        $faultAttibutes = $this->findAttributes($env, 'body', 'fault');
-        $code = strval($faultAttibutes['faultcode'] ?? '');
-        $message = strval($faultAttibutes['faultstring'] ?? '');
+        $code = trim($this->findElement($env, 'body', 'fault', 'faultcode')->textContent ?? '');
+        $message = trim($this->findElement($env, 'body', 'fault', 'faultstring')->textContent ?? '');
         if ('' === $code && '' === $message) {
             return null;
         }
