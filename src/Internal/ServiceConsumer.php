@@ -35,11 +35,22 @@ class ServiceConsumer
         return $response->getBody();
     }
 
+    /**
+     * @param string $uri
+     * @param string $body
+     * @param array<string, string> $headers
+     * @return Request
+     */
     public function createRequest(string $uri, string $body, array $headers): Request
     {
         return new Request('POST', $uri, $body, $headers);
     }
 
+    /**
+     * @param string $soapAction
+     * @param Token|null $token
+     * @return array<string, string>
+     */
     public function createHeaders(string $soapAction, ?Token $token = null): array
     {
         $headers = ['SOAPAction' => $soapAction];

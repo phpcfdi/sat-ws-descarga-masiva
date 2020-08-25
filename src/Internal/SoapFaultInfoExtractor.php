@@ -25,10 +25,10 @@ final class SoapFaultInfoExtractor
     public function obtainFault(string $source): ?SoapFaultInfo
     {
         $env = $this->readXmlElement($source);
-        $faultAttibutes =  $this->findAttributes($env, 'body', 'fault');
+        $faultAttibutes = $this->findAttributes($env, 'body', 'fault');
         $code = strval($faultAttibutes['faultcode'] ?? '');
         $message = strval($faultAttibutes['faultstring'] ?? '');
-        if ($code === '' && $message === '') {
+        if ('' === $code && '' === $message) {
             return null;
         }
         return new SoapFaultInfo($code, $message);

@@ -14,7 +14,6 @@ final class SoapFaultInfo
 
     public function __construct(string $code, string $message)
     {
-
         $this->code = $code;
         $this->message = $message;
     }
