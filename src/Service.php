@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
-use PhpCfdi\SatWsDescargaMasiva\Internal\SoapFaultInfoExtractor;
+use PhpCfdi\SatWsDescargaMasiva\Internal\ServiceConsumer;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Services\Download\DownloadResult;
@@ -15,11 +15,6 @@ use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyResult;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpClientError;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\SoapFaultError;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
-use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
 /**
@@ -133,41 +128,6 @@ class Service
 
     private function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
     {
-        // prepare headers
-        $headers = ['SOAPAction' => $soapAction];
-        if (null !== $token) {
-            $headers['Authorization'] = 'WRAP access_token="' . $token->getValue() . '"';
-        }
-
-        // webclient interaction and notifications
-        $request = new Request('POST', $uri, $body, $headers);
-        $this->webclient->fireRequest($request);
-        try {
-            $response = $this->webclient->call($request);
-        } catch (WebClientException $exception) {
-            $response = $exception->getResponse();
-        }
-        $this->webclient->fireResponse($response);
-
-        // evaluate SoapFaultInfo
-        $fault = SoapFaultInfoExtractor::extract($response->getBody());
-        if (null !== $fault) {
-            throw new SoapFaultError($request, $response, $fault);
-        }
-
-        // evaluate response
-        if ($response->statusCodeIsClientError()) {
-            $message = sprintf('Unexpected client error status code %d', $response->getStatusCode());
-            throw new HttpClientError($message, $request, $response);
-        }
-        if ($response->statusCodeIsServerError()) {
-            $message = sprintf('Unexpected server error status code %d', $response->getStatusCode());
-            throw new HttpServerError($message, $request, $response);
-        }
-        if ($response->isEmpty()) {
-            throw new HttpServerError('Unexpected empty response from server', $request, $response);
-        }
-
-        return $response->getBody();
+        return ServiceConsumer::consume($this->webclient, $soapAction, $uri, $body, $token);
     }
 }
