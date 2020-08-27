@@ -45,6 +45,7 @@ final class FilteredPackageReader implements PackageReaderInterface
         }
     }
 
+    /** @inheritDoc */
     public static function createFromFile(string $filename): self
     {
         $archive = new ZipArchive();
@@ -56,6 +57,7 @@ final class FilteredPackageReader implements PackageReaderInterface
         return new self($filename, $archive);
     }
 
+    /** @inheritDoc */
     public static function createFromContents(string $content): self
     {
         // create temp file
@@ -85,7 +87,7 @@ final class FilteredPackageReader implements PackageReaderInterface
         // build object
         try {
             $package = static::createFromFile($tmpfile);
-        } catch (CreateTemporaryZipFileException $exception) {
+        } catch (OpenZipFileException $exception) {
             unlink($tmpfile);
             throw $exception;
         }
