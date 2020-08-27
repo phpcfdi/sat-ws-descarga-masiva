@@ -1,0 +1,30 @@
+{
+    "E7215E3B-2DC5-4A40-AB10-C902FF9258DF": {
+        "uuid": "E7215E3B-2DC5-4A40-AB10-C902FF9258DF",
+        "rfcEmisor": "XAXX010101000",
+        "nombreEmisor": "RAZON SOCIAL 1",
+        "rfcReceptor": "XAXX010101001",
+        "nombreReceptor": "RAZON SOCIAL 1 SA DE CV",
+        "rfcPac": "XAXX010101003",
+        "fechaEmision": "2018-01-11 07:10:23",
+        "fechaCertificacionSat": "2018-01-11 07:10:51",
+        "monto": "1124.11",
+        "efectoComprobante": "I",
+        "estatus": "1",
+        "fechaCancelacion": ""
+    },
+    "129C4D12-1415-4ACE-BE12-34E71C4EAB4E": {
+        "uuid": "129C4D12-1415-4ACE-BE12-34E71C4EAB4E",
+        "rfcEmisor": "XAXX010101000",
+        "nombreEmisor": "RAZON SOCIAL 2",
+        "rfcReceptor": "XAXX010101002",
+        "nombreReceptor": "RAZON SOCIAL 2 SA DE CV",
+        "rfcPac": "XAXX010101004",
+        "fechaEmision": "2018-01-11 10:36:24",
+        "fechaCertificacionSat": "2018-01-11 10:36:52",
+        "monto": "1485.17",
+        "efectoComprobante": "I",
+        "estatus": "1",
+        "fechaCancelacion": ""
+    }
+}

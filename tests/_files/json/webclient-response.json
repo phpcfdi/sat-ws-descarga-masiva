@@ -1,0 +1,8 @@
+{
+    "statusCode": 200,
+    "body": "this is the body",
+    "headers": {
+        "X-First": "first header",
+        "X-Second": "second header"
+    }
+}

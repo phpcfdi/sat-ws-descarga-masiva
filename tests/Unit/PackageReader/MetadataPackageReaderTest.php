@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\PackageReader;
 
+use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
@@ -48,5 +49,58 @@ class MetadataPackageReaderTest extends TestCase
             '129C4D12-1415-4ACE-BE12-34E71C4EAB4E',
         ];
         $this->assertSame($expected, $extracted);
+    }
+
+    public function testCreateFromFileAndContents(): void
+    {
+        $filename = $this->filePath('zip/metadata.zip');
+        $first = MetadataPackageReader::createFromFile($filename);
+        $this->assertSame($filename, $first->getFilename());
+
+        $contents = $this->fileContents('zip/metadata.zip');
+        $second = MetadataPackageReader::createFromContents($contents);
+
+        $this->assertEquals(
+            iterator_to_array($first->metadata()),
+            iterator_to_array($second->metadata()),
+            'createFromFile & createFromContents get the same contents'
+        );
+    }
+
+    public function testJson(): void
+    {
+        $zipFilename = $this->filePath('zip/metadata.zip');
+        $packageReader = MetadataPackageReader::createFromFile($zipFilename);
+        $this->assertInstanceOf(JsonSerializable::class, $packageReader);
+
+        /** @var array<string, string|string[]> $jsonData */
+        $jsonData = $packageReader->jsonSerialize();
+
+        $this->assertSame($zipFilename, $jsonData['source'] ?? '');
+
+        $expectedFiles = [
+            '45C5C344-DA01-497A-9271-5AA3852EE6AE_01.txt',
+        ];
+        /** @var string[] $jsonDataFiles */
+        $jsonDataFiles = $jsonData['files'];
+        $this->assertSame($expectedFiles, array_keys($jsonDataFiles));
+
+        $expectedMetadata = [
+            'E7215E3B-2DC5-4A40-AB10-C902FF9258DF',
+            '129C4D12-1415-4ACE-BE12-34E71C4EAB4E',
+        ];
+        /** @var string[] $jsonDataMetadata */
+        $jsonDataMetadata = $jsonData['metadata'];
+        $this->assertSame($expectedMetadata, array_keys($jsonDataMetadata));
+    }
+
+    public function testMetadataJson(): void
+    {
+        $zipFilename = $this->filePath('zip/metadata.zip');
+        $packageReader = MetadataPackageReader::createFromFile($zipFilename);
+
+        $expectedFile = $this->filePath('zip/metadata.json');
+        $metadata = iterator_to_array($packageReader->metadata());
+        $this->assertJsonStringEqualsJsonFile($expectedFile, json_encode($metadata) ?: '');
     }
 }

@@ -1,15 +1,16 @@
+<?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="./tests/bootstrap.php" colors="true" verbose="true" cacheResultFile="./build/phpunit.result.cache">
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="./tests/bootstrap.php" colors="true" verbose="true"
+         cacheResultFile="./build/phpunit.result.cache">
     <testsuites>
         <testsuite name="Default">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
-    <!-- exclude composer vendor folder -->
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory suffix=".php">./src/</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
 </phpunit>

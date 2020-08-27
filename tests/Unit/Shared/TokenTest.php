@@ -67,4 +67,13 @@ class TokenTest extends TestCase
         $token = new Token(DateTime::create($created), DateTime::create($expires), $value);
         $this->assertSame($expected, $token->isValid());
     }
+
+    public function testJson(): void
+    {
+        $created = DateTime::create('2020-01-13T14:15:16-0600');
+        $expires = $created->modify('+ 5 seconds');
+        $token = new Token($created, $expires, 'x-value');
+        $expectedFile = $this->filePath('json/token.json');
+        $this->assertJsonStringEqualsJsonFile($expectedFile, json_encode($token) ?: '');
+    }
 }
