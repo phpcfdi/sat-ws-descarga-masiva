@@ -30,13 +30,13 @@ final class VerifyResult implements JsonSerializable
     private $packagesIds;
 
     public function __construct(
-        StatusCode $status,
+        StatusCode $statusCode,
         StatusRequest $statusRequest,
         CodeRequest $codeRequest,
         int $numberCfdis,
         string ...$packagesIds
     ) {
-        $this->status = $status;
+        $this->status = $statusCode;
         $this->statusRequest = $statusRequest;
         $this->codeRequest = $codeRequest;
         $this->numberCfdis = $numberCfdis;
