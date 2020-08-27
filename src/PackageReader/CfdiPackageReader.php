@@ -69,8 +69,8 @@ final class CfdiPackageReader implements PackageReaderInterface
     public static function obtainUuidFromXmlCfdi(string $xmlContent): string
     {
         $found = preg_match('/TimbreFiscalDigital.*?UUID="(?<uuid>[-a-zA-Z0-9]{36})"/s', $xmlContent, $matches);
-        if (false !== $found && is_array($matches)) {
-            return strtolower($matches['uuid'] ?? '');
+        if (false !== $found && isset($matches['uuid'])) {
+            return strtolower($matches['uuid']);
         }
         return '';
     }

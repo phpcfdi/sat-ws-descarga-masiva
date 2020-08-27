@@ -62,7 +62,7 @@ final class Response implements JsonSerializable
         return ($this->statusCode < 600 && $this->statusCode >= 500);
     }
 
-    /** @return array<string, string> */
+    /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
         return get_object_vars($this);

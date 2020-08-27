@@ -11,16 +11,21 @@ use GuzzleHttp\Exception\RequestException;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * GuzzleWebClient is an implementation of WebClientInterface based on guzzlehttp/guzzle:^7.0
+ * You can use this class and insert two closures to track request and response
+ * before and after call.
+ */
 class GuzzleWebClient implements WebClientInterface
 {
     /** @var GuzzleClient */
     private $client;
 
     /** @var Closure|null */
-    public $fireRequestClousure;
+    public $fireRequestClosure;
 
     /** @var Closure|null */
-    public $fireResponseClousure;
+    public $fireResponseClosure;
 
     /**
      * GuzzleWebClient constructor.
@@ -35,21 +40,21 @@ class GuzzleWebClient implements WebClientInterface
         ?Closure $onFireResponse = null
     ) {
         $this->client = $client ?? new GuzzleClient();
-        $this->fireRequestClousure = $onFireRequest;
-        $this->fireResponseClousure = $onFireResponse;
+        $this->fireRequestClosure = $onFireRequest;
+        $this->fireResponseClosure = $onFireResponse;
     }
 
     public function fireRequest(Request $request): void
     {
-        if (null !== $this->fireRequestClousure) {
-            call_user_func($this->fireRequestClousure, $request);
+        if (null !== $this->fireRequestClosure) {
+            call_user_func($this->fireRequestClosure, $request);
         }
     }
 
     public function fireResponse(Response $response): void
     {
-        if (null !== $this->fireResponseClousure) {
-            call_user_func($this->fireResponseClousure, $response);
+        if (null !== $this->fireResponseClosure) {
+            call_user_func($this->fireResponseClosure, $response);
         }
     }
 
