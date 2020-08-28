@@ -154,10 +154,10 @@ Notas importantes del web service:
 - No se aplica la restricción de la documentación oficial: *que no se descargue en más de dos ocasiones un XML*.
 
 Se ha encontrado que la regla relacionada con las descargas de tipo CFDI no se aplica en la forma como está redactada.
-Sin embargo, se ha podido encontrado que la regla que sí aplica es: *no solicitar en más de 2 ocasiones el mismo periodo*.
-Cuando esto ocurre, el proceso de solicitud devuelve el mensaje *"Se han agotado las solicitudes de por vida"* (?).
+Sin embargo, se ha encontrado que la regla que sí aplica es: *no solicitar en más de 2 ocasiones el mismo periodo*.
+Cuando esto ocurre, el proceso de solicitud devuelve el mensaje *"5002: Se han agotado las solicitudes de por vida"*.
 
-Recuerda que, si se cambia ya fecha inicial o final en al menos un segundo ya se trata de otro periodo, por lo que si te encuentras en este problema podrías solucionarlo de esta forma.
+Recuerda que, si se cambia la fecha inicial o final en al menos un segundo ya se trata de otro periodo, por lo que si te encuentras en este problema podrías solucionarlo de esta forma.
 
 ## Compatilibilidad
 
