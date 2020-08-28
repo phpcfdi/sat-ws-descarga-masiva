@@ -159,6 +159,8 @@ Cuando esto ocurre, el proceso de solicitud devuelve el mensaje *"5002: Se han a
 
 Recuerda que, si se cambia la fecha inicial o final en al menos un segundo ya se trata de otro periodo, por lo que si te encuentras en este problema podrías solucionarlo de esta forma.
 
+En consultas del tipo Metadata no aplica dicha limitante mencionada anteriormente, por ello es recomendable hacer las pruebas de implementación con este tipo de consulta.
+
 ## Compatilibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
