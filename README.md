@@ -140,15 +140,26 @@ que eres tú y te extienda un nuevo permiso.
 -  Liga oficial del SAT
 <https://www.sat.gob.mx/consultas/42968/consulta-y-recuperacion-de-comprobantes-(nuevo)>
 - Solicitud de descargas para CFDI y retenciones:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173578576&ssbinary=true>
 - Verificación de descargas de solicitudes exitosas:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173578594&ssbinary=true>
+<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770350&ssbinary=true>
 - Descarga de solicitudes exitosas:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173578561&ssbinary=true>
+<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770327&ssbinary=true>
 
 Notas importantes del web service:
 - Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
-- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de una ocasión un XML.
+- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de dos ocasiones un XML. 
+
+### Notas de uso
+
+- No se aplica la restricción de la documentación oficial: *que no se descargue en más de dos ocasiones un XML*.
+
+Se ha encontrado que la regla relacionada con las descargas de tipo CFDI no se aplica en la forma como está redactada.
+Sin embargo, se ha encontrado que la regla que sí aplica es: *no solicitar en más de 2 ocasiones el mismo periodo*.
+Cuando esto ocurre, el proceso de solicitud devuelve el mensaje *"5002: Se han agotado las solicitudes de por vida"*.
+
+Recuerda que, si se cambia la fecha inicial o final en al menos un segundo ya se trata de otro periodo, por lo que si te encuentras en este problema podrías solucionarlo de esta forma.
+
+En consultas del tipo Metadata no aplica dicha limitante mencionada anteriormente, por ello es recomendable hacer las pruebas de implementación con este tipo de consulta.
 
 ## Compatilibilidad
 
