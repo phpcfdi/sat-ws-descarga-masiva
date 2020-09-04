@@ -266,6 +266,14 @@ Te recomendamos configurar el framework de tu aplicación (Dependency Injection 
 fabrique los objetos `Service`, `RequestBuilder` y `WebClient`, usando tus propias configuraciones de `Fiel`
 en caso de que tengas disponible el certificado, llave privada y contraseña.
 
+### Manejo de excepciones
+
+Al trabajar con el lector de paquetes (PackageReader) o con la comunicación HTTP con el servidor
+web set SAT (WebClient), la librería puede lanzar excepciones que puedes atrapar y analizar, ya
+sea en el momento de implementación o para personalizar los mensajes de error.
+
+- [Documentación específica de excepciones de `phpcfd/sat-ws-descarga-masiva`](docs/Excepciones.md).
+
 ## Acerca del Servicio Web de Descarga Masiva de CFDI y Retenciones
 
 El servicio se compone de 4 partes:
