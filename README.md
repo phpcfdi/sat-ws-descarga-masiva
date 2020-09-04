@@ -305,13 +305,13 @@ que eres tú y te extienda un nuevo permiso.
 
 ### Información oficial
 
--  Liga oficial del SAT
-<https://www.sat.gob.mx/consultas/42968/consulta-y-recuperacion-de-comprobantes-(nuevo)>
-- Solicitud de descargas para CFDI y retenciones:
+- Liga oficial del SAT
+  <https://www.sat.gob.mx/consultas/42968/consulta-y-recuperacion-de-comprobantes-(nuevo)>
+- Solicitud de descargas para CFDI y retenciones: (no definida, la información oficial tiene errores).
 - Verificación de descargas de solicitudes exitosas:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770350&ssbinary=true>
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770350&ssbinary=true>
 - Descarga de solicitudes exitosas:
-<https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770327&ssbinary=true>
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770327&ssbinary=true>
 
 Notas importantes del web service:
 
