@@ -86,7 +86,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
  */
 
 // crear una consulta
-$request = new QueryParameters(
+$request = QueryParameters::create(
     DateTimePeriod::create(DateTime::create('2019-01-13 00:00:00'), DateTime::create('2019-01-13 23:59:59')),
     DownloadType::issued(),
     RequestType::metadata()
