@@ -75,7 +75,6 @@ Una vez creado el servicio se puede presentar la consulta
 
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
@@ -87,7 +86,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 
 // crear una consulta
 $request = QueryParameters::create(
-    DateTimePeriod::create(DateTime::create('2019-01-13 00:00:00'), DateTime::create('2019-01-13 23:59:59')),
+    DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
     DownloadType::issued(),
     RequestType::metadata()
 );

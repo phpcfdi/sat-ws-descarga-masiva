@@ -28,9 +28,28 @@ final class DateTimePeriod implements JsonSerializable
         $this->end = $end;
     }
 
+    /**
+     * Create a new instance of the period object
+     *
+     * @param DateTime $start
+     * @param DateTime $end
+     * @return self
+     */
     public static function create(DateTime $start, DateTime $end): self
     {
         return new self($start, $end);
+    }
+
+    /**
+     * Create a new instance of the period object based on a string representations or unix timestamps
+     *
+     * @param mixed $start
+     * @param mixed $end
+     * @return self
+     */
+    public static function createFromValues($start, $end): self
+    {
+        return static::create(DateTime::create($start), DateTime::create($end));
     }
 
     public function getStart(): DateTime

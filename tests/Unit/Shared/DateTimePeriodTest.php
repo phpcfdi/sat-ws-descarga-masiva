@@ -21,6 +21,15 @@ class DateTimePeriodTest extends TestCase
         $this->assertTrue($end->equalsTo($dateTimePeriod->getEnd()));
     }
 
+    public function testCreateWithStringValues(): void
+    {
+        $startValue = '2019-01-01 00:00:59';
+        $endValue = '2019-01-01 00:01:00';
+        $dateTimePeriod = DateTimePeriod::createFromValues($startValue, $endValue);
+        $this->assertTrue(DateTime::create($startValue)->equalsTo($dateTimePeriod->getStart()));
+        $this->assertTrue(DateTime::create($endValue)->equalsTo($dateTimePeriod->getEnd()));
+    }
+
     public function testCreateWithEndDateTimeLessThanStartDateTime(): void
     {
         $start = DateTime::create('2019-01-01 00:00:59');
