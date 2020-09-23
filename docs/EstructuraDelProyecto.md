@@ -5,9 +5,12 @@
 El código está en `src/` y tiene la siguiente estructura:
 
 - `Service` Clase principal de toda la librería.
+- `Internal` Objetos privados de la librería.
 - `Services\<Service>` Donde los 4 servicios están ubicados.
-- `Shared\` Objetos compartidos, en su mayoría DTO.
-- `WebClient\` Cliente HTTP de comunicación con el Webservice del SAT, definición e implementación.
+- `Shared` Objetos compartidos, en su mayoría DTO.
+- `PackageReader` Objetos relacionados con la lectura de paquetes descargados del SAT.
+- `RequestBuilder` Interfaz de generación de solicitudes XML e implementación local usando `Fiel` y `Credentials`.
+- `WebClient` Cliente HTTP de comunicación con el Webservice del SAT, definición e implementación.
 
 ### `Services\<Service>`
 
