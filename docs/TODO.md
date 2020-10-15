@@ -1,24 +1,24 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
-- Generar excepciones del proyecto en lugar de excepciones genéricas.
+- Llevar el code coverage a 100% con las pruebas
+    2020-10-09: Version 0.4.0 99%
+    2020-05-01: Version 0.3.0 93%
+    2019-12-06: Version 0.2.4 92%
 
-- Mover el script de consumo con credenciales válidas a su propio proyecto dependiente de este.
+## Tareas resueltas
+
+- Mover la herramienta CLI de consumo con credenciales válidas a su propio proyecto dependiente de este.
+    2020-10-14: Ya inició el desarrollo de `phpcfdi/sat-ws-descarga-masiva-cli`
+
+- Generar excepciones del proyecto en lugar de excepciones genéricas.
+    2020-10-09: Hecho en v0.4
 
 - Los objetos CfdiPackageReader y MetadataPackageReader deberían de utilizar objetos independientes para
   el filtrado, las forma de estructurarlo a través de un AbstractPackageReader no es la mejor opción.
   Un ejemplo claro es la imposibilidad de crear tests unitarios correctos, porque el objeto encargado
   de leer las entradas del archivo zip comparte la responsabilidad de filtrar por nombre o por contenido, estas
   últimas dos responsabilidades deberían ser independientes.
-
-- Llevar el code coverage a 100% con test unitarios
-    2020-05-01: Version 0.3.0 93%
-    2019-12-06: Version 0.2.4 92%
-    2019-09-23: Version 0.2.3 93%
-    2019-08-23: Current 93%
-    2019-08-09: Current 86%
-    2019-08-08: Current 84%
-
-## Tareas resueltas
+    2020-10-09: Hecho en v0.4
 
 - Poner la versión mínima de PHP a 7.3
     2020-05-01: Hecho!
@@ -45,7 +45,7 @@
     2019-08-08: Se creó el StatusCode para exponer el código y mensaje en los servicios comúnes
     
 - Mejorar la búsqueda de elementos con DOMXPath
-  2019-08-08: No se cambia, aún cuando la búsqueda es costosa, si se cambia,
+  2019-08-08: No se cambia, aun cuando la búsqueda es costosa, si se cambia,
   nos meteremos en problemas de espacios de nombres y soporte de mayúsculas y minúsculas
   con los nombres de los atributos.
   Lo que se podría hacer es usar una librería de lectura rápida como QuickReader de CfdiUtils,
@@ -60,8 +60,8 @@
   2019-08-07: Se creó el script test/Scripts/sat-ws-descarga-masiva.php que consume los servicios.
   Lo más seguro es que esto sea extraído a su propio proyecto con un framework de CLI bien hecho.
 
-- Change `Service::authenticate()` behavior, store the last valid token, if token still valid return that value instead
-  of creating a new one.
+- Change `Service::authenticate()` behavior, store the last valid token,
+  if token still valid return it instead of creating a new one.
   2019-08-07: Mientras el Token sea válido se reutiliza
 
 - Verificar que los atributos en QueryTranslator SolicitaDescarga/solicitud son importantes,

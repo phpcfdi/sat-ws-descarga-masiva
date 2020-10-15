@@ -14,6 +14,44 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Version 0.4.0 2020-10-14
+
+- Guía de actualización de la versión 0.3.2 a la versión 0.4.0: [UPGRADE_0.3_0.4](UPGRADE_0.3_0.4.md)
+- Se agregan [excepciones específicas en la librería](Excepciones.md). Además, cuando se detecta una respuesta
+  que contiene un *SOAP Fault* se genera una excepción.
+- Se rompe la dependencia directa de `Service` a `Fiel`, ahora depende de `RequestBuilderInterface`.
+- Se crea la implementación `FielRequestBuilder` para seguir trabajando con la `Fiel`.
+- Se mueve `Fiel` adentro del namespace `PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder`.
+- Se modifican los servicios de autenticación, consulta, descarga y verificación para que,
+  en lugar de que ellos mismos construyan las peticiones XML firmadas, ahora las deleguen a `RequestBuilderInterface`.
+- Se agrega la interfaz `PackageReaderInterface` que contiene el contrato esperado por un lector de paquetes.
+- Se crea la clase interna `FilteredPackageReader` que implementa `PackageReaderInterface`, también se agregan
+  las clases `MetadataFileFilter` y `CfdiFileFilter` que permiten el filtrado de los archivos correctos dentro
+  de los paquetes del SAT.
+- Se restructura `MetadataPackageReader` para cumplir con la interfaz `PackageReaderInterface`,
+  ahora se comporta como una fachada de un `FilteredPackageReader`.
+- Se restructura `CfdiPackageReader` para cumplir con la interfaz `PackageReaderInterface`,
+  ahora se comporta como una fachada de un `FilteredPackageReader`.
+- Se agrega el método generador `CfdiPackageReader::cfdis()` que contiene en su llave el UUID del CFDI
+  y en el valor el contenido del CFDI.
+- Se agregan los constructores estáticos `::create()` de los objetos usados en `QueryParameters` y en la propia clase.
+- Se convierten varias clases en finales: `StatusCode`, `DateTime`, `DateTimePeriod`, `DownloadType`, `Fiel`,
+  `RequestType`, `Token`, `QueryParameters`, `QueryResult`, `VerifyResult`, `DownloadResult`.
+- Se mueven y crean diferentes clases que solo deben ser utilizadas internamente al namespace "interno"
+  `PhpCfdi\SatWsDescargaMasiva\Internal`: `Helpers`, `InteractsXmlTrait`, `ServiceConsumer`, `SoapFaultInfoExtractor`.
+- Se marcan como clases internas los traductores usados dentro de los servicios.
+- Se mueve lógica repetida en los servicios de autenticación, consulta, verificación y descarga hacia dentro
+  del método `InteractsXmlTrait::createSignature`.
+- Se implementa `JsonSerializable` en todos los DTO, en los lectores de paquetes y en las excepciones específicas.
+- Se agregan muchas pruebas unitarias para comprobar el funcionamiento esperado y la cobertura de código.
+- Se actualizan las dependencias:
+    - `guzzlehttp/guzzle` de `6.3` a `7.0`
+    - `robrichards/xmlseclibs` de `9.1` a `9.3`
+- Documentación general:
+    - Se agregan bloques de documentación a clases y métodos en toda la librería.
+    - Se separan los bloques de ejemplos de uso en cada caso en lugar de usar solo un bloque.
+    - Los códigos de servicios cambian de `Services-StatusCode.md` a `CodigosDeServicios`.
+
 ## Version 0.3.2 2020-07-28
 
 - Se corrige el problema de cambio de formato al definir el nombre de los archivos contenidos en
