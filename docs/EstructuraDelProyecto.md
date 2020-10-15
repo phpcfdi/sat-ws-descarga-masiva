@@ -34,4 +34,3 @@ Cada servicio puede contener algunos objetos con propósito especial.
 - `_files/` Where common files lives, use helper methods on `TestCase` to retrieve path or contents
 - `Unit\` Unit tests, they don't touch external world
 - `Integration\` Integration tests, they touch the SAT web service
-- `Scripts\` command line interface utility for testing
