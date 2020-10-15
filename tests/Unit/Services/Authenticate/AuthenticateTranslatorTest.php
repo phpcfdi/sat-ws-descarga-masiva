@@ -7,7 +7,6 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Authenticate;
 use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Tests\EnvelopSignatureVerifier;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class AuthenticateTranslatorTest extends TestCase
@@ -16,25 +15,15 @@ class AuthenticateTranslatorTest extends TestCase
     {
         $translator = new AuthenticateTranslator();
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $fiel = $requestBuilder->getFiel();
 
-        $since = DateTime::create('2019-08-01T03:38:19Z');
-        $until = DateTime::create('2019-08-01T03:43:19Z');
+        $since = DateTime::create('2019-07-31 22:38:19'); // => 2019-08-01T03:38:19Z
+        $until = DateTime::create('2019-07-31 22:43:19'); // => 2019-08-01T03:43:20Z
         $securityTokenId = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
         $requestBody = $translator->createSoapRequestWithData($requestBuilder, $since, $until, $securityTokenId);
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('authenticate/request.xml'))),
             $this->xmlFormat($requestBody)
         );
-
-        $xmlSecVerification = (new EnvelopSignatureVerifier())->verify(
-            $requestBody,
-            'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
-            'Security',
-            ['http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'],
-            $fiel->getCertificatePemContents()
-        );
-        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
     public function testCreateTokenFromSoapResponseWithToken(): void

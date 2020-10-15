@@ -6,7 +6,6 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Verify;
 
 use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
-use PhpCfdi\SatWsDescargaMasiva\Tests\EnvelopSignatureVerifier;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class VerifyTranslatorTest extends TestCase
@@ -64,9 +63,5 @@ class VerifyTranslatorTest extends TestCase
             $this->xmlFormat(Helpers::nospaces($this->fileContents('verify/request.xml'))),
             $this->xmlFormat($requestBody)
         );
-
-        $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'VerificaSolicitudDescarga');
-        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 }
