@@ -51,6 +51,28 @@ class FielRequestBuilderTest extends TestCase
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
+    public function testAuthorizationWithoutSecurityTokenUuidCreatesRandom(): void
+    {
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
+        $created = '2019-08-01T03:38:19.000Z';
+        $expires = '2019-08-01T03:43:19.000Z';
+
+        $requestBody = $requestBuilder->authorization($created, $expires);
+        $securityTokenId = $this->extractSecurityTokenFromXml($requestBody);
+        $this->assertNotEmpty($securityTokenId);
+
+        $otherRequestBody = $requestBuilder->authorization($created, $expires);
+        $otherSecurityTokenId = $this->extractSecurityTokenFromXml($otherRequestBody);
+        $this->assertNotEmpty($otherSecurityTokenId);
+        $this->assertNotEquals($securityTokenId, $otherSecurityTokenId, 'Both generated tokens must not be equal');
+    }
+
+    private function extractSecurityTokenFromXml(string $requestBody): string
+    {
+        preg_match('/o:BinarySecurityToken u:Id="(?<id>.*?)"/u', $requestBody, $matches);
+        return $matches['id'] ?? '';
+    }
+
     public function testQuery(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
