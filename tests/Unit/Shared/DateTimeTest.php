@@ -10,6 +10,26 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class DateTimeTest extends TestCase
 {
+    /** @var string */
+    private $backupTimeZone;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->backupTimeZone = date_default_timezone_get();
+        if (! date_default_timezone_set('America/Mexico_City')) {
+            trigger_error('Unable to setup time zone to America/Mexico_City', E_USER_ERROR);
+        }
+    }
+
+    protected function tearDown(): void
+    {
+        if (! date_default_timezone_set($this->backupTimeZone)) {
+            trigger_error("Unable to restore time zone to $this->backupTimeZone", E_USER_ERROR);
+        }
+        parent::tearDown();
+    }
+
     public function testCreateUsingTimeZoneZulu(): void
     {
         // remember that per bootstrap default time zone is America/Mexico_City

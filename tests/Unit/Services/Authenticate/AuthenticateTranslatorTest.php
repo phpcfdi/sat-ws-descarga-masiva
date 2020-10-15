@@ -16,8 +16,8 @@ class AuthenticateTranslatorTest extends TestCase
         $translator = new AuthenticateTranslator();
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
 
-        $since = DateTime::create('2019-07-31 22:38:19'); // => 2019-08-01T03:38:19Z
-        $until = DateTime::create('2019-07-31 22:43:19'); // => 2019-08-01T03:43:20Z
+        $since = DateTime::create('2019-07-31 22:38:19 CDT');
+        $until = DateTime::create('2019-07-31 22:43:19 CDT');
         $securityTokenId = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
         $requestBody = $translator->createSoapRequestWithData($requestBuilder, $since, $until, $securityTokenId);
         $this->assertSame(

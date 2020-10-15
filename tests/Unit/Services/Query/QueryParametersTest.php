@@ -27,7 +27,7 @@ class QueryParametersTest extends TestCase
 
     public function testJson(): void
     {
-        $period = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
+        $period = DateTimePeriod::createFromValues('2019-01-01T00:00:00-06:00', '2019-01-01T00:04:00-06:00');
         $downloadType = DownloadType::received();
         $requestType = RequestType::cfdi();
         $query = QueryParameters::create($period, $downloadType, $requestType);
