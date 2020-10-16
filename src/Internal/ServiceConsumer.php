@@ -12,6 +12,7 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Response;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
+use Throwable;
 
 /**
  * Method Service::consume extraction
@@ -30,8 +31,14 @@ class ServiceConsumer
     {
         $headers = $this->createHeaders($soapAction, $token);
         $request = $this->createRequest($uri, $body, $headers);
-        $response = $this->runRequest($webclient, $request);
-        $this->checkErrors($request, $response);
+        $exception = null;
+        try {
+            $response = $this->runRequest($webclient, $request);
+        } catch (WebClientException $webClientException) {
+            $exception = $webClientException;
+            $response = $webClientException->getResponse();
+        }
+        $this->checkErrors($request, $response, $exception);
         return $response->getBody();
     }
 
@@ -66,31 +73,32 @@ class ServiceConsumer
         try {
             $response = $webclient->call($request);
         } catch (WebClientException $exception) {
-            $response = $exception->getResponse();
+            $webclient->fireResponse($exception->getResponse());
+            throw $exception;
         }
         $webclient->fireResponse($response);
         return $response;
     }
 
-    public function checkErrors(Request $request, Response $response): void
+    public function checkErrors(Request $request, Response $response, ?Throwable $exception = null): void
     {
         // evaluate SoapFaultInfo
         $fault = SoapFaultInfoExtractor::extract($response->getBody());
         if (null !== $fault) {
-            throw new SoapFaultError($request, $response, $fault);
+            throw new SoapFaultError($request, $response, $fault, $exception);
         }
 
         // evaluate response
         if ($response->statusCodeIsClientError()) {
             $message = sprintf('Unexpected client error status code %d', $response->getStatusCode());
-            throw new HttpClientError($message, $request, $response);
+            throw new HttpClientError($message, $request, $response, $exception);
         }
         if ($response->statusCodeIsServerError()) {
             $message = sprintf('Unexpected server error status code %d', $response->getStatusCode());
-            throw new HttpServerError($message, $request, $response);
+            throw new HttpServerError($message, $request, $response, $exception);
         }
         if ($response->isEmpty()) {
-            throw new HttpServerError('Unexpected empty response from server', $request, $response);
+            throw new HttpServerError('Unexpected empty response from server', $request, $response, $exception);
         }
     }
 }

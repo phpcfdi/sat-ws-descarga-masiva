@@ -87,7 +87,7 @@ class ServiceConsumerTest extends TestCase
         $this->assertSame($response, $return);
     }
 
-    public function testRunRequestWithException(): void
+    public function testRunRequestWithWebClientException(): void
     {
         $request = new Request('POST', 'uri', 'request', ['x-foo' => 'foo value']);
         $response = new Response(500, '');
@@ -100,9 +100,17 @@ class ServiceConsumerTest extends TestCase
         $webClient->expects($this->once())->method('fireResponse')->with($response);
 
         $consumer = new ServiceConsumer();
-        $return = $consumer->runRequest($webClient, $request);
-
-        $this->assertSame($response, $return);
+        $thrownException = null;
+        try {
+            $consumer->runRequest($webClient, $request);
+        } catch (WebClientException $webClientException) {
+            $thrownException = $webClientException;
+        }
+        if (null === $thrownException) {
+            $this->fail('The WebClientException was not thrown');
+            return;
+        }
+        $this->assertSame($response, $thrownException->getResponse());
     }
 
     public function testCheckErrorWithFault(): void
