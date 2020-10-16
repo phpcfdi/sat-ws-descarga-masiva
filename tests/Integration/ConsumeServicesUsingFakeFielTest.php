@@ -22,6 +22,7 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         // 2020-10-16 The server https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/ has invalid certificate
         // There is not a problem for testing but do not execute use insecure connections with production data
+        // 2020-10-17 The same problem now exists only on https://cfdidescargamasiva.clouda.sat.gob.mx/
         $customGuzzleHttpClient = new GuzzleHttpClient([RequestOptions::VERIFY => false]);
         $webclient = new GuzzleWebClient($customGuzzleHttpClient);
         return new Service($requestBuilder, $webclient);
