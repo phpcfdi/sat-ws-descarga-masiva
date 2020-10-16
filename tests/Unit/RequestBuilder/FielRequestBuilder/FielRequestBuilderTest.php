@@ -78,9 +78,10 @@ class FielRequestBuilderTest extends TestCase
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $start = '2019-01-01T00:00:00';
         $end = '2019-01-01T00:04:00';
-        $rfcType = 'RfcReceptor';
+        $rfcIssuer = '';
+        $rfcReceiver = $requestBuilder->getFiel()->getRfc();
         $requestType = 'CFDI';
-        $requestBody = $requestBuilder->query($start, $end, $rfcType, $requestType);
+        $requestBody = $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
 
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request.xml'))),

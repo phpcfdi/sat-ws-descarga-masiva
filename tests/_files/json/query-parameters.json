@@ -4,5 +4,6 @@
         "end": 1546322640
     },
     "downloadType": "RfcReceptor",
-    "requestType": "CFDI"
+    "requestType": "CFDI",
+    "rfcMatch": "AAAA010101AAA"
 }

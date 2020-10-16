@@ -23,16 +23,39 @@ final class QueryParameters implements JsonSerializable
     /** @var RequestType */
     private $requestType;
 
-    public function __construct(DateTimePeriod $period, DownloadType $downloadType, RequestType $requestType)
-    {
+    /** @var string */
+    private $rfcMatch;
+
+    public function __construct(
+        DateTimePeriod $period,
+        DownloadType $downloadType,
+        RequestType $requestType,
+        string $rfcMatch
+    ) {
         $this->period = $period;
         $this->downloadType = $downloadType;
         $this->requestType = $requestType;
+        $this->rfcMatch = $rfcMatch;
     }
 
-    public static function create(DateTimePeriod $period, DownloadType $downloadType, RequestType $requestType): self
-    {
-        return new self($period, $downloadType, $requestType);
+    /**
+     * Query static constructor method
+     *
+     * @param DateTimePeriod $period
+     * @param DownloadType|null $downloadType if null uses Issued
+     * @param RequestType|null $requestType If null uses Metadata
+     * @param string $rfcMatch Only when counterpart matches this Rfc
+     * @return self
+     */
+    public static function create(
+        DateTimePeriod $period,
+        DownloadType $downloadType = null,
+        RequestType $requestType = null,
+        string $rfcMatch = ''
+    ): self {
+        $downloadType = $downloadType ?: DownloadType::issued();
+        $requestType = $requestType ?? RequestType::metadata();
+        return new self($period, $downloadType, $requestType, $rfcMatch);
     }
 
     public function getPeriod(): DateTimePeriod
@@ -50,6 +73,11 @@ final class QueryParameters implements JsonSerializable
         return $this->requestType;
     }
 
+    public function getRfcMatch(): string
+    {
+        return $this->rfcMatch;
+    }
+
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
@@ -57,6 +85,7 @@ final class QueryParameters implements JsonSerializable
             'period' => $this->period,
             'downloadType' => $this->downloadType,
             'requestType' => $this->requestType,
+            'rfcMatch' => $this->rfcMatch,
         ];
     }
 }

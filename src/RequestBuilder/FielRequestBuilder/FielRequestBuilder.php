@@ -68,13 +68,33 @@ final class FielRequestBuilder implements RequestBuilderInterface
         return $this->nospaces($xml);
     }
 
-    public function query(string $start, string $end, string $rfcType, string $requestType): string
+    public function query(string $start, string $end, string $rfcIssuer, string $rfcReceiver, string $requestType): string
     {
         $rfc = $this->getFiel()->getRfc();
+        $rfcIssuer = (self::USE_OWNER === $rfcIssuer) ? $rfc : $rfcIssuer;
+        $rfcReceiver = (self::USE_OWNER === $rfcReceiver) ? $rfc : $rfcReceiver;
+
+        $solicitudAttributes = array_filter([
+            'RfcSolicitante' => $rfc,
+            'FechaInicial' => $start,
+            'FechaFinal' => $end,
+            'TipoSolicitud' => $requestType, // CFDI / Metadata
+            'RfcEmisor' => $rfcIssuer,
+            'RfcReceptor' => $rfcReceiver,
+        ]);
+        ksort($solicitudAttributes);
+
+        $solicitudAttributesAsText = implode(' ', array_map(
+            function (string $name, string $value): string {
+                return sprintf('%s="%s"', $name, $value);
+            },
+            array_keys($solicitudAttributes),
+            $solicitudAttributes,
+        ));
 
         $toDigestXml = <<<EOT
             <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:solicitud FechaFinal="${end}" FechaInicial="${start}" ${rfcType}="${rfc}" RfcSolicitante="${rfc}" TipoSolicitud="${requestType}"></des:solicitud>
+                <des:solicitud ${solicitudAttributesAsText}></des:solicitud>
             </des:SolicitaDescarga>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
@@ -84,7 +104,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Header/>
                 <s:Body>
                     <des:SolicitaDescarga>
-                        <des:solicitud FechaFinal="${end}" FechaInicial="${start}" ${rfcType}="${rfc}" RfcSolicitante="${rfc}" TipoSolicitud="${requestType}">
+                        <des:solicitud ${solicitudAttributesAsText}>
                             ${signatureData}
                         </des:solicitud>
                     </des:SolicitaDescarga>

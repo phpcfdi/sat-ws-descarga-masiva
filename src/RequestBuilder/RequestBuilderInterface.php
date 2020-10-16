@@ -10,6 +10,8 @@ namespace PhpCfdi\SatWsDescargaMasiva\RequestBuilder;
  */
 interface RequestBuilderInterface
 {
+    public const USE_OWNER = '*';
+
     /**
      * Creates an authorization signed xml message
      *
@@ -25,11 +27,12 @@ interface RequestBuilderInterface
      *
      * @param string $start must use format 'Y-m-d\TH:i:s'
      * @param string $end must use format 'Y-m-d\TH:i:s'
-     * @param string $rfcType one of "RfcEmisor" or "RfcReceptor"
+     * @param string $rfcIssuer can be empty if $rfcReceiver is set, "*" to use certificate owner
+     * @param string $rfcReceiver can be empty if $rfcIssuer is set, "*" to use certificate owner
      * @param string $requestType one of "CFDI" or "metadata"
      * @return string
      */
-    public function query(string $start, string $end, string $rfcType, string $requestType): string;
+    public function query(string $start, string $end, string $rfcIssuer, string $rfcReceiver, string $requestType): string;
 
     /**
      * Creates a verify signed xml message

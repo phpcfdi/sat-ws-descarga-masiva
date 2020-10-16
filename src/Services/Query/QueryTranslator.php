@@ -30,7 +30,8 @@ class QueryTranslator
         return $requestBuilder->query(
             $dateTimePeriod->getStart()->format('Y-m-d\TH:i:s'),
             $dateTimePeriod->getEnd()->format('Y-m-d\TH:i:s'),
-            $parameters->getDownloadType()->value(),
+            $parameters->getDownloadType()->isIssued() ? RequestBuilderInterface::USE_OWNER : $parameters->getRfcMatch(),
+            $parameters->getDownloadType()->isReceived() ? RequestBuilderInterface::USE_OWNER : $parameters->getRfcMatch(),
             $parameters->getRequestType()->value(),
         );
     }
