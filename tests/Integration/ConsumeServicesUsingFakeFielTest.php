@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Integration;
 
+use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\RequestOptions;
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
@@ -18,7 +20,10 @@ class ConsumeServicesUsingFakeFielTest extends TestCase
     protected function createService(): Service
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $webclient = new GuzzleWebClient();
+        // 2020-10-16 The server https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/ has invalid certificate
+        // There is not a problem for testing but do not execute use insecure connections with production data
+        $customGuzzleHttpClient = new GuzzleHttpClient([RequestOptions::VERIFY => true]);
+        $webclient = new GuzzleWebClient($customGuzzleHttpClient);
         return new Service($requestBuilder, $webclient);
     }
 

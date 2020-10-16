@@ -5,6 +5,9 @@
     2020-05-01: Version 0.3.0 93%
     2019-12-06: Version 0.2.4 92%
 
+- Check that <https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/> has a valid certificate
+  and change ConsumeServicesUsingFakeFielTest to use secure connections.
+
 ## Tareas resueltas
 
 - Mover la herramienta CLI de consumo con credenciales válidas a su propio proyecto dependiente de este.
