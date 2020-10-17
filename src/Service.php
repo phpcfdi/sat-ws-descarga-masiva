@@ -14,6 +14,7 @@ use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryResult;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyResult;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Token;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
@@ -31,11 +32,27 @@ class Service
     /** @var Token|null */
     public $currentToken;
 
-    public function __construct(RequestBuilderInterface $requestBuilder, WebClientInterface $webclient, Token $currentToken = null)
-    {
+    /** @var ServiceEndpoints */
+    private $endpoints;
+
+    /**
+     * Client constructor of "servicio de consulta y recuperación de comprobantes"
+     *
+     * @param RequestBuilderInterface $requestBuilder
+     * @param WebClientInterface $webclient
+     * @param Token|null $currentToken
+     * @param ServiceEndpoints|null $endpoints If NULL uses CFDI endpoints
+     */
+    public function __construct(
+        RequestBuilderInterface $requestBuilder,
+        WebClientInterface $webclient,
+        Token $currentToken = null,
+        ServiceEndpoints $endpoints = null
+    ) {
         $this->requestBuilder = $requestBuilder;
         $this->webclient = $webclient;
         $this->currentToken = $currentToken;
+        $this->endpoints = $endpoints ?? ServiceEndpoints::cfdi();
     }
 
     /**
@@ -63,7 +80,7 @@ class Service
         $soapBody = $authenticateTranslator->createSoapRequest($this->requestBuilder);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica',
-            'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc',
+            $this->endpoints->getAuthenticate(),
             $soapBody
         );
         return $authenticateTranslator->createTokenFromSoapResponse($responseBody);
@@ -81,7 +98,7 @@ class Service
         $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
-            'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
+            $this->endpoints->getQuery(),
             $soapBody,
             $this->obtainCurrentToken()
         );
@@ -100,7 +117,7 @@ class Service
         $soapBody = $verifyTranslator->createSoapRequest($this->requestBuilder, $requestId);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga',
-            'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc',
+            $this->endpoints->getVerify(),
             $soapBody,
             $this->obtainCurrentToken()
         );
@@ -119,7 +136,7 @@ class Service
         $soapBody = $downloadTranslator->createSoapRequest($this->requestBuilder, $packageId);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/IDescargaMasivaTercerosService/Descargar',
-            'https://cfdidescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc',
+            $this->endpoints->getDownload(),
             $soapBody,
             $this->obtainCurrentToken()
         );

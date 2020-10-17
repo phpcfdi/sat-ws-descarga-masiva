@@ -66,6 +66,28 @@ $requestBuilder = new FielRequestBuilder($fiel);
 $service = new Service($requestBuilder, $webClient);
 ```
 
+### Cliente para consumir los servicios de CFDI de retenciones
+
+Existen dos tipos de Comprobantes Fiscales Digitales, los regulares (ingresos, egresos, traslados, nóminas y pagos),
+y los CFDI de retenciones e información de pagos (retenciones).
+
+Puede utilizar esta librería para consumir los CFDI de Retenciones. Para lograrlo construya el servicio con
+la especificación se `ServiceEndpoints`:
+
+```php
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
+use PhpCfdi\SatWsDescargaMasiva\Service;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
+
+/**
+ * @var GuzzleWebClient $webClient
+ * @var FielRequestBuilder $requestBuilder
+ */
+// Creación del servicio
+$service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::retenciones());
+```
+
 ### Realizar una consulta
 
 Una vez creado el servicio se puede presentar la consulta

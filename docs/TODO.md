@@ -8,7 +8,7 @@
     2019-12-06: Version 0.2.4 92%
 
 - Revisar que <https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/> y <https://cfdidescargamasiva.clouda.sat.gob.mx/>
-  tengan certificados válidos, cuando los tengan, cambiar ConsumeServicesUsingFakeFielTest para usar seguridad.
+  tengan certificados válidos, cuando los tengan, cambiar ConsumeCfdiServicesUsingFakeFielTest para usar seguridad.
   - 2020-10-16: ambos servidores fallan.
   - 2020-10-17: solo falla `cfdidescargamasiva.clouda.sat.gob.mx`.
 
