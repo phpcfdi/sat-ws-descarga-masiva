@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder;
 
 use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodEndInvalidDateFormatException;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartGreaterThanEndException;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartInvalidDateFormatException;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RequestTypeInvalidException;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIsNotIssuerOrReceiverException;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIssuerAndReceiverAreEmptyException;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 
 /**
@@ -70,15 +76,36 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     public function query(string $start, string $end, string $rfcIssuer, string $rfcReceiver, string $requestType): string
     {
-        $rfc = $this->getFiel()->getRfc();
-        $rfcIssuer = (self::USE_OWNER === $rfcIssuer) ? $rfc : $rfcIssuer;
-        $rfcReceiver = (self::USE_OWNER === $rfcReceiver) ? $rfc : $rfcReceiver;
+        // normalize input
+        $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
+        $rfcIssuer = mb_strtoupper((self::USE_SIGNER === $rfcIssuer) ? $rfcSigner : $rfcIssuer);
+        $rfcReceiver = mb_strtoupper((self::USE_SIGNER === $rfcReceiver) ? $rfcSigner : $rfcReceiver);
+
+        // check inputs
+        if (! boolval(preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/', $start))) {
+            throw new PeriodStartInvalidDateFormatException($start);
+        }
+        if (! boolval(preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/', $end))) {
+            throw new PeriodEndInvalidDateFormatException($end);
+        }
+        if ($start > $end) {
+            throw new PeriodStartGreaterThanEndException($start, $end);
+        }
+        if ('' === $rfcReceiver && '' === $rfcIssuer) {
+            throw new RfcIssuerAndReceiverAreEmptyException();
+        }
+        if (! in_array($rfcSigner, [$rfcReceiver, $rfcIssuer], true)) {
+            throw new RfcIsNotIssuerOrReceiverException($rfcSigner, $rfcIssuer, $rfcReceiver);
+        }
+        if (! in_array($requestType, ['CFDI', 'Metadata'], true)) {
+            throw new RequestTypeInvalidException($requestType);
+        }
 
         $solicitudAttributes = array_filter([
-            'RfcSolicitante' => $rfc,
+            'RfcSolicitante' => $rfcSigner,
             'FechaInicial' => $start,
             'FechaFinal' => $end,
-            'TipoSolicitud' => $requestType, // CFDI / Metadata
+            'TipoSolicitud' => $requestType,
             'RfcEmisor' => $rfcIssuer,
             'RfcReceptor' => $rfcReceiver,
         ]);
@@ -86,7 +113,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         $solicitudAttributesAsText = implode(' ', array_map(
             function (string $name, string $value): string {
-                return sprintf('%s="%s"', $name, $value);
+                return sprintf('%s="%s"', htmlspecialchars($name, ENT_XML1), htmlspecialchars($value, ENT_XML1));
             },
             array_keys($solicitudAttributes),
             $solicitudAttributes,

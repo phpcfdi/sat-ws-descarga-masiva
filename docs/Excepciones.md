@@ -60,3 +60,13 @@ por lo que siempre puedes conocer la comunicación básica HTTP cuando ocurre un
 
 Adicionalmente, `SoapFaultError` contiene el método `getFault(): SoapFaultInfo`, con lo que se puede conocer
 el código y mensaje de error SOAP devuelto por el servidor.
+
+## Excepciones de RequestBuilder
+
+El objeto `FielRequestBuilder` implementa la interfaz `RequestBuilderInterface`.
+Los métodos de `RequestBuilderInterface` podrían devolver excepciones de tipo `RequestBuilderException`.
+
+Sin embargo, no es necesario peocuparse por estos métodos, dado que el objeto `FielRequestBuilder` no se
+utiliza directamente, solo se utiliza indirectamente a través del objeto `Service`.
+
+Si recibe alguna excepción de este tipo por favor levante un ticket porque significa un error en nuestra librería.

@@ -25,14 +25,13 @@ class QueryTranslator
 
     public function createSoapRequest(RequestBuilderInterface $requestBuilder, QueryParameters $parameters): string
     {
-        $dateTimePeriod = $parameters->getPeriod();
+        $start = $parameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
+        $end = $parameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
+        $rfcIssuer = $parameters->getDownloadType()->isIssued() ? RequestBuilderInterface::USE_SIGNER : $parameters->getRfcMatch();
+        $rfcReceiver = $parameters->getDownloadType()->isReceived() ? RequestBuilderInterface::USE_SIGNER : $parameters->getRfcMatch();
+        $requestType = $parameters->getRequestType()->value();
 
-        return $requestBuilder->query(
-            $dateTimePeriod->getStart()->format('Y-m-d\TH:i:s'),
-            $dateTimePeriod->getEnd()->format('Y-m-d\TH:i:s'),
-            $parameters->getDownloadType()->isIssued() ? RequestBuilderInterface::USE_OWNER : $parameters->getRfcMatch(),
-            $parameters->getDownloadType()->isReceived() ? RequestBuilderInterface::USE_OWNER : $parameters->getRfcMatch(),
-            $parameters->getRequestType()->value(),
-        );
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
     }
 }
