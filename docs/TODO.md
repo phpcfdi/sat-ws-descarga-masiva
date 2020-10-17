@@ -1,5 +1,7 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
+## Tareas pendientes
+
 - Llevar el code coverage a 100% con las pruebas
     2020-10-09: Version 0.4.0 99%
     2020-05-01: Version 0.3.0 93%
@@ -9,6 +11,12 @@
   tengan certificados válidos, cuando los tengan, cambiar ConsumeServicesUsingFakeFielTest para usar seguridad.
   - 2020-10-16: ambos servidores fallan.
   - 2020-10-17: solo falla `cfdidescargamasiva.clouda.sat.gob.mx`.
+
+## Posibles ideas
+
+- Separar `PhpCfdi\SatWsDescargaMasiva\RequestBuilder` y `PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Fiel`
+  a sus propios proyectos de librería. O implementar un "monorepo" que genere las tres librerías:
+  `phpcfdi/sat-ws-descarga-masiva`, `phpcfdi/sat-ws-request-builder` y , `phpcfdi/sat-ws-request-builder-fiel`.
 
 ## Tareas resueltas
 
