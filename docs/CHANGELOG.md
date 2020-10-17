@@ -49,8 +49,9 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Se implementa `JsonSerializable` en todos los DTO, en los lectores de paquetes y en las excepciones específicas.
 - Se agregan muchas pruebas unitarias para comprobar el funcionamiento esperado y la cobertura de código.
 - Se actualizan las dependencias:
-    - `guzzlehttp/guzzle` de `6.3` a `7.0`
-    - `robrichards/xmlseclibs` de `9.1` a `9.3`
+    - `guzzlehttp/guzzle` de `6.3` a `7.2`
+    - `robrichards/xmlseclibs` de `3.0` a `3.1`
+    - `phpunit/phpunit` de `9.1` a `9.3`
 - Documentación general:
     - Se agregan bloques de documentación a clases y métodos en toda la librería.
     - Se separan los bloques de ejemplos de uso en cada caso en lugar de usar solo un bloque.
