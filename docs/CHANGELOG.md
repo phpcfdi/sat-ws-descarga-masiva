@@ -24,6 +24,9 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Se mueve `Fiel` adentro del namespace `PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder`.
 - Se modifican los servicios de autenticación, consulta, descarga y verificación para que,
   en lugar de que ellos mismos construyan las peticiones XML firmadas, ahora las deleguen a `RequestBuilderInterface`.
+- Ahora se puede especificar un RFC específico en la consulta:
+    - Si consultamos los emitidos podríamos filtrar por el RFC receptor.
+    - Si consultamos los recibidos podríamos filtrar por el RFC emisor.
 - Ahora se puede consumir el servicio para los CFDI de retenciones e información de pagos.
 - Se agrega la interfaz `PackageReaderInterface` que contiene el contrato esperado por un lector de paquetes.
 - Se crea la clase interna `FilteredPackageReader` que implementa `PackageReaderInterface`, también se agregan

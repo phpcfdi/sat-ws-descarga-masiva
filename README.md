@@ -90,7 +90,13 @@ $service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::rete
 
 ### Realizar una consulta
 
-Una vez creado el servicio se puede presentar la consulta
+Una vez creado el servicio se puede presentar la consulta.
+
+Valores por defecto:
+
+- Consultar comprobantes emitidos (`DownloadType::issued()`).
+- Solicitar información de metadata (`RequestType::metadata()`).
+- No filtrar por RFC.
 
 ```php
 <?php
@@ -106,11 +112,16 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
  * @var Service $service
  */
 
-// crear una consulta
+// crear la consulta:
+// - Del 13/ene/2019 00:00:00 al 13/ene/2019 (inclusive)
+// - Todos los emitidos por el dueño de la FIEL
+// - Solicitando la información de Metadata
+// - Filtrando únicamente por los recibidos del RFC MAG041126GT8
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
     DownloadType::issued(),
-    RequestType::metadata()
+    RequestType::metadata(),
+    'MAG041126GT8'
 );
 
 // presentar la consulta
