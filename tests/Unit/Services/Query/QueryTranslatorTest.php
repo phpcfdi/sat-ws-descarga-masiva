@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 
+use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\Tests\EnvelopSignatureVerifier;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class QueryTranslatorTest extends TestCase
@@ -20,7 +22,7 @@ class QueryTranslatorTest extends TestCase
         $expectedMessage = 'Solicitud Aceptada';
 
         $translator = new QueryTranslator();
-        $responseBody = $translator->nospaces($this->fileContents('query/response-with-id.xml'));
+        $responseBody = Helpers::nospaces($this->fileContents('query/response-with-id.xml'));
         $result = $translator->createQueryResultFromSoapResponse($responseBody);
         $status = $result->getStatus();
 
@@ -33,23 +35,17 @@ class QueryTranslatorTest extends TestCase
     public function testCreateSoapRequest(): void
     {
         $translator = new QueryTranslator();
-        $fiel = $this->createFielUsingTestingFiles();
-
-        $requestBody = $translator->createSoapRequestWithData(
-            $fiel,
-            'aaa010101aaa', // the file was created using rfc in lower case
-            new DateTime('2019-01-01 00:00:00'),
-            new DateTime('2019-01-01 00:04:00'),
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
+        $query = QueryParameters::create(
+            DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00')),
             DownloadType::received(),
             RequestType::cfdi()
         );
+
+        $requestBody = $translator->createSoapRequest($requestBuilder, $query);
         $this->assertSame(
-            $this->xmlFormat($translator->nospaces($this->fileContents('query/request.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request.xml'))),
             $this->xmlFormat($requestBody)
         );
-
-        $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
-        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 }

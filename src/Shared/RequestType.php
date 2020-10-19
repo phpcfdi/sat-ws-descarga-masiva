@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use Eclipxe\Enum\Enum;
+use JsonSerializable;
 
 /**
+ * Defines the request type (cfdi or metadata)
  *
  * @method static self cfdi()
  * @method static self metadata()
@@ -14,7 +16,7 @@ use Eclipxe\Enum\Enum;
  * @method bool isCfdi()
  * @method bool isMetadata()
  */
-class RequestType extends Enum
+final class RequestType extends Enum implements JsonSerializable
 {
     protected static function overrideValues(): array
     {
@@ -22,5 +24,10 @@ class RequestType extends Enum
             'cfdi' => 'CFDI',
             'metadata' => 'Metadata',
         ];
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->value();
     }
 }

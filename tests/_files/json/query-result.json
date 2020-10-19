@@ -1,0 +1,7 @@
+{
+    "status": {
+        "code": 9,
+        "message": "foo"
+    },
+    "requestId": "x-request-id"
+}

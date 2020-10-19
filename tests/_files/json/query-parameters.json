@@ -1,0 +1,9 @@
+{
+    "period": {
+        "start": 1546322400,
+        "end": 1546322640
+    },
+    "downloadType": "RfcReceptor",
+    "requestType": "CFDI",
+    "rfcMatch": "AAAA010101AAA"
+}

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests;
 
 use DOMDocument;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Fiel;
-use PhpCfdi\SatWsDescargaMasiva\Tests\Scripts\Helpers\FielData;
+use PhpCfdi\Credentials\Credential;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -21,14 +22,21 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return strval(@file_get_contents(static::filePath($filename))) ?: '';
     }
 
+    public function createFielRequestBuilderUsingTestingFiles(string $password = null): FielRequestBuilder
+    {
+        $fiel = $this->createFielUsingTestingFiles($password);
+        return new FielRequestBuilder($fiel);
+    }
+
     public function createFielUsingTestingFiles(string $password = null): Fiel
     {
-        $fielData = new FielData(
-            $this->filePath('fake-fiel/EKU9003173C9.cer'),
-            $this->filePath('fake-fiel/EKU9003173C9.key'),
-            $password ?? trim($this->fileContents('fake-fiel/EKU9003173C9-password.txt'))
+        return new Fiel(
+            Credential::openFiles(
+                $this->filePath('fake-fiel/EKU9003173C9.cer'),
+                $this->filePath('fake-fiel/EKU9003173C9.key'),
+                $password ?? trim($this->fileContents('fake-fiel/EKU9003173C9-password.txt'))
+            )
         );
-        return $fielData->createFiel();
     }
 
     public static function xmlFormat(string $content): string

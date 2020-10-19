@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
+use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 
-class QueryParameters
+/**
+ * This class contains all the information required to perform a query on the SAT Web Service
+ */
+final class QueryParameters implements JsonSerializable
 {
     /** @var DateTimePeriod */
-    private $dateTimePeriod;
+    private $period;
 
     /** @var DownloadType */
     private $downloadType;
@@ -19,19 +23,44 @@ class QueryParameters
     /** @var RequestType */
     private $requestType;
 
+    /** @var string */
+    private $rfcMatch;
+
     public function __construct(
-        DateTimePeriod $dateTimePeriod,
+        DateTimePeriod $period,
         DownloadType $downloadType,
-        RequestType $requestType
+        RequestType $requestType,
+        string $rfcMatch
     ) {
-        $this->dateTimePeriod = $dateTimePeriod;
+        $this->period = $period;
         $this->downloadType = $downloadType;
         $this->requestType = $requestType;
+        $this->rfcMatch = $rfcMatch;
     }
 
-    public function getDateTimePeriod(): DateTimePeriod
+    /**
+     * Query static constructor method
+     *
+     * @param DateTimePeriod $period
+     * @param DownloadType|null $downloadType if null uses Issued
+     * @param RequestType|null $requestType If null uses Metadata
+     * @param string $rfcMatch Only when counterpart matches this Rfc
+     * @return self
+     */
+    public static function create(
+        DateTimePeriod $period,
+        DownloadType $downloadType = null,
+        RequestType $requestType = null,
+        string $rfcMatch = ''
+    ): self {
+        $downloadType = $downloadType ?: DownloadType::issued();
+        $requestType = $requestType ?? RequestType::metadata();
+        return new self($period, $downloadType, $requestType, $rfcMatch);
+    }
+
+    public function getPeriod(): DateTimePeriod
     {
-        return $this->dateTimePeriod;
+        return $this->period;
     }
 
     public function getDownloadType(): DownloadType
@@ -42,5 +71,21 @@ class QueryParameters
     public function getRequestType(): RequestType
     {
         return $this->requestType;
+    }
+
+    public function getRfcMatch(): string
+    {
+        return $this->rfcMatch;
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'period' => $this->period,
+            'downloadType' => $this->downloadType,
+            'requestType' => $this->requestType,
+            'rfcMatch' => $this->rfcMatch,
+        ];
     }
 }

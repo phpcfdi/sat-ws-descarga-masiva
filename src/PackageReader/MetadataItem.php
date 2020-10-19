@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 
+use JsonSerializable;
+
 /**
  * Metadata DTO object
- * @internal This struct is reported as of 2019-08-01, if changes use all()/get() methods
+ *
+ * @internal This collection of magic properties is reported as of 2019-08-01, if it changes use all()/get() methods
+ *
  * @property-read string $uuid
  * @property-read string $rfcEmisor
  * @property-read string $nombreEmisor
@@ -20,7 +24,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
  * @property-read string $estatus
  * @property-read string $fechaCancelacion
  */
-class MetadataItem
+final class MetadataItem implements JsonSerializable
 {
     /** @var array<string, string> */
     private $data;
@@ -49,5 +53,11 @@ class MetadataItem
     public function get(string $key): string
     {
         return $this->data[$key] ?? '';
+    }
+
+    /** @return array<string, string> */
+    public function jsonSerialize(): array
+    {
+        return ['uuid' => $this->get('uuid')] + $this->data;
     }
 }

@@ -1,0 +1,19 @@
+{
+    "status": {
+        "code": 5000,
+        "message": "Solicitud recibida con éxito"
+    },
+    "codeRequest": {
+        "value": 5003,
+        "message": "Tope máximo: Indica que se está superando el tope máximo de CFDI o Metadata"
+    },
+    "statusRequest": {
+        "value": 3,
+        "message": "Terminada"
+    },
+    "numberCfdis": 1000,
+    "packagesIds": [
+        "x-package-1",
+        "x-package-2"
+    ]
+}

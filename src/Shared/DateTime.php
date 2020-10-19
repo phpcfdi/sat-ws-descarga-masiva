@@ -7,9 +7,13 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 use DateTimeImmutable;
 use DateTimeZone;
 use InvalidArgumentException;
+use JsonSerializable;
 use Throwable;
 
-class DateTime
+/**
+ * Defines a date and time
+ */
+final class DateTime implements JsonSerializable
 {
     /** @var DateTimeImmutable */
     private $value;
@@ -41,6 +45,20 @@ class DateTime
             throw new InvalidArgumentException('Unable to create a Datetime');
         }
         $this->value = $value;
+    }
+
+    /**
+     * Create a DateTime instance
+     *
+     * If $value is an integer is used as a timestamp, if is a string is evaluated
+     * as an argument for DateTimeImmutable and if it is DateTimeImmutable is used as is.
+     *
+     * @param int|string|DateTimeImmutable|null $value
+     * @return self
+     */
+    public static function create($value = null): self
+    {
+        return new self($value);
     }
 
     public static function now(): self
@@ -85,5 +103,10 @@ class DateTime
     public function equalsTo(self $expectedExpires): bool
     {
         return $this->formatSat() === $expectedExpires->formatSat();
+    }
+
+    public function jsonSerialize(): int
+    {
+        return intval($this->value->format('U'));
     }
 }

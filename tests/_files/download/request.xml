@@ -3,7 +3,7 @@
   <s:Header/>
   <s:Body>
     <des:PeticionDescargaMasivaTercerosEntrada>
-      <des:peticionDescarga IdPaquete="4e80345d-917f-40bb-a98f-4a73939343c5_01" RfcSolicitante="AAA010101AAA">
+      <des:peticionDescarga IdPaquete="4e80345d-917f-40bb-a98f-4a73939343c5_01" RfcSolicitante="EKU9003173C9">
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
           <SignedInfo>
             <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
@@ -13,10 +13,10 @@
                 <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
               </Transforms>
               <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <DigestValue>UoCBjlNVOxn045eLZTe3vfjnnoU=</DigestValue>
+              <DigestValue>f0UuGyvdRtYmUtV7HA3c6lVwhdQ=</DigestValue>
             </Reference>
           </SignedInfo>
-          <SignatureValue>V12bEJ8JJk739KHFJSBORG+EAJ20Sklur3DZb7SBCCt6g5PO1aDxrU1vg5ogXd/tKRhpACPA8f1FUfZegui2tXpRbG3EHnSdeJ9OVTQZF/DUvX+rQezA2X+uf4LuBYqdeAZKI2H8EuD9k4epJSqE8ZMvTTZafvFgosnZEcB+JDRpBl4WJHb4QC+3ZxVm0HJg2WqfjBlTAkwUGEqNPgMeDfdYAJ9li8xXQDJiAgKEF3Kax/lZ1oRnaD/OJQP5Lsi4KJBr5EzSsClxrmr0LOirC4w0GeJLPLCZ3I9aSgoJACEZ1dhGtEjsysvCy7+qdQ0a4FPgKa9L431Grf87XNyxaA==</SignatureValue>
+          <SignatureValue>TAQtqEfbGM1Vv1KjkdY7ewPCTJ2yBsmqXpcwpl65S+SFqwS9Oz171suCH2cJhv+Ia8Mc0iKcc68HDZWDNI0pJdd7nYCuRlY9jBa0x9U/fssxj4TJTzLqF3jzQLqYeY7kkXE3+bBqW6h9JVoL7pHuDTBABBWGlNGLVx6q+4w9Vw6DbmlfrSfHwaWVRlZuYOMjn0t2Gs4krfh5a9D8b9NPJHPW4VxYLH6NNL1W6nwkNrTgJRJp+ta1OmzwjCjaZiUPLZEhCP1qxfVibPNOUSUCzutGES8oznXmYgaAGB9NzopSA3Qhgxk8sJEb5LjhirwIO8uDA8dFNdZmiy1cdPbkmQ==</SignatureValue>
           <KeyInfo>
             <X509Data>
               <X509IssuerSerial>

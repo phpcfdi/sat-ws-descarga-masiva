@@ -4,23 +4,82 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 
-class CfdiPackageReader extends AbstractPackageReader
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\CfdiFileFilter;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FilteredPackageReader;
+use Traversable;
+
+final class CfdiPackageReader implements PackageReaderInterface
 {
-    protected function filterEntryFilename(string $filename): bool
+    /** @var PackageReaderInterface */
+    private $packageReader;
+
+    private function __construct(PackageReaderInterface $packageReader)
     {
-        // this regexp means that start with al least 1 char that is not "/" or "\"
-        // and continues and ends with ".xml". So x.xml x.xml.xml are valid, but not a/x.xml
-        if (boolval(preg_match('/^[^\/\\\\]+\.xml$/i', $filename))) {
-            return true;
-        }
-        return false;
+        $this->packageReader = $packageReader;
     }
 
-    protected function filterContents(string &$contents): bool
+    public static function createFromFile(string $filename): self
     {
-        if (false === strpos($contents, '<cfdi:Comprobante')) {
-            return false;
+        $packageReader = FilteredPackageReader::createFromFile($filename);
+        $packageReader->setFilter(new CfdiFileFilter());
+        return new self($packageReader);
+    }
+
+    public static function createFromContents(string $contents): self
+    {
+        $packageReader = FilteredPackageReader::createFromContents($contents);
+        $packageReader->setFilter(new CfdiFileFilter());
+        return new self($packageReader);
+    }
+
+    /**
+     * Traverse the CFDI contained in the hole package
+     * The key is the UUID and the content is the XML
+     *
+     * @return Traversable<string, string>
+     */
+    public function cfdis()
+    {
+        foreach ($this->packageReader->fileContents() as $content) {
+            yield $this->obtainUuidFromXmlCfdi($content) => $content;
         }
-        return true;
+    }
+
+    public function getFilename(): string
+    {
+        return $this->packageReader->getFilename();
+    }
+
+    public function count(): int
+    {
+        return iterator_count($this->cfdis());
+    }
+
+    public function fileContents()
+    {
+        yield from $this->packageReader->fileContents();
+    }
+
+    /**
+     * Helper method to extract the UUID from the TimbreFiscalDigital
+     *
+     * @param string $xmlContent
+     * @return string
+     */
+    public static function obtainUuidFromXmlCfdi(string $xmlContent): string
+    {
+        $found = preg_match('/TimbreFiscalDigital.*?UUID="(?<uuid>[-a-zA-Z0-9]{36})"/s', $xmlContent, $matches);
+        if (false !== $found && isset($matches['uuid'])) {
+            return strtolower($matches['uuid']);
+        }
+        return '';
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return $this->packageReader->jsonSerialize() + [
+            'cfdis' => iterator_to_array($this->cfdis()),
+        ];
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Verify;
 
+use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Services\Verify\VerifyTranslator;
-use PhpCfdi\SatWsDescargaMasiva\Tests\EnvelopSignatureVerifier;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class VerifyTranslatorTest extends TestCase
@@ -20,7 +20,7 @@ class VerifyTranslatorTest extends TestCase
         $expectedPackagesIds = [];
 
         $translator = new VerifyTranslator();
-        $responseBody = $translator->nospaces($this->fileContents('verify/response-0-packages.xml'));
+        $responseBody = Helpers::nospaces($this->fileContents('verify/response-0-packages.xml'));
         $result = $translator->createVerifyResultFromSoapResponse($responseBody);
         $status = $result->getStatus();
         $statusRequest = $result->getStatusRequest();
@@ -45,7 +45,7 @@ class VerifyTranslatorTest extends TestCase
         ];
 
         $translator = new VerifyTranslator();
-        $responseBody = $translator->nospaces($this->fileContents('verify/response-2-packages.xml'));
+        $responseBody = Helpers::nospaces($this->fileContents('verify/response-2-packages.xml'));
         $result = $translator->createVerifyResultFromSoapResponse($responseBody);
         $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
         $this->assertSame(2, $result->countPackages());
@@ -54,19 +54,14 @@ class VerifyTranslatorTest extends TestCase
     public function testCreateSoapRequest(): void
     {
         $translator = new VerifyTranslator();
-        $fiel = $this->createFielUsingTestingFiles();
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
 
-        $rfc = 'AAA010101AAA';
         $requestId = '3f30a4e1-af73-4085-8991-e4d97eef16bd';
 
-        $requestBody = $translator->createSoapRequestWithData($fiel, $rfc, $requestId);
+        $requestBody = $translator->createSoapRequest($requestBuilder, $requestId);
         $this->assertSame(
-            $this->xmlFormat($translator->nospaces($this->fileContents('verify/request.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('verify/request.xml'))),
             $this->xmlFormat($requestBody)
         );
-
-        $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'VerificaSolicitudDescarga');
-        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 }

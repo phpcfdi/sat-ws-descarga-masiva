@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
 use JsonSerializable;
 
-class Response implements JsonSerializable
+final class Response implements JsonSerializable
 {
     /** @var int */
     private $statusCode;
@@ -18,7 +18,8 @@ class Response implements JsonSerializable
     private $headers;
 
     /**
-     * Response constructor.
+     * Minimal representation of http response object.
+     *
      * @param int $statusCode
      * @param string $body
      * @param array<string, string> $headers
@@ -61,7 +62,7 @@ class Response implements JsonSerializable
         return ($this->statusCode < 600 && $this->statusCode >= 500);
     }
 
-    /** @return array<string, string> */
+    /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
         return get_object_vars($this);
