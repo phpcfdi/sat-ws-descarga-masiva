@@ -1,81 +1,85 @@
-# Contributing
+# Contribuciones
 
-Contributions are welcome. We accept pull requests on [GitHub](https://github.com/phpcfdi/sat-ws-descarga-masiva).
+Las contribuciones son bienvenidas. Aceptamos *Pull Requests* en el [repositorio GitHub][homepage].
 
-This project adheres to a
-[Contributor Code of Conduct](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/CODE_OF_CONDUCT.md).
-By participating in this project and its community, you are expected to uphold this code.
+Este proyecto se apega al siguiente [Código de Conducta][coc].
+Al participar en este proyecto y en su comunidad, deberás seguir este código.
 
-## Team members
+## Miembros del equipo
 
-* [phpCfdi](https://github.com/phpcfdi) - organization maintainer
-* [GitHub contributors](https://github.com/phpcfdi/sat-ws-descarga-masiva/graphs/contributors)
+* [phpCfdi][] - Organización que mantiene el proyecto.
+* [Contribuidores][contributors].
 
-## Communication Channels
+## Canales de comunicación
 
-You can find help and discussion in the following places:
+Puedes encontrar ayuda y comentar asuntos relacionados con este proyecto en estos lugares:
 
+* Comunidad Discord: <https://discord.gg/aFGYXvX>
 * GitHub Issues: <https://github.com/phpcfdi/sat-ws-descarga-masiva/issues>
 
-## Reporting Bugs
+## Reportar Bugs
 
-Bugs are tracked in our project's [issue tracker](https://github.com/phpcfdi/sat-ws-descarga-masiva/issues).
+Publica los *Bugs* en la sección [GitHub Issues][issues] del proyecto.
 
-When submitting a bug report, please include enough information for us to reproduce the bug.
-A good bug report includes the following sections:
+Sigue las recomendaciones generales de [phpCfdi][] para reportar problemas
+<https://www.phpcfdi.com/general/reportar-problemas/>.
 
-* Expected outcome
-* Actual outcome
-* Steps to reproduce, including sample code
-* Any other information that will help us debug and reproduce the issue, including stack traces, system/environment information, and screenshots
+Cuando se reporte un *Bug*, por favor incluye la mayor información posible para reproducir el problema, preferentemente
+con ejemplos de código o cualquier otra información técnica que nos pueda ayudar a identificar el caso.
 
-**Please do not include passwords or any personally identifiable information in your bug report and sample code.**
+**Recuerda no incluir contraseñas, información personal o confidencial.**
 
-## Fixing Bugs
+## Corrección de Bugs
 
-We welcome pull requests to fix bugs!
+Apreciamos mucho los *Pull Request* para corregir Bugs.
 
-If you see a bug report that you'd like to fix, please feel free to do so.
-Following the directions and guidelines described in the "Adding New Features"
-section below, you may create bugfix branches and send us pull requests.
+Si encuentras un reporte de Bug y te gustaría solucionarlo siéntete libre de hacerlo.
+Sigue las directrices de "Agregar nuevas funcionalidades" a continuación.
 
-## Adding New Features
+## Agregar nuevas funcionalidades
 
-If you have an idea for a new feature, it's a good idea to check out our
-[issues](https://github.com/phpcfdi/sat-ws-descarga-masiva/issues) or active
-[pull requests](https://github.com/phpcfdi/sat-ws-descarga-masiva/pulls)
-first to see if the feature is already being worked on.
-If not, feel free to submit an issue first, asking whether the feature is beneficial to the project.
-This will save you from doing a lot of development work only to have your feature rejected.
-We don't enjoy rejecting your hard work, but some features just don't fit with the goals of the project.
+Si tienes una idea para una nueva funcionalidad revisa primero que existan discusiones o *Pull Requests*
+en donde ya se esté trabajando en la funcionalidad.
 
-When you do begin working on your feature, here are some guidelines to consider:
+Antes de trabajar en la nueva característica, utiliza los "Canales de comunicación" mencionados
+anteriormente para platicar acerca de tu idea. Si dialogas tus ideas con la comunidad y los
+mantenedores del proyecto, podrás ahorrar mucho esfuerzo de desarrollo y prevenir que tu
+*Pull Request* sea rechazado. No nos gusta rechazar contribuciones, pero algunas características
+o la forma de desarrollarlas puede que no estén alineadas con el proyecto.
 
-* Your pull request description should clearly detail the changes you have made.
-* Follow our code style using `squizlabs/php_codesniffer` and `friendsofphp/php-cs-fixer`.
-* Please **write tests** for any new features you add.
-* Please **ensure that tests pass** before submitting your pull request. We have Travis CI automatically running tests for pull requests. However, running the tests locally will help save time.
-* **Use topic/feature branches.** Please do not ask us to pull from your master branch.
-* **Submit one feature per pull request.** If you have multiple features you wish to submit, please break them up into separate pull requests.
-* **Send coherent history**. Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
+Considera las siguientes directrices:
 
-## Check the code style
+* Usa una rama única que se desprenda de la rama principal.
+  No mezcles dos diferentes funcionalidades en una misma rama o *Pull Request*.
+* Describe claramente y en detalle los cambios que hiciste.
+* **Escribe pruebas** para la funcionalidad que deseas agregar.
+* **Asegúrate que las pruebas pasan** antes de enviar tu contribución.
+  Usamos integración contínua donde se hace esta verificación, pero es mucho mejor si lo pruebas localmente.
+* Intenta enviar una historia coherente, entenderemos cómo cambia el código si los *commits* tienen significado.
+* La documentación es parte del proyecto.
+  Realiza los cambios en los archivos de ayuda para que reflejen los cambios en el código.
 
-If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
+## Proceso de construcción
 
 ```shell
+# Actualiza tus dependencias
+composer update
+
+# Verificación de estilo de código
+composer dev:check-style
+
+# Corrección de estilo de código
 composer dev:fix-style
+
+# Ejecución de pruebas
+composer dev:test
+
+# Ejecución todo en uno, corregir estilo, verificar estilo y correr pruebas
+composer dev:build
 ```
 
-## Running Tests
-
-The following tests must pass before we will accept a pull request.
-If any of these do not pass, it will result in a complete build failure.
-Before you can run these, be sure to `composer install` or `composer update`.
-
-```shell
-vendor/bin/phpcs -sp src/ tests/
-vendor/bin/php-cs-fixer fix -v --dry-run
-vendor/bin/phpunit --coverage-text
-vendor/bin/phpstan analyse --no-progress --level max src/ tests/
-```
+[phpCfdi]:      https://github.com/phpcfdi/
+[project]:      https://github.com/phpcfdi/sat-ws-descarga-masiva
+[contributors]: https://github.com/phpcfdi/sat-ws-descarga-masiva/graphs/contributors
+[coc]:          https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/CODE_OF_CONDUCT.md
+[issues]:       https://github.com/phpcfdi/sat-ws-descarga-masiva/issues
