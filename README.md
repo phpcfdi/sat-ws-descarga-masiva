@@ -33,7 +33,7 @@ Todos los objetos de entrada y salida se pueden exportar como JSON para su fáci
 
 ### Creación el servicio
 
-Ejemplo creando el servicio usando una FIEL.
+Ejemplo creando el servicio usando una FIEL disponible localmente.
 
 ```php
 <?php
@@ -66,23 +66,23 @@ $requestBuilder = new FielRequestBuilder($fiel);
 $service = new Service($requestBuilder, $webClient);
 ```
 
-### Cliente para consumir los servicios de CFDI de retenciones
+### Cliente para consumir los servicios de CFDI de Retenciones
 
 Existen dos tipos de Comprobantes Fiscales Digitales, los regulares (ingresos, egresos, traslados, nóminas y pagos),
 y los CFDI de retenciones e información de pagos (retenciones).
 
 Puede utilizar esta librería para consumir los CFDI de Retenciones. Para lograrlo construya el servicio con
-la especificación se `ServiceEndpoints`:
+la especificación de `ServiceEndpoints::retenciones()`.
 
 ```php
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
+use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 
 /**
  * @var GuzzleWebClient $webClient
- * @var FielRequestBuilder $requestBuilder
+ * @var RequestBuilderInterface $requestBuilder
  */
 // Creación del servicio
 $service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::retenciones());
@@ -97,6 +97,7 @@ Valores por defecto:
 - Consultar comprobantes emitidos (`DownloadType::issued()`).
 - Solicitar información de metadata (`RequestType::metadata()`).
 - No filtrar por RFC.
+- Usar el servicio para CFDI Regulares (en lugar de CFDI de Retenciones).
 
 ```php
 <?php
@@ -188,7 +189,11 @@ foreach ($verify->getPackagesIds() as $packageId) {
 
 ### Descargar los paquetes de la consulta
 
-La descarga depende de que la consulta haya sido correctamente verificada.
+La descarga de los paquetes depende de que la consulta haya sido correctamente verificada.
+
+Una consulta genera un identificador de la solicitud,
+la verificación retorna **uno o varios** identificadores de paquetes.
+Necesitas descargar todos y cada uno de los paquetes para tener la información completa de la consulta.
 
 ```php
 <?php
@@ -218,6 +223,8 @@ foreach($packagesIds as $packageId) {
 Los paquetes de Metadata y CFDI se pueden leer con las clases `MetadataPackageReader` y `CfdiPackageReader` respectivamente.
 Para fabricar los objetos, se pueden usar sus métodos `createFromFile` para crearlo a partir de un archivo existente
 o `createFromContents` para crearlo a partir del contenido del archivo en memoria.
+
+Cada paquete puede contener uno o más archivos internos. Cada paquete se lee individualmente.
 
 #### Lectura de paquetes de tipo Metadata
 
@@ -310,7 +317,7 @@ sea en el momento de implementación o para personalizar los mensajes de error.
 
 El servicio se compone de 4 partes:
 
-1. Autenticación: Esto se hace con tu fiel y la libería oculta la lógica de obtener y usar el Token.
+1. Autenticación: Esto se hace con tu FIEL y la libería oculta la lógica de obtener y usar el Token.
 2. Solicitud: Presentar una solicitud incluyendo la fecha de inicio, fecha de fin, tipo de solicitud
    emitidas/recibidas y tipo de información solicitada (cfdi o metadata).
 3. Verificación: pregunta al SAT si ya tiene disponible la solicitud.
@@ -332,8 +339,8 @@ Si le pides muchas veces una caja puede que te digan que dejes de estar pidiendo
 al funcionario del SAT y no te la da más.
 
 * Todo esto sucede con un máximo de seguridad, cada vez que hablas con un funcionario te pide que le enseñes tu permiso
-y si no lo tienes o ya está vencido (duran apenas unos minutos) te mandan con el de la entrada para que le demuestres
-que eres tú y te extienda un nuevo permiso.
+y si no lo tienes o ya está vencido (duran apenas unos minutos) te mandan con la persona de seguridad para que le
+demuestres que eres tú y te extienda un nuevo permiso.
 
 ### Información oficial
 
@@ -347,7 +354,7 @@ que eres tú y te extienda un nuevo permiso.
 
 Notas importantes del web service:
 
-- Podrás recuperar hasta 200 mil registros por petición y hasta un millón en metadata.
+- Podrás recuperar hasta 200 mil registros por petición y hasta 1,000,000 en metadata.
 - No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de dos ocasiones un XML. 
 
 ### Notas de uso
@@ -358,9 +365,11 @@ Se ha encontrado que la regla relacionada con las descargas de tipo CFDI no se a
 Sin embargo, se ha encontrado que la regla que sí aplica es: *no solicitar en más de 2 ocasiones el mismo periodo*.
 Cuando esto ocurre, el proceso de solicitud devuelve el mensaje *"5002: Se han agotado las solicitudes de por vida"*.
 
-Recuerda que, si se cambia la fecha inicial o final en al menos un segundo ya se trata de otro periodo, por lo que si te encuentras en este problema podrías solucionarlo de esta forma.
+Recuerda que, si se cambia la fecha inicial o final en al menos un segundo ya se trata de otro periodo,
+por lo que si te encuentras en este problema podrías solucionarlo de esta forma.
 
-En consultas del tipo Metadata no aplica dicha limitante mencionada anteriormente, por ello es recomendable hacer las pruebas de implementación con este tipo de consulta.
+En consultas del tipo Metadata no se aplica la limitante mencionada anteriormente, por ello es recomendable
+hacer las pruebas de implementación con este tipo de consulta.
 
 ## Compatilibilidad
 
@@ -369,6 +378,10 @@ Esta librería se mantendrá compatible con al menos la versión con
 
 También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/)
 por lo que puedes usar esta librería sin temor a romper tu aplicación.
+
+### Actualizaciones
+
+- [Guía de actualización de versión 0.3 a 0.4](docs/UPGRADE_0.3_0.4.md).
 
 ## Contribuciones
 
@@ -379,7 +392,6 @@ y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
 
 The `phpcfdi/sat-ws-descarga-masiva` library is copyright © [PhpCfdi](https://www.phpcfdi.com)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
-
 
 [contributing]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/CONTRIBUTING.md
 [changelog]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/docs/CHANGELOG.md
