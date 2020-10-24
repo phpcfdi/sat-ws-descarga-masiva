@@ -14,6 +14,12 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Version UNRELEASED
+
+- PHPStan reporta error de tipo *"Access to an undefined property"* en la clase `MetadataItem`.
+  Sin embargo, la clase implementa el método mágico `__get` por lo que la propiedad no necesariamente
+  se debe considerar indefinida. Se corrigió anotando la línea para que fuera ignorada. 
+
 ## Version 0.4.0 2020-10-14
 
 - Guía de actualización de la versión 0.3.2 a la versión 0.4.0: [UPGRADE_0.3_0.4](UPGRADE_0.3_0.4.md)

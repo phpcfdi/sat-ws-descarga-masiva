@@ -25,7 +25,7 @@ class MetadataItemTest extends TestCase
         $this->assertSame('x-uuid', $metadata->uuid);
         $this->assertSame('x-uuid', $metadata->get('uuid'));
         $this->assertSame('one data', $metadata->get('oneData'));
-        $this->assertSame('one data', $metadata->{'oneData'});
+        $this->assertSame('one data', $metadata->{'oneData'}); /** @phpstan-ignore-line */
         $this->assertSame($data, $metadata->all());
     }
 
