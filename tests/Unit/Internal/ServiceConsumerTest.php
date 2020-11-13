@@ -108,7 +108,6 @@ class ServiceConsumerTest extends TestCase
         }
         if (null === $thrownException) {
             $this->fail('The WebClientException was not thrown');
-            return;
         }
         $this->assertSame($response, $thrownException->getResponse());
     }
