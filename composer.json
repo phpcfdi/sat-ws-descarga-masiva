@@ -35,7 +35,7 @@
         "phpunit/phpunit": "^9.3.5",
         "squizlabs/php_codesniffer": "^3.5.6",
         "friendsofphp/php-cs-fixer": "^2.16.4",
-        "phpstan/phpstan": "^0.12"
+        "phpstan/phpstan": "^0.12.54"
     },
     "suggest": {
         "guzzlehttp/guzzle": "To use GuzzleWebClient implementation"
