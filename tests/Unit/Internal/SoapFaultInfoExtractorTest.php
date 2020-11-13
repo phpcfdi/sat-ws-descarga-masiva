@@ -19,7 +19,6 @@ class SoapFaultInfoExtractorTest extends TestCase
         $fault = SoapFaultInfoExtractor::extract($source);
         if (null === $fault) {
             $this->fail('It was expected to receive an instace of SoapFaultInfo');
-            return;
         }
         $this->assertInstanceOf(SoapFaultInfo::class, $fault);
         $this->assertSame('a:InvalidSecurity', $fault->getCode());

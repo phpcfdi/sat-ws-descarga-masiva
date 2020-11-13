@@ -26,7 +26,6 @@ class GuzzleWebClientTest extends TestCase
         $this->assertFalse(isset($response), '$response should not be defined');
         if (null === $exception) {
             $this->fail('Exception was not catched');
-            return;
         }
         $this->assertInstanceOf(WebClientException::class, $exception);
         $this->assertSame($request, $exception->getRequest());
