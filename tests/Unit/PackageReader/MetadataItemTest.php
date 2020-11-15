@@ -35,7 +35,7 @@ class MetadataItemTest extends TestCase
 
         $zipFilename = $this->filePath('zip/metadata.zip');
         $packageReader = MetadataPackageReader::createFromFile($zipFilename);
-        $extracted = current(iterator_to_array($packageReader->fileContents()));
+        $extracted = (string) current(iterator_to_array($packageReader->fileContents()));
 
         // normalize line endings
         $expectedContent = str_replace("\r\n", "\n", $expectedContent);
