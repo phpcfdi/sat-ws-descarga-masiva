@@ -18,7 +18,11 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 
 - PHPStan reporta error de tipo *"Access to an undefined property"* en la clase `MetadataItem`.
   Sin embargo, la clase implementa el método mágico `__get` por lo que la propiedad no necesariamente
-  se debe considerar indefinida. Se corrigió anotando la línea para que fuera ignorada. 
+  se debe considerar indefinida. Se corrigió anotando la línea para que fuera ignorada.
+- Se corrigen las pruebas porque ahora PHPStan entiende el control de flujo de PHPUnit y eso rompía
+  la integración contínua con Travis-CI.
+- Se mejora el flujo de la prueba `ServiceConsumerTest::testRunRequestWithWebClientException`.
+- Se corrige en las pruebas el uso de `current()` pues puede devolver `false` y se espera `string`.
 
 ## Version 0.4.0 2020-10-14
 

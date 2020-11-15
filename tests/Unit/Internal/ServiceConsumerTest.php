@@ -100,16 +100,14 @@ class ServiceConsumerTest extends TestCase
         $webClient->expects($this->once())->method('fireResponse')->with($response);
 
         $consumer = new ServiceConsumer();
-        $thrownException = null;
+        // use try catch and not excpectException because must check WebClientException contains expected response
         try {
             $consumer->runRequest($webClient, $request);
         } catch (WebClientException $webClientException) {
-            $thrownException = $webClientException;
+            $this->assertSame($response, $webClientException->getResponse());
+            return;
         }
-        if (null === $thrownException) {
-            $this->fail('The WebClientException was not thrown');
-        }
-        $this->assertSame($response, $thrownException->getResponse());
+        $this->fail('The WebClientException was not thrown');
     }
 
     public function testCheckErrorWithFault(): void
