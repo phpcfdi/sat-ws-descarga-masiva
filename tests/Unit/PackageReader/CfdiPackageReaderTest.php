@@ -102,29 +102,61 @@ class CfdiPackageReaderTest extends TestCase
     public function providerObtainUuidFromXmlCfdi(): array
     {
         return [
-            'common' => [
-                '<tfd:TimbreFiscalDigital UUID="ff833b27-c8ab-4c44-a559-2c197bdd4067"/>',
+            'common' => [<<<XML
+                <cfdi:Complemento>
+                    <tfd:TimbreFiscalDigital UUID="ff833b27-c8ab-4c44-a559-2c197bdd4067"/>
+                <cfdi:Complemento/>
+                XML,
                 'ff833b27-c8ab-4c44-a559-2c197bdd4067',
             ],
-            'upper-case' => [
-                '<tfd:TimbreFiscalDigital UUID="FF833B27-C8AB-4C44-A559-2C197BDD4067"/>',
+            'upper-case' => [<<<XML
+                <cfdi:Complemento>
+                    <tfd:TimbreFiscalDigital UUID="FF833B27-C8AB-4C44-A559-2C197BDD4067"/>
+                <cfdi:Complemento/>
+                XML,
                 'ff833b27-c8ab-4c44-a559-2c197bdd4067',
             ],
-            'middle-vertical-content' => [
-                '<tfd:TimbreFiscalDigital a="a" UUID="ff833b27-c8ab-4c44-a559-2c197bdd4067"/>',
+            'middle-vertical-content' => [<<<XML
+                <cfdi:Complemento>
+                    <tfd:TimbreFiscalDigital a="a" UUID="ff833b27-c8ab-4c44-a559-2c197bdd4067" b="b"/>
+                <cfdi:Complemento/>
+                XML,
                 'ff833b27-c8ab-4c44-a559-2c197bdd4067',
             ],
-            'middle-vertical-space' => [
-                "<tfd:TimbreFiscalDigital \n UUID=\"ff833b27-c8ab-4c44-a559-2c197bdd4067\"/>",
+            'middle-vertical-space' => [<<<XML
+                <cfdi:Complemento>
+                    <tfd:TimbreFiscalDigital
+                        UUID="ff833b27-c8ab-4c44-a559-2c197bdd4067"
+                    />
+                <cfdi:Complemento/>
+                XML,
                 'ff833b27-c8ab-4c44-a559-2c197bdd4067',
             ],
-            'invalid-uuid' => [
-                "<tfd:TimbreFiscalDigital \n UUID=\"ff833b27-ÑÑÑÑ-4c44-a559-2c197bdd4067\"/>",
+            'invalid-uuid' => [<<<XML
+                <cfdi:Complemento>
+                    <tfd:TimbreFiscalDigital  
+                        UUID="ff833b27-ÑÑÑÑ-4c44-a559-2c197bdd4067"
+                    />
+                <cfdi:Complemento/>
+                XML,
                 '',
             ],
             'empty-content' => ['', ''],
             'invalid xml' => ['invalid xml', ''],
             'xml without tfd' => ['<xml/>', ''],
+            'with cfdi relacionado and xmlns:tfd' => [<<<XML
+                <cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/3"
+                  xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital">
+                  <cfdi:CfdiRelacionados TipoRelacion="07">
+                    <cfdi:CfdiRelacionado UUID="afbef86d-d7af-4ef4-acfb-6aef8ddfa313"/>
+                  </cfdi:CfdiRelacionados>
+                  <cfdi:Complemento>
+                    <tfd:TimbreFiscalDigital UUID="000d04ba-18b8-4b78-b266-7fa7bdb24603"/>
+                  </cfdi:Complemento>
+                </cfdi:Comprobante>
+                XML,
+                '000d04ba-18b8-4b78-b266-7fa7bdb24603',
+            ],
         ];
     }
 
