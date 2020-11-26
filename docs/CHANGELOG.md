@@ -14,12 +14,15 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
-## Version 0.4.1 2020-11-25
+## Version 0.4.2 2020-11-25
 
 - Se corrige el extractor de UUID de un CFDI, no estaba funcionando correctamente y en algunas
   ocasiones provocaba que se leyera el valor de `CfdiRelacionado@UUID` en lugar del valor correcto
   de `TimbreFiscalDigital@UUID`. Esto solo ocurría cuando en el nodo principal `<Comprobante>` se
   definía el espacio de nombres o la ubicación del esquema de `TimbreFiscalDigital`.
+
+## Version 0.4.1 2020-11-25
+
 - PHPStan reporta error de tipo *"Access to an undefined property"* en la clase `MetadataItem`.
   Sin embargo, la clase implementa el método mágico `__get` por lo que la propiedad no necesariamente
   se debe considerar indefinida. Se corrigió anotando la línea para que fuera ignorada.
