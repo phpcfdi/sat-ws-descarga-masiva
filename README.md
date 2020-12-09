@@ -208,7 +208,7 @@ use PhpCfdi\SatWsDescargaMasiva\Service;
 // consultar el servicio de verificación
 foreach($packagesIds as $packageId) {
     $download = $service->download($packageId);
-    if (!$download->getStatus()->isAccepted()) {
+    if (! $download->getStatus()->isAccepted()) {
         echo "El paquete {$packageId} no se ha podido descargar: {$download->getStatus()->getMessage()}", PHP_EOL;
         continue;
     }
