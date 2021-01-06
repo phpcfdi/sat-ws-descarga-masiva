@@ -23,7 +23,7 @@ class FielRequestBuilderTest extends TestCase
     public function testFielRequestImplementsRequestBuilderInterface(): void
     {
         $expected = RequestBuilderInterface::class;
-        $interfaces = class_implements(FielRequestBuilder::class);
+        $interfaces = class_implements(FielRequestBuilder::class) ?: [];
         $this->assertContains($expected, $interfaces);
     }
 
