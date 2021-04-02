@@ -14,7 +14,7 @@
 :us: The documentation of this project is in spanish as this is the natural language for intented audience.
 
 :mexico: La documentación del proyecto está en español porque ese es el lenguaje principal de los usuarios.
-También te esperamos en el [canal #phpcfdi de discord](https://discord.gg/aFGYXvX)
+También te esperamos en [el canal #phpcfdi de discord](https://discord.gg/aFGYXvX)
 
 Esta librería contiene un cliente (consumidor) del servicio del SAT de
 **Servicio Web de Descarga Masiva de CFDI y Retenciones**.
@@ -90,14 +90,12 @@ $service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::rete
 
 ### Realizar una consulta
 
-Una vez creado el servicio se puede presentar la consulta.
+Una vez creado el servicio, se puede presentar la consulta que tiene estos cuatro parámetros:
 
-Valores por defecto:
-
-- Consultar comprobantes emitidos (`DownloadType::issued()`).
-- Solicitar información de metadata (`RequestType::metadata()`).
-- No filtrar por RFC.
-- Usar el servicio para CFDI Regulares (en lugar de CFDI de Retenciones).
+- Periodo: Fecha y hora de inicio y fin de la consulta.
+- Tipo de descarga: CFDI emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
+- Tipo de solicitud: De metadatos `RequestType::metadata()` o de archivos CFDI `RequestType::cfdi()`.
+- Filtrado por RFC: Si se establece, se filtran para obtener únicamente donde la contraparte tenga el RFC indicado.
 
 ```php
 <?php
@@ -113,11 +111,11 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
  * @var Service $service
  */
 
-// crear la consulta:
-// - Del 13/ene/2019 00:00:00 al 13/ene/2019 (inclusive)
+// Explicación de la consulta:
+// - Del 13/ene/2019 00:00:00 al 13/ene/2019 23:59:59 (inclusive)
 // - Todos los emitidos por el dueño de la FIEL
 // - Solicitando la información de Metadata
-// - Filtrando únicamente por los recibidos del RFC MAG041126GT8
+// - Filtrando los CFDI emitidos para RFC MAG041126GT8
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
     DownloadType::issued(),
@@ -136,6 +134,26 @@ if (! $query->getStatus()->isAccepted()) {
 
 // el identificador de la consulta está en $query->getRequestId()
 echo "Se generó la solicitud {$query->getRequestId()}", PHP_EOL;
+```
+
+### Consula con valores predeterminados
+
+Valores predeterminados de una consulta:
+
+- Consultar comprobantes emitidos `DownloadType::issued()`.
+- Solicitar información de metadata `RequestType::metadata()`.
+- Sin filtro de RFC.
+
+```php
+<?php
+
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+
+// Consula del día 2019-01-13, solo los emitidos, información de tipo metadata, sin filtro de RFC.
+$request = QueryParameters::create(
+    DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
+);
 ```
 
 ### Verificar una consulta
@@ -386,7 +404,7 @@ por lo que puedes usar esta librería sin temor a romper tu aplicación.
 ## Contribuciones
 
 Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
-y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
+y recuerda revisar el archivo de tareas pendientes [TODO][] y el archivo [CHANGELOG][].
 
 ## Copyright and License
 
