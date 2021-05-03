@@ -136,7 +136,7 @@ if (! $query->getStatus()->isAccepted()) {
 echo "Se generó la solicitud {$query->getRequestId()}", PHP_EOL;
 ```
 
-### Consula con valores predeterminados
+### Consulta con valores predeterminados
 
 Valores predeterminados de una consulta:
 
@@ -150,7 +150,7 @@ Valores predeterminados de una consulta:
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 
-// Consula del día 2019-01-13, solo los emitidos, información de tipo metadata, sin filtro de RFC.
+// Consulta del día 2019-01-13, solo los emitidos, información de tipo metadata, sin filtro de RFC.
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
 );
