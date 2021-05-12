@@ -364,16 +364,17 @@ demuestres que eres tú y te extienda un nuevo permiso.
 
 - Liga oficial del SAT
   <https://www.sat.gob.mx/consultas/42968/consulta-y-recuperacion-de-comprobantes-(nuevo)>
-- Solicitud de descargas para CFDI y retenciones: (no definida, la información oficial tiene errores).
+- Solicitud de descargas para CFDI y retenciones:
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716402&ssbinary=true>
 - Verificación de descargas de solicitudes exitosas:
-  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770350&ssbinary=true>
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716409&ssbinary=true>
 - Descarga de solicitudes exitosas:
-  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461173770327&ssbinary=true>
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716395&ssbinary=true>
 
 Notas importantes del web service:
 
 - Podrás recuperar hasta 200 mil registros por petición y hasta 1,000,000 en metadata.
-- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de dos ocasiones un XML. 
+- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de dos ocasiones un XML.
 
 ### Notas de uso
 
@@ -388,6 +389,16 @@ por lo que si te encuentras en este problema podrías solucionarlo de esta forma
 
 En consultas del tipo Metadata no se aplica la limitante mencionada anteriormente, por ello es recomendable
 hacer las pruebas de implementación con este tipo de consulta.
+
+- Tiempo de respuesta entre ls presentación de la consulta y su verificación exitosa.
+
+No se ha podido encontrar una constante para suponer el tiempo que puede tardar una consulta en regresar un estado
+de verificación exitosa y que los paquetes estén listos para descargarse.
+
+En nuestra experiencia, entre más grande el periodo y más consultas se presenten más lenta es la respuesta,
+y puede ser desde minutos a horas. Por lo general es raro que excedan 24 horas.
+Sin embargo, varios usuarios han experimentado casos raros (posiblemente por problemas en el SAT) en donde las
+solicitudes han llegado a tardar hasta 72 horas para ser completadas.
 
 ## Compatilibilidad
 
