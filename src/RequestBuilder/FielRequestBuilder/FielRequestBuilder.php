@@ -71,7 +71,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
             </s:Envelope>
             EOT;
 
-        return $this->nospaces($xml);
+        return Helpers::nospaces($xml);
     }
 
     public function query(string $start, string $end, string $rfcIssuer, string $rfcReceiver, string $requestType): string
@@ -139,7 +139,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
             </s:Envelope>
             EOT;
 
-        return $this->nospaces($xml);
+        return Helpers::nospaces($xml);
     }
 
     public function verify(string $requestId): string
@@ -166,7 +166,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
             </s:Envelope>
             EOT;
 
-        return $this->nospaces($xml);
+        return Helpers::nospaces($xml);
     }
 
     public function download(string $packageId): string
@@ -193,7 +193,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
             </s:Envelope>
             EOT;
 
-        return $this->nospaces($xml);
+        return Helpers::nospaces($xml);
     }
 
     private static function createXmlSecurityTokenId(): string
@@ -211,7 +211,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     private function createSignature(string $toDigest, string $signedInfoUri = '', string $keyInfo = ''): string
     {
-        $toDigest = $this->nospaces($toDigest);
+        $toDigest = Helpers::nospaces($toDigest);
         $digested = base64_encode(sha1($toDigest, true));
         $signedInfo = $this->createSignedInfoCanonicalExclusive($digested, $signedInfoUri);
         $signatureValue = base64_encode($this->getFiel()->sign($signedInfo, OPENSSL_ALGO_SHA1));
@@ -247,7 +247,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 </Reference>
             </SignedInfo>
             EOT;
-        return $this->nospaces($xml);
+        return Helpers::nospaces($xml);
     }
 
     private function createKeyInfoData(): string
@@ -268,10 +268,5 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 </X509Data>
             </KeyInfo>
             EOT;
-    }
-
-    private function nospaces(string $input): string
-    {
-        return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input) ?? '';
     }
 }
