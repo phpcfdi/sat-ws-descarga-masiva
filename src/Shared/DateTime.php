@@ -35,7 +35,7 @@ final class DateTime implements JsonSerializable
         }
         if (is_string($value)) {
             try {
-                $value = new DateTimeImmutable($value ?? 'now');
+                $value = new DateTimeImmutable($value);
             } catch (Throwable $exception) {
                 $message = sprintf('Unable to create a Datetime("%s")', strval($value));
                 throw new InvalidArgumentException($message, 0, $exception);

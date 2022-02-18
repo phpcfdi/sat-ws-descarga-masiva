@@ -79,8 +79,8 @@ final class CfdiPackageReader implements PackageReaderInterface
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
-        return $this->packageReader->jsonSerialize() + [
-            'cfdis' => iterator_to_array($this->cfdis()),
-        ];
+        /** @var array<string, mixed> $base */
+        $base = $this->packageReader->jsonSerialize();
+        return $base + ['cfdis' => iterator_to_array($this->cfdis())];
     }
 }

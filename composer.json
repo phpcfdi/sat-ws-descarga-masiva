@@ -32,8 +32,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^7.2.0",
         "robrichards/xmlseclibs": "^3.1.0",
-        "phpunit/phpunit": "^9.3.5",
-        "phpstan/phpstan": "^0.12.54"
+        "phpunit/phpunit": "^9.3.5"
     },
     "suggest": {
         "guzzlehttp/guzzle": "To use GuzzleWebClient implementation"
@@ -61,7 +60,7 @@
         "dev:test": [
             "@dev:check-style",
             "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/"
+            "tools/phpstan analyse --verbose --no-progress"
         ],
         "dev:coverage": [
             "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
