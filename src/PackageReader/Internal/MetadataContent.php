@@ -83,8 +83,10 @@ final class MetadataContent
     {
         $countValues = count($values);
         $countHeaders = count($headers);
+        /** @var int<0, max> $countSub */
+        $countSub = $countHeaders - $countValues;
         if ($countHeaders > $countValues) {
-            $values = array_merge($values, array_fill($countValues, $countHeaders - $countValues, ''));
+            $values = array_merge($values, array_fill($countValues, $countSub, ''));
         }
         if ($countValues > $countHeaders) {
             for ($i = 1; $i <= $countValues - $countHeaders; $i++) {
