@@ -35,7 +35,7 @@ class InteractsXmlTraitTest extends TestCase
 
     public function testReadXmlElementWithoutDocumentRootElementThrowsException(): void
     {
-        $specimen = new class() {
+        $specimen = new class () {
             use InteractsXmlTrait;
 
             public function readXmlDocument(string $source): DOMDocument
