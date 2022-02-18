@@ -3,9 +3,11 @@
 
 # Do not put this files on a distribution package (by .gitignore)
 /vendor/             export-ignore
+/tools/              export-ignore
 /composer.lock       export-ignore
 
 # Do not put this files on a distribution package
+/.phive/             export-ignore
 /build/              export-ignore
 /tests/              export-ignore
 /.gitattributes      export-ignore
