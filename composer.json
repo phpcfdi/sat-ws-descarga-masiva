@@ -33,7 +33,6 @@
         "guzzlehttp/guzzle": "^7.2.0",
         "robrichards/xmlseclibs": "^3.1.0",
         "phpunit/phpunit": "^9.3.5",
-        "squizlabs/php_codesniffer": "^3.5.6",
         "phpstan/phpstan": "^0.12.54"
     },
     "suggest": {
@@ -53,11 +52,11 @@
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
             "tools/php-cs-fixer fix --dry-run --verbose",
-            "vendor/bin/phpcs --colors -sp src/ tests/"
+            "tools/phpcs --colors -sp src/ tests/"
         ],
         "dev:fix-style": [
             "tools/php-cs-fixer fix --verbose",
-            "vendor/bin/phpcbf --colors -sp src/ tests/"
+            "tools/phpcbf --colors -sp src/ tests/"
         ],
         "dev:test": [
             "@dev:check-style",

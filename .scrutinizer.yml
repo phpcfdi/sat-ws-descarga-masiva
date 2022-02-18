@@ -9,7 +9,7 @@ build:
       - pecl install zip
     override:
       - composer self-update --no-interaction --no-progress
-      - composer remove squizlabs/php_codesniffer phpstan/phpstan --dev --no-interaction --no-progress --no-update
+      - composer remove phpstan/phpstan --dev --no-interaction --no-progress --no-update
       - composer install --no-interaction
   nodes:
     php:
