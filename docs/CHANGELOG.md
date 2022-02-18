@@ -14,6 +14,10 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Sin liberar 
+- Se elimina método innecesario `FielRequestBuilder::nospaces()` y se usa en su lugar el método `Helper::nospaces()`.
+- Se agrega el comentario `int<0, max>` en la clase `MetadataContent` para evitar error en phpstan.
+
 ## Version 0.4.2 2020-11-25
 
 - Se corrige el extractor de UUID de un CFDI, no estaba funcionando correctamente y en algunas
