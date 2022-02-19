@@ -14,9 +14,14 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
-## Sin liberar 
+## Version 0.4.3 2022-02-18
+
 - Se elimina método innecesario `FielRequestBuilder::nospaces()` y se usa en su lugar el método `Helper::nospaces()`.
-- Se agrega el comentario `int<0, max>` en la clase `MetadataContent` para evitar error en phpstan.
+- Se actualizaron las herramientas de desarrollo y se utiliza `phive` para administrarlas.
+- Se actualizaron los archivos de configuración de `php-cs-fixer` acorde a la última versión.
+- Se solventaron los issues de tipos encontrados por `phpstan`.
+- Se migró el proceso de integración continua de *Travis CI* a *GitHub Workflows*. Gracias *Travis CI*.
+- Se actualizó el archivo de licencia del proyecto. Feliz 2022.
 
 ## Version 0.4.2 2020-11-25
 
