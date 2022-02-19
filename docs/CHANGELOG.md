@@ -11,7 +11,7 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 - `Feature`: Agrega una nueva característica que es compatible con lo anterior.
 - `Fix`: Incluye algún cambio (generalmente correcciones) que no agregan nueva funcionalidad.
 
-**Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `master-dev`)
+**Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
 ## Version 0.4.3 2022-02-18

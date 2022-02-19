@@ -315,7 +315,7 @@ Para hacer esta librería compatible con diferentes formas de comunicación se u
 Tú *puedes* crear tu implementación para poderla utilizar.
  
 Si lo prefieres -como en el ejemplo de uso- podrías instalar Guzzle `composer require guzzlehttp/guzzle` y usar la clase
-[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/src/WebClient/GuzzleWebClient.php).
+[`GuzzleWebClient`](https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/main/src/WebClient/GuzzleWebClient.php).
 
 ### Recomendación de fábrica del servicio
 
@@ -422,24 +422,24 @@ y recuerda revisar el archivo de tareas pendientes [TODO][] y el archivo [CHANGE
 The `phpcfdi/sat-ws-descarga-masiva` library is copyright © [PhpCfdi](https://www.phpcfdi.com)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
-[contributing]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/docs/CHANGELOG.md
-[todo]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/docs/TODO.md
+[contributing]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/main/CONTRIBUTING.md
+[changelog]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/main/docs/CHANGELOG.md
+[todo]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/main/docs/TODO.md
 
 [source]: https://github.com/phpcfdi/sat-ws-descarga-masiva
 [discord]: https://discord.gg/aFGYXvX
 [release]: https://github.com/phpcfdi/sat-ws-descarga-masiva/releases
-[license]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/LICENSE
-[build]: https://github.com/phpcfdi/sat-ws-descarga-masiva/actions/workflows/build.yml?query=branch:master
+[license]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/main/LICENSE
+[build]: https://github.com/phpcfdi/sat-ws-descarga-masiva/actions/workflows/build.yml?query=branch:main
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/code-structure/master/code-coverage/src/
+[coverage]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/code-structure/main/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/sat-ws-descarga-masiva
 
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/sat--ws--descarga--masiva-blue?style=flat-square
 [badge-discord]: https://img.shields.io/discord/459860554090283019?logo=discord&style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/sat-ws-descarga-masiva?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/sat-ws-descarga-masiva?style=flat-square
-[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/sat-ws-descarga-masiva/build/master?style=flat-square
-[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/sat-ws-descarga-masiva/master?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/sat-ws-descarga-masiva/master?style=flat-square
+[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/sat-ws-descarga-masiva/build/main?style=flat-square
+[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/sat-ws-descarga-masiva/main?style=flat-square
+[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/sat-ws-descarga-masiva/main?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/sat-ws-descarga-masiva?style=flat-square

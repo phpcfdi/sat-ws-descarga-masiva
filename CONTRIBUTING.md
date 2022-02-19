@@ -92,5 +92,5 @@ act -P ubuntu-latest=shivammathur/node:latest
 [phpCfdi]:      https://github.com/phpcfdi/
 [project]:      https://github.com/phpcfdi/sat-ws-descarga-masiva
 [contributors]: https://github.com/phpcfdi/sat-ws-descarga-masiva/graphs/contributors
-[coc]:          https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/CODE_OF_CONDUCT.md
+[coc]:          https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/main/CODE_OF_CONDUCT.md
 [issues]:       https://github.com/phpcfdi/sat-ws-descarga-masiva/issues
