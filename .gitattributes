@@ -16,4 +16,5 @@
 /.php-cs-fixer.dist.dist    export-ignore
 /.scrutinizer.yml           export-ignore
 /phpcs.xml.dist             export-ignore
+/phpstan.neon.dist          export-ignore
 /phpunit.xml.dist           export-ignore
