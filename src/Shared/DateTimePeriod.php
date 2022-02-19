@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
+use DateTimeImmutable;
 use InvalidArgumentException;
 use JsonSerializable;
 
@@ -43,8 +44,8 @@ final class DateTimePeriod implements JsonSerializable
     /**
      * Create a new instance of the period object based on a string representations or unix timestamps
      *
-     * @param mixed $start
-     * @param mixed $end
+     * @param int|string|DateTimeImmutable|null $start
+     * @param int|string|DateTimeImmutable|null $end
      * @return self
      */
     public static function createFromValues($start, $end): self

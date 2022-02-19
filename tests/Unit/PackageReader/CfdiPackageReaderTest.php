@@ -134,7 +134,7 @@ class CfdiPackageReaderTest extends TestCase
             ],
             'invalid-uuid' => [<<<XML
                 <cfdi:Complemento>
-                    <tfd:TimbreFiscalDigital  
+                    <tfd:TimbreFiscalDigital
                         UUID="ff833b27-ÑÑÑÑ-4c44-a559-2c197bdd4067"
                     />
                 <cfdi:Complemento/>

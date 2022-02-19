@@ -38,6 +38,9 @@ final class SoapFaultInfo implements JsonSerializable
     /** @return array<string, string> */
     public function jsonSerialize(): array
     {
-        return get_object_vars($this);
+        return [
+            'code' => $this->code,
+            'message' => $this->message,
+        ];
     }
 }

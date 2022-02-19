@@ -67,8 +67,8 @@ final class MetadataPackageReader implements PackageReaderInterface
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
-        return $this->packageReader->jsonSerialize() + [
-            'metadata' => iterator_to_array($this->metadata()),
-        ];
+        /** @var array<string, mixed> $base */
+        $base = $this->packageReader->jsonSerialize();
+        return $base + ['metadata' => iterator_to_array($this->metadata())];
     }
 }

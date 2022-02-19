@@ -390,7 +390,7 @@ por lo que si te encuentras en este problema podrías solucionarlo de esta forma
 En consultas del tipo Metadata no se aplica la limitante mencionada anteriormente, por ello es recomendable
 hacer las pruebas de implementación con este tipo de consulta.
 
-- Tiempo de respuesta entre ls presentación de la consulta y su verificación exitosa.
+- Tiempo de respuesta entre la presentación de la consulta y su verificación exitosa.
 
 No se ha podido encontrar una constante para suponer el tiempo que puede tardar una consulta en regresar un estado
 de verificación exitosa y que los paquetes estén listos para descargarse.
@@ -400,7 +400,7 @@ y puede ser desde minutos a horas. Por lo general es raro que excedan 24 horas.
 Sin embargo, varios usuarios han experimentado casos raros (posiblemente por problemas en el SAT) en donde las
 solicitudes han llegado a tardar hasta 72 horas para ser completadas.
 
-## Compatilibilidad
+## Compatibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
 [soporte activo de PHP](https://www.php.net/supported-versions.php) más reciente.
@@ -430,7 +430,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [discord]: https://discord.gg/aFGYXvX
 [release]: https://github.com/phpcfdi/sat-ws-descarga-masiva/releases
 [license]: https://github.com/phpcfdi/sat-ws-descarga-masiva/blob/master/LICENSE
-[build]: https://travis-ci.com/phpcfdi/sat-ws-descarga-masiva?branch=master
+[build]: https://github.com/phpcfdi/sat-ws-descarga-masiva/actions/workflows/build.yml?query=branch:master
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/sat-ws-descarga-masiva/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/sat-ws-descarga-masiva
@@ -439,7 +439,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-discord]: https://img.shields.io/discord/459860554090283019?logo=discord&style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/sat-ws-descarga-masiva?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/sat-ws-descarga-masiva?style=flat-square
-[badge-build]: https://img.shields.io/travis/com/phpcfdi/sat-ws-descarga-masiva/master?style=flat-square
+[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/sat-ws-descarga-masiva/build/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/sat-ws-descarga-masiva/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/sat-ws-descarga-masiva/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/sat-ws-descarga-masiva?style=flat-square
