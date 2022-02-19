@@ -40,10 +40,7 @@ final class FilteredPackageReader implements PackageReaderInterface
     public function __destruct()
     {
         if ($this->removeOnDestruct) {
-            /**
-             * @noinspection PhpUsageOfSilenceOperatorInspection
-             * @scrutinizer ignore-unhandled
-             */
+            /** @noinspection PhpUsageOfSilenceOperatorInspection */
             @unlink($this->filename);
         }
     }

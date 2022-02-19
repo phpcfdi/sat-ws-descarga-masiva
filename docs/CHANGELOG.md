@@ -24,6 +24,7 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Se actualizó el archivo de licencia del proyecto. Feliz 2022.
 - Se cambia la rama principal de *master* a *main*.
 - Add SonarCloud integration.
+- Se elimina Scrutinizer CI. Gracias Scrutinizer.
 
 ## Version 0.4.2 2020-11-25
 
