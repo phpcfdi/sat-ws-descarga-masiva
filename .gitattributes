@@ -18,3 +18,5 @@
 /phpcs.xml.dist             export-ignore
 /phpstan.neon.dist          export-ignore
 /phpunit.xml.dist           export-ignore
+/sonar-project.properties   export-ignore
+

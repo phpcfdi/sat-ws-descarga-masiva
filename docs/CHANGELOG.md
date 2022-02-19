@@ -22,6 +22,8 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Se solventaron los issues de tipos encontrados por `phpstan`.
 - Se migró el proceso de integración continua de *Travis CI* a *GitHub Workflows*. Gracias *Travis CI*.
 - Se actualizó el archivo de licencia del proyecto. Feliz 2022.
+- Se cambia la rama principal de *master* a *main*.
+- Add SonarCloud integration.
 
 ## Version 0.4.2 2020-11-25
 

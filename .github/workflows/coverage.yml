@@ -1,0 +1,108 @@
+name: coverage
+on:
+  push:
+    branches: [ "main" ]
+
+# Actions
+# shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
+# sonarsource/sonarcloud-github-action@master https://github.com/marketplace/actions/sonarcloud-scan
+
+jobs:
+
+  tests-coverage:
+    name: Tests on PHP 8.0 (code coverage)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: xdebug
+          tools: composer:v2
+        env:
+          fail-fast: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Create code coverage
+        run: vendor/bin/phpunit --testdox --verbose --coverage-xml=build/coverage --coverage-clover=build/coverage/clover.xml --log-junit=build/coverage/junit.xml
+      - name: Store code coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage
+          path: build/coverage
+
+  sonarcloud-secrets:
+    name: SonarCloud check secrets are present
+    runs-on: ubuntu-latest
+    outputs:
+      github: ${{ steps.check-secrets.outputs.github }}
+      sonar: ${{ steps.check-secrets.outputs.sonar }}
+    steps:
+      - name: Check secrets are present
+        id: check-secrets
+        run: |
+          if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "::set-output name=github::yes"
+          else
+            echo "::set-output name=github::no"
+            echo "::warning ::GITHUB_TOKEN non set"
+          fi
+          if [ -n "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "::set-output name=sonar::yes"
+          else
+            echo "::set-output name=sonar::no"
+            echo "::warning ::SONAR_TOKEN non set"
+          fi
+
+  sonarcloud:
+    name: SonarCloud Scan and Report
+    needs: [ "tests-coverage", "sonarcloud-secrets" ]
+    if: ${{ needs.sonarcloud-secrets.outputs.github == 'yes' && needs.sonarcloud-secrets.outputs.sonar == 'yes' }}
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Unshallow clone to provide blame information
+        run: git fetch --unshallow
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: none
+          tools: composer:v2
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Obtain code coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: code-coverage
+          path: build/coverage
+      - name: Prepare SonarCloud Code Coverage Files
+        run: |
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/junit.xml > build/sonar-junit.xml
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/clover.xml > build/sonar-coverage.xml
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
