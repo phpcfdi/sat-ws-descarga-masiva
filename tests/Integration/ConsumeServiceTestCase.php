@@ -34,7 +34,7 @@ abstract class ConsumeServiceTestCase extends TestCase
         $this->assertSame(
             305,
             $result->getStatus()->getCode(),
-            'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
+            'Expected to receive a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }
 
@@ -47,7 +47,7 @@ abstract class ConsumeServiceTestCase extends TestCase
         $this->assertSame(
             305,
             $result->getStatus()->getCode(),
-            'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
+            'Expected to receive a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }
 
@@ -60,7 +60,7 @@ abstract class ConsumeServiceTestCase extends TestCase
         $this->assertSame(
             305,
             $result->getStatus()->getCode(),
-            'Expected to recieve a 305 - Certificado Inválido from SAT since FIEL is for testing'
+            'Expected to receive a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
     }
 }
