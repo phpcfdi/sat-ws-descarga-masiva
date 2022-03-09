@@ -27,7 +27,7 @@ jobs:
         env:
           fail-fast: true
       - name: Code style (phpcs)
-        run: phpcs -q --report=checkstyle src/ tests/ | cs2pr
+        run: phpcs -q --report=checkstyle | cs2pr
 
   php-cs-fixer:
     name: Code style (php-cs-fixer)
