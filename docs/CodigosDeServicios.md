@@ -57,7 +57,7 @@ Este objeto también permite la comprobación por *nombre clave*, por lo que pue
 `CodeRequest::isEmptyResult()` para conocer si se encuentra en el estado `5004: No se encontró la solicitud`.  
 
 | Code | Name               | Descripción                                                                             |
-| ---- | ------------------ | --------------------------------------------------------------------------------------- |
+|------|--------------------|-----------------------------------------------------------------------------------------|
 | 5000 | Accepted           | Solicitud recibida con éxito                                                            |
 | 5002 | Exhausted          | Se agotó las solicitudes de por vida: Máximo para solicitudes con los mismos parámetros |
 | 5003 | MaximumLimitReaded | Tope máximo: Indica que se está superando el tope máximo de CFDI o Metadata             |
@@ -77,12 +77,12 @@ y se puede obtener con el método `StatusRequest::getMessage(): string`.
 Este objeto también permite la comprobación por *nombre clave*, por lo que puedes usar por ejemplo
 `StatusRequest::isExpired()` para conocer si se encuentra en el estado `6: Vencida`.  
 
-| Code | Name         | Descripción  |
-| ---- | ------------ | ------------ |
-| 1    | Accepted     | Aceptada     |
-| 2    | InProgress   | En proceso   |
-| 3    | Finished     | Terminada    |
-| 4    | Failure      | Error        |
-| 5    | Rejected     | Rechazada    |
-| 6    | Expired      | Vencida      |
+| Code | Name       | Descripción |
+|------|------------|-------------|
+| 1    | Accepted   | Aceptada    |
+| 2    | InProgress | En proceso  |
+| 3    | Finished   | Terminada   |
+| 4    | Failure    | Error       |
+| 5    | Rejected   | Rechazada   |
+| 6    | Expired    | Vencida     |
 
