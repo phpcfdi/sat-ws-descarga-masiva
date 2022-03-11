@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Integration;
 
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\RequestOptions;
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
@@ -11,10 +13,21 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
 abstract class ConsumeServiceTestCase extends TestCase
 {
     abstract protected function createService(): Service;
+
+    protected function createWebClient(): WebClientInterface
+    {
+        $guzzleClient = new GuzzleClient([
+            RequestOptions::CONNECT_TIMEOUT => 1,
+            RequestOptions::TIMEOUT => 10,
+        ]);
+        return new GuzzleWebClient($guzzleClient);
+    }
 
     public function testAuthentication(): void
     {
