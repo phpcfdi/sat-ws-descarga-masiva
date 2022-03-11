@@ -85,7 +85,7 @@ class FielRequestBuilderTest extends TestCase
         $start = '2019-01-01T00:00:00';
         $end = '2019-01-01T00:04:00';
         $rfcIssuer = '';
-        $rfcReceiver = $requestBuilder->getFiel()->getRfc();
+        $rfcReceiver = '*'; // same as signer
         $requestType = 'CFDI';
         $requestBody = $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
 
@@ -104,7 +104,7 @@ class FielRequestBuilderTest extends TestCase
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $start = '2019-01-01T00:00:00';
         $end = '2019-01-01T00:04:00';
-        $rfcIssuer = $requestBuilder->getFiel()->getRfc();
+        $rfcIssuer = '*'; // same as signer
         $rfcReceiver = '';
         $requestType = 'CFDI';
         $requestBody = $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
