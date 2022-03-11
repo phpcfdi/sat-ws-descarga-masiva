@@ -15,6 +15,7 @@ use JsonSerializable;
  * @method bool isMaximumLimitReaded()
  * @method bool isEmptyResult()
  * @method bool isDuplicated()
+ * @method bool isWsError()
  * @method string getMessage() Contains the known message in spanish
  * @method string getName() Contains the internal name
  */
@@ -40,6 +41,10 @@ final class CodeRequest extends MicroCatalog implements JsonSerializable
         5005 => [
             'name' => 'Duplicated',
             'message' => 'Solicitud duplicada: Si existe una solicitud vigente con los mismos parámetros',
+        ],
+        5006 => [
+            'name' => 'WsError',
+            'message' => 'Error interno en el proceso',
         ],
     ];
 

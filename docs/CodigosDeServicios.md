@@ -27,7 +27,7 @@ Ambos valores se pueden obtener con el objeto `StatusCode` que contiene las prop
 Las respuestas de los servivios cuentan con la propiedad `getStatusCode(): StatusCode`, por ejemplo `VerifyResult::getStatusCode()`.
 
 | Servicio          | Code | Descripción                                                                             |
-| ----------------- | ---- | --------------------------------------------------------------------------------------- |
+|-------------------|------|-----------------------------------------------------------------------------------------|
 | All               | 300  | Usuario no válido                                                                       |
 | All               | 301  | XML mal formado                                                                         |
 | All               | 302  | Sello mal formado                                                                       |
@@ -39,7 +39,8 @@ Las respuestas de los servivios cuentan con la propiedad `getStatusCode(): Statu
 | Query             | 5002 | Se agotó las solicitudes de por vida: Máximo para solicitudes con los mismos parámetros |
 | Verify & download | 5004 | No se encontró la solicitud                                                             |
 | Query             | 5005 | Solicitud duplicada: Si existe una solicitud vigente con los mismos parámetros          |
-| Query & download  | 404  | Error no controlado: Reintentar más tarde la petición                                   |
+| Query             | 5006 | Error interno en el proceso                                                             |
+| Download          | 404  | Error no controlado: Reintentar más tarde la petición                                   |
 
 ## Acerca de `CodigoEstadoSolicitud`
 
