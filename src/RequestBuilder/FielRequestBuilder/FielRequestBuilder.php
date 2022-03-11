@@ -118,10 +118,15 @@ final class FielRequestBuilder implements RequestBuilderInterface
             array_keys($solicitudAttributes),
             $solicitudAttributes,
         ));
+        $xmlRfcReceived = ($rfcSigner === $rfcReceiver)
+            ? '<des:RfcRecibidos><des:RfcRecibido></des:RfcRecibido></des:RfcRecibidos>'
+            : '';
 
         $toDigestXml = <<<EOT
             <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:solicitud ${solicitudAttributesAsText}></des:solicitud>
+                <des:solicitud ${solicitudAttributesAsText}>
+                    {$xmlRfcReceived}
+                </des:solicitud>
             </des:SolicitaDescarga>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
@@ -132,6 +137,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Body>
                     <des:SolicitaDescarga>
                         <des:solicitud ${solicitudAttributesAsText}>
+                            {$xmlRfcReceived}
                             ${signatureData}
                         </des:solicitud>
                     </des:SolicitaDescarga>
