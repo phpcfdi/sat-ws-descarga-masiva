@@ -19,7 +19,8 @@ class Helpers
                 '/^\h*/m',      // A: remove horizontal spaces at beginning
                 '/\h*\r?\n/m',  // B: remove horizontal spaces + optional CR + LF
                 '/\?></',       // C: xml definition on its own line
-            ], [
+            ],
+            [
                 '',             // A: remove
                 '',             // B: remove
                 "?>\n<",        // C: insert LF
