@@ -36,7 +36,22 @@ abstract class ConsumeServiceTestCase extends TestCase
         $this->assertTrue($token->isValid());
     }
 
-    public function testQuery(): void
+    public function testQueryIssued(): void
+    {
+        $service = $this->createService();
+
+        $dateTimePeriod = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
+        $parameters = QueryParameters::create($dateTimePeriod, DownloadType::issued(), RequestType::cfdi());
+
+        $result = $service->query($parameters);
+        $this->assertSame(
+            305,
+            $result->getStatus()->getCode(),
+            'Expected to receive a 305 - Certificado Inválido from SAT since FIEL is for testing'
+        );
+    }
+
+    public function testQueryReceived(): void
     {
         $service = $this->createService();
 
