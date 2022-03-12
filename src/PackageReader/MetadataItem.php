@@ -44,6 +44,11 @@ final class MetadataItem implements JsonSerializable
         return $this->get($name);
     }
 
+    public function __isset(string $name): bool
+    {
+        return isset($this->data[$name]);
+    }
+
     /** @return array<string, string> */
     public function all(): array
     {
