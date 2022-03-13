@@ -14,6 +14,41 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.4.4 2022-03-12
+
+Se actualizó el servicio de solicitud de descargas masivas (consulta) a la versión 1.2 del SAT.
+Esta actualización por el momento solo está sobre CFDI regulares, no sobre Retenciones e información de pagos.
+En este último el servicio se encuentra caído.
+
+Al parecer la actualización no se ha completado en el SAT, y ha estado inestable desde 2022-03-14.
+Sin embargo, con esta actualización se compatibliza el servicio con el funcionamiento esperado.
+
+### Cambios en la solicitud
+
+Se elimina el atributo `RfcReceptor` y se agrega el elemento `RfcReceptores/RfcReceptor` para especificar
+el RFC del receptor en la consulta.
+
+### CodEstatus 5006
+
+Se agrega a la documentación de `CodEstatus` (clase `StatusCode`) el código `5006 - Error interno en el proceso`
+que se supone sustituye al código `404 - Error no Controlado` para el servicio de consulta.
+
+### Correcciones
+
+Se agrega el método mágico `MetadataItem::__isset(string $name): bool` que no estaba contemplado.
+
+### Entorno de desarrollo
+
+- En las pruebas de integración, se hacen dos pruebas de solicitud consulta, una para emitidos y otra para recibidos.
+- Se actualizan los archivos de muestra en las comprobaciones unitarias.
+- Se agrega como dependencia la extensión de PHP `mbstring`.
+- Se refactoriza la clase interna `Helpers::nospaces()` para insertar un *Line feed (LF)*.
+  después de la especificación de XML.
+- En las pruebas de integración, se agrega el método `ConsumeServiceTestCase::createWebClient()`
+  que devuelve un objeto `GuzzleHttp\Client` configurado correctamente con *timeouts*.
+- Se actualizan las herramientas del entorno de desarrollo.
+- CI: Se usan las rutas establecidas en el archivo de configuración de `phpcs`.
+
 ## Versión 0.4.3 2022-02-18
 
 - Se elimina método innecesario `FielRequestBuilder::nospaces()` y se usa en su lugar el método `Helper::nospaces()`.
