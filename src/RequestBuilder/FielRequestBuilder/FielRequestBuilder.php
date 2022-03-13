@@ -107,7 +107,6 @@ final class FielRequestBuilder implements RequestBuilderInterface
             'FechaFinal' => $end,
             'TipoSolicitud' => $requestType,
             'RfcEmisor' => $rfcIssuer,
-            'RfcReceptor' => $rfcReceiver,
         ]);
         ksort($solicitudAttributes);
 
@@ -118,10 +117,16 @@ final class FielRequestBuilder implements RequestBuilderInterface
             array_keys($solicitudAttributes),
             $solicitudAttributes,
         ));
+        $xmlRfcReceived = '';
+        if ('' !== $rfcReceiver) {
+            $xmlRfcReceived = "<des:RfcReceptores><des:RfcReceptor>${rfcReceiver}</des:RfcReceptor></des:RfcReceptores>";
+        }
 
         $toDigestXml = <<<EOT
             <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:solicitud ${solicitudAttributesAsText}></des:solicitud>
+                <des:solicitud ${solicitudAttributesAsText}>
+                    ${xmlRfcReceived}
+                </des:solicitud>
             </des:SolicitaDescarga>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
@@ -132,6 +137,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Body>
                     <des:SolicitaDescarga>
                         <des:solicitud ${solicitudAttributesAsText}>
+                            ${xmlRfcReceived}
                             ${signatureData}
                         </des:solicitud>
                     </des:SolicitaDescarga>

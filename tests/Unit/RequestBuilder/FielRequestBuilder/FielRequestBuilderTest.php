@@ -79,18 +79,38 @@ class FielRequestBuilderTest extends TestCase
         return $matches['id'] ?? '';
     }
 
-    public function testQuery(): void
+    public function testQueryReceived(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $start = '2019-01-01T00:00:00';
         $end = '2019-01-01T00:04:00';
         $rfcIssuer = '';
-        $rfcReceiver = $requestBuilder->getFiel()->getRfc();
+        $rfcReceiver = '*'; // same as signer
         $requestType = 'CFDI';
         $requestBody = $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
 
         $this->assertSame(
-            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received.xml'))),
+            $this->xmlFormat($requestBody)
+        );
+
+        $xmlSecVerification = (new EnvelopSignatureVerifier())
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
+    }
+
+    public function testQueryIssued(): void
+    {
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
+        $start = '2019-01-01T00:00:00';
+        $end = '2019-01-01T00:04:00';
+        $rfcIssuer = '*'; // same as signer
+        $rfcReceiver = '';
+        $requestType = 'CFDI';
+        $requestBody = $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
+
+        $this->assertSame(
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-issued.xml'))),
             $this->xmlFormat($requestBody)
         );
 

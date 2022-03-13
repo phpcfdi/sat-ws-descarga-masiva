@@ -14,7 +14,19 @@ class Helpers
 {
     public static function nospaces(string $input): string
     {
-        return preg_replace(['/^\h*/m', '/\h*\r?\n/m'], '', $input) ?? '';
+        return preg_replace(
+            [
+                '/^\h*/m',      // A: remove horizontal spaces at beginning
+                '/\h*\r?\n/m',  // B: remove horizontal spaces + optional CR + LF
+                '/\?></',       // C: xml definition on its own line
+            ],
+            [
+                '',             // A: remove
+                '',             // B: remove
+                "?>\n<",        // C: insert LF
+            ],
+            $input
+        ) ?? '';
     }
 
     public static function cleanPemContents(string $pemContents): string

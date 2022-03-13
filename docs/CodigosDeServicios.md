@@ -27,7 +27,7 @@ Ambos valores se pueden obtener con el objeto `StatusCode` que contiene las prop
 Las respuestas de los servivios cuentan con la propiedad `getStatusCode(): StatusCode`, por ejemplo `VerifyResult::getStatusCode()`.
 
 | Servicio          | Code | Descripción                                                                             |
-| ----------------- | ---- | --------------------------------------------------------------------------------------- |
+|-------------------|------|-----------------------------------------------------------------------------------------|
 | All               | 300  | Usuario no válido                                                                       |
 | All               | 301  | XML mal formado                                                                         |
 | All               | 302  | Sello mal formado                                                                       |
@@ -39,7 +39,8 @@ Las respuestas de los servivios cuentan con la propiedad `getStatusCode(): Statu
 | Query             | 5002 | Se agotó las solicitudes de por vida: Máximo para solicitudes con los mismos parámetros |
 | Verify & download | 5004 | No se encontró la solicitud                                                             |
 | Query             | 5005 | Solicitud duplicada: Si existe una solicitud vigente con los mismos parámetros          |
-| Query & download  | 404  | Error no controlado: Reintentar más tarde la petición                                   |
+| Query             | 5006 | Error interno en el proceso                                                             |
+| Download          | 404  | Error no controlado: Reintentar más tarde la petición                                   |
 
 ## Acerca de `CodigoEstadoSolicitud`
 
@@ -56,7 +57,7 @@ Este objeto también permite la comprobación por *nombre clave*, por lo que pue
 `CodeRequest::isEmptyResult()` para conocer si se encuentra en el estado `5004: No se encontró la solicitud`.  
 
 | Code | Name               | Descripción                                                                             |
-| ---- | ------------------ | --------------------------------------------------------------------------------------- |
+|------|--------------------|-----------------------------------------------------------------------------------------|
 | 5000 | Accepted           | Solicitud recibida con éxito                                                            |
 | 5002 | Exhausted          | Se agotó las solicitudes de por vida: Máximo para solicitudes con los mismos parámetros |
 | 5003 | MaximumLimitReaded | Tope máximo: Indica que se está superando el tope máximo de CFDI o Metadata             |
@@ -76,12 +77,12 @@ y se puede obtener con el método `StatusRequest::getMessage(): string`.
 Este objeto también permite la comprobación por *nombre clave*, por lo que puedes usar por ejemplo
 `StatusRequest::isExpired()` para conocer si se encuentra en el estado `6: Vencida`.  
 
-| Code | Name         | Descripción  |
-| ---- | ------------ | ------------ |
-| 1    | Accepted     | Aceptada     |
-| 2    | InProgress   | En proceso   |
-| 3    | Finished     | Terminada    |
-| 4    | Failure      | Error        |
-| 5    | Rejected     | Rechazada    |
-| 6    | Expired      | Vencida      |
+| Code | Name       | Descripción |
+|------|------------|-------------|
+| 1    | Accepted   | Aceptada    |
+| 2    | InProgress | En proceso  |
+| 3    | Finished   | Terminada   |
+| 4    | Failure    | Error       |
+| 5    | Rejected   | Rechazada   |
+| 6    | Expired    | Vencida     |
 

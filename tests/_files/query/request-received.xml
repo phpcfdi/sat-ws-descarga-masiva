@@ -3,7 +3,8 @@
   <s:Header/>
   <s:Body>
     <des:SolicitaDescarga>
-      <des:solicitud FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcReceptor="EKU9003173C9" RfcSolicitante="EKU9003173C9" TipoSolicitud="CFDI">
+      <des:solicitud FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcSolicitante="EKU9003173C9" TipoSolicitud="CFDI">
+        <des:RfcReceptores><des:RfcReceptor>EKU9003173C9</des:RfcReceptor></des:RfcReceptores>
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
           <SignedInfo>
             <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
@@ -13,10 +14,10 @@
                 <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
               </Transforms>
               <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <DigestValue>kJHoUsUmsDAYPRuTOumOjXan01Y=</DigestValue>
+              <DigestValue>Xni0ddqcMpbkuC4CgKua4IWtQ3U=</DigestValue>
             </Reference>
           </SignedInfo>
-          <SignatureValue>PqoLaAsWXey9PiImjWCEYC1PoXyfrlErEK5bF9yyO5d08PVMi2UMXODkzpOGSPz8RiYxnSJBs2M+NTMNl/VLxn+A01Oj1cdvZ1oV249XAZrI981CgYhVsG70W7XYD4Z4VCZmgYivymneBR/GLKaZpKVNm0MQMtsBcycBCx+XDF3e9DIxHFNS8zrgBkoW8otfPUX2fC4DVwonMdxcDq+3mEvyGlwehxjUsxfoOxKwNS6WCPksn3j7J35BUZO9kvx4d5wLXVt0983LqMU8ajQyNcmn4546XrJIAJ9unmQkd1xwqGCATXTkdvNvs+RG5ydriK0OxyGZKTyrr+eDML6aPg==</SignatureValue>
+          <SignatureValue>WTeQ/u5Od4saZHZEdRjf8LdabLtSl0M+a2rBatHIlgsJzeL2FrrWVdvlU7s8aWpWN31Jfm6U48OaOtr/rVhDV+b7ZbDOZ0xnWiWE0FqedTm63siuhAJx+zDPM1PaREfA1zlKbxdGdOdjN4NmGDvEuh4XCJzBr15ekjA5irTkE8hUyAyvaXzjzy6G/OPzkbBC7LEXE0IvdxzNsdxnNOWZmY16oh2bImrrRE5aeMzYyMPkepDLFkQ7N+8ssNO5pT3iFCCELa6TiHWPQLlK8vnXPHRS8SWAIkMe13tG2lUt/3Hyz3zJbyifL6TQQTiefJ+DauvwqXludmmxj1i2URSmEQ==</SignatureValue>
           <KeyInfo>
             <X509Data>
               <X509IssuerSerial>

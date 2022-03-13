@@ -25,6 +25,7 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-zip": "*",
+        "ext-mbstring": "*",
         "phpcfdi/credentials": "^1.1",
         "eclipxe/enum": "^0.2.0",
         "eclipxe/micro-catalog": "^0.1.2"
@@ -50,24 +51,24 @@
     "scripts": {
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
-            "tools/php-cs-fixer fix --dry-run --verbose",
-            "tools/phpcs --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --dry-run --verbose",
+            "@php tools/phpcs --colors -sp src/ tests/"
         ],
         "dev:fix-style": [
-            "tools/php-cs-fixer fix --verbose",
-            "tools/phpcbf --colors -sp src/ tests/"
+            "@php tools/php-cs-fixer fix --verbose",
+            "@php tools/phpcbf --colors -sp src/ tests/"
         ],
         "dev:test": [
             "@dev:check-style",
-            "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "tools/phpstan analyse --verbose --no-progress"
+            "@php vendor/bin/phpunit --testdox --verbose --stop-on-failure",
+            "@php tools/phpstan analyse --no-interaction --no-progress"
         ],
         "dev:coverage": [
-            "@php -dzend_extension=xdebug.so vendor/bin/phpunit --coverage-text --coverage-html build/coverage/html/"
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {
-        "dev:build": "DEV: run dev:fix-style dev:tests and dev:docs, run before pull request",
+        "dev:build": "DEV: run dev:fix-style and dev:tests, run before pull request",
         "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
         "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
         "dev:test": "DEV: run @dev:check-style, phpunit and phpstan",

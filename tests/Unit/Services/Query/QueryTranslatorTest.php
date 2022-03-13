@@ -44,7 +44,7 @@ class QueryTranslatorTest extends TestCase
 
         $requestBody = $translator->createSoapRequest($requestBuilder, $query);
         $this->assertSame(
-            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received.xml'))),
             $this->xmlFormat($requestBody)
         );
     }
