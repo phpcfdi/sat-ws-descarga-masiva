@@ -14,7 +14,7 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
-## Version 0.4.3 2022-02-18
+## Versión 0.4.3 2022-02-18
 
 - Se elimina método innecesario `FielRequestBuilder::nospaces()` y se usa en su lugar el método `Helper::nospaces()`.
 - Se actualizaron las herramientas de desarrollo y se utiliza `phive` para administrarlas.
@@ -26,14 +26,14 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Add SonarCloud integration.
 - Se elimina Scrutinizer CI. Gracias Scrutinizer.
 
-## Version 0.4.2 2020-11-25
+## Versión 0.4.2 2020-11-25
 
 - Se corrige el extractor de UUID de un CFDI, no estaba funcionando correctamente y en algunas
   ocasiones provocaba que se leyera el valor de `CfdiRelacionado@UUID` en lugar del valor correcto
   de `TimbreFiscalDigital@UUID`. Esto solo ocurría cuando en el nodo principal `<Comprobante>` se
   definía el espacio de nombres o la ubicación del esquema de `TimbreFiscalDigital`.
 
-## Version 0.4.1 2020-11-25
+## Versión 0.4.1 2020-11-25
 
 - PHPStan reporta error de tipo *"Access to an undefined property"* en la clase `MetadataItem`.
   Sin embargo, la clase implementa el método mágico `__get` por lo que la propiedad no necesariamente
@@ -43,7 +43,7 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Se mejora el flujo de la prueba `ServiceConsumerTest::testRunRequestWithWebClientException`.
 - Se corrige en las pruebas el uso de `current()` pues puede devolver `false` y se espera `string`.
 
-## Version 0.4.0 2020-10-14
+## Versión 0.4.0 2020-10-14
 
 - Guía de actualización de la versión 0.3.2 a la versión 0.4.0: [UPGRADE_0.3_0.4](UPGRADE_0.3_0.4.md)
 - Se agregan [excepciones específicas en la librería](Excepciones.md). Además, cuando se detecta una respuesta
@@ -86,34 +86,34 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
     - Se separan los bloques de ejemplos de uso en cada caso en lugar de usar solo un bloque.
     - Los códigos de servicios cambian de `Services-StatusCode.md` a `CodigosDeServicios`.
 
-## Version 0.3.2 2020-07-28
+## Versión 0.3.2 2020-07-28
 
 - Se corrige el problema de cambio de formato al definir el nombre de los archivos contenidos en
   un paquete de Metadata, el formato anterior era `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee_01.txt` y
   el nuevo es `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee-0001.txt`. La corrección se relajó para que
-  admita cualquier nombre de archivo con extensión `.txt` y que esté en el la raíz. Esta es la
+  admita cualquier nombre de archivo con extensión `.txt` y que esté en la raíz. Esta es la
   misma estrategia utilizada en el lector de paquetes de CFDI (issue #23).
 - Se corrige el problema en que dentro de un archivo de Metadata donde puede contener caracteres
   extraños en los campos de *nombre emisor* y *nombre receptor*. La corrección se consideró tomando
   en cuenta que estos campos pueden contener *comillas* `"`, para ello se considera el pipe `|` como
-  delimitador de cadenas. La segunda corrección identifica si el `EOL` es `<CR><LF>` y en ese caso
-  elimina cualquier `<LF>` intermedio (issue #23).
+  delimitador de cadenas. La segunda corrección identifica si el fin de línea `EOL` es `<CR><LF>`
+  y en ese caso elimina cualquier `<LF>` intermedio (issue #23).
 - PHPStan estaba dando un falso positivo al detectar que `DOMElement::$attributes` puede contener `null`.
   Esto es solo cierto para cualquier `DOMNode` pero no para `DOMElement`.
 - Se corrigieron las ligas a Travis-CI.
 - Se agrega a Travis-CI la versión `php: nightly`, pero se le permite fallar.
 
-## Version 0.3.1 2020-06-04
+## Versión 0.3.1 2020-06-04
 
 - Se corrige el problema de que recientemente los archivos ZIP de consultas de CFDI vienen con doble extensión,
   por ejemplo `aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.xml.xml`.
 
-## Version 0.3.0 2020-05-01
+## Versión 0.3.0 2020-05-01
 
 - Se actualizan las dependencias `php: >=7.3` y `phpunit: ^9.1`.
 - Se actualiza `php-cs-fixer` para usar `@PHP73Migration`.
 
-## Version 0.2.6 2020-04-11
+## Versión 0.2.6 2020-04-11
 
 - Se actualizan los tests para que usen el RFC `EKU9003173C9`.
 - Se agrega un test para probar qué ocurre al usar un `CSD` en lugar de una `FIEL`.
@@ -122,7 +122,7 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Se utiliza `eclipxe/micro-catalog` en lugar de la clase interna `OpenEnum`.
 - Se renombra `Helpers::createUuid` a `Helpers::createXmlSecurityTokenId`.
 
-## Version 0.2.5 2020-01-07
+## Versión 0.2.5 2020-01-07
 
 - Se actualiza el año de licencia a 2020.
 - Se remueve método privado `FielData::readContents(): string` porque ya no está en uso.
@@ -130,10 +130,10 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 - Se cambia la dependencia de `phpstan-shim` a `phpstan`.
 
 
-## Version 0.2.4 2019-12-06
+## Versión 0.2.4 2019-12-06
 
 - Se agrega la clase `PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient` que estaba en testing
-  a el código distribuible, aunque no se agrega la dependencia `guzzlehttp/guzzle`.
+  al código distribuible, aunque no se agrega la dependencia `guzzlehttp/guzzle`.
 - Se documenta el uso de `GuzzleWebClient`.
 - Forzar la dependencia de `phpcfdi/credentials` a `^1.1` para leer llaves privadas en formato DER.
 - Forzar la dependencia de `robrichards/xmlseclibs` a `^3.0.4` por reporte de seguridad `CVE-2019-3465`.
