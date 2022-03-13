@@ -23,8 +23,8 @@ abstract class ConsumeServiceTestCase extends TestCase
     protected function createWebClient(): WebClientInterface
     {
         $guzzleClient = new GuzzleClient([
-            RequestOptions::CONNECT_TIMEOUT => 2,
-            RequestOptions::TIMEOUT => 20,
+            RequestOptions::CONNECT_TIMEOUT => 5,
+            RequestOptions::TIMEOUT => 30,
         ]);
         return new GuzzleWebClient($guzzleClient);
     }
