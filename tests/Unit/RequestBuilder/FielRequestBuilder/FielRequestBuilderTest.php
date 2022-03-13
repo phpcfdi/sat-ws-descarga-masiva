@@ -13,6 +13,7 @@ use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
@@ -85,6 +86,8 @@ class FielRequestBuilderTest extends TestCase
             DateTimePeriod::createFromValues('2019-01-01T00:00:00', '2019-01-01T00:04:00'),
             DownloadType::received(),
             RequestType::cfdi(),
+            DocumentType::nomina(),
+            'AAA010101AAA'
         );
         $requestBody = $requestBuilder->query($parameters);
 
@@ -103,8 +106,7 @@ class FielRequestBuilderTest extends TestCase
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $parameters = QueryParameters::create(
             DateTimePeriod::createFromValues('2019-01-01T00:00:00', '2019-01-01T00:04:00'),
-            DownloadType::issued(),
-            RequestType::cfdi(),
+            DownloadType::issued()
         );
         $requestBody = $requestBuilder->query($parameters);
 

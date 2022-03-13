@@ -8,6 +8,7 @@ use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
@@ -20,10 +21,18 @@ class QueryParametersTest extends TestCase
         $downloadType = DownloadType::received();
         $requestType = RequestType::cfdi();
         $rfcMatch = 'AAAA010101AAA';
-        $query = QueryParameters::create($period, $downloadType, $requestType, $rfcMatch);
+        $documentType = DocumentType::ingreso();
+        $query = QueryParameters::create(
+            $period,
+            $downloadType,
+            $requestType,
+            $documentType,
+            $rfcMatch
+        );
         $this->assertSame($period, $query->getPeriod());
         $this->assertSame($downloadType, $query->getDownloadType());
         $this->assertSame($requestType, $query->getRequestType());
+        $this->assertSame($documentType, $query->getDocumentType());
         $this->assertSame($rfcMatch, $query->getRfcMatch());
     }
 
@@ -33,16 +42,19 @@ class QueryParametersTest extends TestCase
         $query = QueryParameters::create($period);
         $this->assertTrue($query->getRequestType()->isMetadata());
         $this->assertTrue($query->getDownloadType()->isIssued());
+        $this->assertTrue($query->getDocumentType()->isUndefined());
         $this->assertEmpty($query->getRfcMatch());
     }
 
     public function testJson(): void
     {
-        $period = DateTimePeriod::createFromValues('2019-01-01T00:00:00-06:00', '2019-01-01T00:04:00-06:00');
-        $downloadType = DownloadType::received();
-        $requestType = RequestType::cfdi();
-        $rfcMatch = 'AAAA010101AAA';
-        $query = QueryParameters::create($period, $downloadType, $requestType, $rfcMatch);
+        $query = QueryParameters::create(
+            DateTimePeriod::createFromValues('2019-01-01T00:00:00-06:00', '2019-01-01T00:04:00-06:00'),
+            DownloadType::received(),
+            RequestType::cfdi(),
+            DocumentType::ingreso(),
+            'AAAA010101AAA'
+        );
         $this->assertInstanceOf(JsonSerializable::class, $query);
         $expectedFile = $this->filePath('json/query-parameters.json');
         $this->assertJsonStringEqualsJsonFile($expectedFile, json_encode($query) ?: '');

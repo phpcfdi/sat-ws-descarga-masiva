@@ -86,6 +86,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
             'FechaFinal' => $end,
             'TipoSolicitud' => $requestType,
             'RfcEmisor' => $rfcIssuer,
+            'TipoComprobante' => $queryParameters->getDocumentType()->value(),
         ]);
         ksort($solicitudAttributes);
 

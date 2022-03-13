@@ -93,11 +93,18 @@ $service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::rete
 
 ### Realizar una consulta
 
-Una vez creado el servicio, se puede presentar la consulta que tiene estos cuatro parámetros:
+Una vez creado el servicio, se puede presentar la consulta que tiene estos parámetros:
 
 - Periodo: Fecha y hora de inicio y fin de la consulta.
 - Tipo de descarga: CFDI emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
 - Tipo de solicitud: De metadatos `RequestType::metadata()` o de archivos CFDI `RequestType::cfdi()`.
+- Tipo de comprobante:
+  - Cualquiera: `DocumentType::undefined()` (predefinido).
+  - Ingreso: `DocumentType::ingreso()`.
+  - Egreso: `DocumentType::egreso()`.
+  - Traslado: `DocumentType::traslado()`.
+  - Nómina: `DocumentType::nomina()`.
+  - Pago: `DocumentType::pago()`.
 - Filtrado por RFC: Si se establece, se filtran para obtener únicamente donde la contraparte tenga el RFC indicado.
 
 ```php
@@ -106,6 +113,7 @@ Una vez creado el servicio, se puede presentar la consulta que tiene estos cuatr
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 
@@ -118,11 +126,13 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 // - Del 13/ene/2019 00:00:00 al 13/ene/2019 23:59:59 (inclusive)
 // - Todos los emitidos por el dueño de la FIEL
 // - Solicitando la información de Metadata
+// - Comprobantes de tipo ingreso
 // - Filtrando los CFDI emitidos para RFC MAG041126GT8
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
     DownloadType::issued(),
     RequestType::metadata(),
+    DocumentType::ingreso(),
     'MAG041126GT8'
 );
 

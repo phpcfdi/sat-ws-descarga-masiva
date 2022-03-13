@@ -8,6 +8,7 @@ use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 
 /**
  * This class contains all the information required to perform a query on the SAT Web Service
@@ -23,6 +24,9 @@ final class QueryParameters implements JsonSerializable
     /** @var RequestType */
     private $requestType;
 
+    /** @var DocumentType */
+    private $documentType;
+
     /** @var string */
     private $rfcMatch;
 
@@ -30,11 +34,13 @@ final class QueryParameters implements JsonSerializable
         DateTimePeriod $period,
         DownloadType $downloadType,
         RequestType $requestType,
+        DocumentType $documentType,
         string $rfcMatch
     ) {
         $this->period = $period;
         $this->downloadType = $downloadType;
         $this->requestType = $requestType;
+        $this->documentType = $documentType;
         $this->rfcMatch = $rfcMatch;
     }
 
@@ -44,6 +50,7 @@ final class QueryParameters implements JsonSerializable
      * @param DateTimePeriod $period
      * @param DownloadType|null $downloadType if null uses Issued
      * @param RequestType|null $requestType If null uses Metadata
+     * @param DocumentType|null $documentType If null uses Undefined
      * @param string $rfcMatch Only when counterpart matches this Rfc
      * @return self
      */
@@ -51,11 +58,16 @@ final class QueryParameters implements JsonSerializable
         DateTimePeriod $period,
         DownloadType $downloadType = null,
         RequestType $requestType = null,
+        DocumentType $documentType = null,
         string $rfcMatch = ''
     ): self {
-        $downloadType = $downloadType ?: DownloadType::issued();
-        $requestType = $requestType ?? RequestType::metadata();
-        return new self($period, $downloadType, $requestType, $rfcMatch);
+        return new self(
+            $period,
+            $downloadType ?? DownloadType::issued(),
+            $requestType ?? RequestType::metadata(),
+            $documentType ?? DocumentType::undefined(),
+            $rfcMatch
+        );
     }
 
     public function getPeriod(): DateTimePeriod
@@ -73,6 +85,11 @@ final class QueryParameters implements JsonSerializable
         return $this->requestType;
     }
 
+    public function getDocumentType(): DocumentType
+    {
+        return $this->documentType;
+    }
+
     public function getRfcMatch(): string
     {
         return $this->rfcMatch;
@@ -85,6 +102,7 @@ final class QueryParameters implements JsonSerializable
             'period' => $this->period,
             'downloadType' => $this->downloadType,
             'requestType' => $this->requestType,
+            'documentType' => $this->documentType,
             'rfcMatch' => $this->rfcMatch,
         ];
     }
