@@ -7,15 +7,14 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\RequestBuilder\FielRequestBuilder;
 
 use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodEndInvalidDateFormatException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartGreaterThanEndException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartInvalidDateFormatException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RequestTypeInvalidException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIsNotIssuerOrReceiverException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIssuerAndReceiverAreEmptyException;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class FielRequestBuilderTest extends TestCase
@@ -37,8 +36,8 @@ class FielRequestBuilderTest extends TestCase
     public function testAuthorization(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $created = '2019-08-01T03:38:19.000Z';
-        $expires = '2019-08-01T03:43:19.000Z';
+        $created = DateTime::create('2019-08-01T03:38:19.000Z');
+        $expires = DateTime::create('2019-08-01T03:43:19.000Z');
         $token = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
         $requestBody = $requestBuilder->authorization($created, $expires, $token);
 
@@ -60,8 +59,8 @@ class FielRequestBuilderTest extends TestCase
     public function testAuthorizationWithoutSecurityTokenUuidCreatesRandom(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $created = '2019-08-01T03:38:19.000Z';
-        $expires = '2019-08-01T03:43:19.000Z';
+        $created = DateTime::create('2019-08-01T03:38:19.000Z');
+        $expires = DateTime::create('2019-08-01T03:43:19.000Z');
 
         $requestBody = $requestBuilder->authorization($created, $expires);
         $securityTokenId = $this->extractSecurityTokenFromXml($requestBody);
@@ -82,12 +81,12 @@ class FielRequestBuilderTest extends TestCase
     public function testQueryReceived(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $start = '2019-01-01T00:00:00';
-        $end = '2019-01-01T00:04:00';
-        $rfcIssuer = '';
-        $rfcReceiver = '*'; // same as signer
-        $requestType = 'CFDI';
-        $requestBody = $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
+        $parameters = QueryParameters::create(
+            DateTimePeriod::createFromValues('2019-01-01T00:00:00', '2019-01-01T00:04:00'),
+            DownloadType::received(),
+            RequestType::cfdi(),
+        );
+        $requestBody = $requestBuilder->query($parameters);
 
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received.xml'))),
@@ -102,12 +101,12 @@ class FielRequestBuilderTest extends TestCase
     public function testQueryIssued(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $start = '2019-01-01T00:00:00';
-        $end = '2019-01-01T00:04:00';
-        $rfcIssuer = '*'; // same as signer
-        $rfcReceiver = '';
-        $requestType = 'CFDI';
-        $requestBody = $requestBuilder->query($start, $end, $rfcIssuer, $rfcReceiver, $requestType);
+        $parameters = QueryParameters::create(
+            DateTimePeriod::createFromValues('2019-01-01T00:00:00', '2019-01-01T00:04:00'),
+            DownloadType::issued(),
+            RequestType::cfdi(),
+        );
+        $requestBody = $requestBuilder->query($parameters);
 
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-issued.xml'))),
@@ -117,59 +116,6 @@ class FielRequestBuilderTest extends TestCase
         $xmlSecVerification = (new EnvelopSignatureVerifier())
             ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
-    }
-
-    public function testQueryWithInvalidStartDate(): void
-    {
-        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $invalidDate = '2019-01-01 00:00:00'; // contains an space instead of T
-        $validDate = '2019-01-01T00:00:00';
-        $this->expectException(PeriodStartInvalidDateFormatException::class);
-        $requestBuilder->query($invalidDate, $validDate, RequestBuilderInterface::USE_SIGNER, '', 'CFDI');
-    }
-
-    public function testQueryWithInvalidEndDate(): void
-    {
-        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $invalidDate = '2019-01-01 00:00:00'; // contains an space instead of T
-        $validDate = '2019-01-01T00:00:00';
-        $this->expectException(PeriodEndInvalidDateFormatException::class);
-        $requestBuilder->query($validDate, $invalidDate, RequestBuilderInterface::USE_SIGNER, '', 'CFDI');
-    }
-
-    public function testQueryWithStartGreaterThanEnd(): void
-    {
-        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $lower = '2019-01-01T00:00:00';
-        $upper = '2019-01-01T00:00:01';
-        $this->expectException(PeriodStartGreaterThanEndException::class);
-        $requestBuilder->query($upper, $lower, RequestBuilderInterface::USE_SIGNER, '', 'CFDI');
-    }
-
-    public function testQueryWithEmptyIssuerReceiver(): void
-    {
-        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $date = '2019-01-01T00:00:00';
-        $requestType = 'CFDI';
-        $this->expectException(RfcIssuerAndReceiverAreEmptyException::class);
-        $requestBuilder->query($date, $date, '', '', $requestType);
-    }
-
-    public function testQueryWithIssuerReceiverNotSigner(): void
-    {
-        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $date = '2019-01-01T00:00:00';
-        $requestType = 'CFDI';
-        $this->expectException(RfcIsNotIssuerOrReceiverException::class);
-        $requestBuilder->query($date, $date, 'FOO', 'BAR', $requestType);
-    }
-
-    public function testQueryWithInvalidRequestType(): void
-    {
-        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $date = '2019-01-01T00:00:00';
-        $this->expectException(RequestTypeInvalidException::class);
-        $requestBuilder->query($date, $date, RequestBuilderInterface::USE_SIGNER, '', 'cfdi');
     }
 
     public function testVerify(): void
