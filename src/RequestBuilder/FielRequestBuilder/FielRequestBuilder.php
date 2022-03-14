@@ -89,6 +89,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 'RfcEmisor' => $rfcIssuer,
                 'TipoComprobante' => $queryParameters->getDocumentType()->value(),
                 'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
+                'UUID' => $queryParameters->getUuid()->getValue(),
             ],
             static function (string $value): bool {
                 return '' !== $value;

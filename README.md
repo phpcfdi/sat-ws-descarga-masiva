@@ -109,6 +109,8 @@ Una vez creado el servicio, se puede presentar la consulta que tiene estos pará
   - Cualquiera: `DocumentStatus::undefined()` (predefinido).
   - Vigentes: `DocumentStatus::active()`.
   - Cancelados: `DocumentStatus::cancelled()`.
+- Filtrado por UUID: Se filtran para obtener únicamente el CFDI con el UUID determinado.
+  Por defecto el filtro está vacío.
 - Filtrado por RFC: Si se establece, se filtran para obtener únicamente donde la contraparte tenga el RFC indicado.
 
 ```php
@@ -116,6 +118,7 @@ Una vez creado el servicio, se puede presentar la consulta que tiene estos pará
 
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
@@ -134,12 +137,14 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 // - Comprobantes de tipo ingreso
 // - Únicamente vigentes (sin cancelados)
 // - Filtrando los CFDI emitidos para RFC MAG041126GT8
+// - Que tengan el UUID 96623061-61fe-49de-b298-c7156476aa8b
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
     DownloadType::issued(),
     RequestType::metadata(),
     DocumentType::ingreso(),
     DocumentStatus::active(),
+    CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
     'MAG041126GT8'
 );
 

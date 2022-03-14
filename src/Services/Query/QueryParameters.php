@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
+use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
@@ -31,6 +32,9 @@ final class QueryParameters implements JsonSerializable
     /** @var DocumentStatus */
     private $documentStatus;
 
+    /** @var CfdiUuid */
+    private $uuid;
+
     /** @var string */
     private $rfcMatch;
 
@@ -40,6 +44,7 @@ final class QueryParameters implements JsonSerializable
         RequestType $requestType,
         DocumentType $documentType,
         DocumentStatus $documentStatus,
+        CfdiUuid $uuid,
         string $rfcMatch
     ) {
         $this->period = $period;
@@ -47,6 +52,7 @@ final class QueryParameters implements JsonSerializable
         $this->requestType = $requestType;
         $this->documentType = $documentType;
         $this->documentStatus = $documentStatus;
+        $this->uuid = $uuid;
         $this->rfcMatch = $rfcMatch;
     }
 
@@ -58,6 +64,7 @@ final class QueryParameters implements JsonSerializable
      * @param RequestType|null $requestType If null uses Metadata
      * @param DocumentType|null $documentType If null uses Undefined
      * @param DocumentStatus|null $documentStatus If null uses Undefined
+     * @param CfdiUuid|null $uuid If null uses empty
      * @param string $rfcMatch Only when counterpart matches this Rfc
      * @return self
      */
@@ -67,6 +74,7 @@ final class QueryParameters implements JsonSerializable
         RequestType $requestType = null,
         DocumentType $documentType = null,
         DocumentStatus $documentStatus = null,
+        CfdiUuid $uuid = null,
         string $rfcMatch = ''
     ): self {
         return new self(
@@ -75,6 +83,7 @@ final class QueryParameters implements JsonSerializable
             $requestType ?? RequestType::metadata(),
             $documentType ?? DocumentType::undefined(),
             $documentStatus ?? DocumentStatus::undefined(),
+            $uuid ?? CfdiUuid::empty(),
             $rfcMatch
         );
     }
@@ -104,6 +113,11 @@ final class QueryParameters implements JsonSerializable
         return $this->documentStatus;
     }
 
+    public function getUuid(): CfdiUuid
+    {
+        return $this->uuid;
+    }
+
     public function getRfcMatch(): string
     {
         return $this->rfcMatch;
@@ -118,6 +132,7 @@ final class QueryParameters implements JsonSerializable
             'requestType' => $this->requestType,
             'documentType' => $this->documentType,
             'documentStatus' => $this->documentStatus,
+            'uuid' => $this->uuid,
             'rfcMatch' => $this->rfcMatch,
         ];
     }

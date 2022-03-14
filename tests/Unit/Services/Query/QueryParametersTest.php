@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
@@ -24,12 +25,14 @@ class QueryParametersTest extends TestCase
         $rfcMatch = 'AAAA010101AAA';
         $documentType = DocumentType::ingreso();
         $documentStatus = DocumentStatus::active();
+        $uuid = CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b');
         $query = QueryParameters::create(
             $period,
             $downloadType,
             $requestType,
             $documentType,
             $documentStatus,
+            $uuid,
             $rfcMatch
         );
         $this->assertSame($period, $query->getPeriod());
@@ -37,6 +40,7 @@ class QueryParametersTest extends TestCase
         $this->assertSame($requestType, $query->getRequestType());
         $this->assertSame($documentType, $query->getDocumentType());
         $this->assertSame($documentStatus, $query->getDocumentStatus());
+        $this->assertSame($uuid, $query->getUuid());
         $this->assertSame($rfcMatch, $query->getRfcMatch());
     }
 
@@ -48,6 +52,7 @@ class QueryParametersTest extends TestCase
         $this->assertTrue($query->getDownloadType()->isIssued());
         $this->assertTrue($query->getDocumentType()->isUndefined());
         $this->assertTrue($query->getDocumentStatus()->isUndefined());
+        $this->assertTrue($query->getUuid()->isEmpty());
         $this->assertEmpty($query->getRfcMatch());
     }
 
@@ -59,6 +64,7 @@ class QueryParametersTest extends TestCase
             RequestType::cfdi(),
             DocumentType::ingreso(),
             DocumentStatus::cancelled(),
+            CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
             'AAAA010101AAA'
         );
         $this->assertInstanceOf(JsonSerializable::class, $query);
