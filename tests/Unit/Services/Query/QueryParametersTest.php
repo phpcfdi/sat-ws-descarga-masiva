@@ -13,6 +13,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
@@ -23,11 +24,11 @@ class QueryParametersTest extends TestCase
         $period = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
         $downloadType = DownloadType::received();
         $requestType = RequestType::cfdi();
-        $rfcMatch = 'AAAA010101AAA';
         $documentType = DocumentType::ingreso();
         $documentStatus = DocumentStatus::active();
         $uuid = CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b');
         $rfcOnBehalf = RfcOnBehalf::create('XXX01010199A');
+        $rfcMatch = RfcMatch::create('AAAA010101AAA');
         $query = QueryParameters::create(
             $period,
             $downloadType,
@@ -58,7 +59,7 @@ class QueryParametersTest extends TestCase
         $this->assertTrue($query->getDocumentStatus()->isUndefined());
         $this->assertTrue($query->getUuid()->isEmpty());
         $this->assertTrue($query->getRfcOnBehalf()->isEmpty());
-        $this->assertEmpty($query->getRfcMatch());
+        $this->assertTrue($query->getRfcMatch()->isEmpty());
     }
 
     public function testJson(): void
@@ -71,7 +72,7 @@ class QueryParametersTest extends TestCase
             DocumentStatus::cancelled(),
             CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
             RfcOnBehalf::create('XXX01010199A'),
-            'AAAA010101AAA'
+            RfcMatch::create('AAAA010101AAA')
         );
         $this->assertInstanceOf(JsonSerializable::class, $query);
         $expectedFile = $this->filePath('json/query-parameters.json');

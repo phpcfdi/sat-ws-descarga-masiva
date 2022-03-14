@@ -124,6 +124,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 
 /**
@@ -148,7 +149,7 @@ $request = QueryParameters::create(
     DocumentStatus::active(),
     CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
     RfcOnBehalf::create('XXX01010199A'),
-    'MAG041126GT8'
+    RfcMatch::create('MAG041126GT8')
 );
 
 // presentar la consulta

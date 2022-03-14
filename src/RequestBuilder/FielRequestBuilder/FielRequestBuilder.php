@@ -77,8 +77,8 @@ final class FielRequestBuilder implements RequestBuilderInterface
         $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
         $requestType = $queryParameters->getRequestType()->value();
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
-        $rfcIssuer = $queryParameters->getDownloadType()->isIssued() ? $rfcSigner : $queryParameters->getRfcMatch();
-        $rfcReceiver = $queryParameters->getDownloadType()->isReceived() ? $rfcSigner : $queryParameters->getRfcMatch();
+        $rfcIssuer = $queryParameters->getDownloadType()->isIssued() ? $rfcSigner : $queryParameters->getRfcMatch()->getValue();
+        $rfcReceiver = $queryParameters->getDownloadType()->isReceived() ? $rfcSigner : $queryParameters->getRfcMatch()->getValue();
 
         $solicitudAttributes = array_filter(
             [

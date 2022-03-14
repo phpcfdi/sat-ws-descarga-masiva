@@ -11,6 +11,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 
 /**
@@ -39,7 +40,7 @@ final class QueryParameters implements JsonSerializable
     /** @var RfcOnBehalf */
     private $rfcOnBehalf;
 
-    /** @var string */
+    /** @var RfcMatch */
     private $rfcMatch;
 
     public function __construct(
@@ -50,7 +51,7 @@ final class QueryParameters implements JsonSerializable
         DocumentStatus $documentStatus,
         CfdiUuid $uuid,
         RfcOnBehalf $rfcOnBehalf,
-        string $rfcMatch
+        RfcMatch $rfcMatch
     ) {
         $this->period = $period;
         $this->downloadType = $downloadType;
@@ -72,7 +73,7 @@ final class QueryParameters implements JsonSerializable
      * @param DocumentStatus|null $documentStatus If null uses Undefined
      * @param CfdiUuid|null $uuid If null uses empty
      * @param RfcOnBehalf|null $rfcOnBehalf If null uses empty
-     * @param string $rfcMatch Only when counterpart matches this Rfc
+     * @param RfcMatch|null $rfcMatch Only when counterpart matches this Rfc
      * @return self
      */
     public static function create(
@@ -83,7 +84,7 @@ final class QueryParameters implements JsonSerializable
         DocumentStatus $documentStatus = null,
         CfdiUuid $uuid = null,
         RfcOnBehalf $rfcOnBehalf = null,
-        string $rfcMatch = ''
+        RfcMatch $rfcMatch = null
     ): self {
         return new self(
             $period,
@@ -93,7 +94,7 @@ final class QueryParameters implements JsonSerializable
             $documentStatus ?? DocumentStatus::undefined(),
             $uuid ?? CfdiUuid::empty(),
             $rfcOnBehalf ?? RfcOnBehalf::empty(),
-            $rfcMatch
+            $rfcMatch ?? RfcMatch::empty()
         );
     }
 
@@ -132,7 +133,7 @@ final class QueryParameters implements JsonSerializable
         return $this->rfcOnBehalf;
     }
 
-    public function getRfcMatch(): string
+    public function getRfcMatch(): RfcMatch
     {
         return $this->rfcMatch;
     }
