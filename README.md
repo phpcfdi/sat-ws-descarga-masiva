@@ -105,6 +105,10 @@ Una vez creado el servicio, se puede presentar la consulta que tiene estos pará
   - Traslado: `DocumentType::traslado()`.
   - Nómina: `DocumentType::nomina()`.
   - Pago: `DocumentType::pago()`.
+- Estado del comprobante:
+  - Cualquiera: `DocumentStatus::undefined()` (predefinido).
+  - Vigentes: `DocumentStatus::active()`.
+  - Cancelados: `DocumentStatus::cancelled()`.
 - Filtrado por RFC: Si se establece, se filtran para obtener únicamente donde la contraparte tenga el RFC indicado.
 
 ```php
@@ -113,6 +117,7 @@ Una vez creado el servicio, se puede presentar la consulta que tiene estos pará
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
@@ -127,12 +132,14 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 // - Todos los emitidos por el dueño de la FIEL
 // - Solicitando la información de Metadata
 // - Comprobantes de tipo ingreso
+// - Únicamente vigentes (sin cancelados)
 // - Filtrando los CFDI emitidos para RFC MAG041126GT8
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
     DownloadType::issued(),
     RequestType::metadata(),
     DocumentType::ingreso(),
+    DocumentStatus::active(),
     'MAG041126GT8'
 );
 

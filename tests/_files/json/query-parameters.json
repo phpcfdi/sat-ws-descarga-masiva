@@ -6,5 +6,6 @@
     "downloadType": "RfcReceptor",
     "requestType": "CFDI",
     "documentType": "I",
+    "documentStatus": "1",
     "rfcMatch": "AAAA010101AAA"
 }

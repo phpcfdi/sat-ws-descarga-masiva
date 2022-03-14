@@ -8,6 +8,7 @@ use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
@@ -22,17 +23,20 @@ class QueryParametersTest extends TestCase
         $requestType = RequestType::cfdi();
         $rfcMatch = 'AAAA010101AAA';
         $documentType = DocumentType::ingreso();
+        $documentStatus = DocumentStatus::active();
         $query = QueryParameters::create(
             $period,
             $downloadType,
             $requestType,
             $documentType,
+            $documentStatus,
             $rfcMatch
         );
         $this->assertSame($period, $query->getPeriod());
         $this->assertSame($downloadType, $query->getDownloadType());
         $this->assertSame($requestType, $query->getRequestType());
         $this->assertSame($documentType, $query->getDocumentType());
+        $this->assertSame($documentStatus, $query->getDocumentStatus());
         $this->assertSame($rfcMatch, $query->getRfcMatch());
     }
 
@@ -43,6 +47,7 @@ class QueryParametersTest extends TestCase
         $this->assertTrue($query->getRequestType()->isMetadata());
         $this->assertTrue($query->getDownloadType()->isIssued());
         $this->assertTrue($query->getDocumentType()->isUndefined());
+        $this->assertTrue($query->getDocumentStatus()->isUndefined());
         $this->assertEmpty($query->getRfcMatch());
     }
 
@@ -53,6 +58,7 @@ class QueryParametersTest extends TestCase
             DownloadType::received(),
             RequestType::cfdi(),
             DocumentType::ingreso(),
+            DocumentStatus::cancelled(),
             'AAAA010101AAA'
         );
         $this->assertInstanceOf(JsonSerializable::class, $query);

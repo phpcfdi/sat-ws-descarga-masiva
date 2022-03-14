@@ -80,14 +80,20 @@ final class FielRequestBuilder implements RequestBuilderInterface
         $rfcIssuer = $queryParameters->getDownloadType()->isIssued() ? $rfcSigner : $queryParameters->getRfcMatch();
         $rfcReceiver = $queryParameters->getDownloadType()->isReceived() ? $rfcSigner : $queryParameters->getRfcMatch();
 
-        $solicitudAttributes = array_filter([
-            'RfcSolicitante' => $rfcSigner,
-            'FechaInicial' => $start,
-            'FechaFinal' => $end,
-            'TipoSolicitud' => $requestType,
-            'RfcEmisor' => $rfcIssuer,
-            'TipoComprobante' => $queryParameters->getDocumentType()->value(),
-        ]);
+        $solicitudAttributes = array_filter(
+            [
+                'RfcSolicitante' => $rfcSigner,
+                'FechaInicial' => $start,
+                'FechaFinal' => $end,
+                'TipoSolicitud' => $requestType,
+                'RfcEmisor' => $rfcIssuer,
+                'TipoComprobante' => $queryParameters->getDocumentType()->value(),
+                'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
+            ],
+            static function (string $value): bool {
+                return '' !== $value;
+            }
+        );
         ksort($solicitudAttributes);
 
         $solicitudAttributesAsText = implode(' ', array_map(
