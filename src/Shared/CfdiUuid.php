@@ -21,7 +21,9 @@ final class CfdiUuid implements JsonSerializable
     public static function create(string $value): self
     {
         $value = strtolower($value);
-        self::check($value);
+        if (! preg_match('/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/', $value)) {
+            throw new InvalidArgumentException('UUID does not have the correct format');
+        }
         return new self($value);
     }
 
@@ -30,19 +32,13 @@ final class CfdiUuid implements JsonSerializable
         return new self('');
     }
 
-    public static function parse(string $value): ?self
+    public static function check(string $value): bool
     {
         try {
-            return self::create($value);
+            self::create($value);
+            return true;
         } catch (Throwable $exception) {
-            return null;
-        }
-    }
-
-    public static function check(string $value): void
-    {
-        if (! preg_match('/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/', $value)) {
-            throw new InvalidArgumentException('UUID does not have the correct format');
+            return false;
         }
     }
 

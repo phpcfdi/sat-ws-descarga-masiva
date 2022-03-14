@@ -55,15 +55,7 @@ final class CfdiUuidTest extends TestCase
     /** @dataProvider providerInvalidValues */
     public function testCheckInvalidValue(string $value): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('does not have the correct format');
-        CfdiUuid::check($value);
-    }
-
-    /** @dataProvider providerInvalidValues */
-    public function testParseInvalidValue(string $value): void
-    {
-        $this->assertNull(CfdiUuid::parse($value));
+        $this->assertFalse(CfdiUuid::check($value));
     }
 
     public function testJsonSerialize(): void
