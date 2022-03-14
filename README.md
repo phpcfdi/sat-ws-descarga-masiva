@@ -124,6 +124,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 
 /**
  * El servicio ya existe
@@ -138,6 +139,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 // - Únicamente vigentes (sin cancelados)
 // - Filtrando los CFDI emitidos para RFC MAG041126GT8
 // - Que tengan el UUID 96623061-61fe-49de-b298-c7156476aa8b
+// - Que tengan el RFC a cuenta de terceros XXX01010199A
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
     DownloadType::issued(),
@@ -145,6 +147,7 @@ $request = QueryParameters::create(
     DocumentType::ingreso(),
     DocumentStatus::active(),
     CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
+    RfcOnBehalf::create('XXX01010199A'),
     'MAG041126GT8'
 );
 

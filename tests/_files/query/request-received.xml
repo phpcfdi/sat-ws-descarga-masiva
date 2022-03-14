@@ -3,7 +3,7 @@
   <s:Header/>
   <s:Body>
     <des:SolicitaDescarga>
-      <des:solicitud EstadoComprobante="0" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcEmisor="AAA010101AAA" RfcSolicitante="EKU9003173C9" TipoComprobante="N" TipoSolicitud="CFDI" UUID="96623061-61fe-49de-b298-c7156476aa8b">
+      <des:solicitud EstadoComprobante="0" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcACuentaTerceros="XXX01010199A" RfcEmisor="AAA010101AAA" RfcSolicitante="EKU9003173C9" TipoComprobante="N" TipoSolicitud="CFDI" UUID="96623061-61fe-49de-b298-c7156476aa8b">
         <des:RfcReceptores><des:RfcReceptor>EKU9003173C9</des:RfcReceptor></des:RfcReceptores>
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
           <SignedInfo>
@@ -14,10 +14,10 @@
                 <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
               </Transforms>
               <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <DigestValue>4mLZncAjv9tEcIs77b5E4u4TfRc=</DigestValue>
+              <DigestValue>ou8BWcWQQ6fLWGFs0/MaDXn0HCY=</DigestValue>
             </Reference>
           </SignedInfo>
-          <SignatureValue>VK327rppwqa4YFEQaT9kPbcPXoOyRNXW7nHMkq+OmuE/tipKq2TU7HCW/Ae8Wehl6Mp5zvH3ppy3UHgvhSdB6dTzRVa9sDMBGZnsI2VOEDybqvT6ct4S7tEGm/U7cY1KP8laiC1A8nYq7BVHdmeQJlb2WJgM/Io5dh/tmCvbrnAwh3YMQjnX5jbcpa2DfJD0XY8xSm+sCsnpUlZrH2DUW6zVtGT9qtjE/cANkuF1NCS/EP1wzdPEi1AePXqj8dFSupRdb7OxlXsEITTbCiLyprBabCvWmdT4hxekBczPe3qWXJ5vbnWZ7EhvW+YH+Se2NSmmARRUVhJyS8dmuHucJw==</SignatureValue>
+          <SignatureValue>c19Vy3bvshaLT5HOVVDZWDD1DCyojuXHDM20p3rG0HPO5TlFcW2CoLaIp1VV646vKz+BXG3qR06oXYoibe/7lD6CgmgMA0OiHcEEtQah1/OR7Kfq/96tQaCA+VjvRfFr2Ddr02G3eXFMzzyQkuWjkSXx3YTGA5Bli++aqEhE8MkF0ZRZSD2WLAKBjzBj0wTreSZkOu+uTDi+kBULtXY3cPBgwT2JbPYWrU5ZSCvQep1wphEW/vIR/CpPuqbz28EhiZfxVXnwXazzigyQPF5bRnvzb3/Jxtiz4OoYGh4ttZPTSoBfYkraDk8OFQLYlkcgJ9pXjh+nj9+vSKE/Bv1CGw==</SignatureValue>
           <KeyInfo>
             <X509Data>
               <X509IssuerSerial>

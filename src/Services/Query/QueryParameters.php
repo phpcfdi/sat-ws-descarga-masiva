@@ -11,6 +11,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 
 /**
  * This class contains all the information required to perform a query on the SAT Web Service
@@ -35,6 +36,9 @@ final class QueryParameters implements JsonSerializable
     /** @var CfdiUuid */
     private $uuid;
 
+    /** @var RfcOnBehalf */
+    private $rfcOnBehalf;
+
     /** @var string */
     private $rfcMatch;
 
@@ -45,6 +49,7 @@ final class QueryParameters implements JsonSerializable
         DocumentType $documentType,
         DocumentStatus $documentStatus,
         CfdiUuid $uuid,
+        RfcOnBehalf $rfcOnBehalf,
         string $rfcMatch
     ) {
         $this->period = $period;
@@ -53,6 +58,7 @@ final class QueryParameters implements JsonSerializable
         $this->documentType = $documentType;
         $this->documentStatus = $documentStatus;
         $this->uuid = $uuid;
+        $this->rfcOnBehalf = $rfcOnBehalf;
         $this->rfcMatch = $rfcMatch;
     }
 
@@ -65,6 +71,7 @@ final class QueryParameters implements JsonSerializable
      * @param DocumentType|null $documentType If null uses Undefined
      * @param DocumentStatus|null $documentStatus If null uses Undefined
      * @param CfdiUuid|null $uuid If null uses empty
+     * @param RfcOnBehalf|null $rfcOnBehalf If null uses empty
      * @param string $rfcMatch Only when counterpart matches this Rfc
      * @return self
      */
@@ -75,6 +82,7 @@ final class QueryParameters implements JsonSerializable
         DocumentType $documentType = null,
         DocumentStatus $documentStatus = null,
         CfdiUuid $uuid = null,
+        RfcOnBehalf $rfcOnBehalf = null,
         string $rfcMatch = ''
     ): self {
         return new self(
@@ -84,6 +92,7 @@ final class QueryParameters implements JsonSerializable
             $documentType ?? DocumentType::undefined(),
             $documentStatus ?? DocumentStatus::undefined(),
             $uuid ?? CfdiUuid::empty(),
+            $rfcOnBehalf ?? RfcOnBehalf::empty(),
             $rfcMatch
         );
     }
@@ -118,6 +127,11 @@ final class QueryParameters implements JsonSerializable
         return $this->uuid;
     }
 
+    public function getRfcOnBehalf(): RfcOnBehalf
+    {
+        return $this->rfcOnBehalf;
+    }
+
     public function getRfcMatch(): string
     {
         return $this->rfcMatch;
@@ -133,6 +147,7 @@ final class QueryParameters implements JsonSerializable
             'documentType' => $this->documentType,
             'documentStatus' => $this->documentStatus,
             'uuid' => $this->uuid,
+            'rfcOnBehalf' => $this->rfcOnBehalf,
             'rfcMatch' => $this->rfcMatch,
         ];
     }

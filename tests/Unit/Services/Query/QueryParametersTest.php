@@ -13,6 +13,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class QueryParametersTest extends TestCase
@@ -26,6 +27,7 @@ class QueryParametersTest extends TestCase
         $documentType = DocumentType::ingreso();
         $documentStatus = DocumentStatus::active();
         $uuid = CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b');
+        $rfcOnBehalf = RfcOnBehalf::create('XXX01010199A');
         $query = QueryParameters::create(
             $period,
             $downloadType,
@@ -33,6 +35,7 @@ class QueryParametersTest extends TestCase
             $documentType,
             $documentStatus,
             $uuid,
+            $rfcOnBehalf,
             $rfcMatch
         );
         $this->assertSame($period, $query->getPeriod());
@@ -41,6 +44,7 @@ class QueryParametersTest extends TestCase
         $this->assertSame($documentType, $query->getDocumentType());
         $this->assertSame($documentStatus, $query->getDocumentStatus());
         $this->assertSame($uuid, $query->getUuid());
+        $this->assertSame($rfcOnBehalf, $query->getRfcOnBehalf());
         $this->assertSame($rfcMatch, $query->getRfcMatch());
     }
 
@@ -53,6 +57,7 @@ class QueryParametersTest extends TestCase
         $this->assertTrue($query->getDocumentType()->isUndefined());
         $this->assertTrue($query->getDocumentStatus()->isUndefined());
         $this->assertTrue($query->getUuid()->isEmpty());
+        $this->assertTrue($query->getRfcOnBehalf()->isEmpty());
         $this->assertEmpty($query->getRfcMatch());
     }
 
@@ -65,6 +70,7 @@ class QueryParametersTest extends TestCase
             DocumentType::ingreso(),
             DocumentStatus::cancelled(),
             CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
+            RfcOnBehalf::create('XXX01010199A'),
             'AAAA010101AAA'
         );
         $this->assertInstanceOf(JsonSerializable::class, $query);
