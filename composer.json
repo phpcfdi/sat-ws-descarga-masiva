@@ -27,6 +27,7 @@
         "ext-zip": "*",
         "ext-mbstring": "*",
         "phpcfdi/credentials": "^1.1",
+        "phpcfdi/rfc": "^1.1",
         "eclipxe/enum": "^0.2.0",
         "eclipxe/micro-catalog": "^0.1.2"
     },
