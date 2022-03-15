@@ -84,8 +84,8 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 
 /**
- * @var GuzzleWebClient $webClient
- * @var RequestBuilderInterface $requestBuilder
+ * @var GuzzleWebClient $webClient Cliente de Guzzle previamente fabricado
+ * @var RequestBuilderInterface $requestBuilder Creador de solicitudes, previamente fabricado
  */
 // Creación del servicio
 $service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::retenciones());
@@ -247,8 +247,8 @@ La verificación depende de que la consulta haya sido aceptada.
 use PhpCfdi\SatWsDescargaMasiva\Service;
 
 /**
- * @var Service $service
- * @var string $requestId es el identificador generado al presentar la consulta
+ * @var Service $service Objeto de ayuda de consumo de servicio, previamente fabricado
+ * @var string $requestId Identificador generado al presentar la consulta, previamente fabricado
  */
 
 // consultar el servicio de verificación
@@ -300,8 +300,8 @@ Necesitas descargar todos y cada uno de los paquetes para tener la información 
 use PhpCfdi\SatWsDescargaMasiva\Service;
 
 /**
- * @var Service $service
- * @var string[] $packagesIds El listado de identificadores de paquetes generado en la (correcta) verificación
+ * @var Service $service Objeto de ayuda de consumo de servicio, previamente fabricado
+ * @var string[] $packagesIds Listado de identificadores de paquetes generado en la verificación, previamente fabricado
  */
 
 // consultar el servicio de verificación
@@ -333,7 +333,7 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\OpenZipFileException;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataPackageReader;
 
 /**
- * @var string $zipfile contiene la ruta al archivo de paquete de Metadata
+ * @var string $zipfile Contiene la ruta al archivo de paquete de Metadata
  */
 
 // abrir el archivo de Metadata
@@ -358,7 +358,7 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\Exceptions\OpenZipFileException;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\CfdiPackageReader;
 
 /**
- * @var string $zipfile contiene la ruta al archivo de paquete de archivos ZIP
+ * @var string $zipfile Contiene la ruta al archivo de paquete de archivos ZIP
  */
 try {
     $cfdiReader = CfdiPackageReader::createFromFile($zipfile);
