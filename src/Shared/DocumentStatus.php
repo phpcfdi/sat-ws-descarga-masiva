@@ -24,8 +24,8 @@ final class DocumentStatus extends Enum implements JsonSerializable
     {
         return [
             'undefined' => '',
-            'active' => '0',
-            'cancelled' => '1',
+            'active' => '1',
+            'cancelled' => '0',
         ];
     }
 

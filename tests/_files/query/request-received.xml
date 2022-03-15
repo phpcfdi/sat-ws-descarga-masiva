@@ -3,7 +3,7 @@
   <s:Header/>
   <s:Body>
     <des:SolicitaDescarga>
-      <des:solicitud Complemento="nomina12" EstadoComprobante="0" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcACuentaTerceros="XXX01010199A" RfcEmisor="AAA010101AAA" RfcSolicitante="EKU9003173C9" TipoComprobante="N" TipoSolicitud="CFDI" UUID="96623061-61fe-49de-b298-c7156476aa8b">
+      <des:solicitud Complemento="nomina12" EstadoComprobante="1" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcACuentaTerceros="XXX01010199A" RfcEmisor="AAA010101AAA" RfcSolicitante="EKU9003173C9" TipoComprobante="N" TipoSolicitud="CFDI" UUID="96623061-61fe-49de-b298-c7156476aa8b">
         <des:RfcReceptores><des:RfcReceptor>EKU9003173C9</des:RfcReceptor></des:RfcReceptores>
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
           <SignedInfo>
@@ -14,10 +14,10 @@
                 <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
               </Transforms>
               <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <DigestValue>pwMdyAXdpyG0UjMPTyuSjoMBVM4=</DigestValue>
+              <DigestValue>lvCqCw1nWeW7biQuSsjD2KltrQ4=</DigestValue>
             </Reference>
           </SignedInfo>
-          <SignatureValue>AjvVMr1Inb444450uumjE/VBxSY7rTR6Ywn1GhRXdXdZcBp/sAlFWbJflyCvI3uy5VE3HlJ55QddHs2zvPatMgBg5F4yJAqX2b3rCJfNWxvK268PexVqlvBGM5y1nu8To//jbk73qYKCqjK3yzGtYxXd5Cxvxr0gIxa4ki9GZ8Cv1J5eKDZUn2F4isasYyrC/jCXZAuCkeJcUM89WNKIk3o/HbuuPgSICXC6mX/ZDJSpqvoQYzMo62cUTRbiNp9gHlir5d3kIPcutBhZRtu2oe6y7LO9aln5lzVQhKyZ94q9ZFbB5P7GPQIHKVN6aF6/+11XIL/FEUmlTzuEo6qFXA==</SignatureValue>
+          <SignatureValue>KSTQj+KcLjZEw2iLt2YZn/KB7b96ciHZLci9cHAKl/uGkt7XpQnV1X18ZX9spZZZvlkQyH/gDoEgtMA0yb1oO6ACO66hnfQTaY6b3luhIKrIN9VOdBus6ymrKNhj4mI+ev+HIn1jX1vH8KuVm0lcQ87via8RoOulyvR7lmbuSGILJsshGheofV+eibBdqWe8ukGYYu/iXE9xp+NmI2ltNYizn8fM3wV7F7H51WoJL0lokapcnRk3AeQAbwWw9Yh1dCsb1CqhyRQp6D9fOHpPbQSdhdpdHn774DbH/sqG658Hvx343WrwjDzotLPLVKfGnSTcihDSka6nqXb+EGc4UQ==</SignatureValue>
           <KeyInfo>
             <X509Data>
               <X509IssuerSerial>
