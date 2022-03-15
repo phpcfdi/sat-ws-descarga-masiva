@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
-use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\FilterComplement;
@@ -39,7 +39,7 @@ final class QueryParameters implements JsonSerializable
     /** @var DocumentStatus */
     private $documentStatus;
 
-    /** @var CfdiUuid */
+    /** @var Uuid */
     private $uuid;
 
     /** @var RfcOnBehalf */
@@ -55,7 +55,7 @@ final class QueryParameters implements JsonSerializable
         DocumentType $documentType,
         FilterComplement $complement,
         DocumentStatus $documentStatus,
-        CfdiUuid $uuid,
+        Uuid $uuid,
         RfcOnBehalf $rfcOnBehalf,
         RfcMatch $rfcMatch
     ) {
@@ -79,7 +79,7 @@ final class QueryParameters implements JsonSerializable
      * @param DocumentType|null $documentType If null uses Undefined
      * @param FilterComplement|null $complement If null uses Undefined
      * @param DocumentStatus|null $documentStatus If null uses Undefined
-     * @param CfdiUuid|null $uuid If null uses empty
+     * @param Uuid|null $uuid If null uses empty
      * @param RfcOnBehalf|null $rfcOnBehalf If null uses empty
      * @param RfcMatch|null $rfcMatch Only when counterpart matches this Rfc
      * @return self
@@ -91,7 +91,7 @@ final class QueryParameters implements JsonSerializable
         DocumentType $documentType = null,
         FilterComplement $complement = null,
         DocumentStatus $documentStatus = null,
-        CfdiUuid $uuid = null,
+        Uuid $uuid = null,
         RfcOnBehalf $rfcOnBehalf = null,
         RfcMatch $rfcMatch = null
     ): self {
@@ -102,7 +102,7 @@ final class QueryParameters implements JsonSerializable
             $documentType ?? DocumentType::undefined(),
             $complement ?? CfdiComplemento::undefined(),
             $documentStatus ?? DocumentStatus::undefined(),
-            $uuid ?? CfdiUuid::empty(),
+            $uuid ?? Uuid::empty(),
             $rfcOnBehalf ?? RfcOnBehalf::empty(),
             $rfcMatch ?? RfcMatch::empty()
         );
@@ -138,7 +138,7 @@ final class QueryParameters implements JsonSerializable
         return $this->documentStatus;
     }
 
-    public function getUuid(): CfdiUuid
+    public function getUuid(): Uuid
     {
         return $this->uuid;
     }

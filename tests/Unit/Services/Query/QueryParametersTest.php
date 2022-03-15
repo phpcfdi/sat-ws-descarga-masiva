@@ -7,7 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
-use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
@@ -27,7 +27,7 @@ class QueryParametersTest extends TestCase
         $requestType = RequestType::cfdi();
         $documentType = DocumentType::ingreso();
         $documentStatus = DocumentStatus::active();
-        $uuid = CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b');
+        $uuid = Uuid::create('96623061-61fe-49de-b298-c7156476aa8b');
         $rfcOnBehalf = RfcOnBehalf::create('XXX01010199A');
         $rfcMatch = RfcMatch::create('AAAA010101AAA');
         $complement = CfdiComplemento::leyendasFiscales10();
@@ -76,7 +76,7 @@ class QueryParametersTest extends TestCase
             DocumentType::ingreso(),
             CfdiComplemento::leyendasFiscales10(),
             DocumentStatus::cancelled(),
-            CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
+            Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
             RfcOnBehalf::create('XXX01010199A'),
             RfcMatch::create('AAAA010101AAA')
         );

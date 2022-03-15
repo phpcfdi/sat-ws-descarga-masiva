@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use JsonSerializable;
 use Throwable;
 
-final class CfdiUuid implements JsonSerializable
+final class Uuid implements JsonSerializable
 {
     /** @var string */
     private $value;
