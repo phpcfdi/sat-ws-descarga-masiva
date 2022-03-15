@@ -184,14 +184,14 @@ Filtra la solicitud por el RFC utilizado a cuenta de terceros.
 Para crear el objeto del filtro hay que usar `RfcOnBehalf::create('XXX01010199A')`.
 Si no se establece (`RfcOnBehalf::empty()`) se ignora el filtro.
 
-#### Filtrado por RFC contraparte (`RfcMatch`)
+#### Filtrado por RFC contraparte (`RfcMatch`/`RfcMatches`)
 
 Filtra la solicitud por el RFC en contraparte, es decir, que
-si la consulta es de emitidos entonces filtrará donde el RFC sea el receptor,
-si la consulta es de recibidos entonces filtrará donde el RFC sea el emisor.
+si la consulta es de emitidos entonces filtrará donde el RFC especificado sea el receptor,
+si la consulta es de recibidos entonces filtrará donde el RFC especificado sea el emisor.
 
 Para crear el objeto del filtro hay que usar `RfcMatch::create('XXX01010199A')`.
-Si no se establece (`RfcMatch::empty()`) se ignora el filtro.
+Si no se establece entonces se ignora el filtro.
 
 ```php
 $rfcMatch = RfcMatch::create('XXX01010199A');
@@ -199,13 +199,14 @@ $parameters = $parameters->withRfcMatch();
 var_dump($rfcMatch === $parameters->getRfcMatch()); // bool(true)
 ```
 
-El servicio del SAT permite especificar hasta 5 receptores, al menos así lo establecen en su documentación.
-Sin embargo, esto no se puede hacer más que para una consulta de emitidos.
-En el caso de una consulta de recibidos, aun cuando se especifiquen muchos elementos, solo se utilizará el primero.
+El servicio del SAT permite especificar hasta 5 RFC Receptores, al menos así lo establecen en su documentación.
+Sin embargo, al tratarse de receptores, solo se puede utilizar en una consulta de documentos emitidos.
+En el caso de una consulta de documentos recibidos, solo se utilizará el primero de la lista.
 
-Por lo regular utilizará solamente los métodos `QueryParameter::getRfcMatch()` y `QueryParameter::withRfcMatch()`.
+Por lo regular utilizará solamente los métodos `QueryParameter::getRfcMatch(): RfcMatch`
+y `QueryParameter::withRfcMatch(RfcMatch $rfcMatch)`.
 
-Sin embargo, si es necesario especificar el listado de RFC, se puede crear de la siguiente manera:
+Sin embargo, si fuera necesario especificar el listado de RFC, se puede realizar de la siguiente manera:
 
 ```php
 $parameters = $parameters->withRfcMatches(
@@ -229,10 +230,10 @@ $parameters = $parameters->withRfcMatches(
 
 Este objeto mantiene una lista de `RfcMatches`, pero con características especiales:
 
-- Los objetos `RfcMatch` vacíos o repetidos sin descartados.
-- El método `RfcMatch::getFirst()` devuelve siempre el primer objeto, si no existe devuelve uno vacío.
-- La clase `RfcMatch` es iterable, se puede hacer `foreach()` sobre los elementos.
-- La clase `RfcMatch` es contable, se puede hacer `count()` sobre los elementos.
+- Los objetos `RfcMatch` *vacíos* o *repetidos* son ignorados, solo se mantienen valores no vacíos únicos.
+- El método `RfcMatch::getFirst()` devuelve siempre el primer elemento, si no existe entonces devuelve uno vacío.
+- La clase `RfcMatch` es *iterable*, se puede hacer `foreach()` sobre los elementos.
+- La clase `RfcMatch` es *contable*, se puede hacer `count()` sobre los elementos.
 
 #### Ejemplo de especificación de parámetros
 
