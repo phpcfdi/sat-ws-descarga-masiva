@@ -8,6 +8,8 @@ use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 
 /**
  * Provides signatures based on a Fiel object
@@ -77,8 +79,15 @@ final class FielRequestBuilder implements RequestBuilderInterface
         $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
         $requestType = $queryParameters->getRequestType()->value();
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
-        $rfcIssuer = $queryParameters->getDownloadType()->isIssued() ? $rfcSigner : $queryParameters->getRfcMatch()->getValue();
-        $rfcReceiver = $queryParameters->getDownloadType()->isReceived() ? $rfcSigner : $queryParameters->getRfcMatch()->getValue();
+        if ($queryParameters->getDownloadType()->isIssued()) {
+            // issued documents, counterparts are receivers
+            $rfcIssuer = $rfcSigner;
+            $rfcReceivers = $queryParameters->getRfcMatches();
+        } else {
+            // received documents, counterpart is issuer
+            $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
+            $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
+        }
 
         $solicitudAttributes = array_filter(
             [
@@ -106,12 +115,16 @@ final class FielRequestBuilder implements RequestBuilderInterface
             array_keys($solicitudAttributes),
             $solicitudAttributes,
         ));
+
         $xmlRfcReceived = '';
-        if ('' !== $rfcReceiver) {
-            $xmlRfcReceived = sprintf(
-                '<des:RfcReceptores><des:RfcReceptor>%s</des:RfcReceptor></des:RfcReceptores>',
-                htmlspecialchars($rfcReceiver, ENT_XML1)
-            );
+        if (! $rfcReceivers->isEmpty()) {
+            $xmlRfcReceived = implode('', array_map(
+                function (RfcMatch $rfcMatch): string {
+                    return "<des:RfcReceptor>{$rfcMatch->getValue()}</des:RfcReceptor>";
+                },
+                iterator_to_array($rfcReceivers)
+            ));
+            $xmlRfcReceived = "<des:RfcReceptores>{$xmlRfcReceived}</des:RfcReceptores>";
         }
 
         $toDigestXml = <<<EOT

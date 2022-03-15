@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
@@ -13,7 +14,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\FilterComplement;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 
 /**
@@ -45,8 +46,8 @@ final class QueryParameters implements JsonSerializable
     /** @var RfcOnBehalf */
     private $rfcOnBehalf;
 
-    /** @var RfcMatch */
-    private $rfcMatch;
+    /** @var RfcMatches */
+    private $rfcMatches;
 
     public function __construct(
         DateTimePeriod $period,
@@ -57,7 +58,7 @@ final class QueryParameters implements JsonSerializable
         DocumentStatus $documentStatus,
         Uuid $uuid,
         RfcOnBehalf $rfcOnBehalf,
-        RfcMatch $rfcMatch
+        RfcMatches $rfcMatches
     ) {
         $this->period = $period;
         $this->downloadType = $downloadType;
@@ -67,7 +68,7 @@ final class QueryParameters implements JsonSerializable
         $this->documentStatus = $documentStatus;
         $this->uuid = $uuid;
         $this->rfcOnBehalf = $rfcOnBehalf;
-        $this->rfcMatch = $rfcMatch;
+        $this->rfcMatches = $rfcMatches;
     }
 
     /**
@@ -92,7 +93,7 @@ final class QueryParameters implements JsonSerializable
             DocumentStatus::undefined(),
             Uuid::empty(),
             RfcOnBehalf::empty(),
-            RfcMatch::empty()
+            RfcMatches::create()
         );
     }
 
@@ -136,9 +137,14 @@ final class QueryParameters implements JsonSerializable
         return $this->rfcOnBehalf;
     }
 
+    public function getRfcMatches(): RfcMatches
+    {
+        return $this->rfcMatches;
+    }
+
     public function getRfcMatch(): RfcMatch
     {
-        return $this->rfcMatch;
+        return $this->rfcMatches->getFirst();
     }
 
     public function withPeriod(DateTimePeriod $period): self
@@ -181,9 +187,14 @@ final class QueryParameters implements JsonSerializable
         return $this->with('rfcOnBehalf', $rfcOnBehalf);
     }
 
+    public function withRfcMatches(RfcMatches $rfcMatches): self
+    {
+        return $this->with('rfcMatches', $rfcMatches);
+    }
+
     public function withRfcMatch(RfcMatch $rfcMatch): self
     {
-        return $this->with('rfcMatch', $rfcMatch);
+        return $this->with('rfcMatches', RfcMatches::create($rfcMatch));
     }
 
     /** @param mixed $value */
@@ -206,7 +217,7 @@ final class QueryParameters implements JsonSerializable
             'documentStatus' => $this->documentStatus,
             'uuid' => $this->uuid,
             'rfcOnBehalf' => $this->rfcOnBehalf,
-            'rfcMatch' => $this->rfcMatch,
+            'rfcMatches' => $this->rfcMatches,
         ];
     }
 }

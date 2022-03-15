@@ -7,6 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
@@ -29,7 +30,7 @@ class QueryParametersTest extends TestCase
         $documentStatus = DocumentStatus::active();
         $uuid = Uuid::create('96623061-61fe-49de-b298-c7156476aa8b');
         $rfcOnBehalf = RfcOnBehalf::create('XXX01010199A');
-        $rfcMatch = RfcMatch::create('AAAA010101AAA');
+        $rfcMatches = RfcMatches::createFromValues('ABA991231XX0');
         $complement = CfdiComplemento::leyendasFiscales10();
 
         $query = QueryParameters::create()
@@ -41,7 +42,7 @@ class QueryParametersTest extends TestCase
             ->withDocumentStatus($documentStatus)
             ->withUuid($uuid)
             ->withRfcOnBehalf($rfcOnBehalf)
-            ->withRfcMatch($rfcMatch)
+            ->withRfcMatches($rfcMatches)
         ;
         $this->assertSame($period, $query->getPeriod());
         $this->assertSame($downloadType, $query->getDownloadType());
@@ -51,7 +52,12 @@ class QueryParametersTest extends TestCase
         $this->assertSame($documentStatus, $query->getDocumentStatus());
         $this->assertSame($uuid, $query->getUuid());
         $this->assertSame($rfcOnBehalf, $query->getRfcOnBehalf());
+        $this->assertSame($rfcMatches, $query->getRfcMatches());
+
+        $rfcMatch = RfcMatch::create('AAAA010101AAA');
+        $query = $query->withRfcMatch($rfcMatch);
         $this->assertSame($rfcMatch, $query->getRfcMatch());
+        $this->assertSame($rfcMatch, $query->getRfcMatches()->getFirst());
     }
 
     public function testMinimalCreate(): void

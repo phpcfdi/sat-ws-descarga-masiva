@@ -189,8 +189,50 @@ Si no se establece (`RfcOnBehalf::empty()`) se ignora el filtro.
 Filtra la solicitud por el RFC en contraparte, es decir, que
 si la consulta es de emitidos entonces filtrará donde el RFC sea el receptor,
 si la consulta es de recibidos entonces filtrará donde el RFC sea el emisor.
+
 Para crear el objeto del filtro hay que usar `RfcMatch::create('XXX01010199A')`.
 Si no se establece (`RfcMatch::empty()`) se ignora el filtro.
+
+```php
+$rfcMatch = RfcMatch::create('XXX01010199A');
+$parameters = $parameters->withRfcMatch();
+var_dump($rfcMatch === $parameters->getRfcMatch()); // bool(true)
+```
+
+El servicio del SAT permite especificar hasta 5 receptores, al menos así lo establecen en su documentación.
+Sin embargo, esto no se puede hacer más que para una consulta de emitidos.
+En el caso de una consulta de recibidos, aun cuando se especifiquen muchos elementos, solo se utilizará el primero.
+
+Por lo regular utilizará solamente los métodos `QueryParameter::getRfcMatch()` y `QueryParameter::withRfcMatch()`.
+
+Sin embargo, si es necesario especificar el listado de RFC, se puede crear de la siguiente manera:
+
+```php
+$parameters = $parameters->withRfcMatches(
+    RfcMatches::create(
+        RfcMatch::create('AAA010101000'),
+        RfcMatch::create('AAA010101001'),
+        RfcMatch::create('AAA010101002')
+    )
+);
+```
+
+O bien, utilizar una lista de RFC como cadenas de texto:
+
+```php
+$parameters = $parameters->withRfcMatches(
+    RfcMatches::createFromValues('AAA010101000', 'AAA010101001', 'AAA010101002')
+);
+```
+
+##### Acerca de `RfcMatches`
+
+Este objeto mantiene una lista de `RfcMatches`, pero con características especiales:
+
+- Los objetos `RfcMatch` vacíos o repetidos sin descartados.
+- El método `RfcMatch::getFirst()` devuelve siempre el primer objeto, si no existe devuelve uno vacío.
+- La clase `RfcMatch` es iterable, se puede hacer `foreach()` sobre los elementos.
+- La clase `RfcMatch` es contable, se puede hacer `count()` sobre los elementos.
 
 #### Ejemplo de especificación de parámetros
 
