@@ -64,7 +64,8 @@ abstract class ConsumeServiceTestCase extends TestCase
             ->withDownloadType(DownloadType::received())
             ->withRequestType(RequestType::cfdi())
             ->withDocumentType(DocumentType::nomina())
-            ->withComplement(CfdiComplemento::leyendasFiscales10())
+            /** @todo uncomment this line when SAT service is working */
+            // ->withComplement(CfdiComplemento::leyendasFiscales10())
             ->withDocumentStatus(DocumentStatus::active())
             ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
             ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
