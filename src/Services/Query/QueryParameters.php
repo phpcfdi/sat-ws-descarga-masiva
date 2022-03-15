@@ -73,38 +73,26 @@ final class QueryParameters implements JsonSerializable
     /**
      * Query static constructor method
      *
-     * @param DateTimePeriod $period
-     * @param DownloadType|null $downloadType if null uses Issued
-     * @param RequestType|null $requestType If null uses Metadata
-     * @param DocumentType|null $documentType If null uses Undefined
-     * @param FilterComplement|null $complement If null uses Undefined
-     * @param DocumentStatus|null $documentStatus If null uses Undefined
-     * @param Uuid|null $uuid If null uses empty
-     * @param RfcOnBehalf|null $rfcOnBehalf If null uses empty
-     * @param RfcMatch|null $rfcMatch Only when counterpart matches this Rfc
+     * @param DateTimePeriod|null $period
+     * @param DownloadType|null $downloadType
+     * @param RequestType|null $requestType
      * @return self
      */
     public static function create(
-        DateTimePeriod $period,
-        DownloadType $downloadType = null,
-        RequestType $requestType = null,
-        DocumentType $documentType = null,
-        FilterComplement $complement = null,
-        DocumentStatus $documentStatus = null,
-        Uuid $uuid = null,
-        RfcOnBehalf $rfcOnBehalf = null,
-        RfcMatch $rfcMatch = null
+        ?DateTimePeriod $period = null,
+        ?DownloadType $downloadType = null,
+        ?RequestType $requestType = null
     ): self {
         return new self(
-            $period,
+            $period ?? DateTimePeriod::createFromValues($currentTime = time(), $currentTime),
             $downloadType ?? DownloadType::issued(),
             $requestType ?? RequestType::metadata(),
-            $documentType ?? DocumentType::undefined(),
-            $complement ?? CfdiComplemento::undefined(),
-            $documentStatus ?? DocumentStatus::undefined(),
-            $uuid ?? Uuid::empty(),
-            $rfcOnBehalf ?? RfcOnBehalf::empty(),
-            $rfcMatch ?? RfcMatch::empty()
+            DocumentType::undefined(),
+            CfdiComplemento::undefined(),
+            DocumentStatus::undefined(),
+            Uuid::empty(),
+            RfcOnBehalf::empty(),
+            RfcMatch::empty()
         );
     }
 
@@ -151,6 +139,59 @@ final class QueryParameters implements JsonSerializable
     public function getRfcMatch(): RfcMatch
     {
         return $this->rfcMatch;
+    }
+
+    public function withPeriod(DateTimePeriod $period): self
+    {
+        return $this->with('period', $period);
+    }
+
+    public function withDownloadType(DownloadType $downloadType): self
+    {
+        return $this->with('downloadType', $downloadType);
+    }
+
+    public function withRequestType(RequestType $requestType): self
+    {
+        return $this->with('requestType', $requestType);
+    }
+
+    public function withDocumentType(DocumentType $documentType): self
+    {
+        return $this->with('documentType', $documentType);
+    }
+
+    public function withComplement(FilterComplement $complement): self
+    {
+        return $this->with('complement', $complement);
+    }
+
+    public function withDocumentStatus(DocumentStatus $documentStatus): self
+    {
+        return $this->with('documentStatus', $documentStatus);
+    }
+
+    public function withUuid(Uuid $uuid): self
+    {
+        return $this->with('uuid', $uuid);
+    }
+
+    public function withRfcOnBehalf(RfcOnBehalf $rfcOnBehalf): self
+    {
+        return $this->with('rfcOnBehalf', $rfcOnBehalf);
+    }
+
+    public function withRfcMatch(RfcMatch $rfcMatch): self
+    {
+        return $this->with('rfcMatch', $rfcMatch);
+    }
+
+    /** @param mixed $value */
+    private function with(string $property, $value): self
+    {
+        $clone = clone $this;
+        $clone->{$property} = $value;
+        return $clone;
     }
 
     /** @return array<string, mixed> */

@@ -20,9 +20,9 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class QueryParametersTest extends TestCase
 {
-    public function testAllProperties(): void
+    public function testSetAllProperties(): void
     {
-        $period = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
+        $period = DateTimePeriod::createFromValues('2019-01-01 00:00:00', '2019-01-01 00:04:00');
         $downloadType = DownloadType::received();
         $requestType = RequestType::cfdi();
         $documentType = DocumentType::ingreso();
@@ -31,17 +31,18 @@ class QueryParametersTest extends TestCase
         $rfcOnBehalf = RfcOnBehalf::create('XXX01010199A');
         $rfcMatch = RfcMatch::create('AAAA010101AAA');
         $complement = CfdiComplemento::leyendasFiscales10();
-        $query = QueryParameters::create(
-            $period,
-            $downloadType,
-            $requestType,
-            $documentType,
-            $complement,
-            $documentStatus,
-            $uuid,
-            $rfcOnBehalf,
-            $rfcMatch
-        );
+
+        $query = QueryParameters::create()
+            ->withPeriod($period)
+            ->withDownloadType($downloadType)
+            ->withRequestType($requestType)
+            ->withDocumentType($documentType)
+            ->withComplement($complement)
+            ->withDocumentStatus($documentStatus)
+            ->withUuid($uuid)
+            ->withRfcOnBehalf($rfcOnBehalf)
+            ->withRfcMatch($rfcMatch)
+        ;
         $this->assertSame($period, $query->getPeriod());
         $this->assertSame($downloadType, $query->getDownloadType());
         $this->assertSame($requestType, $query->getRequestType());
@@ -57,6 +58,7 @@ class QueryParametersTest extends TestCase
     {
         $period = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
         $query = QueryParameters::create($period);
+        $this->assertSame($period, $query->getPeriod());
         $this->assertTrue($query->getRequestType()->isMetadata());
         $this->assertTrue($query->getDownloadType()->isIssued());
         $this->assertTrue($query->getDocumentType()->isUndefined());
@@ -69,17 +71,17 @@ class QueryParametersTest extends TestCase
 
     public function testJson(): void
     {
-        $query = QueryParameters::create(
-            DateTimePeriod::createFromValues('2019-01-01T00:00:00-06:00', '2019-01-01T00:04:00-06:00'),
-            DownloadType::received(),
-            RequestType::cfdi(),
-            DocumentType::ingreso(),
-            CfdiComplemento::leyendasFiscales10(),
-            DocumentStatus::cancelled(),
-            Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
-            RfcOnBehalf::create('XXX01010199A'),
-            RfcMatch::create('AAAA010101AAA')
-        );
+        $query = QueryParameters::create()
+            ->withPeriod(DateTimePeriod::createFromValues('2019-01-01T00:00:00-06:00', '2019-01-01T00:04:00-06:00'))
+            ->withDownloadType(DownloadType::received())
+            ->withRequestType(RequestType::cfdi())
+            ->withDocumentType(DocumentType::ingreso())
+            ->withComplement(CfdiComplemento::leyendasFiscales10())
+            ->withDocumentStatus(DocumentStatus::cancelled())
+            ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
+            ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
+            ->withRfcMatch(RfcMatch::create('AAAA010101AAA'))
+        ;
         $this->assertInstanceOf(JsonSerializable::class, $query);
         $expectedFile = $this->filePath('json/query-parameters.json');
         $this->assertJsonStringEqualsJsonFile($expectedFile, json_encode($query) ?: '');

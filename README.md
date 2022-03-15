@@ -93,70 +93,18 @@ $service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::rete
 
 ### Realizar una consulta
 
-Una vez creado el servicio, se puede presentar la consulta que tiene estos parámetros:
-
-- Periodo: Fecha y hora de inicio y fin de la consulta.
-- Tipo de descarga: CFDI emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
-- Tipo de solicitud: De metadatos `RequestType::metadata()` o de archivos CFDI `RequestType::cfdi()`.
-- Tipo de comprobante:
-  - Cualquiera: `DocumentType::undefined()` (predefinido).
-  - Ingreso: `DocumentType::ingreso()`.
-  - Egreso: `DocumentType::egreso()`.
-  - Traslado: `DocumentType::traslado()`.
-  - Nómina: `DocumentType::nomina()`.
-  - Pago: `DocumentType::pago()`.
-- Complemento: Este tipo de objetos tiene el método `CfdiComplemento::getLabels()` para revolver la clave
-  y el nombre del complemento.
-  - De CFDI Regular `CfdiComplemento`: Es un catálogo grande, use por ejemplo `CfdiComplemento::nomina12()`.
-  - De CFDI de Retenciones e información de pagos `CfdiRetenciones`: Por ejemplo `CfdiComplemento::dividendos()`.
-- Estado del comprobante:
-  - Cualquiera: `DocumentStatus::undefined()` (predefinido).
-  - Vigentes: `DocumentStatus::active()`.
-  - Cancelados: `DocumentStatus::cancelled()`.
-- Filtrado por UUID: Se filtran para obtener únicamente el CFDI con el UUID determinado.
-  Por defecto el filtro está vacío.
-- Filtrado por RFC: Si se establece, se filtran para obtener únicamente donde la contraparte tenga el RFC indicado.
+Una vez creado el servicio, se puede presentar la consulta, si se pudo presentar devolverá el identificador de la solicitud,
+y con este identificador se podrá continuar al servicio de verificación.
 
 ```php
 <?php
 
-use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
-use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 
-/**
- * El servicio ya existe
- * @var Service $service
- */
-
-// Explicación de la consulta:
-// - Del 13/ene/2019 00:00:00 al 13/ene/2019 23:59:59 (inclusive)
-// - Todos los emitidos por el dueño de la FIEL
-// - Solicitando la información de Metadata
-// - Comprobantes de tipo ingreso
-// - Con complemento de leyendas fiscales
-// - Únicamente vigentes (sin cancelados)
-// - Filtrando los CFDI emitidos para RFC MAG041126GT8
-// - Que tengan el UUID 96623061-61fe-49de-b298-c7156476aa8b
-// - Que tengan el RFC a cuenta de terceros XXX01010199A
+// Crear la consulta
 $request = QueryParameters::create(
     DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
-    DownloadType::issued(),
-    RequestType::metadata(),
-    DocumentType::ingreso(),
-    CfdiComplemento::leyendasFiscales10(),
-    DocumentStatus::active(),
-    Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
-    RfcOnBehalf::create('XXX01010199A'),
-    RfcMatch::create('MAG041126GT8')
 );
 
 // presentar la consulta
@@ -172,24 +120,121 @@ if (! $query->getStatus()->isAccepted()) {
 echo "Se generó la solicitud {$query->getRequestId()}", PHP_EOL;
 ```
 
-### Consulta con valores predeterminados
+### Parámetros de la consulta
 
-Valores predeterminados de una consulta:
+#### Periodo (`DateTimePeriod`)
 
-- Consultar comprobantes emitidos `DownloadType::issued()`.
-- Solicitar información de metadata `RequestType::metadata()`.
-- Sin filtro de RFC.
+Fecha y hora de inicio y fin de la consulta.
+Si no se especifica crea un periodo del segundo exacto de la creación del objeto.
+
+#### Tipo de descarga (`DownloadType`)
+
+Especifica si la solicitud es de documentos emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
+Si no se especifica utiliza el valor de emitidos.
+
+#### Tipo de solicitud (`RequestType`)
+
+Especifica si la solicitud es de Metadatos `RequestType::metadata()` o archivos XML `RequestType::cfdi()`.
+Si no se especifica utiliza el valor de Metadatos.
+
+#### Tipo de comprobante (`DocumentType`)
+
+Filtra la solicitud por tipo de comprobante. Si no se especifica utiliza no utiliza el filtro.
+
+- Cualquiera: `DocumentType::undefined()` (predefinido).
+- Ingreso: `DocumentType::ingreso()`.
+- Egreso: `DocumentType::egreso()`.
+- Traslado: `DocumentType::traslado()`.
+- Nómina: `DocumentType::nomina()`.
+- Pago: `DocumentType::pago()`.
+
+#### Tipo de complemento (`CfdiComplemento` o `RetencionesComplemento`)
+
+Filtra la solicitud por la existencia de un tipo de complemento dentro del comprobante.
+Si no se especifica utiliza no utiliza el filtro.
+
+Hay dos tipos de objetos que satisfacen este parámetro, depende del tipo de comprobante que se está solicitando.
+Si se trata de comprobantes de CFDI Regulares entonces se usa la clase `CfdiComplemento`.
+Si se trata de CFDI de retenciones e información de pagos entonces se usa la clase `RetencionesComplemento`.
+
+Estos objetos se pueden crear nombrados (`CfdiComplemento::leyendasFiscales10()`),
+por constructor (`new CfdiComplemento('leyendasfisc')`), o bien,
+por el método estático `create` (`CfdiComplemento::create('leyendasfisc')`).
+
+Además, se puede acceder al nombre del complemento utilizando el método `label()`, por ejemplo,
+`echo CfdiComplemento::leyendasFiscales10()->label(); // Leyendas Fiscales 1.0`.
+
+A su vez, este objeto ofrece un método estático `getLabels(): array` para obtener un arreglo con los datos,
+en donde la llave es el identificador del complemento y el valor es el nombre del complemento.
+
+#### Estado del comprobante (`DocumentStatus`)
+
+Filtra la solicitud por el estado de comprobante: Vigente (`DocumentStatus::active()`) y Cancelado (`DocumentStatus::cancelled()`).
+Si no se especifica utiliza no utiliza el filtro (`DocumentStatus::undefined()`).
+
+#### UUID (`Uuid`)
+
+Filtra la solicitud por UUID.
+Para crear el objeto del filtro hay que usar `Uuid::create('96623061-61fe-49de-b298-c7156476aa8b')`.
+Si no se establece (`Uuid::empty()`) se ignora el filtro.
+
+#### Filtrado a cuenta de terceros (`RfcOnBehalf`)
+
+Filtra la solicitud por el RFC utilizado a cuenta de terceros.
+Para crear el objeto del filtro hay que usar `RfcOnBehalf::create('XXX01010199A')`.
+Si no se establece (`RfcOnBehalf::empty()`) se ignora el filtro.
+
+#### Filtrado por RFC contraparte (`RfcMatch`)
+
+Filtra la solicitud por el RFC en contraparte, es decir, que
+si la consulta es de emitidos entonces filtrará donde el RFC sea el receptor,
+si la consulta es de recibidos entonces filtrará donde el RFC sea el emisor.
+Para crear el objeto del filtro hay que usar `RfcMatch::create('XXX01010199A')`.
+Si no se establece (`RfcMatch::empty()`) se ignora el filtro.
+
+#### Ejemplo de especificación de parámetros
+
+En el siguiente ejemplo, se crea una consulta sin parámetros y posteriormente se van modificando.
+Los métodos no cambian la propiedad del objeto (no son `set*`), lo que hacen es crear una nueva
+instancia de la consulta con los nuevos valores (son `with*`).
+
+Puede que los cambios del ejemplo no sean lógicos, es solo para ilustrar cómo se establecen los valores:
+
+- Un periodo específico de `2019-01-13 00:00:00` a `2019-01-13 23:59:59` (inclusive).
+- Sobre los documentos recibidos.
+- Solicitando los archivos XML.
+- Filtrando por documentos de tipo ingreso.
+- Filtrando por los que tengan el complemento de leyendas fiscales.
+- Filtrando por únicamente documentos vigentes (excluye cancelados).
+- Filtrando por el RFC a cuenta de terceros `XXX01010199A`.
+- Filtrando por el RFC contraparte `MAG041126GT8`. Como se solicitan recibidos, entonces son los emidos por ese RFC.
+- Filtrando por el UUID `96623061-61fe-49de-b298-c7156476aa8b`
 
 ```php
 <?php
 
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 
-// Consulta del día 2019-01-13, solo los emitidos, información de tipo metadata, sin filtro de RFC.
-$request = QueryParameters::create(
-    DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'),
-);
+$query = QueryParameters::create()
+    ->withPeriod(DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'))
+    ->withDownloadType(DownloadType::received())
+    ->withRequestType(RequestType::cfdi())
+    ->withDocumentType(DocumentType::ingreso())
+    ->withComplement(CfdiComplemento::leyendasFiscales10())
+    ->withDocumentStatus(DocumentStatus::active())
+    ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
+    ->withRfcMatch(RfcMatch::create('MAG041126GT8'))
+    ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
+;
 ```
 
 ### Verificar una consulta

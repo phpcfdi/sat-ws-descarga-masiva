@@ -12,7 +12,6 @@ use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBui
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
@@ -21,6 +20,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class FielRequestBuilderTest extends TestCase
@@ -87,17 +87,17 @@ class FielRequestBuilderTest extends TestCase
     public function testQueryReceived(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
-        $parameters = QueryParameters::create(
-            DateTimePeriod::createFromValues('2019-01-01T00:00:00', '2019-01-01T00:04:00'),
-            DownloadType::received(),
-            RequestType::cfdi(),
-            DocumentType::nomina(),
-            CfdiComplemento::nomina12(),
-            DocumentStatus::active(),
-            Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
-            RfcOnBehalf::create('XXX01010199A'),
-            RfcMatch::create('AAA010101AAA')
-        );
+        $parameters = QueryParameters::create()
+            ->withPeriod(DateTimePeriod::createFromValues('2019-01-01T00:00:00', '2019-01-01T00:04:00'))
+            ->withDownloadType(DownloadType::received())
+            ->withRequestType(RequestType::cfdi())
+            ->withDocumentType(DocumentType::nomina())
+            ->withComplement(CfdiComplemento::nomina12())
+            ->withDocumentStatus(DocumentStatus::active())
+            ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
+            ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
+            ->withRfcMatch(RfcMatch::create('AAA010101AAA'))
+        ;
         $requestBody = $requestBuilder->query($parameters);
 
         $this->assertSame(
