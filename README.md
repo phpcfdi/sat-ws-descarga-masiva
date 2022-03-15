@@ -105,6 +105,10 @@ Una vez creado el servicio, se puede presentar la consulta que tiene estos pará
   - Traslado: `DocumentType::traslado()`.
   - Nómina: `DocumentType::nomina()`.
   - Pago: `DocumentType::pago()`.
+- Complemento: Este tipo de objetos tiene el método `CfdiComplemento::getLabels()` para revolver la clave
+  y el nombre del complemento.
+  - De CFDI Regular `CfdiComplemento`: Es un catálogo grande, use por ejemplo `CfdiComplemento::nomina12()`.
+  - De CFDI de Retenciones e información de pagos `CfdiRetenciones`: Por ejemplo `CfdiComplemento::dividendos()`.
 - Estado del comprobante:
   - Cualquiera: `DocumentStatus::undefined()` (predefinido).
   - Vigentes: `DocumentStatus::active()`.
@@ -119,6 +123,7 @@ Una vez creado el servicio, se puede presentar la consulta que tiene estos pará
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
+use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
@@ -137,6 +142,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 // - Todos los emitidos por el dueño de la FIEL
 // - Solicitando la información de Metadata
 // - Comprobantes de tipo ingreso
+// - Con complemento de leyendas fiscales
 // - Únicamente vigentes (sin cancelados)
 // - Filtrando los CFDI emitidos para RFC MAG041126GT8
 // - Que tengan el UUID 96623061-61fe-49de-b298-c7156476aa8b
@@ -146,6 +152,7 @@ $request = QueryParameters::create(
     DownloadType::issued(),
     RequestType::metadata(),
     DocumentType::ingreso(),
+    CfdiComplemento::leyendasFiscales10(),
     DocumentStatus::active(),
     CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
     RfcOnBehalf::create('XXX01010199A'),

@@ -91,6 +91,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
                 'UUID' => $queryParameters->getUuid()->getValue(),
                 'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
+                'Complemento' => $queryParameters->getComplement()->value(),
             ],
             static function (string $value): bool {
                 return '' !== $value;

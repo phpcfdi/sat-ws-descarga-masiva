@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
@@ -29,11 +30,13 @@ class QueryParametersTest extends TestCase
         $uuid = CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b');
         $rfcOnBehalf = RfcOnBehalf::create('XXX01010199A');
         $rfcMatch = RfcMatch::create('AAAA010101AAA');
+        $complement = CfdiComplemento::leyendasFiscales10();
         $query = QueryParameters::create(
             $period,
             $downloadType,
             $requestType,
             $documentType,
+            $complement,
             $documentStatus,
             $uuid,
             $rfcOnBehalf,
@@ -43,6 +46,7 @@ class QueryParametersTest extends TestCase
         $this->assertSame($downloadType, $query->getDownloadType());
         $this->assertSame($requestType, $query->getRequestType());
         $this->assertSame($documentType, $query->getDocumentType());
+        $this->assertSame($complement, $query->getComplement());
         $this->assertSame($documentStatus, $query->getDocumentStatus());
         $this->assertSame($uuid, $query->getUuid());
         $this->assertSame($rfcOnBehalf, $query->getRfcOnBehalf());
@@ -56,6 +60,7 @@ class QueryParametersTest extends TestCase
         $this->assertTrue($query->getRequestType()->isMetadata());
         $this->assertTrue($query->getDownloadType()->isIssued());
         $this->assertTrue($query->getDocumentType()->isUndefined());
+        $this->assertTrue($query->getComplement()->isUndefined());
         $this->assertTrue($query->getDocumentStatus()->isUndefined());
         $this->assertTrue($query->getUuid()->isEmpty());
         $this->assertTrue($query->getRfcOnBehalf()->isEmpty());
@@ -69,6 +74,7 @@ class QueryParametersTest extends TestCase
             DownloadType::received(),
             RequestType::cfdi(),
             DocumentType::ingreso(),
+            CfdiComplemento::leyendasFiscales10(),
             DocumentStatus::cancelled(),
             CfdiUuid::create('96623061-61fe-49de-b298-c7156476aa8b'),
             RfcOnBehalf::create('XXX01010199A'),

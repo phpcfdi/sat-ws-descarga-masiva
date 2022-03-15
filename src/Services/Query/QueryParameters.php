@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
+use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
 use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiUuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\FilterComplement;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
@@ -31,6 +33,9 @@ final class QueryParameters implements JsonSerializable
     /** @var DocumentType */
     private $documentType;
 
+    /** @var FilterComplement */
+    private $complement;
+
     /** @var DocumentStatus */
     private $documentStatus;
 
@@ -48,6 +53,7 @@ final class QueryParameters implements JsonSerializable
         DownloadType $downloadType,
         RequestType $requestType,
         DocumentType $documentType,
+        FilterComplement $complement,
         DocumentStatus $documentStatus,
         CfdiUuid $uuid,
         RfcOnBehalf $rfcOnBehalf,
@@ -57,6 +63,7 @@ final class QueryParameters implements JsonSerializable
         $this->downloadType = $downloadType;
         $this->requestType = $requestType;
         $this->documentType = $documentType;
+        $this->complement = $complement;
         $this->documentStatus = $documentStatus;
         $this->uuid = $uuid;
         $this->rfcOnBehalf = $rfcOnBehalf;
@@ -70,6 +77,7 @@ final class QueryParameters implements JsonSerializable
      * @param DownloadType|null $downloadType if null uses Issued
      * @param RequestType|null $requestType If null uses Metadata
      * @param DocumentType|null $documentType If null uses Undefined
+     * @param FilterComplement|null $complement If null uses Undefined
      * @param DocumentStatus|null $documentStatus If null uses Undefined
      * @param CfdiUuid|null $uuid If null uses empty
      * @param RfcOnBehalf|null $rfcOnBehalf If null uses empty
@@ -81,6 +89,7 @@ final class QueryParameters implements JsonSerializable
         DownloadType $downloadType = null,
         RequestType $requestType = null,
         DocumentType $documentType = null,
+        FilterComplement $complement = null,
         DocumentStatus $documentStatus = null,
         CfdiUuid $uuid = null,
         RfcOnBehalf $rfcOnBehalf = null,
@@ -91,6 +100,7 @@ final class QueryParameters implements JsonSerializable
             $downloadType ?? DownloadType::issued(),
             $requestType ?? RequestType::metadata(),
             $documentType ?? DocumentType::undefined(),
+            $complement ?? CfdiComplemento::undefined(),
             $documentStatus ?? DocumentStatus::undefined(),
             $uuid ?? CfdiUuid::empty(),
             $rfcOnBehalf ?? RfcOnBehalf::empty(),
@@ -116,6 +126,11 @@ final class QueryParameters implements JsonSerializable
     public function getDocumentType(): DocumentType
     {
         return $this->documentType;
+    }
+
+    public function getComplement(): FilterComplement
+    {
+        return $this->complement;
     }
 
     public function getDocumentStatus(): DocumentStatus
@@ -146,6 +161,7 @@ final class QueryParameters implements JsonSerializable
             'downloadType' => $this->downloadType,
             'requestType' => $this->requestType,
             'documentType' => $this->documentType,
+            'complement' => $this->complement,
             'documentStatus' => $this->documentStatus,
             'uuid' => $this->uuid,
             'rfcOnBehalf' => $this->rfcOnBehalf,
