@@ -17,10 +17,8 @@ return (new PhpCsFixer\Config())
         '@PSR12:risky' => true,
         '@PHP71Migration:risky' => true,
         '@PHP73Migration' => true,
-        // PSR12 (remove when php-cs-fixer reaches ^3.1.1)
-        'class_definition' => ['space_before_parenthesis' => true],
         // symfony
-        // 'class_attributes_separation' => true, // conflict with PSR12
+        'class_attributes_separation' => true,
         'whitespace_after_comma_in_array' => true,
         'no_empty_statement' => true,
         'no_extra_blank_lines' => true,
@@ -47,6 +45,6 @@ return (new PhpCsFixer\Config())
         PhpCsFixer\Finder::create()
             ->in(__DIR__)
             ->append([__FILE__])
-            ->exclude(['vendor', 'build'])
+            ->exclude(['tools', 'vendor', 'build'])
     )
 ;
