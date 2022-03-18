@@ -1,0 +1,89 @@
+# Actualizar de `0.4.x` a `0.5.x`
+
+La versión `0.5` es compatible con el nuevo servicio de solicitud de consultas
+de descarga masiva del SAT publicado en marzo 2022.
+
+## Nueva forma de construir una consulta
+
+### Método estático `QueryParameters::create(): self` ha cambiado
+
+Anteriormente, el método `QueryParameters::create()` admitía 4 parámetros:
+
+- `DateTimePeriod $period` (requerido).
+- `DownloadType $downloadType = null` (por default a emitidos).
+- `RequestType $requestType = null` (por default a metadata).
+- `string $rfcMatch = '''` (por default a ninguno).
+
+Ahora, la firma cambió, eliminando el parámetro de texto `$rfcMatch` y haciendo opcional el periodo:
+
+- `?DateTimePeriod $period = null` (por default al tiempo exacto de la creación del objeto).
+- `?DownloadType $downloadType = null` (por default a emitidos).
+- `?RequestType $requestType = null` (por default a metadata).
+
+Mira las siguientes dos secciones para entender cómo especificar el RFC contraparte
+y cambiar cualquier parámetro de la consulta.
+
+### Constructor de `QueryParameters` ha cambiado
+
+Ya no es posible construir un objeto `QueryParameters` con `new`.
+Usa el método de fabricación `QueryParameters::create()`.
+
+De la misma forma, el método `QueryParameters::getRfcMatch()` antes devolvía un `string`.
+Ahora devuelve un objeto de tipo `RfcMatch`.
+
+### RFC contraparte
+
+El RFC contraparte (parámetro `$rfcMatch`) fue eliminado y ahora se expresa con el objeto `RfcMatch`.
+Ver [Filtrado por RFC contraparte](../README.md#filtrado-por-rfc-contraparte-rfcmatchrfcmatches).
+
+### Parámetros encadenados
+
+Ahora se puede crear una consulta sin parámetros e irlos agregando uno a uno con los métodos `with*`.
+Ver [Ejemplo de especificación de parámetros](../README.md#ejemplo-de-especificación-de-parámetros).
+
+
+### Estados de respuesta
+
+Se supone que, después de realizar una consulta, ya no se devuelve el código `404 - Error no controlado`
+y que este fue sustituído por `5006 - Error interno en el proceso`. Sin embargo, en la práctica esto
+no es lo que está sucediendo y también se devuelve el código `404`. Por ello, al verificar una solicitud,
+recomendamos que se verifique `404` y `5006`.
+
+```php
+/**
+ * La variable result es lo que devolvió la llamada $result = $service->query($parameters);
+ * @var \PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryResult $result 
+ */
+
+if (in_array($result->getStatus()->getCode(), [404, 5006])) {
+    echo "Error del lado del servicio del SAT, intentar más tarde";
+}
+```
+
+### Salida JSON de `QueryParameters`
+
+Como `QueryParameters` contiene ahora más propiedades entonces la salida en formato JSON refleja estos cambios.
+
+## Cambios a la API
+
+### Cambios a `RequestBuilderInterface`
+
+Si estás implementando tu propio constructor de mensajes, la interfaz `RequestBuilderInterface` se ha modificado
+en los métodos `authorization` y `query`.
+
+Si no estás implementando `RequestBuilderInterface` entonces ignora este cambio.
+
+- El método `authorization` ahora espera recibir un objeto `DateTime` en lugar de un `string`.
+- El método `query` ya no recibe parámetros de tipo `string` y ahora recibe un objeto `QueryParameters`.
+
+### Excepciones de `FielRequestBuilder`
+
+El objeto `FielRequestBuilder` generaba excepciones específicas heredadas de tipo `RequestBuilderException`.
+En esta nueva versión dichas excepciones ya no son generadas y fueron eliminadas. En específico:
+
+- `PeriodEndInvalidDateFormatException`
+- `PeriodStartGreaterThanEndException`
+- `PeriodStartInvalidDateFormatException`
+- `RequestTypeInvalidException`
+- `RfcIsNotIssuerOrReceiverException`
+- `RfcIssuerAndReceiverAreEmptyException`

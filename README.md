@@ -535,6 +535,7 @@ por lo que puedes usar esta librería sin temor a romper tu aplicación.
 ### Actualizaciones
 
 - [Guía de actualización de versión 0.3 a 0.4](docs/UPGRADE_0.3_0.4.md).
+- [Guía de actualización de versión 0.4 a 0.5](docs/UPGRADE_0.4_0.5.md).
 
 ## Contribuciones
 
