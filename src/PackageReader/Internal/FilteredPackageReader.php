@@ -49,7 +49,7 @@ final class FilteredPackageReader implements PackageReaderInterface
     public static function createFromFile(string $filename): self
     {
         $archive = new ZipArchive();
-        $zipCode = $archive->open($filename, ZipArchive::CREATE);
+        $zipCode = $archive->open($filename);
         if (true !== $zipCode) {
             throw OpenZipFileException::create($filename, $zipCode);
         }

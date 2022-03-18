@@ -28,12 +28,12 @@ class FilteredPackageReaderTest extends TestCase
 
     public function testFileContentsAndCountWithFile(): void
     {
-        $archiveFile = tempnam('', '');
-        if (false === $archiveFile) {
+        $archiveFile = (string) tempnam('', '');
+        if ('' === $archiveFile) {
             throw new LogicException('Unable to create a temporary file');
         }
         $archive = new ZipArchive();
-        $archive->open($archiveFile, ZipArchive::CREATE);
+        $archive->open($archiveFile, ZipArchive::OVERWRITE);
         $archive->addEmptyDir('empty dir');
         $archive->addFromString('empty file.txt', '');
         $archive->addFromString('foo.txt', 'foo');
