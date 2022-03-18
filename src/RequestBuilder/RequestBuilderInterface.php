@@ -20,6 +20,7 @@ interface RequestBuilderInterface
      * @param DateTime $expires
      * @param string $securityTokenId if empty, the authentication method will create one by its own
      * @return string
+     * @throws RequestBuilderException
      */
     public function authorization(DateTime $created, DateTime $expires, string $securityTokenId = ''): string;
 
@@ -28,6 +29,7 @@ interface RequestBuilderInterface
      *
      * @param QueryParameters $queryParameters
      * @return string
+     * @throws RequestBuilderException
      */
     public function query(QueryParameters $queryParameters): string;
 
@@ -36,6 +38,7 @@ interface RequestBuilderInterface
      *
      * @param string $requestId
      * @return string
+     * @throws RequestBuilderException
      */
     public function verify(string $requestId): string;
 
@@ -44,6 +47,7 @@ interface RequestBuilderInterface
      *
      * @param string $packageId
      * @return string
+     * @throws RequestBuilderException
      */
     public function download(string $packageId): string;
 }
