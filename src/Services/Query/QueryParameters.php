@@ -49,7 +49,7 @@ final class QueryParameters implements JsonSerializable
     /** @var RfcMatches */
     private $rfcMatches;
 
-    public function __construct(
+    private function __construct(
         DateTimePeriod $period,
         DownloadType $downloadType,
         RequestType $requestType,
