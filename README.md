@@ -141,7 +141,7 @@ Si no se especifica utiliza el valor de Metadatos.
 
 Filtra la solicitud por tipo de comprobante. Si no se especifica utiliza no utiliza el filtro.
 
-- Cualquiera: `DocumentType::undefined()` (predefinido).
+- Cualquiera: `DocumentType::undefined()` (predeterminado).
 - Ingreso: `DocumentType::ingreso()`.
 - Egreso: `DocumentType::egreso()`.
 - Traslado: `DocumentType::traslado()`.
@@ -151,7 +151,7 @@ Filtra la solicitud por tipo de comprobante. Si no se especifica utiliza no util
 #### Tipo de complemento (`ComplementoCfdi` o `ComplementoRetenciones`)
 
 Filtra la solicitud por la existencia de un tipo de complemento dentro del comprobante.
-Si no se especifica utiliza `ComplementoUndefined::undefined()`.
+Si no se especifica utiliza `ComplementoUndefined::undefined()` que excluye el filtro.
 
 Hay dos tipos de objetos que satisfacen este parámetro, depende del tipo de comprobante que se está solicitando.
 Si se trata de comprobantes de CFDI Regulares entonces se usa la clase `ComplementoCfdi`.
@@ -170,19 +170,19 @@ en donde la llave es el identificador del complemento y el valor es el nombre de
 #### Estado del comprobante (`DocumentStatus`)
 
 Filtra la solicitud por el estado de comprobante: Vigente (`DocumentStatus::active()`) y Cancelado (`DocumentStatus::cancelled()`).
-Si no se especifica utiliza no utiliza el filtro (`DocumentStatus::undefined()`).
+Si no se especifica utiliza `DocumentStatus::undefined()` que excluye el filtro.
 
 #### UUID (`Uuid`)
 
 Filtra la solicitud por UUID.
 Para crear el objeto del filtro hay que usar `Uuid::create('96623061-61fe-49de-b298-c7156476aa8b')`.
-Si no se establece (`Uuid::empty()`) se ignora el filtro.
+Si no se especifica utiliza `Uuid::empty()` que excluye el filtro.
 
 #### Filtrado a cuenta de terceros (`RfcOnBehalf`)
 
 Filtra la solicitud por el RFC utilizado a cuenta de terceros.
 Para crear el objeto del filtro hay que usar `RfcOnBehalf::create('XXX01010199A')`.
-Si no se establece (`RfcOnBehalf::empty()`) se ignora el filtro.
+Si no se especifica utiliza `RfcOnBehalf::empty()` que excluye el filtro.
 
 #### Filtrado por RFC contraparte (`RfcMatch`/`RfcMatches`)
 
@@ -191,7 +191,7 @@ si la consulta es de emitidos entonces filtrará donde el RFC especificado sea e
 si la consulta es de recibidos entonces filtrará donde el RFC especificado sea el emisor.
 
 Para crear el objeto del filtro hay que usar `RfcMatch::create('XXX01010199A')`.
-Si no se establece entonces se ignora el filtro.
+Si no se especifica utiliza una lista vacía `RfcMatches::create()` que excluye el filtro.
 
 ```php
 $rfcMatch = RfcMatch::create('XXX01010199A');
