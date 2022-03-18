@@ -11,7 +11,7 @@ use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
-use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoCfdi;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
@@ -92,7 +92,7 @@ class FielRequestBuilderTest extends TestCase
             ->withDownloadType(DownloadType::received())
             ->withRequestType(RequestType::cfdi())
             ->withDocumentType(DocumentType::nomina())
-            ->withComplement(CfdiComplemento::nomina12())
+            ->withComplement(ComplementoCfdi::nomina12())
             ->withDocumentStatus(DocumentStatus::active())
             ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
             ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))

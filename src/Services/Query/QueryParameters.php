@@ -6,11 +6,11 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
-use PhpCfdi\SatWsDescargaMasiva\Shared\UndefinedComplemento;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoUndefined;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\FilterComplement;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoInterface;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
@@ -34,7 +34,7 @@ final class QueryParameters implements JsonSerializable
     /** @var DocumentType */
     private $documentType;
 
-    /** @var FilterComplement */
+    /** @var ComplementoInterface */
     private $complement;
 
     /** @var DocumentStatus */
@@ -54,7 +54,7 @@ final class QueryParameters implements JsonSerializable
         DownloadType $downloadType,
         RequestType $requestType,
         DocumentType $documentType,
-        FilterComplement $complement,
+        ComplementoInterface $complement,
         DocumentStatus $documentStatus,
         Uuid $uuid,
         RfcOnBehalf $rfcOnBehalf,
@@ -89,7 +89,7 @@ final class QueryParameters implements JsonSerializable
             $downloadType ?? DownloadType::issued(),
             $requestType ?? RequestType::metadata(),
             DocumentType::undefined(),
-            UndefinedComplemento::undefined(),
+            ComplementoUndefined::undefined(),
             DocumentStatus::undefined(),
             Uuid::empty(),
             RfcOnBehalf::empty(),
@@ -117,7 +117,7 @@ final class QueryParameters implements JsonSerializable
         return $this->documentType;
     }
 
-    public function getComplement(): FilterComplement
+    public function getComplement(): ComplementoInterface
     {
         return $this->complement;
     }
@@ -167,7 +167,7 @@ final class QueryParameters implements JsonSerializable
         return $this->with('documentType', $documentType);
     }
 
-    public function withComplement(FilterComplement $complement): self
+    public function withComplement(ComplementoInterface $complement): self
     {
         return $this->with('complement', $complement);
     }

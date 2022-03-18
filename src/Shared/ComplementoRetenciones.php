@@ -24,9 +24,9 @@ use Eclipxe\Enum\Enum;
  * @method static self sectorFinanciero()
  * @method static self serviciosPlataformasTecnologicas()
  */
-final class RetencionesComplemento extends Enum implements FilterComplement
+final class ComplementoRetenciones extends Enum implements ComplementoInterface
 {
-    use FilterComplementTrait;
+    use ComplementoTrait;
 
     /** @var array<string, array{satCode: string, label: string}> */
     private const MAP = [

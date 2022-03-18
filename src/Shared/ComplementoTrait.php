@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
-trait FilterComplementTrait
+trait ComplementoTrait
 {
     public static function create(string $id): self
     {

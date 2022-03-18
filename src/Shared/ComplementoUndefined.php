@@ -11,9 +11,9 @@ use Eclipxe\Enum\Enum;
  *
  * @method static self undefined()
  */
-final class UndefinedComplemento extends Enum implements FilterComplement
+final class ComplementoUndefined extends Enum implements ComplementoInterface
 {
-    use FilterComplementTrait;
+    use ComplementoTrait;
 
     /** @var array<string, array{satCode: string, label: string}> */
     private const MAP = [

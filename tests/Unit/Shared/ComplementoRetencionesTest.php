@@ -4,31 +4,31 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Shared;
 
-use PhpCfdi\SatWsDescargaMasiva\Shared\FilterComplement;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RetencionesComplemento;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoInterface;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoRetenciones;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
-final class RetencionesComplementoTest extends TestCase
+final class ComplementoRetencionesTest extends TestCase
 {
     public function testCreateUndefinedByName(): void
     {
-        $complemento = RetencionesComplemento::undefined();
-        $this->assertInstanceOf(FilterComplement::class, $complemento);
+        $complemento = ComplementoRetenciones::undefined();
+        $this->assertInstanceOf(ComplementoInterface::class, $complemento);
         $this->assertTrue($complemento->isUndefined());
     }
 
     public function testCreateUndefinedByMethod(): void
     {
-        $complemento = new RetencionesComplemento('');
+        $complemento = new ComplementoRetenciones('');
         $this->assertTrue($complemento->isUndefined());
     }
 
     public function testSample(): void
     {
-        $complemento = RetencionesComplemento::planesRetiro11();
+        $complemento = ComplementoRetenciones::planesRetiro11();
         $this->assertFalse($complemento->isUndefined());
         $this->assertSame('planesderetiro11', $complemento->value());
         $this->assertSame('Planes de retiro 1.1', $complemento->label());
-        $this->assertEquals(new RetencionesComplemento('planesderetiro11'), $complemento);
+        $this->assertEquals(new ComplementoRetenciones('planesderetiro11'), $complemento);
     }
 }

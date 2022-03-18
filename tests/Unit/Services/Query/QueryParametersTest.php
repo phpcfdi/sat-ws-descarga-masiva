@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 
 use JsonSerializable;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
-use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoCfdi;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
@@ -31,7 +31,7 @@ class QueryParametersTest extends TestCase
         $uuid = Uuid::create('96623061-61fe-49de-b298-c7156476aa8b');
         $rfcOnBehalf = RfcOnBehalf::create('XXX01010199A');
         $rfcMatches = RfcMatches::createFromValues('ABA991231XX0');
-        $complement = CfdiComplemento::leyendasFiscales10();
+        $complement = ComplementoCfdi::leyendasFiscales10();
 
         $query = QueryParameters::create()
             ->withPeriod($period)
@@ -82,7 +82,7 @@ class QueryParametersTest extends TestCase
             ->withDownloadType(DownloadType::received())
             ->withRequestType(RequestType::cfdi())
             ->withDocumentType(DocumentType::ingreso())
-            ->withComplement(CfdiComplemento::leyendasFiscales10())
+            ->withComplement(ComplementoCfdi::leyendasFiscales10())
             ->withDocumentStatus(DocumentStatus::cancelled())
             ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
             ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))

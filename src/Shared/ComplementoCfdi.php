@@ -45,9 +45,9 @@ use Eclipxe\Enum\Enum;
  * @method static self vehiculoUsado10()
  * @method static self ventaVehiculos11()
  */
-final class CfdiComplemento extends Enum implements FilterComplement
+final class ComplementoCfdi extends Enum implements ComplementoInterface
 {
-    use FilterComplementTrait;
+    use ComplementoTrait;
 
     /** @var array<string, array{satCode: string, label: string}> */
     private const MAP = [

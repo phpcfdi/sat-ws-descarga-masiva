@@ -148,21 +148,21 @@ Filtra la solicitud por tipo de comprobante. Si no se especifica utiliza no util
 - Nómina: `DocumentType::nomina()`.
 - Pago: `DocumentType::pago()`.
 
-#### Tipo de complemento (`CfdiComplemento` o `RetencionesComplemento`)
+#### Tipo de complemento (`ComplementoCfdi` o `ComplementoRetenciones`)
 
 Filtra la solicitud por la existencia de un tipo de complemento dentro del comprobante.
-Si no se especifica utiliza no utiliza el filtro.
+Si no se especifica utiliza `ComplementoUndefined::undefined()`.
 
 Hay dos tipos de objetos que satisfacen este parámetro, depende del tipo de comprobante que se está solicitando.
-Si se trata de comprobantes de CFDI Regulares entonces se usa la clase `CfdiComplemento`.
-Si se trata de CFDI de retenciones e información de pagos entonces se usa la clase `RetencionesComplemento`.
+Si se trata de comprobantes de CFDI Regulares entonces se usa la clase `ComplementoCfdi`.
+Si se trata de CFDI de retenciones e información de pagos entonces se usa la clase `ComplementoRetenciones`.
 
-Estos objetos se pueden crear nombrados (`CfdiComplemento::leyendasFiscales10()`),
-por constructor (`new CfdiComplemento('leyendasfisc')`), o bien,
-por el método estático `create` (`CfdiComplemento::create('leyendasfisc')`).
+Estos objetos se pueden crear nombrados (`ComplementoCfdi::leyendasFiscales10()`),
+por constructor (`new ComplementoCfdi('leyendasfisc')`), o bien,
+por el método estático `create` (`ComplementoCfdi::create('leyendasfisc')`).
 
 Además, se puede acceder al nombre del complemento utilizando el método `label()`, por ejemplo,
-`echo CfdiComplemento::leyendasFiscales10()->label(); // Leyendas Fiscales 1.0`.
+`echo ComplementoCfdi::leyendasFiscales10()->label(); // Leyendas Fiscales 1.0`.
 
 A su vez, este objeto ofrece un método estático `getLabels(): array` para obtener un arreglo con los datos,
 en donde la llave es el identificador del complemento y el valor es el nombre del complemento.
@@ -257,7 +257,7 @@ Puede que los cambios del ejemplo no sean lógicos, es solo para ilustrar cómo 
 <?php
 
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
-use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoCfdi;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
@@ -272,7 +272,7 @@ $query = QueryParameters::create()
     ->withDownloadType(DownloadType::received())
     ->withRequestType(RequestType::cfdi())
     ->withDocumentType(DocumentType::ingreso())
-    ->withComplement(CfdiComplemento::leyendasFiscales10())
+    ->withComplement(ComplementoCfdi::leyendasFiscales10())
     ->withDocumentStatus(DocumentStatus::active())
     ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
     ->withRfcMatch(RfcMatch::create('MAG041126GT8'))

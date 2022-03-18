@@ -10,7 +10,7 @@ use JsonSerializable;
  * @method static static undefined()
  * @method bool isUndefined()
  */
-interface FilterComplement extends JsonSerializable
+interface ComplementoInterface extends JsonSerializable
 {
     public const UNDEFINED_KEY = 'undefined';
 
