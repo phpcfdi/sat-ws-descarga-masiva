@@ -11,6 +11,11 @@ trait FilterComplementTrait
         return new self($id);
     }
 
+    public static function undefined(): self
+    {
+        return new self('');
+    }
+
     protected static function overrideValues(): array
     {
         return array_combine(

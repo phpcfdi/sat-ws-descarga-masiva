@@ -7,10 +7,18 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 use JsonSerializable;
 
 /**
+ * @method static static undefined()
  * @method bool isUndefined()
  */
 interface FilterComplement extends JsonSerializable
 {
+    public const UNDEFINED_KEY = 'undefined';
+
+    public const UNDEFINED_VALUES = [
+        'satCode' => '',
+        'label' => 'Sin complemento definido',
+    ];
+
     /** @return static */
     public static function create(string $id);
 

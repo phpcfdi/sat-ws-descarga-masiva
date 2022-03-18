@@ -51,10 +51,7 @@ final class CfdiComplemento extends Enum implements FilterComplement
 
     /** @var array<string, array{satCode: string, label: string}> */
     private const MAP = [
-        'undefined' => [
-            'satCode' => '',
-            'label' => 'Sin complemento definido',
-        ],
+        self::UNDEFINED_KEY => self::UNDEFINED_VALUES,
         'acreditamientoIeps10' => [
             'satCode' => 'acreditamientoieps10',
             'label' => 'Acreditamiento del IEPS 1.0',

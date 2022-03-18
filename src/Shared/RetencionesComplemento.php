@@ -30,10 +30,7 @@ final class RetencionesComplemento extends Enum implements FilterComplement
 
     /** @var array<string, array{satCode: string, label: string}> */
     private const MAP = [
-        'undefined' => [
-            'satCode' => '',
-            'label' => 'Sin complemento definido',
-        ],
+        self::UNDEFINED_KEY => self::UNDEFINED_VALUES,
         'arrendamientoEnFideicomiso' => [
             'satCode' => 'arrendamientoenfideicomiso',
             'label' => 'Arrendamiento en fideicomiso',

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
-use PhpCfdi\SatWsDescargaMasiva\Shared\CfdiComplemento;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
+use PhpCfdi\SatWsDescargaMasiva\Shared\UndefinedComplemento;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
@@ -89,7 +89,7 @@ final class QueryParameters implements JsonSerializable
             $downloadType ?? DownloadType::issued(),
             $requestType ?? RequestType::metadata(),
             DocumentType::undefined(),
-            CfdiComplemento::undefined(),
+            UndefinedComplemento::undefined(),
             DocumentStatus::undefined(),
             Uuid::empty(),
             RfcOnBehalf::empty(),
