@@ -92,7 +92,7 @@ class FielRequestBuilderTest extends TestCase
             ->withServiceType(ServiceType::cfdi())
             ->withPeriod(DateTimePeriod::createFromValues('2019-01-01T00:00:00', '2019-01-01T00:04:00'))
             ->withDownloadType(DownloadType::received())
-            ->withRequestType(RequestType::cfdi())
+            ->withRequestType(RequestType::xml())
             ->withDocumentType(DocumentType::nomina())
             ->withComplement(ComplementoCfdi::nomina12())
             ->withDocumentStatus(DocumentStatus::active())

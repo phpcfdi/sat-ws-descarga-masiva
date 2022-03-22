@@ -25,7 +25,7 @@ class QueryParametersTest extends TestCase
     {
         $period = DateTimePeriod::createFromValues('2019-01-01 00:00:00', '2019-01-01 00:04:00');
         $downloadType = DownloadType::received();
-        $requestType = RequestType::cfdi();
+        $requestType = RequestType::xml();
         $documentType = DocumentType::ingreso();
         $documentStatus = DocumentStatus::active();
         $uuid = Uuid::create('96623061-61fe-49de-b298-c7156476aa8b');
@@ -80,7 +80,7 @@ class QueryParametersTest extends TestCase
         $query = QueryParameters::create()
             ->withPeriod(DateTimePeriod::createFromValues('2019-01-01T00:00:00-06:00', '2019-01-01T00:04:00-06:00'))
             ->withDownloadType(DownloadType::received())
-            ->withRequestType(RequestType::cfdi())
+            ->withRequestType(RequestType::xml())
             ->withDocumentType(DocumentType::ingreso())
             ->withComplement(ComplementoCfdi::leyendasFiscales10())
             ->withDocumentStatus(DocumentStatus::cancelled())

@@ -33,7 +33,7 @@ final class ConsumeCfdiServicesUsingFakeFielTest extends ConsumeServiceTestCase
         $parameters = QueryParameters::create()
             ->withPeriod(DateTimePeriod::createFromValues('2019-01-01 00:00:00', '2019-01-01 00:04:00'))
             ->withDownloadType(DownloadType::received())
-            ->withRequestType(RequestType::cfdi())
+            ->withRequestType(RequestType::xml())
             ->withDocumentType(DocumentType::nomina())
             ->withComplement(ComplementoCfdi::undefined())
             ->withDocumentStatus(DocumentStatus::active())

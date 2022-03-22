@@ -32,7 +32,7 @@ final class ConsumeRetencionesServicesUsingFakeFielTest extends ConsumeServiceTe
         $parameters = QueryParameters::create()
             ->withPeriod(DateTimePeriod::createFromValues('2019-01-01 00:00:00', '2019-01-01 00:04:00'))
             ->withDownloadType(DownloadType::received())
-            ->withRequestType(RequestType::cfdi())
+            ->withRequestType(RequestType::xml())
             ->withComplement(ComplementoRetenciones::undefined())
             ->withDocumentStatus(DocumentStatus::active())
             ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))

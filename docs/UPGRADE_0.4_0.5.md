@@ -59,6 +59,19 @@ if (in_array($result->getStatus()->getCode(), [404, 5006])) {
 }
 ```
 
+### Tipo de consulta `RequestType`
+
+Anteriormente se identificaba el tipo de consulta (XML y Metadatos) por las claves `cfdi` y `metadata`.
+Ahora se identifican por las claves `xml` y `metadata`.
+
+Si estás construyendo este enumerador tomando un valor de tu base de datos, cambia en tus datos el valor
+de `CFDI` a `xml` y `Metadata` a `metadata`.
+
+Revisa tu código y cambia estas llamadas:
+
+- `RequestType::cfdi()` por `RequestType::xml()`.
+- `$requestType->isCfdi()` por `$requestType->isXml()`.
+
 ### Tipo de servicio `ServiceType`
 
 El SAT tiene los servicios de *CFDI Regulares* y *CFDI de retenciones e información de pagos*

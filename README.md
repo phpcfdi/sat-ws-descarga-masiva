@@ -141,7 +141,7 @@ Si no se especifica utiliza el valor de emitidos.
 
 #### Tipo de solicitud (`RequestType`)
 
-Especifica si la solicitud es de Metadatos `RequestType::metadata()` o archivos XML `RequestType::cfdi()`.
+Especifica si la solicitud es de Metadatos `RequestType::metadata()` o archivos XML `RequestType::xml()`.
 Si no se especifica utiliza el valor de Metadatos.
 
 #### Tipo de comprobante (`DocumentType`)
@@ -291,7 +291,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 $query = QueryParameters::create()
     ->withPeriod(DateTimePeriod::createFromValues('2019-01-13 00:00:00', '2019-01-13 23:59:59'))
     ->withDownloadType(DownloadType::received())
-    ->withRequestType(RequestType::cfdi())
+    ->withRequestType(RequestType::xml())
     ->withDocumentType(DocumentType::ingreso())
     ->withComplement(ComplementoCfdi::leyendasFiscales10())
     ->withDocumentStatus(DocumentStatus::active())
