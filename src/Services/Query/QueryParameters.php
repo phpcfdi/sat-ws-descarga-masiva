@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
+use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoUndefined;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
@@ -22,6 +24,9 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
  */
 final class QueryParameters implements JsonSerializable
 {
+    /** @var ?ServiceType */
+    private $serviceType = null;
+
     /** @var DateTimePeriod */
     private $period;
 
@@ -97,6 +102,19 @@ final class QueryParameters implements JsonSerializable
         );
     }
 
+    public function hasServiceType(): bool
+    {
+        return (null !== $this->serviceType);
+    }
+
+    public function getServiceType(): ServiceType
+    {
+        if (null === $this->serviceType) {
+            throw new LogicException('Service type has not been set');
+        }
+        return $this->serviceType;
+    }
+
     public function getPeriod(): DateTimePeriod
     {
         return $this->period;
@@ -145,6 +163,11 @@ final class QueryParameters implements JsonSerializable
     public function getRfcMatch(): RfcMatch
     {
         return $this->rfcMatches->getFirst();
+    }
+
+    public function withServiceType(ServiceType $serviceType): self
+    {
+        return $this->with('serviceType', $serviceType);
     }
 
     public function withPeriod(DateTimePeriod $period): self
@@ -208,7 +231,8 @@ final class QueryParameters implements JsonSerializable
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
-        return [
+        return array_filter([
+            'serviceType' => $this->serviceType,
             'period' => $this->period,
             'downloadType' => $this->downloadType,
             'requestType' => $this->requestType,
@@ -218,6 +242,6 @@ final class QueryParameters implements JsonSerializable
             'uuid' => $this->uuid,
             'rfcOnBehalf' => $this->rfcOnBehalf,
             'rfcMatches' => $this->rfcMatches,
-        ];
+        ]);
     }
 }

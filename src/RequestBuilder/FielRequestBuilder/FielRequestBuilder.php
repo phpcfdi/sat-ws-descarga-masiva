@@ -77,7 +77,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         // normalize input
         $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
         $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
-        $requestType = $queryParameters->getRequestType()->value();
+        $requestType = $queryParameters->getRequestType()->getQueryAttributeValue($queryParameters->getServiceType());
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
         if ($queryParameters->getDownloadType()->isIssued()) {
             // issued documents, counterparts are receivers

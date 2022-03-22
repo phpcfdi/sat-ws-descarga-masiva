@@ -18,8 +18,8 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 
 Esta actualización contiene cambios significativos en la forma de usar la librería,
 específicamente en la creación de objetos de consulta `QueryParameters`.
-Lea las notas para [Actualizar de `0.4.x` a `0.5.x`](UPGRADE_0.4_0.5.md).
-Y la documentación principal en el [README.md](../README.md).
+Lea las notas para [Actualizar de `0.4.x` a `0.5.x`](UPGRADE_0.4_0.5.md),
+y la documentación principal en el [README.md](../README.md).
 
 ### Cambios incompatibles
 

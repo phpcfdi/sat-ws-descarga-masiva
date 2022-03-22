@@ -26,12 +26,21 @@ final class ServiceEndpoints
     /** @var string */
     private $download;
 
-    public function __construct(string $authenticate, string $query, string $verify, string $download)
-    {
+    /** @var ServiceType */
+    private $serviceType;
+
+    public function __construct(
+        string $authenticate,
+        string $query,
+        string $verify,
+        string $download,
+        ServiceType $serviceType
+    ) {
         $this->authenticate = $authenticate;
         $this->query = $query;
         $this->verify = $verify;
         $this->download = $download;
+        $this->serviceType = $serviceType;
     }
 
     /**
@@ -45,7 +54,8 @@ final class ServiceEndpoints
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
             'https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc',
-            'https://cfdidescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc'
+            'https://cfdidescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc',
+            ServiceType::cfdi()
         );
     }
 
@@ -60,7 +70,8 @@ final class ServiceEndpoints
             'https://retendescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc',
             'https://retendescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc',
             'https://retendescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc',
-            'https://retendescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc'
+            'https://retendescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc',
+            ServiceType::retenciones()
         );
     }
 
@@ -82,5 +93,10 @@ final class ServiceEndpoints
     public function getDownload(): string
     {
         return $this->download;
+    }
+
+    public function getServiceType(): ServiceType
+    {
+        return $this->serviceType;
     }
 }

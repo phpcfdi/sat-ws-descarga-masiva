@@ -7,8 +7,8 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\Services\Query;
 use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryTranslator;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceType;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class QueryTranslatorTest extends TestCase
@@ -35,9 +35,10 @@ class QueryTranslatorTest extends TestCase
         $translator = new QueryTranslator();
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         // this is the query with default parameters
-        $query = QueryParameters::create(
-            DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00')),
-        );
+        $query = QueryParameters::create()
+            ->withPeriod(DateTimePeriod::createFromValues('2019-01-01 00:00:00', '2019-01-01 00:04:00'))
+            ->withServiceType(ServiceType::cfdi())
+        ;
 
         $requestBody = $translator->createSoapRequest($requestBuilder, $query, false);
         $this->assertSame(

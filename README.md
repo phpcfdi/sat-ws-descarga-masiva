@@ -77,6 +77,10 @@ y los CFDI de retenciones e información de pagos (retenciones).
 Puede utilizar esta librería para consumir los CFDI de Retenciones. Para lograrlo construya el servicio con
 la especificación de `ServiceEndpoints::retenciones()`.
 
+Los constructores `ServiceEndpoints::cfdi()` y `ServiceEndpoints::retenciones()` agregan automáticamente
+la propiedad `ServiceType` al objeto. Esta propiedad será después utilizada el servicio para especificar
+el valor en la consulta antes de consumirla.
+
 ```php
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Service;
@@ -90,6 +94,9 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 // Creación del servicio
 $service = new Service($requestBuilder, $webClient, null, ServiceEndpoints::retenciones());
 ```
+
+Aunque no es recomendado, también puedes construir el objeto `ServiceEndpoints` con direcciones URL del
+servicio personalizadas utilizando el constructor del objeto en lugar de los métodos estáticos.
 
 ### Realizar una consulta
 
@@ -234,6 +241,20 @@ Este objeto mantiene una lista de `RfcMatches`, pero con características especi
 - El método `RfcMatch::getFirst()` devuelve siempre el primer elemento, si no existe entonces devuelve uno vacío.
 - La clase `RfcMatch` es *iterable*, se puede hacer `foreach()` sobre los elementos.
 - La clase `RfcMatch` es *contable*, se puede hacer `count()` sobre los elementos.
+
+#### Tipo de servicio (`ServiceType`)
+
+Esta es una propiedad que bien se podría considerar interna y no necesitas especificarla en la consulta.
+Por defecto está no definida y con el valor `null`. Se puede conocer si la propiedad ha sido definida
+con la propiedad `hasServiceType(): bool` y cambiar con `withServiceType(ServiceType): self`.
+
+No se recomienda definir esta propiedad y dejar que el servicio establezca el valor correcto
+según a donde esté apuntando el servicio.
+
+Cuando se ejecuta una consulta, el servicio (`Service`) automáticamente define esta propiedad si es que
+no está definida estableciéndole el mismo valor que está definido en el objeto `ServiceEndpoints`.
+Si esta propiedad ya estaba definida, y su valor no es el mismo que el definido en el objeto `ServiceEndpoints`
+entonces se genera una `LogicException`.
 
 #### Ejemplo de especificación de parámetros
 

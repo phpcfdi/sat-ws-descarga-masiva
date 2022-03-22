@@ -41,7 +41,6 @@ Ver [Filtrado por RFC contraparte](../README.md#filtrado-por-rfc-contraparte-rfc
 Ahora se puede crear una consulta sin parámetros e irlos agregando uno a uno con los métodos `with*`.
 Ver [Ejemplo de especificación de parámetros](../README.md#ejemplo-de-especificación-de-parámetros).
 
-
 ### Estados de respuesta
 
 Se supone que, después de realizar una consulta, ya no se devuelve el código `404 - Error no controlado`
@@ -59,6 +58,22 @@ if (in_array($result->getStatus()->getCode(), [404, 5006])) {
     echo "Error del lado del servicio del SAT, intentar más tarde";
 }
 ```
+
+### Tipo de servicio `ServiceType`
+
+El SAT tiene los servicios de *CFDI Regulares* y *CFDI de retenciones e información de pagos*
+separados en sus URL de consumo.
+
+Si estás haciendo una implementación *normal* del servicio entonces este cambio es transparente.
+
+Si estás haciendo una implementación muy personalizada donde creas el objeto `ServiceEndPoints`
+usando su constructor entonces deberás tomar en cuenta las siguientes modificaciones:
+
+En esta versión, el valor del atributo `TipoSolicitud` para *CFDI de Retenciones* cuando se solicitan
+los archivos XML cambió de `CFDI` a `Retenciones`. Por ello, la librería ha necesitado cambiar y se
+agregó el *enumerador* `ServiceType` y los métodos `QueryParameters::hasServiceType(): bool`,
+`QueryParameters::getServiceType(): ServiceType`, `RequestType::getQueryAttributeValue(ServiceType): string`
+y al constructor de `ServiceEndPoints` se le agregó la propiedad `ServiceType`.
 
 ### Salida JSON de `QueryParameters`
 
