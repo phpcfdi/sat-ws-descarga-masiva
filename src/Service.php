@@ -95,7 +95,8 @@ class Service
     public function query(QueryParameters $parameters): QueryResult
     {
         $queryTranslator = new QueryTranslator();
-        $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
+        $isRetenciones = $this->endpoints->getQuery() === ServiceEndpoints::retenciones()->getQuery();
+        $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters, $isRetenciones);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
             $this->endpoints->getQuery(),

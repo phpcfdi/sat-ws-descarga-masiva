@@ -14,7 +14,7 @@ final class RequestTypeInvalidException extends LogicException implements Reques
 
     public function __construct(string $requestType)
     {
-        parent::__construct(sprintf('The request type "%s" is not CFDI or Metadata', $requestType));
+        parent::__construct(sprintf('The request type "%s" is not CFDI, Retencion or Metadata', $requestType));
         $this->requestType = $requestType;
     }
 

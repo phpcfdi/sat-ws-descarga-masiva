@@ -97,7 +97,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         if (! in_array($rfcSigner, [$rfcReceiver, $rfcIssuer], true)) {
             throw new RfcIsNotIssuerOrReceiverException($rfcSigner, $rfcIssuer, $rfcReceiver);
         }
-        if (! in_array($requestType, ['CFDI', 'Metadata'], true)) {
+        if (! in_array($requestType, ['CFDI', 'Retencion', 'Metadata'], true)) {
             throw new RequestTypeInvalidException($requestType);
         }
 

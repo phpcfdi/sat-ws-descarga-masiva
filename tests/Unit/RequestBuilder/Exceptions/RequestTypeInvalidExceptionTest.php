@@ -20,7 +20,7 @@ final class RequestTypeInvalidExceptionTest extends TestCase
     {
         $requestType = 'foo';
         $exception = new RequestTypeInvalidException($requestType);
-        $this->assertSame('The request type "foo" is not CFDI or Metadata', $exception->getMessage());
+        $this->assertSame('The request type "foo" is not CFDI, Retencion or Metadata', $exception->getMessage());
         $this->assertSame($requestType, $exception->getRequestType());
     }
 }
