@@ -14,6 +14,15 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.4.5 2022-03-22
+
+Se compatibilizó la colocación de una consulta con el servicio de solicitud de descargas masivas
+*para CFDI de Retenciones e Información de Pagos*, anteriormente, al solicitar XML el valor del
+atributo `TipoSolicitud` debía ser `CFDI` y ahora debe ser `Retencion`.
+
+Este cambio altera la API pública, pero no se considera un cambio que rompa la compatibilidad
+porque el cambio ocurrió sobre la clase `QueryTranslator` marcada como `@internal`.
+
 ## Versión 0.4.4 2022-03-12
 
 Se actualizó el servicio de solicitud de descargas masivas (consulta) a la versión 1.2 del SAT.
