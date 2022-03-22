@@ -109,8 +109,7 @@ class Service
             );
         }
         $queryTranslator = new QueryTranslator();
-        $isRetenciones = $this->endpoints->getQuery() === ServiceEndpoints::retenciones()->getQuery();
-        $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters, $isRetenciones);
+        $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
             $this->endpoints->getQuery(),

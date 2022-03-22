@@ -40,7 +40,7 @@ class QueryTranslatorTest extends TestCase
             ->withServiceType(ServiceType::cfdi())
         ;
 
-        $requestBody = $translator->createSoapRequest($requestBuilder, $query, false);
+        $requestBody = $translator->createSoapRequest($requestBuilder, $query);
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-issued.xml'))),
             $this->xmlFormat($requestBody)
