@@ -545,6 +545,10 @@ y puede ser desde minutos a horas. Por lo general es raro que excedan 24 horas.
 Sin embargo, varios usuarios han experimentado casos raros (posiblemente por problemas en el SAT) en donde las
 solicitudes han llegado a tardar hasta 72 horas para ser completadas.
 
+## Problemas conocidos
+
+- [ ] [Problema: Filtros no aplicados](docs/problema-filtros-no-aplicados.md)
+
 ## Compatibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
