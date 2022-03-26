@@ -32,4 +32,4 @@ El SAT actualiza el servicio a la versión 1.2, no resuelve las solicitudes ingr
 
 ### 2022-03-25
 
-El SAT permite el ingreso de solicitudes con filtros, pero parece no considerarlas.
+El SAT permite el ingreso de solicitudes con filtros, pero no aplica los filtros.
