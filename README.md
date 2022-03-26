@@ -548,6 +548,7 @@ solicitudes han llegado a tardar hasta 72 horas para ser completadas.
 ## Problemas conocidos
 
 - [ ] [Problema: Filtros no aplicados](docs/problema-filtros-no-aplicados.md)
+- [ ] [Problema: Falla-al-filtrar-complementos](docs/problema-falla-al-filtrar-complementos.md)
 
 ## Compatibilidad
 
