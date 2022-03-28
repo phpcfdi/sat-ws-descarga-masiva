@@ -1,5 +1,9 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
+## Ejecutar deprecaciones
+
+- [ ] Remover el método `DownloadResult::getPackageLenght()`.
+
 ## Tareas pendientes
 
 - Llevar el code coverage a 100% con las pruebas

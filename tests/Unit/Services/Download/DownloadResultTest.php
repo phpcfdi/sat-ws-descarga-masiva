@@ -15,10 +15,27 @@ class DownloadResultTest extends TestCase
     {
         $statusCode = new StatusCode(5000, 'Solicitud recibida con éxito');
         $packageContent = 'x-content';
+        $packageSize = strlen($packageContent);
         $result = new DownloadResult($statusCode, $packageContent);
         $this->assertSame($statusCode, $result->getStatus());
         $this->assertSame($packageContent, $result->getPackageContent());
-        $this->assertSame(strlen($packageContent), $result->getPackageLenght());
+        $this->assertSame($packageSize, $result->getPackageSize());
+    }
+
+    /** @noinspection PhpDeprecationInspection */
+    public function testGetPackageLengthIsDeprecated(): void
+    {
+        $statusCode = new StatusCode(5000, 'Solicitud recibida con éxito');
+        $packageContent = 'x-content';
+        $packageSize = strlen($packageContent);
+        $result = new DownloadResult($statusCode, $packageContent);
+
+        /** @noinspection PhpUsageOfSilenceOperatorInspection */
+        $this->assertSame($packageSize, @$result->getPackageLenght());
+
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('Method DownloadResult::getPackageLenght() is deprecated');
+        $result->getPackageLenght();
     }
 
     public function testJson(): void
@@ -28,11 +45,11 @@ class DownloadResultTest extends TestCase
         $result = new DownloadResult($statusCode, $packageContent);
         $this->assertInstanceOf(JsonSerializable::class, $result);
         $expectedFile = $this->filePath('json/download-result.json');
-        $this->assertJsonStringEqualsJsonFile($expectedFile, json_encode($result) ?: '');
         $this->assertSame(
-            ['status', 'length'],
+            ['status', 'size'],
             array_keys($result->jsonSerialize()),
-            'jsonSerialize must not include content, only status and length'
+            'jsonSerialize must not include content, only status and size'
         );
+        $this->assertJsonStringEqualsJsonFile($expectedFile, json_encode($result) ?: '');
     }
 }

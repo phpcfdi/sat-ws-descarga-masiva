@@ -92,6 +92,19 @@ y al constructor de `ServiceEndPoints` se le agregó la propiedad `ServiceType`.
 
 Como `QueryParameters` contiene ahora más propiedades entonces la salida en formato JSON refleja estos cambios.
 
+## Cambios de `DownloadResult`
+
+### Método `DownloadResult::getPackageSize()`
+
+El método `DownloadResult::getPackageLenght()` fue deprecado y sustituido por `DownloadResult::getPackageSize()`.
+Porque en PHP los tamaños de bytes regularmente se expresan como *Size* y no como *Length* y porque el método
+tenía una falta de ortografía.
+
+### Salida JSON de `DownloadResult`
+
+Al cambiar el nombre de la propiedad que almacena el tamaño en bytes del paquete de *length* a *size*,
+la salida JSON también cambió y la clave `length` cambió a `size`.
+
 ## Cambios a la API
 
 ### Cambios a `RequestBuilderInterface`

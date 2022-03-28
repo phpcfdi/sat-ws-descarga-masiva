@@ -24,12 +24,13 @@ y la documentación principal en el [README.md](../README.md).
 ### Cambios incompatibles
 
 ```text
-$ roave-backward-compatibility-check --from v0.4.4
+$ roave-backward-compatibility-check --from v0.4.5
 [BC] REMOVED: Method PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() was removed
 [BC] CHANGED: Method __construct() of class PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters visibility reduced from public to private
 [BC] CHANGED: The number of required arguments for PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() increased from 4 to 9
 [BC] CHANGED: The parameter $rfcMatch of PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType
 [BC] CHANGED: The return type of PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#getRfcMatch() changed from string to the non-covariant PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch
+[BC] CHANGED: The number of required arguments for PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints#__construct() increased from 4 to 5
 [BC] REMOVED: Constant PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder::USE_SIGNER was removed
 [BC] CHANGED: The parameter $created of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder#authorization() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
 [BC] CHANGED: The parameter $expires of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder#authorization() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
@@ -48,7 +49,7 @@ $ roave-backward-compatibility-check --from v0.4.4
 [BC] CHANGED: The parameter $start of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#query() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters
 [BC] CHANGED: The parameter $start of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#query() changed from string to PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters
 [BC] CHANGED: Parameter 0 of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#query() changed name from start to queryParameters
-23 backwards-incompatible changes detected
+24 backwards-incompatible changes detected
 ```
 
 ## Versión 0.4.7 2022-08-10
