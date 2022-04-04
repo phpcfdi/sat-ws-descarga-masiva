@@ -14,6 +14,11 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.4.6 2022-04-03
+
+La propiedad `DOMElement::localName` puede ser `null`.
+Esta actualización hace la conversión a cadena de caracteres.
+
 ## Versión 0.4.5 2022-03-22
 
 Se compatibilizó la colocación de una consulta con el servicio de solicitud de descargas masivas

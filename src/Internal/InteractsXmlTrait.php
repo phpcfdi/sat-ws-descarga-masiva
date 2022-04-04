@@ -52,7 +52,7 @@ trait InteractsXmlTrait
         $current = strtolower(strval(array_shift($names)));
         foreach ($element->childNodes as $child) {
             if ($child instanceof DOMElement) {
-                $localName = strtolower($child->localName);
+                $localName = strtolower(strval($child->localName));
                 if ($localName === $current) {
                     if (count($names) > 0) {
                         return $this->findElement($child, ... $names);
@@ -102,7 +102,7 @@ trait InteractsXmlTrait
         $found = [];
         foreach ($element->childNodes as $child) {
             if ($child instanceof DOMElement) {
-                $localName = strtolower($child->localName);
+                $localName = strtolower(strval($child->localName));
                 if ($localName === $current) {
                     $found[] = $child;
                 }
