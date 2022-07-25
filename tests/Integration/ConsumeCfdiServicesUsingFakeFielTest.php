@@ -16,9 +16,6 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 
-/**
- * @todo Parameter ComplementoCfdi is failing, enable when SAT is working
- */
 final class ConsumeCfdiServicesUsingFakeFielTest extends ConsumeServiceTestCase
 {
     protected function getServiceEndpoints(): ServiceEndpoints
@@ -35,7 +32,7 @@ final class ConsumeCfdiServicesUsingFakeFielTest extends ConsumeServiceTestCase
             ->withDownloadType(DownloadType::received())
             ->withRequestType(RequestType::xml())
             ->withDocumentType(DocumentType::nomina())
-            ->withComplement(ComplementoCfdi::undefined())
+            ->withComplement(ComplementoCfdi::nomina12())
             ->withDocumentStatus(DocumentStatus::active())
             ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
             ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
