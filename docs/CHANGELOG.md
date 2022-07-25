@@ -14,6 +14,11 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Unreleased 2022-07-25
+
+La clase `MicroCatalog` requiere la definición de datos extendidos, no estaban definidos y entonces
+el proceso de integración continua falló. Se agregaron para hacer esta corrección.
+
 ## Versión 0.4.6 2022-04-03
 
 La propiedad `DOMElement::localName` puede ser `null`.

@@ -15,8 +15,11 @@ use JsonSerializable;
  * @method bool isMaximumLimitReaded()
  * @method bool isEmptyResult()
  * @method bool isDuplicated()
+
  * @method string getMessage() Contains the known message in spanish
  * @method string getName() Contains the internal name
+ *
+ * @extends MicroCatalog<array{name: string, message: string}>
  */
 final class CodeRequest extends MicroCatalog implements JsonSerializable
 {

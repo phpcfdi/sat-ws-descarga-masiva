@@ -19,6 +19,8 @@ use JsonSerializable;
  *
  * @method string getMessage() Contains the known message in spanish
  * @method string getName() Contains the internal name
+ *
+ * @extends MicroCatalog<array{name: string, message: string}>
  */
 final class StatusRequest extends MicroCatalog implements JsonSerializable
 {
