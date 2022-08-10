@@ -119,7 +119,10 @@ final class FielRequestBuilder implements RequestBuilderInterface
         ));
         $xmlRfcReceived = '';
         if ('' !== $rfcReceiver) {
-            $xmlRfcReceived = "<des:RfcReceptores><des:RfcReceptor>${rfcReceiver}</des:RfcReceptor></des:RfcReceptores>";
+            $xmlRfcReceived = sprintf(
+                '<des:RfcReceptores><des:RfcReceptor>%s</des:RfcReceptor></des:RfcReceptores>',
+                htmlspecialchars($rfcReceiver, ENT_XML1)
+            );
         }
 
         $toDigestXml = <<<EOT

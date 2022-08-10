@@ -14,7 +14,12 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
-## Unreleased 2022-07-25
+## Versión 0.4.7 2022-08-10
+
+No se estaba haciendo la codificación correcta de `RfcReceptor`, que provocaba un fallo cuando se solicitaba
+una consulta donde el RFC recibido tuviera un ampersand `&`.
+
+### Cambios previos 2022-07-25
 
 La clase `MicroCatalog` requiere la definición de datos extendidos, no estaban definidos y entonces
 el proceso de integración continua falló. Se agregaron para hacer esta corrección.
