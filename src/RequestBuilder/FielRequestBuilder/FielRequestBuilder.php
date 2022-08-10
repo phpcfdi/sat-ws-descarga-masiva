@@ -120,7 +120,10 @@ final class FielRequestBuilder implements RequestBuilderInterface
         if (! $rfcReceivers->isEmpty()) {
             $xmlRfcReceived = implode('', array_map(
                 function (RfcMatch $rfcMatch): string {
-                    return "<des:RfcReceptor>{$rfcMatch->getValue()}</des:RfcReceptor>";
+                    return sprintf(
+                        '<des:RfcReceptor>%s</des:RfcReceptor>',
+                        htmlspecialchars($rfcMatch->getValue(), ENT_XML1)
+                    );
                 },
                 iterator_to_array($rfcReceivers)
             ));
