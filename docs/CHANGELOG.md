@@ -14,7 +14,7 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
-## Versión 0.5.0 2022-03-XX
+## Versión 0.5.0 2022-09-24
 
 Esta actualización contiene cambios significativos en la forma de usar la librería,
 específicamente en la creación de objetos de consulta `QueryParameters`.
@@ -27,7 +27,7 @@ Este archivo contiene la información de terceros y se vincula con la informaci�
 ### Cambios incompatibles
 
 ```text
-$ roave-backward-compatibility-check --from v0.4.5
+$ roave-backward-compatibility-check --from v0.4.7
 [BC] REMOVED: Method PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() was removed
 [BC] CHANGED: Method __construct() of class PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters visibility reduced from public to private
 [BC] CHANGED: The number of required arguments for PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() increased from 4 to 9

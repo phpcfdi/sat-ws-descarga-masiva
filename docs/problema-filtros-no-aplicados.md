@@ -17,12 +17,16 @@ En esta versión se agregan nuevos filtros, permitiendo hacer solicitudes más e
 - Complemento.
 - UUID.
 
-Al hacer una petición con alguno o muchos de estos filtros, el paquete de información entregado por el SAT
-**no parece considerarlos**, siendo los únicos filtros tomados en cuenta los mismos que anteriormente usaba:
+Los siguientes filtros no están funcionando en la consulta de CFDI Regulares:
 
-- Periodo
-- Emitidos a cualquiera o algún RFC específico.
-- Recibidos de cualquiera o de algún RFC específico.
+- Filtro por UUID.
+- Filtro de documentos cancelados cuando se solicita un paquete de documentos XML. 
+  El filtro funciona correctamente para paquetes de Metadata.
+
+Los siguientes filtros no están funcionando en la consulta de CFDI de retenciones e información de pagos:
+
+- Filtro por complemento.
+- Filtro por UUID.
 
 ## Actualizaciones
 
@@ -33,3 +37,7 @@ El SAT actualiza el servicio a la versión 1.2, no resuelve las solicitudes ingr
 ### 2022-03-25
 
 El SAT permite el ingreso de solicitudes con filtros, pero no aplica los filtros.
+
+### 2022-07-25
+
+El SAT activa algunos filtros.

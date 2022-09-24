@@ -61,7 +61,7 @@ if (in_array($result->getStatus()->getCode(), [404, 5006])) {
 
 ### Tipo de consulta `RequestType`
 
-Anteriormente se identificaba el tipo de consulta (XML y Metadatos) por las claves `cfdi` y `metadata`.
+Anteriormente, se identificaba el tipo de consulta (XML y Metadatos) por las claves `cfdi` y `metadata`.
 Ahora se identifican por las claves `xml` y `metadata`.
 
 Si estás construyendo este enumerador tomando un valor de tu base de datos, cambia en tus datos el valor
