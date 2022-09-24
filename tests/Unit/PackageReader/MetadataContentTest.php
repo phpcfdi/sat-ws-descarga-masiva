@@ -12,7 +12,7 @@ class MetadataContentTest extends TestCase
     public function testReadMetadata(): void
     {
         $contents = $this->fileContents('zip/metadata.txt');
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
+        $reader = MetadataContent::createFromContents($contents);
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
             $extracted[] = $item->uuid;
@@ -38,10 +38,10 @@ class MetadataContentTest extends TestCase
             '', // trailing blank lines
             '',
         ]);
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
+        $reader = MetadataContent::createFromContents($contents);
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
-            $extracted[] = $item->all();
+            $extracted[] = ['id' => $item->get('id'), 'text' => $item->get('text')];
         }
 
         $expected = [
@@ -67,7 +67,7 @@ class MetadataContentTest extends TestCase
         $headers = ['xee', 'foo'];
         $values = ['x-xee', 'x-foo', 'x-bar'];
         $expected = ['xee' => 'x-xee', 'foo' => 'x-foo', '#extra-01' => 'x-bar'];
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents('');
+        $reader = MetadataContent::createFromContents('');
         $metadata = $reader->createMetadataItem($headers, $values);
         $this->assertSame($expected, $metadata->all());
     }
@@ -105,14 +105,14 @@ class MetadataContentTest extends TestCase
             implode('~', ['1', $sourceValue, 'x-foo', 'x-bar']),
             implode('~', ['2', 'second', 'x-foo', 'x-bar']),
         ]);
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
+        $reader = MetadataContent::createFromContents($contents);
 
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
-            $extracted[] = $item->all();
+            $extracted[] = $item->get('value');
         }
 
-        $this->assertSame($expectedValue, $extracted[0]['value']);
+        $this->assertSame($expectedValue, $extracted[0]);
         $this->assertCount(2, $extracted);
     }
 }

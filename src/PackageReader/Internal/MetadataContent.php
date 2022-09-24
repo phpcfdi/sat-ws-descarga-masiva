@@ -19,26 +19,34 @@ final class MetadataContent
     /** @var Iterator<mixed> */
     private $iterator;
 
+    /** @var ThirdPartiesRecords */
+    private $thirdParties;
+
     /**
      * The $iterator will be used in a foreach loop to create MetadataItems
      * The first iteration must contain an array of header names that will be renames to lower case first letter
      * The next iterations must contain an array with data
      *
      * @param Iterator<mixed> $iterator
+     * @param ThirdPartiesRecords $thirdParties
      */
-    public function __construct(Iterator $iterator)
+    public function __construct(Iterator $iterator, ThirdPartiesRecords $thirdParties)
     {
         $this->iterator = $iterator;
+        $this->thirdParties = $thirdParties;
     }
 
     /**
      * This method fix the content and create a SplTempFileObject to store the information
      *
      * @param string $contents
+     * @param ThirdPartiesRecords|null $thirdParties
      * @return MetadataContent
      */
-    public static function createFromContents(string $contents): self
+    public static function createFromContents(string $contents, ThirdPartiesRecords $thirdParties = null): self
     {
+        $thirdParties = $thirdParties ?? ThirdPartiesRecords::createEmpty();
+
         // fix known errors on metadata text file
         $preprocessor = new MetadataPreprocessor($contents);
         $preprocessor->fix();
@@ -49,26 +57,30 @@ final class MetadataContent
         $iterator->rewind();
         $iterator->setFlags(SplTempFileObject::READ_CSV);
         $iterator->setCsvControl('~', '|');
-        return new self($iterator);
+        return new self($iterator, $thirdParties);
     }
 
     /**
-     * @return Generator|MetadataItem[]
+     * @return Generator<MetadataItem>
      */
-    public function eachItem()
+    public function eachItem(): Generator
     {
         $headers = [];
         $onFirstLine = true;
         // process content lines
         foreach ($this->iterator as $data) {
-            if (! is_array($data) || 0 === count($data) || [null] === $data) {
+            if (! is_array($data) || [] === $data || [null] === $data) {
                 continue;
             }
+
             if ($onFirstLine) {
                 $onFirstLine = false;
-                $headers = array_map('lcfirst', $data);
+                $headers = $this->thirdParties->addToHeaders($data);
+                $headers = array_map('lcfirst', $headers);
                 continue;
             }
+
+            $data = $this->thirdParties->addToData($data);
 
             yield $this->createMetadataItem($headers, $data);
         }
