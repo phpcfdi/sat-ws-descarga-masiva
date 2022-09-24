@@ -16,13 +16,13 @@ final class DownloadResult implements JsonSerializable
     private $packageContent;
 
     /** @var int */
-    private $packageLength;
+    private $packageSize;
 
     public function __construct(StatusCode $statusCode, string $packageContent)
     {
         $this->status = $statusCode;
         $this->packageContent = $packageContent;
-        $this->packageLength = strlen($this->packageContent);
+        $this->packageSize = strlen($this->packageContent);
     }
 
     /**
@@ -46,13 +46,28 @@ final class DownloadResult implements JsonSerializable
     }
 
     /**
-     * If available, contains the package contents length in bytes
+     * Contains the package contents size in bytes
      *
      * @return int
      */
+    public function getPackageSize(): int
+    {
+        return $this->packageSize;
+    }
+
+    /**
+     * If available, contains the package contents length in bytes
+     *
+     * @return int
+     * @deprecated 0.5.0
+     */
     public function getPackageLenght(): int
     {
-        return $this->packageLength;
+        trigger_error(
+            'Method DownloadResult::getPackageLenght() is deprecated, use DownloadResult::getPackageSize() instead',
+            E_USER_DEPRECATED
+        );
+        return $this->getPackageSize();
     }
 
     /** @return array<string, mixed> */
@@ -60,7 +75,7 @@ final class DownloadResult implements JsonSerializable
     {
         return [
             'status' => $this->status,
-            'length' => $this->packageLength,
+            'size' => $this->packageSize,
         ];
     }
 }

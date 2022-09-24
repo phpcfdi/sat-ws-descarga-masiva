@@ -53,7 +53,7 @@ De esta forma se puede utilizar un flujo para atrapar estas excepciones con `try
 ```
 
 Las excepciones son de dos tipos `HttpServerError` y `HttpClientError` con una especialización `SoapFaultError`
-para cuando la respuesta no fue un error de tipo HTTP pero el servidor SOAP sí reportó un error.
+para cuando la respuesta no fue un error de tipo HTTP, pero el servidor SOAP sí reportó un error.
 
 Lo principal es que `WebClientException` contiene los métodos `getRequest(): Request` y `getResponse(): Response`,
 por lo que siempre puedes conocer la comunicación básica HTTP cuando ocurre un error de este tipo.

@@ -14,6 +14,47 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.5.0 2022-09-24
+
+Esta actualización contiene cambios significativos en la forma de usar la librería,
+específicamente en la creación de objetos de consulta `QueryParameters`.
+Lea las notas para [Actualizar de `0.4.x` a `0.5.x`](UPGRADE_0.4_0.5.md),
+y la documentación principal en el [README.md](../README.md).
+
+A partir de septiembre 2022 el SAT incluye un archivo de nombre `<UUID>_tercero.txt`.
+Este archivo contiene la información de terceros y se vincula con la información de `Metadata` por el UUID.
+
+### Cambios incompatibles
+
+```text
+$ roave-backward-compatibility-check --from v0.4.7
+[BC] REMOVED: Method PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() was removed
+[BC] CHANGED: Method __construct() of class PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters visibility reduced from public to private
+[BC] CHANGED: The number of required arguments for PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() increased from 4 to 9
+[BC] CHANGED: The parameter $rfcMatch of PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#__construct() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType
+[BC] CHANGED: The return type of PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters#getRfcMatch() changed from string to the non-covariant PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch
+[BC] CHANGED: The number of required arguments for PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints#__construct() increased from 4 to 5
+[BC] REMOVED: Constant PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder::USE_SIGNER was removed
+[BC] CHANGED: The parameter $created of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder#authorization() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
+[BC] CHANGED: The parameter $expires of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder#authorization() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
+[BC] CHANGED: The parameter $start of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder#query() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters
+[BC] REMOVED: Class PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIssuerAndReceiverAreEmptyException has been deleted
+[BC] REMOVED: Class PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodEndInvalidDateFormatException has been deleted
+[BC] REMOVED: Class PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIsNotIssuerOrReceiverException has been deleted
+[BC] REMOVED: Class PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartInvalidDateFormatException has been deleted
+[BC] REMOVED: Class PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RequestTypeInvalidException has been deleted
+[BC] REMOVED: Class PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartGreaterThanEndException has been deleted
+[BC] REMOVED: Constant PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface::USE_SIGNER was removed
+[BC] CHANGED: The parameter $created of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#authorization() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
+[BC] CHANGED: The parameter $expires of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#authorization() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
+[BC] CHANGED: The parameter $created of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#authorization() changed from string to PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
+[BC] CHANGED: The parameter $expires of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#authorization() changed from string to PhpCfdi\SatWsDescargaMasiva\Shared\DateTime
+[BC] CHANGED: The parameter $start of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#query() changed from string to a non-contravariant PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters
+[BC] CHANGED: The parameter $start of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#query() changed from string to PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters
+[BC] CHANGED: Parameter 0 of PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface#query() changed name from start to queryParameters
+24 backwards-incompatible changes detected
+```
+
 ## Versión 0.4.7 2022-08-10
 
 No se estaba haciendo la codificación correcta de `RfcReceptor`, que provocaba un fallo cuando se solicitaba

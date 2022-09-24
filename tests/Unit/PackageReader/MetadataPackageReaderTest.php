@@ -67,6 +67,56 @@ class MetadataPackageReaderTest extends TestCase
         );
     }
 
+    public function testMetadataPackageReaderWithThirdParties(): void
+    {
+        /*
+         * The file zip/metadata-terceros.zip is specially crafted,
+         * It contains 4 metadata records and also a third parties file with
+         * with 3 references, unsorted, with different upper and lower cases.
+         */
+        $zipFilename = $this->filePath('zip/metadata-terceros.zip');
+        $packageReader = MetadataPackageReader::createFromFile($zipFilename);
+        $extracted = [];
+        foreach ($packageReader->metadata() as $item) {
+            $extracted[] = [
+                'uuid' => strtolower($item->uuid),
+                'rfcACuentaTerceros' => $item->rfcACuentaTerceros,
+                'nombreACuentaTerceros' => $item->nombreACuentaTerceros,
+            ];
+        }
+        $expectedRecords = [
+            [
+                'uuid' => '11111111-aaaa-bbbb-0000-000000000001',
+                'rfcACuentaTerceros' => '',
+                'nombreACuentaTerceros' => '',
+            ],
+            [
+                'uuid' => '11111111-aaaa-bbbb-0000-000000000002',
+                'rfcACuentaTerceros' => 'AAAA010101AA1',
+                'nombreACuentaTerceros' => 'PERSONA FISICA UNO',
+            ],
+            [
+                'uuid' => '11111111-aaaa-bbbb-0000-000000000003',
+                'rfcACuentaTerceros' => 'AAAA010101AA2',
+                'nombreACuentaTerceros' => 'PERSONA FISICA DOS',
+            ],
+            [
+                'uuid' => '11111111-aaaa-bbbb-0000-000000000004',
+                'rfcACuentaTerceros' => 'AAAA010101AA3',
+                'nombreACuentaTerceros' => 'PERSONA FISICA TRES',
+            ],
+            [
+                'uuid' => '11111111-aaaa-bbbb-0000-000000000005',
+                'rfcACuentaTerceros' => '',
+                'nombreACuentaTerceros' => '',
+            ],
+        ];
+        $this->assertSame($expectedRecords, $extracted);
+        foreach ($expectedRecords as $expectedRecord) {
+            $this->assertContains($expectedRecord, $extracted);
+        }
+    }
+
     public function testJson(): void
     {
         $zipFilename = $this->filePath('zip/metadata.zip');

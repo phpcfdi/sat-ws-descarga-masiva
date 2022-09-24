@@ -10,20 +10,25 @@ use JsonSerializable;
 /**
  * Defines the request type (cfdi or metadata)
  *
- * @method static self cfdi()
+ * @method static self xml()
  * @method static self metadata()
  *
- * @method bool isCfdi()
+ * @method bool isXml()
  * @method bool isMetadata()
  */
 final class RequestType extends Enum implements JsonSerializable
 {
-    protected static function overrideValues(): array
+    public function getQueryAttributeValue(ServiceType $serviceType): string
     {
-        return [
-            'cfdi' => 'CFDI',
-            'metadata' => 'Metadata',
-        ];
+        if ($this->isXml() && $serviceType->isCfdi()) {
+            return 'CFDI';
+        }
+
+        if ($this->isXml() && $serviceType->isRetenciones()) {
+            return 'Retencion';
+        }
+
+        return 'Metadata';
     }
 
     public function jsonSerialize(): string

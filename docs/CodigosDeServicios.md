@@ -40,12 +40,20 @@ Las respuestas de los servivios cuentan con la propiedad `getStatusCode(): Statu
 | Verify & download | 5004 | No se encontró la solicitud                                                             |
 | Query             | 5005 | Solicitud duplicada: Si existe una solicitud vigente con los mismos parámetros          |
 | Query             | 5006 | Error interno en el proceso                                                             |
-| Download          | 404  | Error no controlado: Reintentar más tarde la petición                                   |
+| Verify & download | 404  | Error no controlado: Reintentar más tarde la petición                                   |
+
+Notas:
+
+- A pesar de que el estado `CodEstatus: 404` solo debería presentarse en el servicio de solicitud, 
+  pues ya no está documentado, se ha encontrado en la práctica que sí lo devuelve.
 
 ## Acerca de `CodigoEstadoSolicitud`
 
 Este campo se parece mucho a `StatusCode` sin embargo tiene algunas diferencias: solo aparece en el servicio de
 verificación y no contiene todos los valores posibles, incluso agrega el código `5003`.
+
+La documentación del servicio dice: *Contiene el código de estado de la solicitud de descarga, los cuales pueden ser
+5000, 5002, 5003, 5004 o 5005 para más información revisar la tabla “Códigos Solicitud Descarga Masiva”.*
 
 Está implementado en el objeto `CodeRequest` disponible desde `VerifyResult::getCodeRequest()`.
 

@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder;
 
 use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodEndInvalidDateFormatException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartGreaterThanEndException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\PeriodStartInvalidDateFormatException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RequestTypeInvalidException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIsNotIssuerOrReceiverException;
-use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Exceptions\RfcIssuerAndReceiverAreEmptyException;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 
 /**
  * Provides signatures based on a Fiel object
@@ -31,7 +29,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         return $this->fiel;
     }
 
-    public function authorization(string $created, string $expires, string $securityTokenId = ''): string
+    public function authorization(DateTime $created, DateTime $expires, string $securityTokenId = ''): string
     {
         $uuid = $securityTokenId ?: $this->createXmlSecurityTokenId();
         $certificate = Helpers::cleanPemContents($this->getFiel()->getCertificatePemContents());
@@ -45,8 +43,8 @@ final class FielRequestBuilder implements RequestBuilderInterface
             EOT;
         $toDigestXml = <<<EOT
             <u:Timestamp xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" u:Id="_0">
-                <u:Created>${created}</u:Created>
-                <u:Expires>${expires}</u:Expires>
+                <u:Created>{$created->formatSat()}</u:Created>
+                <u:Expires>{$expires->formatSat()}</u:Expires>
             </u:Timestamp>
             EOT;
         $signatureData = $this->createSignature($toDigestXml, '#_0', $keyInfoData);
@@ -56,8 +54,8 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Header>
                     <o:Security xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" s:mustUnderstand="1">
                         <u:Timestamp u:Id="_0">
-                            <u:Created>${created}</u:Created>
-                            <u:Expires>${expires}</u:Expires>
+                            <u:Created>{$created->formatSat()}</u:Created>
+                            <u:Expires>{$expires->formatSat()}</u:Expires>
                         </u:Timestamp>
                         <o:BinarySecurityToken u:Id="${uuid}" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">
                             ${certificate}
@@ -74,40 +72,40 @@ final class FielRequestBuilder implements RequestBuilderInterface
         return Helpers::nospaces($xml);
     }
 
-    public function query(string $start, string $end, string $rfcIssuer, string $rfcReceiver, string $requestType): string
+    public function query(QueryParameters $queryParameters): string
     {
         // normalize input
+        $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
+        $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
+        $requestType = $queryParameters->getRequestType()->getQueryAttributeValue($queryParameters->getServiceType());
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
-        $rfcIssuer = mb_strtoupper((self::USE_SIGNER === $rfcIssuer) ? $rfcSigner : $rfcIssuer);
-        $rfcReceiver = mb_strtoupper((self::USE_SIGNER === $rfcReceiver) ? $rfcSigner : $rfcReceiver);
-
-        // check inputs
-        if (! boolval(preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/', $start))) {
-            throw new PeriodStartInvalidDateFormatException($start);
-        }
-        if (! boolval(preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/', $end))) {
-            throw new PeriodEndInvalidDateFormatException($end);
-        }
-        if ($start > $end) {
-            throw new PeriodStartGreaterThanEndException($start, $end);
-        }
-        if ('' === $rfcReceiver && '' === $rfcIssuer) {
-            throw new RfcIssuerAndReceiverAreEmptyException();
-        }
-        if (! in_array($rfcSigner, [$rfcReceiver, $rfcIssuer], true)) {
-            throw new RfcIsNotIssuerOrReceiverException($rfcSigner, $rfcIssuer, $rfcReceiver);
-        }
-        if (! in_array($requestType, ['CFDI', 'Retencion', 'Metadata'], true)) {
-            throw new RequestTypeInvalidException($requestType);
+        if ($queryParameters->getDownloadType()->isIssued()) {
+            // issued documents, counterparts are receivers
+            $rfcIssuer = $rfcSigner;
+            $rfcReceivers = $queryParameters->getRfcMatches();
+        } else {
+            // received documents, counterpart is issuer
+            $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
+            $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
         }
 
-        $solicitudAttributes = array_filter([
-            'RfcSolicitante' => $rfcSigner,
-            'FechaInicial' => $start,
-            'FechaFinal' => $end,
-            'TipoSolicitud' => $requestType,
-            'RfcEmisor' => $rfcIssuer,
-        ]);
+        $solicitudAttributes = array_filter(
+            [
+                'RfcSolicitante' => $rfcSigner,
+                'FechaInicial' => $start,
+                'FechaFinal' => $end,
+                'TipoSolicitud' => $requestType,
+                'RfcEmisor' => $rfcIssuer,
+                'TipoComprobante' => $queryParameters->getDocumentType()->value(),
+                'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
+                'UUID' => $queryParameters->getUuid()->getValue(),
+                'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
+                'Complemento' => $queryParameters->getComplement()->value(),
+            ],
+            static function (string $value): bool {
+                return '' !== $value;
+            }
+        );
         ksort($solicitudAttributes);
 
         $solicitudAttributesAsText = implode(' ', array_map(
@@ -117,12 +115,19 @@ final class FielRequestBuilder implements RequestBuilderInterface
             array_keys($solicitudAttributes),
             $solicitudAttributes,
         ));
+
         $xmlRfcReceived = '';
-        if ('' !== $rfcReceiver) {
-            $xmlRfcReceived = sprintf(
-                '<des:RfcReceptores><des:RfcReceptor>%s</des:RfcReceptor></des:RfcReceptores>',
-                htmlspecialchars($rfcReceiver, ENT_XML1)
-            );
+        if (! $rfcReceivers->isEmpty()) {
+            $xmlRfcReceived = implode('', array_map(
+                function (RfcMatch $rfcMatch): string {
+                    return sprintf(
+                        '<des:RfcReceptor>%s</des:RfcReceptor>',
+                        htmlspecialchars($rfcMatch->getValue(), ENT_XML1)
+                    );
+                },
+                iterator_to_array($rfcReceivers)
+            ));
+            $xmlRfcReceived = "<des:RfcReceptores>{$xmlRfcReceived}</des:RfcReceptores>";
         }
 
         $toDigestXml = <<<EOT

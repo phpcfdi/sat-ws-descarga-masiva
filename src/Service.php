@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
+use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\Internal\ServiceConsumer;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
@@ -94,9 +95,21 @@ class Service
      */
     public function query(QueryParameters $parameters): QueryResult
     {
+        // fix parameters service type
+        if (! $parameters->hasServiceType()) {
+            $parameters = $parameters->withServiceType($this->endpoints->getServiceType());
+        }
+        if (! $this->endpoints->getServiceType()->equalTo($parameters->getServiceType())) {
+            throw new LogicException(
+                sprintf(
+                    'The service type endpoints [%s] does not match with the service type query [%s]',
+                    $parameters->getServiceType()->value(),
+                    $this->endpoints->getServiceType()->value()
+                )
+            );
+        }
         $queryTranslator = new QueryTranslator();
-        $isRetenciones = $this->endpoints->getQuery() === ServiceEndpoints::retenciones()->getQuery();
-        $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters, $isRetenciones);
+        $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
             $this->endpoints->getQuery(),

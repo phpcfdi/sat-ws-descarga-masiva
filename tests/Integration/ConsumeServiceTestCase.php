@@ -8,17 +8,14 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\RequestOptions;
 use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
 abstract class ConsumeServiceTestCase extends TestCase
 {
-    abstract protected function createService(): Service;
+    abstract protected function getServiceEndpoints(): ServiceEndpoints;
 
     protected function createWebClient(): WebClientInterface
     {
@@ -29,6 +26,13 @@ abstract class ConsumeServiceTestCase extends TestCase
         return new GuzzleWebClient($guzzleClient);
     }
 
+    protected function createService(): Service
+    {
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
+        $webClient = $this->createWebClient();
+        return new Service($requestBuilder, $webClient, null, $this->getServiceEndpoints());
+    }
+
     public function testAuthentication(): void
     {
         $service = $this->createService();
@@ -36,27 +40,11 @@ abstract class ConsumeServiceTestCase extends TestCase
         $this->assertTrue($token->isValid());
     }
 
-    public function testQueryIssued(): void
+    public function testQueryDefaultParameters(): void
     {
         $service = $this->createService();
 
-        $dateTimePeriod = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
-        $parameters = QueryParameters::create($dateTimePeriod, DownloadType::issued(), RequestType::cfdi());
-
-        $result = $service->query($parameters);
-        $this->assertSame(
-            305,
-            $result->getStatus()->getCode(),
-            'Expected to receive a 305 - Certificado Inválido from SAT since FIEL is for testing'
-        );
-    }
-
-    public function testQueryReceived(): void
-    {
-        $service = $this->createService();
-
-        $dateTimePeriod = DateTimePeriod::create(DateTime::create('2019-01-01 00:00:00'), DateTime::create('2019-01-01 00:04:00'));
-        $parameters = QueryParameters::create($dateTimePeriod, DownloadType::received(), RequestType::cfdi());
+        $parameters = QueryParameters::create();
 
         $result = $service->query($parameters);
         $this->assertSame(

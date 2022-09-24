@@ -36,6 +36,6 @@ class AuthenticateTranslator
         DateTime $until,
         string $securityTokenId = ''
     ): string {
-        return $requestBuilder->authorization($since->formatSat(), $until->formatSat(), $securityTokenId);
+        return $requestBuilder->authorization($since, $until, $securityTokenId);
     }
 }

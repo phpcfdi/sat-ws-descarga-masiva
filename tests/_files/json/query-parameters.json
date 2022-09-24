@@ -4,6 +4,13 @@
         "end": 1546322640
     },
     "downloadType": "RfcReceptor",
-    "requestType": "CFDI",
-    "rfcMatch": "AAAA010101AAA"
+    "requestType": "xml",
+    "documentType": "I",
+    "complement": "leyendasfisc",
+    "documentStatus": "0",
+    "uuid": "96623061-61fe-49de-b298-c7156476aa8b",
+    "rfcOnBehalf": "XXX01010199A",
+    "rfcMatches": [
+        "AAAA010101AAA"
+    ]
 }

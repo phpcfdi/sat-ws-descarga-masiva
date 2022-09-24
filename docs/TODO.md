@@ -1,5 +1,9 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
+## Ejecutar deprecaciones
+
+- [ ] Remover el método `DownloadResult::getPackageLenght()`.
+
 ## Tareas pendientes
 
 - Llevar el code coverage a 100% con las pruebas
@@ -12,6 +16,8 @@
 - Separar `PhpCfdi\SatWsDescargaMasiva\RequestBuilder` y `PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Fiel`
   a sus propios proyectos de librería. O implementar un "monorepo" que genere las tres librerías:
   `phpcfdi/sat-ws-descarga-masiva`, `phpcfdi/sat-ws-request-builder` y , `phpcfdi/sat-ws-request-builder-fiel`.
+- Separar `PhpCfdi\SatWsDescargaMasiva\PackageReader` a su propio proyecto, no es necesario combinar
+  la lectura de los paquetes con el uso del servicio del SAT.
 
 ## Tareas resueltas
 
