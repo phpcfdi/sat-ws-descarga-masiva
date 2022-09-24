@@ -9,6 +9,11 @@ use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\ThirdPartiesFileFilter;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
 
+/**
+ * Class to extract the data from a "third parties" file.
+ *
+ * @internal
+ */
 final class ThirdPartiesExtractor
 {
     /** @var CsvReader */
