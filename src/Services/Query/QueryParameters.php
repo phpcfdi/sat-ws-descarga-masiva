@@ -6,18 +6,18 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
 use LogicException;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
-use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoUndefined;
-use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceType;
-use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoInterface;
-use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoUndefined;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DownloadType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
+use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 
 /**
  * This class contains all the information required to perform a query on the SAT Web Service

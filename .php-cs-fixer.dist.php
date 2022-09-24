@@ -23,11 +23,12 @@ return (new PhpCsFixer\Config())
         'no_empty_statement' => true,
         'no_extra_blank_lines' => true,
         'function_typehint_space' => true,
+        'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['arrays']],
         'no_blank_lines_after_phpdoc' => true,
         'object_operator_without_whitespace' => true,
         'binary_operator_spaces' => true,
         'phpdoc_scalar' => true,
-        'no_trailing_comma_in_singleline_array' => true,
+        'no_trailing_comma_in_singleline' => true,
         'single_quote' => true,
         'no_singleline_whitespace_before_semicolons' => true,
         'no_unused_imports' => true,
@@ -40,6 +41,7 @@ return (new PhpCsFixer\Config())
         'self_accessor' => true,
         // contrib
         'not_operator_with_successor_space' => true,
+        'ordered_imports' => ['imports_order' => ['class', 'function', 'const']], // @PSR12 sort_algorithm: none
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
