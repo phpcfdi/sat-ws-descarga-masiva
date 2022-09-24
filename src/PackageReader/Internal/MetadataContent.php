@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal;
 
 use Generator;
-use Iterator;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataItem;
 use SplTempFileObject;
 
@@ -16,8 +15,8 @@ use SplTempFileObject;
  */
 final class MetadataContent
 {
-    /** @var Iterator<mixed> */
-    private $iterator;
+    /** @var CsvReader */
+    private $csvReader;
 
     /** @var ThirdPartiesRecords */
     private $thirdParties;
@@ -27,12 +26,12 @@ final class MetadataContent
      * The first iteration must contain an array of header names that will be renames to lower case first letter
      * The next iterations must contain an array with data
      *
-     * @param Iterator<mixed> $iterator
+     * @param CsvReader $csvReader
      * @param ThirdPartiesRecords $thirdParties
      */
-    public function __construct(Iterator $iterator, ThirdPartiesRecords $thirdParties)
+    public function __construct(CsvReader $csvReader, ThirdPartiesRecords $thirdParties)
     {
-        $this->iterator = $iterator;
+        $this->csvReader = $csvReader;
         $this->thirdParties = $thirdParties;
     }
 
@@ -51,13 +50,9 @@ final class MetadataContent
         $preprocessor = new MetadataPreprocessor($contents);
         $preprocessor->fix();
 
-        // If the temporary file exceeds this size, it will be moved to a file in the system's temp directory
-        $iterator = new SplTempFileObject();
-        $iterator->fwrite($preprocessor->getContents());
-        $iterator->rewind();
-        $iterator->setFlags(SplTempFileObject::READ_CSV);
-        $iterator->setCsvControl('~', '|');
-        return new self($iterator, $thirdParties);
+        $csvReader = CsvReader::createFromContents($preprocessor->getContents());
+
+        return new self($csvReader, $thirdParties);
     }
 
     /**
@@ -65,44 +60,22 @@ final class MetadataContent
      */
     public function eachItem(): Generator
     {
-        $headers = [];
-        $onFirstLine = true;
-        // process content lines
-        foreach ($this->iterator as $data) {
-            if (! is_array($data) || [] === $data || [null] === $data) {
-                continue;
-            }
-
-            if ($onFirstLine) {
-                $onFirstLine = false;
-                $headers = $this->thirdParties->addToHeaders($data);
-                $headers = array_map('lcfirst', $headers);
-                continue;
-            }
-
+        foreach ($this->csvReader->records() as $data) {
             $data = $this->thirdParties->addToData($data);
-
-            yield $this->createMetadataItem($headers, $data);
+            $data = $this->changeArrayKeysFirstLetterLowerCase($data);
+            yield new MetadataItem($data);
         }
     }
 
     /**
-     * @param array<string> $headers
-     * @param array<string> $values
-     * @return MetadataItem
+     * @param string[] $data
+     * @return string[]
      */
-    public function createMetadataItem(array $headers, array $values): MetadataItem
+    private function changeArrayKeysFirstLetterLowerCase(array $data): array
     {
-        $countValues = count($values);
-        $countHeaders = count($headers);
-        if ($countHeaders > $countValues) {
-            $values = array_merge($values, array_fill($countValues, $countHeaders - $countValues, ''));
-        }
-        if ($countValues > $countHeaders) {
-            for ($i = 1; $i <= $countValues - $countHeaders; $i++) {
-                $headers[] = sprintf('#extra-%02d', $i);
-            }
-        }
-        return new MetadataItem(array_combine($headers, $values) ?: []);
+        $keys = array_map(function ($key): string {
+            return lcfirst((string) $key);
+        }, array_keys($data));
+        return array_combine($keys, $data);
     }
 }

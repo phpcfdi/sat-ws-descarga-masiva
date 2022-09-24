@@ -8,11 +8,11 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
 
 final class ThirdPartiesRecords
 {
-    /** @var array<string, array{string, string}> */
+    /** @var array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> */
     private $records;
 
     /**
-     * @param array<string, array{string, string}> $records
+     * @param array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> $records
      */
     public function __construct(array $records)
     {
@@ -40,34 +40,25 @@ final class ThirdPartiesRecords
     }
 
     /**
-     * @param string[] $headers
-     * @return string[]
-     */
-    public function addToHeaders(array $headers): array
-    {
-        return array_merge($headers, [
-            'RfcACuentaTerceros',
-            'NombreACuentaTerceros',
-        ]);
-    }
-
-    /**
      * @param string[] $data
      * @return string[]
      */
     public function addToData(array $data): array
     {
-        $uuid = $data[0] ?? '';
+        $uuid = $data['Uuid'] ?? '';
         $values = $this->getDataFromUuid($uuid);
         return array_merge($data, $values);
     }
 
     /**
      * @param string $uuid
-     * @return array{string, string}
+     * @return array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}
      */
     public function getDataFromUuid(string $uuid): array
     {
-        return $this->records[$this->formatUuid($uuid)] ?? ['', ''];
+        return $this->records[$this->formatUuid($uuid)] ?? [
+            'RfcACuentaTerceros' => '',
+            'NombreACuentaTerceros' => '',
+        ];
     }
 }

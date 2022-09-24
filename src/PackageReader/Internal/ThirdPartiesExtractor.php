@@ -37,9 +37,9 @@ final class ThirdPartiesExtractor
     }
 
     /**
-     * The generator return the UUID as key and an array with two values: RfcACuentaTerceros and NombreACuentaTerceros
+     * The generator return the UUID as key and an array with two key/values: rfcACuentaTerceros & nombreACuentaTerceros
      *
-     * @return Generator<string, array{string, string}>>
+     * @return Generator<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}>
      */
     public function eachRecord(): Generator
     {
@@ -49,10 +49,10 @@ final class ThirdPartiesExtractor
                 continue;
             }
 
-            $rfcACuentaTerceros = strval($data['RfcACuentaTerceros'] ?? '');
-            $nombreACuentaTerceros = strval($data['NombreACuentaTerceros'] ?? '');
-
-            yield $uuid => [$rfcACuentaTerceros, $nombreACuentaTerceros];
+            yield $uuid => [
+                'RfcACuentaTerceros' => strval($data['RfcACuentaTerceros'] ?? ''),
+                'NombreACuentaTerceros' => strval($data['NombreACuentaTerceros'] ?? ''),
+            ];
         }
     }
 }
