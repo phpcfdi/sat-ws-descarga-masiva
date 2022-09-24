@@ -12,6 +12,8 @@ use Eclipxe\Enum\Enum;
  * @method static self undefined()
  * @method static self acreditamientoIeps10()
  * @method static self aerolineas10()
+ * @method static self cartaporte10()
+ * @method static self cartaporte20()
  * @method static self certificadoDestruccion10()
  * @method static self cfdiRegistroFiscal10()
  * @method static self comercioExterior10()
@@ -35,6 +37,7 @@ use Eclipxe\Enum\Enum;
  * @method static self obrasArtePlasticasYAntiguedades10()
  * @method static self pagoEnEspecie10()
  * @method static self recepcionPagos10()
+ * @method static self recepcionPagos20()
  * @method static self personaFisicaIntegranteCoordinado10()
  * @method static self renovacionYSustitucionVehiculos10()
  * @method static self serviciosParcialesConstruccion10()
@@ -59,6 +62,14 @@ final class ComplementoCfdi extends Enum implements ComplementoInterface
         'aerolineas10' => [
             'satCode' => 'aerolineas',
             'label' => 'Aerolíneas 1.0',
+        ],
+        'cartaporte10' => [
+            'satCode' => 'cartaporte10',
+            'label' => 'Carta Porte 1.0',
+        ],
+        'cartaporte20' => [
+            'satCode' => 'cartaporte20',
+            'label' => 'Carta Porte 2.0',
         ],
         'certificadoDestruccion10' => [
             'satCode' => 'certificadodedestruccion',
@@ -151,6 +162,10 @@ final class ComplementoCfdi extends Enum implements ComplementoInterface
         'recepcionPagos10' => [
             'satCode' => 'pagos10',
             'label' => 'Recepción de pagos 1.0',
+        ],
+        'recepcionPagos20' => [
+            'satCode' => 'pagos20',
+            'label' => 'Recepción de pagos 2.0',
         ],
         'personaFisicaIntegranteCoordinado10' => [
             'satCode' => 'pfic',
