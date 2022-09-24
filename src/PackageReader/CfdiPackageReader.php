@@ -25,9 +25,9 @@ final class CfdiPackageReader implements PackageReaderInterface
         return new self($packageReader);
     }
 
-    public static function createFromContents(string $contents): self
+    public static function createFromContents(string $content): self
     {
-        $packageReader = FilteredPackageReader::createFromContents($contents);
+        $packageReader = FilteredPackageReader::createFromContents($content);
         $packageReader->setFilter(new CfdiFileFilter());
         return new self($packageReader);
     }

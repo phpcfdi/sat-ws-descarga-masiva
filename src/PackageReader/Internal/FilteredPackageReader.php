@@ -142,6 +142,13 @@ final class FilteredPackageReader implements PackageReaderInterface
         $this->filter = $filter ?? new NullFileFilter();
     }
 
+    public function changeFilter(?FileFilterInterface $filter): FileFilterInterface
+    {
+        $previous = $this->getFilter();
+        $this->setFilter($filter);
+        return $previous;
+    }
+
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {

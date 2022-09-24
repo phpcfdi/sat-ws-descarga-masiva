@@ -21,6 +21,9 @@ específicamente en la creación de objetos de consulta `QueryParameters`.
 Lea las notas para [Actualizar de `0.4.x` a `0.5.x`](UPGRADE_0.4_0.5.md),
 y la documentación principal en el [README.md](../README.md).
 
+A partir de septiembre 2022 el SAT incluye un archivo de nombre `<UUID>_tercero.txt`.
+Este archivo contiene la información de terceros y se vincula con la información de `Metadata` por el UUID.
+
 ### Cambios incompatibles
 
 ```text

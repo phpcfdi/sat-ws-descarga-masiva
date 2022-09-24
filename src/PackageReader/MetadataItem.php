@@ -23,6 +23,8 @@ use JsonSerializable;
  * @property-read string $efectoComprobante
  * @property-read string $estatus
  * @property-read string $fechaCancelacion
+ * @property-read string $rfcACuentaTerceros
+ * @property-read string $nombreACuentaTerceros
  */
 final class MetadataItem implements JsonSerializable
 {

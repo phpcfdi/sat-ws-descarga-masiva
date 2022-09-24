@@ -12,7 +12,7 @@ class MetadataContentTest extends TestCase
     public function testReadMetadata(): void
     {
         $contents = $this->fileContents('zip/metadata.txt');
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
+        $reader = MetadataContent::createFromContents($contents);
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
             $extracted[] = $item->uuid;
@@ -23,53 +23,6 @@ class MetadataContentTest extends TestCase
             '129C4D12-1415-4ACE-BE12-34E71C4EAB4E',
         ];
         $this->assertSame($expected, $extracted);
-    }
-
-    public function testReadMetadataWithBlankLines(): void
-    {
-        $contents = implode(PHP_EOL, [
-            '', // leading blank line
-            'id~text',
-            '', // before data blank line
-            '1~one',
-            '2~two',
-            '', // inner data blank line
-            '3~three',
-            '', // trailing blank lines
-            '',
-        ]);
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
-        $extracted = [];
-        foreach ($reader->eachItem() as $item) {
-            $extracted[] = $item->all();
-        }
-
-        $expected = [
-            ['id' => '1', 'text' => 'one'],
-            ['id' => '2', 'text' => 'two'],
-            ['id' => '3', 'text' => 'three'],
-        ];
-        $this->assertSame($expected, $extracted);
-    }
-
-    public function testCreateMetadataWithLessValuesThanHeaders(): void
-    {
-        $headers = ['foo', 'bar'];
-        $values = ['x-foo'];
-        $expected = ['foo' => 'x-foo', 'bar' => ''];
-        $reader = MetadataContent::createFromContents('');
-        $metadata = $reader->createMetadataItem($headers, $values);
-        $this->assertSame($expected, $metadata->all());
-    }
-
-    public function testCreateMetadataWithMoreValuesThanHeaders(): void
-    {
-        $headers = ['xee', 'foo'];
-        $values = ['x-xee', 'x-foo', 'x-bar'];
-        $expected = ['xee' => 'x-xee', 'foo' => 'x-foo', '#extra-01' => 'x-bar'];
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents('');
-        $metadata = $reader->createMetadataItem($headers, $values);
-        $this->assertSame($expected, $metadata->all());
     }
 
     /** @return array<string, array{string, string}> */
@@ -105,14 +58,14 @@ class MetadataContentTest extends TestCase
             implode('~', ['1', $sourceValue, 'x-foo', 'x-bar']),
             implode('~', ['2', 'second', 'x-foo', 'x-bar']),
         ]);
-        $reader = \PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent::createFromContents($contents);
+        $reader = MetadataContent::createFromContents($contents);
 
         $extracted = [];
         foreach ($reader->eachItem() as $item) {
-            $extracted[] = $item->all();
+            $extracted[] = $item->get('value');
         }
 
-        $this->assertSame($expectedValue, $extracted[0]['value']);
+        $this->assertSame($expectedValue, $extracted[0]);
         $this->assertCount(2, $extracted);
     }
 }

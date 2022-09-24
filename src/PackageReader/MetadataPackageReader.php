@@ -7,6 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\MetadataFileFilter;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FilteredPackageReader;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\MetadataContent;
+use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\ThirdPartiesRecords;
 use Traversable;
 
 final class MetadataPackageReader implements PackageReaderInterface
@@ -14,9 +15,13 @@ final class MetadataPackageReader implements PackageReaderInterface
     /** @var PackageReaderInterface */
     private $packageReader;
 
+    /** @var ThirdPartiesRecords */
+    private $thirdParties;
+
     private function __construct(PackageReaderInterface $packageReader)
     {
         $this->packageReader = $packageReader;
+        $this->thirdParties = ThirdPartiesRecords::createFromPackageReader($packageReader);
     }
 
     public static function createFromFile(string $filename): self
@@ -26,11 +31,16 @@ final class MetadataPackageReader implements PackageReaderInterface
         return new self($packageReader);
     }
 
-    public static function createFromContents(string $contents): self
+    public static function createFromContents(string $content): self
     {
-        $packageReader = FilteredPackageReader::createFromContents($contents);
+        $packageReader = FilteredPackageReader::createFromContents($content);
         $packageReader->setFilter(new MetadataFileFilter());
         return new self($packageReader);
+    }
+
+    public function getThirdParties(): ThirdPartiesRecords
+    {
+        return $this->thirdParties;
     }
 
     /**
@@ -42,7 +52,7 @@ final class MetadataPackageReader implements PackageReaderInterface
     public function metadata()
     {
         foreach ($this->packageReader->fileContents() as $content) {
-            $reader = MetadataContent::createFromContents($content);
+            $reader = MetadataContent::createFromContents($content, $this->getThirdParties());
             foreach ($reader->eachItem() as $item) {
                 yield $item->uuid => $item;
             }

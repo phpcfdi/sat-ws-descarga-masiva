@@ -11,7 +11,9 @@
         "monto": "1124.11",
         "efectoComprobante": "I",
         "estatus": "1",
-        "fechaCancelacion": ""
+        "fechaCancelacion": "",
+        "rfcACuentaTerceros": "",
+        "nombreACuentaTerceros": ""
     },
     "129C4D12-1415-4ACE-BE12-34E71C4EAB4E": {
         "uuid": "129C4D12-1415-4ACE-BE12-34E71C4EAB4E",
@@ -25,6 +27,8 @@
         "monto": "1485.17",
         "efectoComprobante": "I",
         "estatus": "1",
-        "fechaCancelacion": ""
+        "fechaCancelacion": "",
+        "rfcACuentaTerceros": "",
+        "nombreACuentaTerceros": ""
     }
 }
