@@ -57,18 +57,19 @@ final class FilteredPackageReader implements PackageReaderInterface
         return new self($filename, $archive);
     }
 
-    /** @inheritDoc */
+    /**
+     * @inheritDoc
+     * @codeCoverageIgnore Unable to produce code coverage for error handling
+     */
     public static function createFromContents(string $content): self
     {
         // create temp file
         try {
             $tmpfile = tempnam(sys_get_temp_dir(), '');
         } catch (Throwable $exception) {
-            /** @codeCoverageIgnore */
             throw CreateTemporaryZipFileException::create('Cannot create a temporary file', $exception);
         }
         if (false === $tmpfile) {
-            /** @codeCoverageIgnore */
             throw CreateTemporaryZipFileException::create('Cannot not create a temporary file');
         }
 
@@ -76,11 +77,9 @@ final class FilteredPackageReader implements PackageReaderInterface
         try {
             $write = file_put_contents($tmpfile, $content);
         } catch (Throwable $exception) {
-            /** @codeCoverageIgnore */
             throw CreateTemporaryZipFileException::create('Cannot store contents on temporary file', $exception);
         }
         if (false === $write) {
-            /** @codeCoverageIgnore */
             throw CreateTemporaryZipFileException::create('Cannot store contents on temporary file');
         }
 
