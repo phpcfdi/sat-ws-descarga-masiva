@@ -19,3 +19,5 @@
 /phpunit.xml.dist           export-ignore
 /sonar-project.properties   export-ignore
 
+# Do not count these files on github code language
+/tests/_files/**            linguist-detectable=false
