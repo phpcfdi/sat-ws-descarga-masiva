@@ -6,6 +6,12 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\RequestBuilder\FielRequestBuilder;
 
+use DOMDocument;
+use DOMXPath;
+use LogicException;
+use PhpCfdi\Credentials\Certificate;
+use PhpCfdi\Credentials\Credential;
+use PhpCfdi\Credentials\PrivateKey;
 use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\FielRequestBuilder;
@@ -154,6 +160,31 @@ class FielRequestBuilderTest extends TestCase
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
+    public function testVerifyUsingSpecialInvalidXmlCharacters(): void
+    {
+        $requestId = '"&"';
+        $rfc = 'E&E010101AAA';
+        $issuerName = 'O=Compañía "Tú & Yo", Inc.';
+
+        $certificate = $this->createMock(Certificate::class);
+        $certificate->method('rfc')->willReturn($rfc);
+        $certificate->method('issuerAsRfc4514')->willReturn($issuerName);
+        $privateKey = $this->createMock(PrivateKey::class);
+        $privateKey->method('belongsTo')->willReturn(true);
+        $credential = new Credential($certificate, $privateKey);
+        $fiel = new Fiel($credential);
+
+        $requestBuilder = new FielRequestBuilder($fiel);
+        $requestBody = $requestBuilder->verify($requestId);
+
+        $document = new DOMDocument();
+        $this->assertSame(true, $document->loadXML($requestBody));
+        $xpath = new DOMXPath($document);
+        $this->assertSame($requestId, $this->xpathValue($xpath, '//des:solicitud/@IdSolicitud'));
+        $this->assertSame($rfc, $this->xpathValue($xpath, '//des:solicitud/@RfcSolicitante'));
+        $this->assertSame($issuerName, $this->xpathValue($xpath, '//xd:X509IssuerName'));
+    }
+
     public function testDownload(): void
     {
         $fiel = Fiel::create(
@@ -174,5 +205,43 @@ class FielRequestBuilderTest extends TestCase
         $xmlSecVerification = (new EnvelopSignatureVerifier())
             ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'PeticionDescargaMasivaTercerosEntrada');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
+    }
+
+    public function testDownloadUsingSpecialInvalidXmlCharacters(): void
+    {
+        $packageId = '"&"';
+        $rfc = 'E&E010101AAA';
+        $issuerName = 'O=Compañía "Tú & Yo", Inc.';
+
+        $certificate = $this->createMock(Certificate::class);
+        $certificate->method('rfc')->willReturn($rfc);
+        $certificate->method('issuerAsRfc4514')->willReturn($issuerName);
+        $privateKey = $this->createMock(PrivateKey::class);
+        $privateKey->method('belongsTo')->willReturn(true);
+        $credential = new Credential($certificate, $privateKey);
+        $fiel = new Fiel($credential);
+
+        $requestBuilder = new FielRequestBuilder($fiel);
+        $requestBody = $requestBuilder->download($packageId);
+
+        $document = new DOMDocument();
+        $this->assertSame(true, $document->loadXML($requestBody));
+        $xpath = new DOMXPath($document);
+        $this->assertSame($packageId, $this->xpathValue($xpath, '//des:peticionDescarga/@IdPaquete'));
+        $this->assertSame($rfc, $this->xpathValue($xpath, '//des:peticionDescarga/@RfcSolicitante'));
+        $this->assertSame($issuerName, $this->xpathValue($xpath, '//xd:X509IssuerName'));
+    }
+
+    private function xpathValue(DOMXPath $xpath, string $query): string
+    {
+        $result = $xpath->query($query);
+        if (false === $result) {
+            throw new LogicException("Invalid XPath query: $query");
+        }
+        $node = $result->item(0);
+        if (null === $node || null === $node->nodeValue) {
+            return '';
+        }
+        return $node->nodeValue;
     }
 }

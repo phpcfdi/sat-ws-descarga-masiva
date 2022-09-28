@@ -110,7 +110,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         $solicitudAttributesAsText = implode(' ', array_map(
             function (string $name, string $value): string {
-                return sprintf('%s="%s"', htmlspecialchars($name, ENT_XML1), htmlspecialchars($value, ENT_XML1));
+                return sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value));
             },
             array_keys($solicitudAttributes),
             $solicitudAttributes,
@@ -122,7 +122,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 function (RfcMatch $rfcMatch): string {
                     return sprintf(
                         '<des:RfcReceptor>%s</des:RfcReceptor>',
-                        htmlspecialchars($rfcMatch->getValue(), ENT_XML1)
+                        $this->parseXml($rfcMatch->getValue())
                     );
                 },
                 iterator_to_array($rfcReceivers)
@@ -158,11 +158,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     public function verify(string $requestId): string
     {
-        $rfc = $this->getFiel()->getRfc();
+        $xmlRequestId = $this->parseXml($requestId);
+        $xmlRfc = $this->parseXml($this->getFiel()->getRfc());
 
         $toDigestXml = <<<EOT
             <des:VerificaSolicitudDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:solicitud IdSolicitud="${requestId}" RfcSolicitante="${rfc}"></des:solicitud>
+                <des:solicitud IdSolicitud="${xmlRequestId}" RfcSolicitante="${xmlRfc}"></des:solicitud>
             </des:VerificaSolicitudDescarga>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
@@ -172,7 +173,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Header/>
                 <s:Body>
                     <des:VerificaSolicitudDescarga>
-                        <des:solicitud IdSolicitud="${requestId}" RfcSolicitante="${rfc}">
+                        <des:solicitud IdSolicitud="${xmlRequestId}" RfcSolicitante="${xmlRfc}">
                             ${signatureData}
                         </des:solicitud>
                     </des:VerificaSolicitudDescarga>
@@ -185,11 +186,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     public function download(string $packageId): string
     {
-        $rfcOwner = $this->getFiel()->getRfc();
+        $xmlPackageId = $this->parseXml($packageId);
+        $xmlRfcOwner = $this->parseXml($this->getFiel()->getRfc());
 
         $toDigestXml = <<<EOT
             <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfcOwner}"></des:peticionDescarga>
+                <des:peticionDescarga IdPaquete="${xmlPackageId}" RfcSolicitante="${xmlRfcOwner}"></des:peticionDescarga>
             </des:PeticionDescargaMasivaTercerosEntrada>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
@@ -199,7 +201,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Header/>
                 <s:Body>
                     <des:PeticionDescargaMasivaTercerosEntrada>
-                        <des:peticionDescarga IdPaquete="${packageId}" RfcSolicitante="${rfcOwner}">
+                        <des:peticionDescarga IdPaquete="${xmlPackageId}" RfcSolicitante="${xmlRfcOwner}">
                             ${signatureData}
                         </des:peticionDescarga>
                     </des:PeticionDescargaMasivaTercerosEntrada>
@@ -269,7 +271,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         $fiel = $this->getFiel();
         $certificate = Helpers::cleanPemContents($fiel->getCertificatePemContents());
         $serial = $fiel->getCertificateSerial();
-        $issuerName = $fiel->getCertificateIssuerName();
+        $issuerName = $this->parseXml($fiel->getCertificateIssuerName());
 
         return <<<EOT
             <KeyInfo>
@@ -282,5 +284,10 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 </X509Data>
             </KeyInfo>
             EOT;
+    }
+
+    private function parseXml(string $text): string
+    {
+        return htmlspecialchars($text, ENT_XML1 | ENT_COMPAT);
     }
 }
