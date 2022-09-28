@@ -14,6 +14,21 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.5.1 2022-09-28
+
+### Se corrigen XML mal formados
+
+Se hace una revisión del constructor de mensages firmados XML (`FielRequestBuilder`) y se corrigen
+aquellos lugares donde es posible inyectar caracteres no escapados XML.
+
+El caso más normal es cuando el RFC solicitante contiene un ámpersand `&`, sin embargo se corrigió:
+
+- Verificación: `@IdSolicitud` y `@RfcSolicitante`.
+- Descarga: `@IdPaquete` y `@RfcSolicitante`.
+- General: `X509IssuerName`.
+
+Gracias comunidad por reportar el problema en el [canal de discord](https://discord.gg/aFGYXvX).
+
 ## Versión 0.5.0 2022-09-24
 
 Esta actualización contiene cambios significativos en la forma de usar la librería,
