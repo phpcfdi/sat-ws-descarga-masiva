@@ -19,16 +19,23 @@ En esta versión se agregan nuevos filtros, permitiendo hacer solicitudes más e
 
 Los siguientes filtros no están funcionando en la consulta de CFDI Regulares:
 
-- Filtro por UUID.
 - Filtro de documentos cancelados cuando se solicita un paquete de documentos XML. 
   El filtro funciona correctamente para paquetes de Metadata.
 
 Los siguientes filtros no están funcionando en la consulta de CFDI de retenciones e información de pagos:
 
 - Filtro por complemento.
-- Filtro por UUID.
 
 ## Actualizaciones
+
+### 2022-09-30
+
+Hemos notado que la documentación del SAT en relación con la consulta por UUID está incorrecta:
+
+- El campo no se llama `UUID`, se llama `Folio`.
+- El campo `RfcSolicitante` se debe especificar.
+- El campo `TipoSolicitud` se debe especificar.
+- Los demás campos no deben existir.
 
 ### 2022-03-04
 

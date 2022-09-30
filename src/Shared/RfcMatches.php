@@ -30,7 +30,7 @@ final class RfcMatches implements Countable, IteratorAggregate, JsonSerializable
         $map = [];
         foreach ($items as $item) {
             $key = $item->getValue();
-            if (! $item->isEmpty() and ! isset($map[$key])) {
+            if (! $item->isEmpty() && ! isset($map[$key])) {
                 $map[$item->getValue()] = $item;
             }
         }

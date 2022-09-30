@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\RequestBuilder\FielRequestBuilder;
 
 use Exception;
+use PhpCfdi\Credentials\Certificate;
+use PhpCfdi\Credentials\Credential;
+use PhpCfdi\Credentials\Internal\SatTypeEnum;
+use PhpCfdi\Credentials\PrivateKey;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\FielRequestBuilder\Fiel;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
@@ -49,6 +53,18 @@ class FielTest extends TestCase
             $this->fileContents('fake-csd/EKU9003173C9.key'),
             trim($this->fileContents('fake-csd/EKU9003173C9-password.txt'))
         );
+        $this->assertFalse($fiel->isValid());
+    }
+
+    public function testIsNotValidExpiredCertificate(): void
+    {
+        $certificate = $this->createMock(Certificate::class);
+        $certificate->method('satType')->willReturn(SatTypeEnum::fiel());
+        $certificate->method('validOn')->willReturn(false);
+        $privateKey = $this->createMock(PrivateKey::class);
+        $privateKey->method('belongsTo')->willReturn(true);
+        $credential = new Credential($certificate, $privateKey);
+        $fiel = new Fiel($credential);
         $this->assertFalse($fiel->isValid());
     }
 }
