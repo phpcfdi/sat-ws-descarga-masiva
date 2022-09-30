@@ -36,9 +36,24 @@ final class ConsumeCfdiServicesUsingFakeFielTest extends ConsumeServiceTestCase
             ->withDocumentType(DocumentType::nomina())
             ->withComplement(ComplementoCfdi::nomina12())
             ->withDocumentStatus(DocumentStatus::active())
-            ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
             ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
             ->withRfcMatch(RfcMatch::create('AAA010101AAA'))
+        ;
+
+        $result = $service->query($parameters);
+        $this->assertSame(
+            305,
+            $result->getStatus()->getCode(),
+            'Expected to receive a 305 - Certificado Inválido from SAT since FIEL is for testing'
+        );
+    }
+
+    public function testQueryUuid(): void
+    {
+        $service = $this->createService();
+
+        $parameters = QueryParameters::create()
+            ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
         ;
 
         $result = $service->query($parameters);

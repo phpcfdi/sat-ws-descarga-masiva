@@ -91,7 +91,7 @@ class FielRequestBuilderTest extends TestCase
         return $matches['id'] ?? '';
     }
 
-    public function testQueryReceived(): void
+    public function testQueryReceivedByFilters(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $parameters = QueryParameters::create()
@@ -102,14 +102,32 @@ class FielRequestBuilderTest extends TestCase
             ->withDocumentType(DocumentType::nomina())
             ->withComplement(ComplementoCfdi::nomina12())
             ->withDocumentStatus(DocumentStatus::active())
-            ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
             ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
             ->withRfcMatch(RfcMatch::create('AAA010101AAA'))
         ;
         $requestBody = $requestBuilder->query($parameters);
 
         $this->assertSame(
-            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-filters.xml'))),
+            $this->xmlFormat($requestBody)
+        );
+
+        $xmlSecVerification = (new EnvelopSignatureVerifier())
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+        $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
+    }
+
+    public function testQueryReceivedByUuid(): void
+    {
+        $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
+        $parameters = QueryParameters::create()
+            ->withServiceType(ServiceType::cfdi())
+            ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
+        ;
+        $requestBody = $requestBuilder->query($parameters);
+
+        $this->assertSame(
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-uuid.xml'))),
             $this->xmlFormat($requestBody)
         );
 

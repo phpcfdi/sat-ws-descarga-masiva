@@ -74,34 +74,57 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     public function query(QueryParameters $queryParameters): string
     {
-        // normalize input
-        $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
-        $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
+        $queryByUuid = ! $queryParameters->getUuid()->isEmpty();
+        $xmlRfcReceived = '';
         $requestType = $queryParameters->getRequestType()->getQueryAttributeValue($queryParameters->getServiceType());
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
-        if ($queryParameters->getDownloadType()->isIssued()) {
-            // issued documents, counterparts are receivers
-            $rfcIssuer = $rfcSigner;
-            $rfcReceivers = $queryParameters->getRfcMatches();
-        } else {
-            // received documents, counterpart is issuer
-            $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
-            $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
-        }
 
-        $solicitudAttributes = array_filter(
-            [
-                'RfcSolicitante' => $rfcSigner,
+        $solicitudAttributes = [
+            'RfcSolicitante' => $rfcSigner,
+            'TipoSolicitud' => $requestType,
+        ];
+
+        if ($queryByUuid) {
+            $solicitudAttributes = $solicitudAttributes + [
+                'Folio' => $queryParameters->getUuid()->getValue(),
+            ];
+        } else {
+            $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
+            $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
+            if ($queryParameters->getDownloadType()->isIssued()) {
+                // issued documents, counterparts are receivers
+                $rfcIssuer = $rfcSigner;
+                $rfcReceivers = $queryParameters->getRfcMatches();
+            } else {
+                // received documents, counterpart is issuer
+                $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
+                $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
+            }
+            $solicitudAttributes = $solicitudAttributes + [
                 'FechaInicial' => $start,
                 'FechaFinal' => $end,
-                'TipoSolicitud' => $requestType,
                 'RfcEmisor' => $rfcIssuer,
                 'TipoComprobante' => $queryParameters->getDocumentType()->value(),
                 'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
-                'UUID' => $queryParameters->getUuid()->getValue(),
                 'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
                 'Complemento' => $queryParameters->getComplement()->value(),
-            ],
+            ];
+            if (! $rfcReceivers->isEmpty()) {
+                $xmlRfcReceived = implode('', array_map(
+                    function (RfcMatch $rfcMatch): string {
+                        return sprintf(
+                            '<des:RfcReceptor>%s</des:RfcReceptor>',
+                            $this->parseXml($rfcMatch->getValue())
+                        );
+                    },
+                    iterator_to_array($rfcReceivers)
+                ));
+                $xmlRfcReceived = "<des:RfcReceptores>{$xmlRfcReceived}</des:RfcReceptores>";
+            }
+        }
+
+        $solicitudAttributes = array_filter(
+            $solicitudAttributes,
             static function (string $value): bool {
                 return '' !== $value;
             }
@@ -115,20 +138,6 @@ final class FielRequestBuilder implements RequestBuilderInterface
             array_keys($solicitudAttributes),
             $solicitudAttributes,
         ));
-
-        $xmlRfcReceived = '';
-        if (! $rfcReceivers->isEmpty()) {
-            $xmlRfcReceived = implode('', array_map(
-                function (RfcMatch $rfcMatch): string {
-                    return sprintf(
-                        '<des:RfcReceptor>%s</des:RfcReceptor>',
-                        $this->parseXml($rfcMatch->getValue())
-                    );
-                },
-                iterator_to_array($rfcReceivers)
-            ));
-            $xmlRfcReceived = "<des:RfcReceptores>{$xmlRfcReceived}</des:RfcReceptores>";
-        }
 
         $toDigestXml = <<<EOT
             <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">

@@ -272,7 +272,7 @@ Puede que los cambios del ejemplo no sean lógicos, es solo para ilustrar cómo 
 - Filtrando por únicamente documentos vigentes (excluye cancelados).
 - Filtrando por el RFC a cuenta de terceros `XXX01010199A`.
 - Filtrando por el RFC contraparte `MAG041126GT8`. Como se solicitan recibidos, entonces son los emidos por ese RFC.
-- Filtrando por el UUID `96623061-61fe-49de-b298-c7156476aa8b`
+- Filtrando por el UUID `96623061-61fe-49de-b298-c7156476aa8b`.
 
 ```php
 <?php
@@ -297,6 +297,23 @@ $query = QueryParameters::create()
     ->withDocumentStatus(DocumentStatus::active())
     ->withRfcOnBehalf(RfcOnBehalf::create('XXX01010199A'))
     ->withRfcMatch(RfcMatch::create('MAG041126GT8'))
+    ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
+;
+```
+
+#### Ejemplo de consulta por UUID
+
+En este caso se especifica solamente el UUID a consultar, en el ejemplo es `96623061-61fe-49de-b298-c7156476aa8b`.
+
+Nota: **Todos los demás argumentos de la consulta son ignorados**.
+
+```php
+<?php
+
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
+
+$query = QueryParameters::create()
     ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
 ;
 ```

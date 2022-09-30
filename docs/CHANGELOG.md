@@ -14,6 +14,20 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.5.2 2022-09-30
+
+#### Consulta por UUID
+
+Gracias a la solicitud de cambios en [`luisiturrios1/python-cfdiclient#42`](https://github.com/luisiturrios1/python-cfdiclient/pull/42)
+por `@alan196`, hemos podido verificar que la documentación del servicio con respecto a la consulta por UUID está incorrecta.
+
+- El campo no se llama `UUID`, se llama `Folio`.
+- El campo `RfcSolicitante` no se debe omitir.
+- El campo `TipoSolicitud` no se debe omitir.
+- Los demás campos no deben existir.
+
+Por lo tanto, se han hecho las correcciones necesarias para hacer la consulta por `UUID`.
+
 ## Versión 0.5.1 2022-09-28
 
 ### Se corrigen XML mal formados
