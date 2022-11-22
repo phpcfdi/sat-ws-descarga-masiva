@@ -68,8 +68,8 @@ final class MetadataContent
     }
 
     /**
-     * @param string[] $data
-     * @return string[]
+     * @param array<string, string> $data
+     * @return array<string, string>
      */
     private function changeArrayKeysFirstLetterLowerCase(array $data): array
     {
