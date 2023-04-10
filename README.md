@@ -497,7 +497,7 @@ sea en el momento de implementación o para personalizar los mensajes de error.
 
 El servicio se compone de 4 partes:
 
-1. Autenticación: Esto se hace con tu FIEL y la libería oculta la lógica de obtener y usar el Token.
+1. Autenticación: Esto se hace con tu FIEL y la librería oculta la lógica de obtener y usar el Token.
 2. Solicitud: Presentar una solicitud incluyendo la fecha de inicio, fecha de fin, tipo de solicitud
    emitidas/recibidas y tipo de información solicitada (cfdi o metadata).
 3. Verificación: pregunta al SAT si ya tiene disponible la solicitud.
