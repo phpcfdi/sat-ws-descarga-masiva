@@ -49,6 +49,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @param mixed ...$arguments
      * @return array{
      *     number: int,
      *     message: string,
