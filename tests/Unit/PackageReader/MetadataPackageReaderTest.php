@@ -29,7 +29,7 @@ class MetadataPackageReaderTest extends TestCase
         $metadataPackageReader = MetadataPackageReader::createFromFile($filename);
 
         $this->assertCount($expectedNumberRows, $metadataPackageReader);
-        $this->assertCount($expectedNumberFiles, $metadataPackageReader->fileContents());
+        $this->assertSame($expectedNumberFiles, iterator_count($metadataPackageReader->fileContents()));
     }
 
     public function testRetrieveMetadataContents(): void
@@ -37,7 +37,7 @@ class MetadataPackageReaderTest extends TestCase
         $filename = $this->filePath('zip/metadata.zip');
         $metadataPackageReader = MetadataPackageReader::createFromFile($filename);
 
-        $this->assertCount(2, $metadataPackageReader->metadata());
+        $this->assertSame(2, iterator_count($metadataPackageReader->metadata()));
 
         $extracted = [];
         foreach ($metadataPackageReader->metadata() as $item) {

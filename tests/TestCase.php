@@ -47,4 +47,41 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $document->loadXML($content);
         return $document->saveXML() ?: '';
     }
+
+    /**
+     * @param mixed ...$arguments
+     * @return array{
+     *     number: int,
+     *     message: string,
+     *     file: string,
+     *     line: int,
+     *     return: mixed,
+     * }
+     */
+    public static function trapError(callable $function, ...$arguments): array
+    {
+        $capturedError = [
+            'number' => 0,
+            'message' => '',
+            'file' => '',
+            'line' => 0,
+        ];
+        set_error_handler(
+            function (int $errno, string $errstr, string $errfile = '', int $errline = 0) use (&$capturedError): bool {
+                $capturedError = [
+                    'number' => $errno,
+                    'message' => $errstr,
+                    'file' => $errfile,
+                    'line' => $errline,
+                ] + $capturedError;
+                return true;
+            }
+        );
+        try {
+            $capturedError['return'] = call_user_func($function, ...$arguments);
+        } finally {
+            restore_error_handler();
+        }
+        return $capturedError;
+    }
 }

@@ -33,9 +33,15 @@ class DownloadResultTest extends TestCase
         /** @noinspection PhpUsageOfSilenceOperatorInspection */
         $this->assertSame($packageSize, @$result->getPackageLenght());
 
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('Method DownloadResult::getPackageLenght() is deprecated');
-        $result->getPackageLenght();
+        $error = $this->trapError(function () use ($result): void {
+            $result->getPackageLenght();
+        });
+        $this->assertSame(
+            $error['number'],
+            E_USER_DEPRECATED,
+            'Method DownloadResult::getPackageLenght should generate a deprecation error'
+        );
+        $this->assertStringContainsString('Method DownloadResult::getPackageLenght() is deprecated', $error['message']);
     }
 
     public function testJson(): void

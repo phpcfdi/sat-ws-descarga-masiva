@@ -1,6 +1,6 @@
 # Contribuciones
 
-Las contribuciones son bienvenidas. Aceptamos *Pull Requests* en el [repositorio GitHub][homepage].
+Las contribuciones son bienvenidas. Aceptamos *Pull Requests* en el [repositorio GitHub][project].
 
 Este proyecto se apega al siguiente [Código de Conducta][coc].
 Al participar en este proyecto y en su comunidad, deberás seguir este código.

@@ -37,7 +37,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         $keyInfoData = <<<EOT
             <KeyInfo>
                 <o:SecurityTokenReference>
-                    <o:Reference URI="#${uuid}" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/>
+                    <o:Reference URI="#$uuid" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/>
                 </o:SecurityTokenReference>
             </KeyInfo>
             EOT;
@@ -57,10 +57,10 @@ final class FielRequestBuilder implements RequestBuilderInterface
                             <u:Created>{$created->formatSat()}</u:Created>
                             <u:Expires>{$expires->formatSat()}</u:Expires>
                         </u:Timestamp>
-                        <o:BinarySecurityToken u:Id="${uuid}" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">
-                            ${certificate}
+                        <o:BinarySecurityToken u:Id="$uuid" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">
+                            $certificate
                         </o:BinarySecurityToken>
-                        ${signatureData}
+                        $signatureData
                     </o:Security>
                 </s:Header>
                 <s:Body>
@@ -119,7 +119,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                     },
                     iterator_to_array($rfcReceivers)
                 ));
-                $xmlRfcReceived = "<des:RfcReceptores>{$xmlRfcReceived}</des:RfcReceptores>";
+                $xmlRfcReceived = "<des:RfcReceptores>$xmlRfcReceived</des:RfcReceptores>";
             }
         }
 
@@ -141,8 +141,8 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         $toDigestXml = <<<EOT
             <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:solicitud ${solicitudAttributesAsText}>
-                    ${xmlRfcReceived}
+                <des:solicitud $solicitudAttributesAsText>
+                    $xmlRfcReceived
                 </des:solicitud>
             </des:SolicitaDescarga>
             EOT;
@@ -153,9 +153,9 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Header/>
                 <s:Body>
                     <des:SolicitaDescarga>
-                        <des:solicitud ${solicitudAttributesAsText}>
-                            ${xmlRfcReceived}
-                            ${signatureData}
+                        <des:solicitud $solicitudAttributesAsText>
+                            $xmlRfcReceived
+                            $signatureData
                         </des:solicitud>
                     </des:SolicitaDescarga>
                 </s:Body>
@@ -172,7 +172,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         $toDigestXml = <<<EOT
             <des:VerificaSolicitudDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:solicitud IdSolicitud="${xmlRequestId}" RfcSolicitante="${xmlRfc}"></des:solicitud>
+                <des:solicitud IdSolicitud="$xmlRequestId" RfcSolicitante="$xmlRfc"></des:solicitud>
             </des:VerificaSolicitudDescarga>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
@@ -182,8 +182,8 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Header/>
                 <s:Body>
                     <des:VerificaSolicitudDescarga>
-                        <des:solicitud IdSolicitud="${xmlRequestId}" RfcSolicitante="${xmlRfc}">
-                            ${signatureData}
+                        <des:solicitud IdSolicitud="$xmlRequestId" RfcSolicitante="$xmlRfc">
+                            $signatureData
                         </des:solicitud>
                     </des:VerificaSolicitudDescarga>
                 </s:Body>
@@ -200,7 +200,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         $toDigestXml = <<<EOT
             <des:PeticionDescargaMasivaTercerosEntrada xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
-                <des:peticionDescarga IdPaquete="${xmlPackageId}" RfcSolicitante="${xmlRfcOwner}"></des:peticionDescarga>
+                <des:peticionDescarga IdPaquete="$xmlPackageId" RfcSolicitante="$xmlRfcOwner"></des:peticionDescarga>
             </des:PeticionDescargaMasivaTercerosEntrada>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
@@ -210,8 +210,8 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 <s:Header/>
                 <s:Body>
                     <des:PeticionDescargaMasivaTercerosEntrada>
-                        <des:peticionDescarga IdPaquete="${xmlPackageId}" RfcSolicitante="${xmlRfcOwner}">
-                            ${signatureData}
+                        <des:peticionDescarga IdPaquete="$xmlPackageId" RfcSolicitante="$xmlRfcOwner">
+                            $signatureData
                         </des:peticionDescarga>
                     </des:PeticionDescargaMasivaTercerosEntrada>
                 </s:Body>
@@ -248,9 +248,9 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         return <<<EOT
             <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-                ${signedInfo}
-                <SignatureValue>${signatureValue}</SignatureValue>
-                ${keyInfo}
+                $signedInfo
+                <SignatureValue>$signatureValue</SignatureValue>
+                $keyInfo
             </Signature>
             EOT;
     }
@@ -263,12 +263,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
             <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
                 <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
                 <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
-                <Reference URI="${uri}">
+                <Reference URI="$uri">
                     <Transforms>
                         <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
                     </Transforms>
                     <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
-                    <DigestValue>${digested}</DigestValue>
+                    <DigestValue>$digested</DigestValue>
                 </Reference>
             </SignedInfo>
             EOT;
@@ -286,10 +286,10 @@ final class FielRequestBuilder implements RequestBuilderInterface
             <KeyInfo>
                 <X509Data>
                     <X509IssuerSerial>
-                        <X509IssuerName>${issuerName}</X509IssuerName>
-                        <X509SerialNumber>${serial}</X509SerialNumber>
+                        <X509IssuerName>$issuerName</X509IssuerName>
+                        <X509SerialNumber>$serial</X509SerialNumber>
                     </X509IssuerSerial>
-                    <X509Certificate>${certificate}</X509Certificate>
+                    <X509Certificate>$certificate</X509Certificate>
                 </X509Data>
             </KeyInfo>
             EOT;

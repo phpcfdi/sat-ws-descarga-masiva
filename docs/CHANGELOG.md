@@ -14,6 +14,21 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.5.3 2023-06-07
+
+- Se verifica la compatibilidad con PHP 8.2.
+- Se eliminan las llaves en la interpolación de variables (deprecado en PHP 8.2).
+- Se actualiza el año de la licencia.
+- Se modifican las pruebas para futura compatibilidad con PHPUnit 10.
+- Se corrige la exclusión de archivos en `sonar-project.properties`.
+- Se corrige el archivo `CONTRIBUTING.md` usando el ancla correcta del proyecto.
+- Se corrige la insignia de construcción `badge-build`.
+- En los flujos de trabajo
+  - Se agrega PHP 8.2 a la matriz de pruebas.
+  - Se ejecutan los trabajos en PHP 8.2.
+  - Se sustituye la directiva de GitHub `::set-output` por `$GITHUB_OUTPUT`.
+- Se actualizan las herramientas de desarrollo.
+
 ## Versión 0.5.2 2022-09-30
 
 #### Consulta por UUID

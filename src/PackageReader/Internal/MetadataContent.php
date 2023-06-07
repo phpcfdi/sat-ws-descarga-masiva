@@ -6,7 +6,6 @@ namespace PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal;
 
 use Generator;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataItem;
-use SplTempFileObject;
 
 /**
  * Helper to iterate inside a Metadata CSV file
@@ -23,7 +22,7 @@ final class MetadataContent
 
     /**
      * The $iterator will be used in a foreach loop to create MetadataItems
-     * The first iteration must contain an array of header names that will be renames to lower case first letter
+     * The first iteration must contain an array of header names that will be renamed to lower case first letter
      * The next iterations must contain an array with data
      *
      * @param CsvReader $csvReader
@@ -36,7 +35,7 @@ final class MetadataContent
     }
 
     /**
-     * This method fix the content and create a SplTempFileObject to store the information
+     * This method apply the preprocessor fixes on the contents
      *
      * @param string $contents
      * @param ThirdPartiesRecords|null $thirdParties

@@ -59,7 +59,7 @@ if (! $fiel->isValid()) {
 }
 
 // creación del web client basado en Guzzle que implementa WebClientInterface
-// para usarlo necesitas instalar guzzlehttp/guzzle pues no es una dependencia directa
+// para usarlo necesitas instalar guzzlehttp/guzzle, pues no es una dependencia directa
 $webClient = new GuzzleWebClient();
 
 // creación del objeto encargado de crear las solicitudes firmadas usando una FIEL
@@ -610,7 +610,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/sat-ws-descarga-masiva?logo=php
 [badge-release]: https://img.shields.io/github/release/phpcfdi/sat-ws-descarga-masiva?logo=git
 [badge-license]: https://img.shields.io/github/license/phpcfdi/sat-ws-descarga-masiva?logo=open-source-initiative
-[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/sat-ws-descarga-masiva/build/main?logo=github-actions
+[badge-build]: https://img.shields.io/github/actions/workflow/status/phpcfdi/sat-ws-descarga-masiva/build.yml?branch=main&logo=github-actions
 [badge-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_sat-ws-descarga-masiva&metric=reliability_rating
 [badge-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_sat-ws-descarga-masiva&metric=sqale_rating
 [badge-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_sat-ws-descarga-masiva/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io

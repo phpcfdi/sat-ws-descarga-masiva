@@ -10,7 +10,7 @@ on:
 jobs:
 
   tests-coverage:
-    name: Tests on PHP 8.1 (code coverage)
+    name: Tests on PHP 8.2 (code coverage)
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
@@ -18,14 +18,14 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           coverage: xdebug
           tools: composer:v2
         env:
           fail-fast: true
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
@@ -54,15 +54,15 @@ jobs:
         id: check-secrets
         run: |
           if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
-            echo "::set-output name=github::yes"
+            echo "github=yes" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=github::no"
+            echo "github=no" >> $GITHUB_OUTPUT
             echo "::warning ::GITHUB_TOKEN non set"
           fi
           if [ -n "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo "::set-output name=sonar::yes"
+            echo "sonar=yes" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=sonar::no"
+            echo "sonar=no" >> $GITHUB_OUTPUT
             echo "::warning ::SONAR_TOKEN non set"
           fi
 
@@ -79,12 +79,12 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.2'
           coverage: none
           tools: composer:v2
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
