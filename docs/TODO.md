@@ -68,7 +68,7 @@
   Resolución: Dejar como está, hacer cambio cuando se cree phpcfdi/xml-quickreader
 
 - Averiguar cómo se puede abrir un archivo ZIP sin usar el sistema de archivos
-  2018-08-08: No es posible, el wrapper de la libería requiere que exista el archivo.
+  2018-08-08: No es posible, el wrapper de la librería requiere que exista el archivo.
 
 - Create a test suite for a valid and current FIEL (instead of testing AAA010101AAA)
   2019-08-07: Se creó el script test/Scripts/sat-ws-descarga-masiva.php que consume los servicios.
