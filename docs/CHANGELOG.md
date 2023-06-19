@@ -14,6 +14,14 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Mantenimiento 2023-06-19
+
+- Se actualiza la FIEL del RFC `EKU9003173C9` que estaba vencida.
+  Este cambio requiere varias modificaciones en las pruebas.
+- Se actualizan las herramientas de desarrollo.
+- Los flujos de trabajo se pueden ejecutar a voluntad.
+- Se remueven las rutas fijas de las herramientas `phpcs` y `phpcbf`.
+
 ## Versión 0.5.3 2023-06-07
 
 - Se verifica la compatibilidad con PHP 8.2.

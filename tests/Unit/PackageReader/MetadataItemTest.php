@@ -29,6 +29,17 @@ class MetadataItemTest extends TestCase
         $this->assertSame($data, $metadata->all());
     }
 
+    public function testIsset(): void
+    {
+        $data = ['uuid' => 'x', 'rfcEmisor' => '', 'fechaCancelacion' => null];
+        /** @phpstan-ignore-next-line */
+        $metadata = new MetadataItem($data);
+        $this->assertTrue(isset($metadata->{'uuid'}), 'uuid has a value');
+        $this->assertTrue(isset($metadata->{'rfcEmisor'}), 'rfcEmisor was set as empty string');
+        $this->assertFalse(isset($metadata->{'fechaCancelacion'}), 'fechaCancelacion was set as null');
+        $this->assertFalse(isset($metadata->{'nombreACuentaTerceros'}), "nombreACuentaTerceros wasn't set");
+    }
+
     public function testReaderCfdiInZip(): void
     {
         $expectedContent = $this->fileContents('zip/metadata.txt');

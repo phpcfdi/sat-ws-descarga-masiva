@@ -10,7 +10,7 @@ Los 3 servicios de consumo `Consulta/Query`, `Verificación/Verify` y `Descarga/
 * Verificación/Verify
     - CodEstatus: Código de estado de la llamada.
     - Mensaje: Pequeña descripcion del código de estado.
-    - CodigoEstadoSolicitud: `CodeRequest` Estado de la solicitud de la descarga
+    - CodigoEstadoSolicitud: `CodeRequest` Estado de la solicitud de la descarga.
     - EstadoSolicitud: `StatusRequest` número correspondiente al estado de la solicitud de descarga.
     
 * Descarga/Download
