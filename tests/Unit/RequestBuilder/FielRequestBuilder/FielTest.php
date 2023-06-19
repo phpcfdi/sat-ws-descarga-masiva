@@ -48,11 +48,18 @@ class FielTest extends TestCase
 
     public function testIsNotValidUsingCsd(): void
     {
-        $fiel = Fiel::create(
-            $this->fileContents('fake-csd/EKU9003173C9.cer'),
-            $this->fileContents('fake-csd/EKU9003173C9.key'),
-            trim($this->fileContents('fake-csd/EKU9003173C9-password.txt'))
+        $credential = Credential::openFiles(
+            $this->filePath('fake-csd/EKU9003173C9.cer'),
+            $this->filePath('fake-csd/EKU9003173C9.key'),
+            trim($this->fileContents('fake-csd/EKU9003173C9-password.txt')),
         );
+        $this->assertTrue($credential->isCsd(), 'Unable to perform test: The given CSD is not a CSD');
+        $this->assertTrue(
+            $credential->certificate()->validOn(),
+            'Unable to perform test: The given CSD is not currently valid'
+        );
+
+        $fiel = new Fiel($credential);
         $this->assertFalse($fiel->isValid());
     }
 

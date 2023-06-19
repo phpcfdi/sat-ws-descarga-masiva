@@ -67,7 +67,7 @@ final class Token implements JsonSerializable
      */
     public function isValueEmpty(): bool
     {
-        return ('' === $this->value);
+        return '' === $this->value;
     }
 
     /**

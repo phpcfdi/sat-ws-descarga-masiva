@@ -51,7 +51,7 @@ final class StatusCode implements JsonSerializable
      */
     public function isAccepted(): bool
     {
-        return (5000 === $this->code);
+        return 5000 === $this->code;
     }
 
     /** @return array<string, mixed> */

@@ -34,7 +34,7 @@ class Helpers
         $filteredLines = array_filter(
             explode("\n", $pemContents),
             function (string $line): bool {
-                return (0 !== strpos($line, '-----'));
+                return 0 !== strpos($line, '-----');
             }
         );
         return implode('', array_map('trim', $filteredLines));

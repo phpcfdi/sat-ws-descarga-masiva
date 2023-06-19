@@ -18,8 +18,12 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
 
 - Se actualiza la FIEL del RFC `EKU9003173C9` que estaba vencida.
   Este cambio requiere varias modificaciones en las pruebas.
+- Se actualiza el CSD del RFC `EKU9003173C9` que estaba vencido.
+  Este cambio provocó cambiar la prueba `FielTest::testIsNotValidUsingCsd`.
 - Se actualizan las herramientas de desarrollo.
 - Los flujos de trabajo se pueden ejecutar a voluntad.
+- Se corrigen el problema encontrado por SonarCloud donde se usaba paréntesis en el retorno de una función:
+  `return ($a === $b);`.
 - Se remueven las rutas fijas de las herramientas `phpcs` y `phpcbf`.
 
 ## Versión 0.5.3 2023-06-07
