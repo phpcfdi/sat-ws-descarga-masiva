@@ -20,6 +20,8 @@ o estás usando una versión cero (por ejemplo `0.18.4`).
   Este cambio requiere varias modificaciones en las pruebas.
 - Se actualizan las herramientas de desarrollo.
 - Los flujos de trabajo se pueden ejecutar a voluntad.
+- Se corrigen el problema encontrado por SonarCloud donde se usaba paréntesis en el retorno de una función:
+  `return ($a === $b);`.
 - Se remueven las rutas fijas de las herramientas `phpcs` y `phpcbf`.
 
 ## Versión 0.5.3 2023-06-07

@@ -104,7 +104,7 @@ final class QueryParameters implements JsonSerializable
 
     public function hasServiceType(): bool
     {
-        return (null !== $this->serviceType);
+        return null !== $this->serviceType;
     }
 
     public function getServiceType(): ServiceType

@@ -18,6 +18,6 @@ class ThirdPartiesFileFilter implements FileFilterInterface
 
     public function filterContents(string $contents): bool
     {
-        return ('Uuid~RfcACuentaTerceros~NombreACuentaTerceros' === substr($contents, 0, 45));
+        return 'Uuid~RfcACuentaTerceros~NombreACuentaTerceros' === substr($contents, 0, 45);
     }
 }
