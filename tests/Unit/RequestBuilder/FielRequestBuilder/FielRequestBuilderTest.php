@@ -54,6 +54,7 @@ class FielRequestBuilderTest extends TestCase
         $token = 'uuid-cf6c80fb-00ae-44c0-af56-54ec65decbaa-1';
         $requestBody = $requestBuilder->authorization($created, $expires, $token);
 
+        /** @see tests/_files/authenticate/request.xml */
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('authenticate/request.xml'))),
             $this->xmlFormat($requestBody)
@@ -107,6 +108,7 @@ class FielRequestBuilderTest extends TestCase
         ;
         $requestBody = $requestBuilder->query($parameters);
 
+        /** @see tests/_files/query/request-received-by-filters.xml */
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-filters.xml'))),
             $this->xmlFormat($requestBody)
@@ -126,6 +128,7 @@ class FielRequestBuilderTest extends TestCase
         ;
         $requestBody = $requestBuilder->query($parameters);
 
+        /** @see tests/_files/query/request-received-by-uuid.xml */
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-uuid.xml'))),
             $this->xmlFormat($requestBody)
@@ -146,6 +149,7 @@ class FielRequestBuilderTest extends TestCase
         ;
         $requestBody = $requestBuilder->query($parameters);
 
+        /** @see tests/_files/query/request-issued.xml */
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-issued.xml'))),
             $this->xmlFormat($requestBody)
@@ -168,6 +172,7 @@ class FielRequestBuilderTest extends TestCase
         $requestId = '3f30a4e1-af73-4085-8991-e4d97eef16bd';
         $requestBody = $requestBuilder->verify($requestId);
 
+        /** @see tests/_files/verify/request.xml */
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('verify/request.xml'))),
             $this->xmlFormat($requestBody)
@@ -215,6 +220,7 @@ class FielRequestBuilderTest extends TestCase
         $packageId = '4e80345d-917f-40bb-a98f-4a73939343c5_01';
         $requestBody = $requestBuilder->download($packageId);
 
+        /** @see tests/_files/download/request.xml */
         $this->assertSame(
             $this->xmlFormat(Helpers::nospaces($this->fileContents('download/request.xml'))),
             $this->xmlFormat($requestBody)
