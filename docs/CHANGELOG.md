@@ -14,6 +14,14 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Mantenimiento 2023-07-10
+
+- El proceso de integración continua falló en PHP 8.1 y PHP 8.2 al momento de verificar la firma de un mensaje SOAP firmado.
+  En algunas ocasiones se consulta el espacio de nombres, pero no se encuentra el prefijo.
+  Esto se ha solucionado consultando el mensaje original `Envelope`, en lugar del mensaje sin envoltura SOAP.
+- Se actualizaron las herramientas de desarrollo.
+- En el archivo de configuración de `php-cs-fixer`, se cambió la regla obsoleta `function_typehint_space` por `type_declaration_spaces`.
+
 ## Mantenimiento 2023-06-19
 
 - Se actualiza la FIEL del RFC `EKU9003173C9` que estaba vencida.
