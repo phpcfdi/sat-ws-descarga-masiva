@@ -31,6 +31,15 @@ class EnvelopSignatureVerifier
     ): bool {
         $soapDocument = new DOMDocument();
         $soapDocument->loadXML($soapMessage);
+        $idNS = [];
+        $idKeys = [];
+        foreach ($includeNamespaces as $namespace) {
+            $prefix = strval($soapDocument->lookupPrefix($namespace));
+            if ('' !== $prefix) {
+                $idNS[$prefix] = $namespace;
+                $idKeys[] = "$prefix:Id";
+            }
+        }
 
         /** @var DOMElement $mainNode */
         $mainNode = $soapDocument->getElementsByTagNameNS($namespaceURI, $mainNodeName)->item(0);
@@ -49,15 +58,6 @@ class EnvelopSignatureVerifier
         );
 
         $dSig = new XMLSecurityDSig();
-        $idNS = [];
-        $idKeys = [];
-        foreach ($includeNamespaces as $namespace) {
-            $prefix = strval($document->lookupPrefix($namespace));
-            if ('' !== $prefix) {
-                $idNS[$prefix] = $namespace;
-                $idKeys[] = "$prefix:Id";
-            }
-        }
         $dSig->idNS = $idNS;
         $dSig->idKeys = $idKeys;
         $signature = $dSig->locateSignature($document);
