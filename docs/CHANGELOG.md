@@ -14,6 +14,10 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Mantenimiento 2023-10-30
+
+- Se actualizaron las herramientas de desarrollo.
+
 ## Mantenimiento 2023-07-10
 
 - El proceso de integración continua falló en PHP 8.1 y PHP 8.2 al momento de verificar la firma de un mensaje SOAP firmado.
