@@ -55,7 +55,7 @@ trait InteractsXmlTrait
                 $localName = strtolower(strval($child->localName));
                 if ($localName === $current) {
                     if (count($names) > 0) {
-                        return $this->findElement($child, ... $names);
+                        return $this->findElement($child, ...$names);
                     } else {
                         return $child;
                     }
@@ -67,7 +67,7 @@ trait InteractsXmlTrait
 
     public function findContent(DOMElement $element, string ...$names): string
     {
-        $found = $this->findElement($element, ... $names);
+        $found = $this->findElement($element, ...$names);
         if (null === $found) {
             return '';
         }
@@ -122,7 +122,7 @@ trait InteractsXmlTrait
             function (DOMElement $element) {
                 return $this->extractElementContent($element);
             },
-            $this->findElements($element, ... $names)
+            $this->findElements($element, ...$names)
         );
     }
 
