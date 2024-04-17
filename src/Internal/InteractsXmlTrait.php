@@ -25,7 +25,8 @@ trait InteractsXmlTrait
             throw new InvalidArgumentException('Cannot load an xml with empty content');
         }
         $document = new DOMDocument();
-        $document->loadXML($source);
+        // as of libxml2 >= 1.11.0 it will truncate huge text nodes (like the zip files in base64)
+        $document->loadXML($source, LIBXML_PARSEHUGE);
         return $document;
     }
 

@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="EngineWorks">
-    <description>The EngineWorks (PSR-2 based) coding standard.</description>
+    <description>The EngineWorks (PSR-12 based) coding standard.</description>
 
     <file>src</file>
     <file>tests</file>

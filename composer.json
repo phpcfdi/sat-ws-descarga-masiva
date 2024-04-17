@@ -26,6 +26,7 @@
         "ext-json": "*",
         "ext-zip": "*",
         "ext-mbstring": "*",
+        "ext-libxml": "*",
         "phpcfdi/credentials": "^1.1",
         "phpcfdi/rfc": "^1.1",
         "eclipxe/enum": "^0.2.0",

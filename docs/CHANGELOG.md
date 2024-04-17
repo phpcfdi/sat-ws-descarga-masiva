@@ -14,6 +14,29 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 0.5.4 2024-04-17
+
+- Se corrige un bug donde en algunas ocasiones falla al procesar la respuesta de una descarga de paquetes.
+
+El método `DOMDocument::loadXML()` con `LibXML >= 1.11.0` trunca a 10,000,000 bytes el contenido de un
+nodo de tipo texto. Esto lleva a que el contenido de un paquete se trunque y el archivo ZIP descargado
+se encuentre truncado y, por lo tanto, corrupto. Se ha corregido usando la opción `LIBXML_PARSEHUGE`.
+Al usar `LIBXML_PARSEHUGE` se está quitando una protección natural que impide una denegación de servicio.
+Sin embargo, podemos considerar segura esta acción dado que solo ocurre en el contexto de respuestas
+recibidas del servicio de descarga masiva del SAT.
+
+- Se actualiza el archivo de licencia a 2024.
+
+## Mantenimiento 2024-04-17
+
+- Se mejoran las pruebas del rasgo `ComplementoTrait`.
+- Se actualizaron los flujos de trabajo:
+  - Se agregó PHP 8.3 a la matriz de pruebas.
+  - Los trabajos ahora corren en PHP 8.3.
+  - Se actualizan las acciones de GitHub a la versión 4.
+  - Se cambia la variable `build/tests/matrix/php-versions` a singular.
+- Se actualizaron las herramientas de desarrollo.
+
 ## Mantenimiento 2023-10-30
 
 - El proceso de integración continua falló al momento de verificar el estilo de código con `php-cs-fixer:3.37.1`.

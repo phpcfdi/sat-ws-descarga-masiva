@@ -27,8 +27,10 @@ final class ComplementoRetencionesTest extends TestCase
     {
         $complemento = ComplementoRetenciones::planesRetiro11();
         $this->assertFalse($complemento->isUndefined());
+        $this->assertTrue($complemento->{'isPlanesRetiro11'}());
         $this->assertSame('planesderetiro11', $complemento->value());
         $this->assertSame('Planes de retiro 1.1', $complemento->label());
         $this->assertEquals(new ComplementoRetenciones('planesderetiro11'), $complemento);
+        $this->assertEquals(ComplementoRetenciones::create('planesderetiro11'), $complemento);
     }
 }
