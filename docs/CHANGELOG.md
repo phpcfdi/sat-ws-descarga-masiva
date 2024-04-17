@@ -25,6 +25,8 @@ Al usar `LIBXML_PARSEHUGE` se está quitando una protección natural que impide 
 Sin embargo, podemos considerar segura esta acción dado que solo ocurre en el contexto de respuestas
 recibidas del servicio de descarga masiva del SAT.
 
+- Se actualiza el archivo de licencia a 2024.
+
 ## Mantenimiento 2024-04-17
 
 - Se actualizaron los flujos de trabajo:
