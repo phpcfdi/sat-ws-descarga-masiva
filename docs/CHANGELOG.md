@@ -29,6 +29,7 @@ recibidas del servicio de descarga masiva del SAT.
 
 ## Mantenimiento 2024-04-17
 
+- Se mejoran las pruebas del rasgo `ComplementoTrait`.
 - Se actualizaron los flujos de trabajo:
   - Se agregó PHP 8.3 a la matriz de pruebas.
   - Los trabajos ahora corren en PHP 8.3.

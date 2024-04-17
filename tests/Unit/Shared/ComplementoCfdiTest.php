@@ -27,8 +27,10 @@ final class ComplementoCfdiTest extends TestCase
     {
         $complemento = ComplementoCfdi::valesDespensa10();
         $this->assertFalse($complemento->isUndefined());
+        $this->assertTrue($complemento->{'isValesDespensa10'}());
         $this->assertSame('valesdedespensa', $complemento->value());
         $this->assertSame('Vales de despensa 1.0', $complemento->label());
         $this->assertEquals(new ComplementoCfdi('valesdedespensa'), $complemento);
+        $this->assertEquals(ComplementoCfdi::create('valesdedespensa'), $complemento);
     }
 }

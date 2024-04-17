@@ -40,7 +40,7 @@ trait ComplementoTrait
                 return $label;
             }
         }
-        return '';
+        return ''; // @codeCoverageIgnore
     }
 
     public function jsonSerialize(): string
