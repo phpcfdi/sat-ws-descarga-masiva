@@ -27,6 +27,11 @@ recibidas del servicio de descarga masiva del SAT.
 
 ## Mantenimiento 2024-04-17
 
+- Se actualizaron los flujos de trabajo:
+  - Se agregó PHP 8.3 a la matriz de pruebas.
+  - Los trabajos ahora corren en PHP 8.3.
+  - Se actualizan las acciones de GitHub a la versión 4.
+  - Se cambia la variable `build/tests/matrix/php-versions` a singular.
 - Se actualizaron las herramientas de desarrollo.
 
 ## Mantenimiento 2023-10-30
