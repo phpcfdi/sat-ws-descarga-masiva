@@ -23,6 +23,21 @@ use Eclipxe\Enum\Enum;
  * @method static self premios()
  * @method static self sectorFinanciero()
  * @method static self serviciosPlataformasTecnologicas()
+ *
+ * @method bool isUndefined()
+ * @method bool isArrendamientoEnFideicomiso()
+ * @method bool isDividendos()
+ * @method bool isEnajenacionAcciones()
+ * @method bool isFideicomisoNoEmpresarial()
+ * @method bool isIntereses()
+ * @method bool isInteresesHipotecarios()
+ * @method bool isOperacionesConDerivados()
+ * @method bool isPagosAExtranjeros()
+ * @method bool isPlanesRetiro10()
+ * @method bool isPlanesRetiro11()
+ * @method bool isPremios()
+ * @method bool isSectorFinanciero()
+ * @method bool isServiciosPlataformasTecnologicas()
  */
 final class ComplementoRetenciones extends Enum implements ComplementoInterface
 {
