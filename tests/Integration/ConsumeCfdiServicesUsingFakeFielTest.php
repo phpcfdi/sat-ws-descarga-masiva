@@ -7,6 +7,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Tests\Integration;
 use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoCfdi;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
@@ -29,8 +30,12 @@ final class ConsumeCfdiServicesUsingFakeFielTest extends ConsumeServiceTestCase
     {
         $service = $this->createService();
 
+        $startDate = DateTime::now()->modify('first day of last month midnight');
+        $endDate = $startDate->modify('+5 days');
+        $period = DateTimePeriod::create($startDate, $endDate);
+
         $parameters = QueryParameters::create()
-            ->withPeriod(DateTimePeriod::createFromValues('2019-01-01 00:00:00', '2019-01-01 00:04:00'))
+            ->withPeriod($period)
             ->withDownloadType(DownloadType::received())
             ->withRequestType(RequestType::xml())
             ->withDocumentType(DocumentType::nomina())
