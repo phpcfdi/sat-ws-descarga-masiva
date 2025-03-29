@@ -9,12 +9,9 @@ use Throwable;
 
 class OpenZipFileException extends RuntimeException implements PackageReaderException
 {
-    private string $filename;
-
-    private function __construct(string $message, int $code, string $filename, Throwable $previous = null)
+    private function __construct(string $message, int $code, private string $filename, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        $this->filename = $filename;
     }
 
     public static function create(string $filename, int $code, Throwable $previous = null): self

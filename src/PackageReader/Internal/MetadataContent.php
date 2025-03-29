@@ -14,19 +14,13 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataItem;
  */
 final class MetadataContent
 {
-    private CsvReader $csvReader;
-
-    private ThirdPartiesRecords $thirdParties;
-
     /**
      * The $iterator will be used in a foreach loop to create MetadataItems
      * The first iteration must contain an array of header names that will be renamed to lower case first letter
      * The next iterations must contain an array with data
      */
-    public function __construct(CsvReader $csvReader, ThirdPartiesRecords $thirdParties)
+    public function __construct(private CsvReader $csvReader, private ThirdPartiesRecords $thirdParties)
     {
-        $this->csvReader = $csvReader;
-        $this->thirdParties = $thirdParties;
     }
 
     /**

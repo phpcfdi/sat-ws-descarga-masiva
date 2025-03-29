@@ -20,18 +20,13 @@ use ZipArchive;
  */
 final class FilteredPackageReader implements PackageReaderInterface
 {
-    private string $filename;
-
-    private ZipArchive $archive;
-
     private bool $removeOnDestruct = false;
 
     private FileFilterInterface $filter;
 
-    private function __construct(string $filename, ZipArchive $archive)
+    private function __construct(private string $filename, private ZipArchive $archive)
     {
-        $this->filename = $filename;
-        $this->archive = $archive;
+        $this->filter = new NullFileFilter();
     }
 
     public function __destruct()

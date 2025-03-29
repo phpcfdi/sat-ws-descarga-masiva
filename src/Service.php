@@ -24,29 +24,19 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
  */
 class Service
 {
-    private RequestBuilderInterface $requestBuilder;
-
-    private WebClientInterface $webclient;
-
-    public ?Token $currentToken;
-
     private ServiceEndpoints $endpoints;
 
     /**
      * Client constructor of "servicio de consulta y recuperación de comprobantes"
      *
-     * @param Token|null $currentToken
      * @param ServiceEndpoints|null $endpoints If NULL uses CFDI endpoints
      */
     public function __construct(
-        RequestBuilderInterface $requestBuilder,
-        WebClientInterface $webclient,
-        Token $currentToken = null,
-        ServiceEndpoints $endpoints = null
+        private RequestBuilderInterface $requestBuilder,
+        private WebClientInterface $webclient,
+        public ?Token $currentToken = null,
+        ServiceEndpoints $endpoints = null,
     ) {
-        $this->requestBuilder = $requestBuilder;
-        $this->webclient = $webclient;
-        $this->currentToken = $currentToken;
         $this->endpoints = $endpoints ?? ServiceEndpoints::cfdi();
     }
 

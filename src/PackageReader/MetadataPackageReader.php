@@ -12,14 +12,11 @@ use Traversable;
 
 final class MetadataPackageReader implements PackageReaderInterface
 {
-    private PackageReaderInterface $packageReader;
-
     private ThirdPartiesRecords $thirdParties;
 
-    private function __construct(PackageReaderInterface $packageReader)
+    private function __construct(private PackageReaderInterface $packageReader)
     {
-        $this->packageReader = $packageReader;
-        $this->thirdParties = ThirdPartiesRecords::createFromPackageReader($packageReader);
+        $this->thirdParties = ThirdPartiesRecords::createFromPackageReader($this->packageReader);
     }
 
     public static function createFromFile(string $filename): self

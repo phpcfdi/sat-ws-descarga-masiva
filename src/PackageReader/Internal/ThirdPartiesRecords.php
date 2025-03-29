@@ -8,15 +8,11 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
 
 final class ThirdPartiesRecords
 {
-    /** @var array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> */
-    private array $records;
-
     /**
      * @param array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> $records
      */
-    public function __construct(array $records)
+    public function __construct(private array $records)
     {
-        $this->records = $records;
     }
 
     public static function createEmpty(): self

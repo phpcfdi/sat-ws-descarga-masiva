@@ -20,25 +20,17 @@ class GuzzleWebClient implements WebClientInterface
 {
     private GuzzleClient $client;
 
-    public ?Closure $fireRequestClosure;
-
-    public ?Closure $fireResponseClosure;
-
     /**
-     * GuzzleWebClient constructor.
-     *
      * @param GuzzleClient|null $client If NULL will create an empty Guzzle Client object
-     * @param Closure|null $onFireRequest Called before make the http call
-     * @param Closure|null $onFireResponse Called after make the http call
+     * @param Closure|null $fireRequestClosure Called before make the http call
+     * @param Closure|null $fireResponseClosure Called after make the http call
      */
     public function __construct(
         ?GuzzleClient $client = null,
-        ?Closure $onFireRequest = null,
-        ?Closure $onFireResponse = null
+        public ?Closure $fireRequestClosure = null,
+        public ?Closure $fireResponseClosure = null,
     ) {
         $this->client = $client ?? new GuzzleClient();
-        $this->fireRequestClosure = $onFireRequest;
-        $this->fireResponseClosure = $onFireResponse;
     }
 
     public function fireRequest(Request $request): void

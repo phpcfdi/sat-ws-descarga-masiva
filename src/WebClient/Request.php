@@ -8,12 +8,6 @@ use JsonSerializable;
 
 final class Request implements JsonSerializable
 {
-    private string $method;
-
-    private string $uri;
-
-    private string $body;
-
     /** @var array<string, string> */
     private array $headers;
 
@@ -22,11 +16,8 @@ final class Request implements JsonSerializable
      *
      * @param array<string, string> $headers
      */
-    public function __construct(string $method, string $uri, string $body, array $headers)
+    public function __construct(private string $method, private string $uri, private string $body, array $headers)
     {
-        $this->method = $method;
-        $this->uri = $uri;
-        $this->body = $body;
         /** @var array<string, string> $headers */
         $headers = array_filter(array_merge($this->defaultHeaders(), $headers));
         $this->headers = $headers;

@@ -34,7 +34,7 @@ class AuthenticateTranslator
         RequestBuilderInterface $requestBuilder,
         DateTime $since,
         DateTime $until,
-        string $securityTokenId = ''
+        string $securityTokenId = '',
     ): string {
         return $requestBuilder->authorization($since, $until, $securityTokenId);
     }

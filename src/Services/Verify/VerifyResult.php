@@ -14,28 +14,16 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
  */
 final class VerifyResult implements JsonSerializable
 {
-    private StatusCode $status;
-
-    private StatusRequest $statusRequest;
-
-    private CodeRequest $codeRequest;
-
-    private int $numberCfdis;
-
     /** @var list<string> */
     private array $packagesIds;
 
     public function __construct(
-        StatusCode $statusCode,
-        StatusRequest $statusRequest,
-        CodeRequest $codeRequest,
-        int $numberCfdis,
-        string ...$packagesIds
+        private StatusCode $status,
+        private StatusRequest $statusRequest,
+        private CodeRequest $codeRequest,
+        private int $numberCfdis,
+        string ...$packagesIds,
     ) {
-        $this->status = $statusCode;
-        $this->statusRequest = $statusRequest;
-        $this->codeRequest = $codeRequest;
-        $this->numberCfdis = $numberCfdis;
         $this->packagesIds = array_values($packagesIds);
     }
 

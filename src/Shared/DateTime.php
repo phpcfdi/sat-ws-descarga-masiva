@@ -18,15 +18,13 @@ final class DateTime implements JsonSerializable
     private DateTimeImmutable $value;
 
     /**
-     * DateTime constructor.
-     *
      * If $value is an integer is used as a timestamp, if is a string is evaluated
      * as an argument for DateTimeImmutable and if it is DateTimeImmutable is used as is.
      *
      * @param int|string|DateTimeImmutable|mixed $value
      * @throws InvalidArgumentException if unable to create a DateTime
      */
-    public function __construct($value = null)
+    public function __construct(mixed $value = null)
     {
         $value ??= 'now';
         if (is_int($value)) {

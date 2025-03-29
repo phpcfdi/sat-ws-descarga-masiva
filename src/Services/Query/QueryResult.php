@@ -9,14 +9,8 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 final class QueryResult implements JsonSerializable
 {
-    private StatusCode $status;
-
-    private string $requestId;
-
-    public function __construct(StatusCode $statusCode, string $requestId)
+    public function __construct(private StatusCode $status, private string $requestId)
     {
-        $this->status = $statusCode;
-        $this->requestId = $requestId;
     }
 
     /**

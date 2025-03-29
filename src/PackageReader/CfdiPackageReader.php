@@ -10,11 +10,8 @@ use Traversable;
 
 final class CfdiPackageReader implements PackageReaderInterface
 {
-    private PackageReaderInterface $packageReader;
-
-    private function __construct(PackageReaderInterface $packageReader)
+    private function __construct(private PackageReaderInterface $packageReader)
     {
-        $this->packageReader = $packageReader;
     }
 
     public static function createFromFile(string $filename): self

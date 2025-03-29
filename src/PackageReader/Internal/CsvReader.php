@@ -18,18 +18,11 @@ use SplTempFileObject;
  */
 final class CsvReader
 {
-    /** @var Iterator<mixed> */
-    private Iterator $iterator;
-
-    public function __construct(Iterator $iterator)
+    public function __construct(private Iterator $iterator)
     {
-        $this->iterator = $iterator;
     }
 
-    /**
-     * @return SplTempFileObject|EmptyIterator
-     */
-    public static function createIteratorFromContents(string $contents)
+    public static function createIteratorFromContents(string $contents): Iterator
     {
         if ('' === $contents) {
             return new EmptyIterator();

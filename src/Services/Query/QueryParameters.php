@@ -27,44 +27,17 @@ final class QueryParameters implements JsonSerializable
     /** Property $serviceType is written using withServiceType method */
     private ?ServiceType $serviceType = null; // @phpstan-ignore property.unusedType
 
-    private DateTimePeriod $period;
-
-    private DownloadType $downloadType;
-
-    private RequestType $requestType;
-
-    private DocumentType $documentType;
-
-    private ComplementoInterface $complement;
-
-    private DocumentStatus $documentStatus;
-
-    private Uuid $uuid;
-
-    private RfcOnBehalf $rfcOnBehalf;
-
-    private RfcMatches $rfcMatches;
-
     private function __construct(
-        DateTimePeriod $period,
-        DownloadType $downloadType,
-        RequestType $requestType,
-        DocumentType $documentType,
-        ComplementoInterface $complement,
-        DocumentStatus $documentStatus,
-        Uuid $uuid,
-        RfcOnBehalf $rfcOnBehalf,
-        RfcMatches $rfcMatches
+        private DateTimePeriod $period,
+        private DownloadType $downloadType,
+        private RequestType $requestType,
+        private DocumentType $documentType,
+        private ComplementoInterface $complement,
+        private DocumentStatus $documentStatus,
+        private Uuid $uuid,
+        private RfcOnBehalf $rfcOnBehalf,
+        private RfcMatches $rfcMatches,
     ) {
-        $this->period = $period;
-        $this->downloadType = $downloadType;
-        $this->requestType = $requestType;
-        $this->documentType = $documentType;
-        $this->complement = $complement;
-        $this->documentStatus = $documentStatus;
-        $this->uuid = $uuid;
-        $this->rfcOnBehalf = $rfcOnBehalf;
-        $this->rfcMatches = $rfcMatches;
     }
 
     /**
@@ -73,7 +46,7 @@ final class QueryParameters implements JsonSerializable
     public static function create(
         ?DateTimePeriod $period = null,
         ?DownloadType $downloadType = null,
-        ?RequestType $requestType = null
+        ?RequestType $requestType = null,
     ): self {
         $currentTime = time();
         return new self(
@@ -207,8 +180,7 @@ final class QueryParameters implements JsonSerializable
         return $this->with('rfcMatches', RfcMatches::create($rfcMatch));
     }
 
-    /** @param mixed $value */
-    private function with(string $property, $value): self
+    private function with(string $property, mixed $value): self
     {
         $clone = clone $this;
         $clone->{$property} = $value;

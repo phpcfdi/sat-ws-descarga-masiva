@@ -11,15 +11,9 @@ use Throwable;
 
 class WebClientException extends RuntimeException
 {
-    private Request $request;
-
-    private Response $response;
-
-    public function __construct(string $message, Request $request, Response $response, Throwable $previous = null)
+    public function __construct(string $message, private Request $request, private Response $response, Throwable $previous = null)
     {
         parent::__construct($message, 0, $previous);
-        $this->request = $request;
-        $this->response = $response;
     }
 
     public function getRequest(): Request

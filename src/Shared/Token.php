@@ -12,20 +12,14 @@ use JsonSerializable;
  */
 final class Token implements JsonSerializable
 {
-    private DateTime $created;
-
-    private DateTime $expires;
-
-    private string $value;
-
-    public function __construct(DateTime $created, DateTime $expires, string $value)
-    {
-        if ($expires->compareTo($created) < 0) {
+    public function __construct(
+        private DateTime $created,
+        private DateTime $expires,
+        private string $value,
+    ) {
+        if ($this->expires->compareTo($this->created) < 0) {
             throw new InvalidArgumentException('Cannot create a token with expiration lower than creation');
         }
-        $this->created = $created;
-        $this->expires = $expires;
-        $this->value = $value;
     }
 
     /**

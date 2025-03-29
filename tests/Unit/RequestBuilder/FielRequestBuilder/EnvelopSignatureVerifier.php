@@ -22,7 +22,7 @@ class EnvelopSignatureVerifier
         string $namespaceURI,
         string $mainNodeName,
         array $includeNamespaces = [],
-        string $certificateContents = ''
+        string $certificateContents = '',
     ): bool {
         $soapDocument = new DOMDocument();
         $soapDocument->loadXML($soapMessage);

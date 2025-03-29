@@ -19,12 +19,11 @@ final class MetadataPreprocessor
 
     private const CONTROL_CRLF = "\r\n";
 
-    /** @var string The data to process */
-    private string $contents;
-
-    public function __construct(string $contents)
+    /**
+     * @param string $contents The data to process
+     */
+    public function __construct(private string $contents)
     {
-        $this->contents = $contents;
     }
 
     public function getContents(): string
