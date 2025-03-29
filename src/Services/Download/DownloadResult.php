@@ -52,21 +52,6 @@ final class DownloadResult implements JsonSerializable
         return $this->packageSize;
     }
 
-    /**
-     * If available, contains the package contents length in bytes
-     *
-     * @return int
-     * @deprecated 0.5.0
-     */
-    public function getPackageLenght(): int
-    {
-        trigger_error(
-            'Method DownloadResult::getPackageLenght() is deprecated, use DownloadResult::getPackageSize() instead',
-            E_USER_DEPRECATED
-        );
-        return $this->getPackageSize();
-    }
-
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {

@@ -2,7 +2,7 @@
 
 ## Ejecutar deprecaciones
 
-- [ ] Remover el método `DownloadResult::getPackageLenght()`.
+- No hay deprecaciones actualmente.
 
 ## Tareas pendientes
 
@@ -20,6 +20,9 @@
   la lectura de los paquetes con el uso del servicio del SAT.
 
 ## Tareas resueltas
+
+- Remover el método `DownloadResult::getPackageLenght()`.
+    2025-03-29: Hecho en v0.5.
 
 - Mover la herramienta CLI de consumo con credenciales válidas a su propio proyecto dependiente de este.
     2020-10-14: Ya inició el desarrollo de `phpcfdi/sat-ws-descarga-masiva-cli`
