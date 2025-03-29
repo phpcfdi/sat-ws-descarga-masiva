@@ -12,8 +12,7 @@ use Throwable;
 
 abstract class AbstractRfcFilter implements JsonSerializable
 {
-    /** @var Rfc|null */
-    private $value;
+    private ?Rfc $value;
 
     final protected function __construct(?Rfc $value)
     {

@@ -12,11 +12,9 @@ use Traversable;
 
 final class MetadataPackageReader implements PackageReaderInterface
 {
-    /** @var PackageReaderInterface */
-    private $packageReader;
+    private PackageReaderInterface $packageReader;
 
-    /** @var ThirdPartiesRecords */
-    private $thirdParties;
+    private ThirdPartiesRecords $thirdParties;
 
     private function __construct(PackageReaderInterface $packageReader)
     {

@@ -8,17 +8,14 @@ use JsonSerializable;
 
 final class Request implements JsonSerializable
 {
-    /** @var string */
-    private $method;
+    private string $method;
 
-    /** @var string */
-    private $uri;
+    private string $uri;
 
-    /** @var string */
-    private $body;
+    private string $body;
 
     /** @var array<string, string> */
-    private $headers;
+    private array $headers;
 
     /**
      * Minimal representation of http request object.

@@ -9,11 +9,9 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 final class QueryResult implements JsonSerializable
 {
-    /** @var StatusCode */
-    private $status;
+    private StatusCode $status;
 
-    /** @var string */
-    private $requestId;
+    private string $requestId;
 
     public function __construct(StatusCode $statusCode, string $requestId)
     {

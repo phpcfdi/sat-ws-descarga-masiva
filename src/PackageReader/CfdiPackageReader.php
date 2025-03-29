@@ -10,8 +10,7 @@ use Traversable;
 
 final class CfdiPackageReader implements PackageReaderInterface
 {
-    /** @var PackageReaderInterface */
-    private $packageReader;
+    private PackageReaderInterface $packageReader;
 
     private function __construct(PackageReaderInterface $packageReader)
     {

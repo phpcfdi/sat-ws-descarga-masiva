@@ -12,14 +12,11 @@ use JsonSerializable;
  */
 final class Token implements JsonSerializable
 {
-    /** @var DateTime */
-    private $created;
+    private DateTime $created;
 
-    /** @var DateTime */
-    private $expires;
+    private DateTime $expires;
 
-    /** @var string */
-    private $value;
+    private string $value;
 
     public function __construct(DateTime $created, DateTime $expires, string $value)
     {

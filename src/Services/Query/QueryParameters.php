@@ -24,35 +24,26 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
  */
 final class QueryParameters implements JsonSerializable
 {
-    /** @var ?ServiceType */
-    private $serviceType = null;
+    /** Property $serviceType is written using withServiceType method */
+    private ?ServiceType $serviceType = null; // @phpstan-ignore property.unusedType
 
-    /** @var DateTimePeriod */
-    private $period;
+    private DateTimePeriod $period;
 
-    /** @var DownloadType */
-    private $downloadType;
+    private DownloadType $downloadType;
 
-    /** @var RequestType */
-    private $requestType;
+    private RequestType $requestType;
 
-    /** @var DocumentType */
-    private $documentType;
+    private DocumentType $documentType;
 
-    /** @var ComplementoInterface */
-    private $complement;
+    private ComplementoInterface $complement;
 
-    /** @var DocumentStatus */
-    private $documentStatus;
+    private DocumentStatus $documentStatus;
 
-    /** @var Uuid */
-    private $uuid;
+    private Uuid $uuid;
 
-    /** @var RfcOnBehalf */
-    private $rfcOnBehalf;
+    private RfcOnBehalf $rfcOnBehalf;
 
-    /** @var RfcMatches */
-    private $rfcMatches;
+    private RfcMatches $rfcMatches;
 
     private function __construct(
         DateTimePeriod $period,

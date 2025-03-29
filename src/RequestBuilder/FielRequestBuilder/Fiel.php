@@ -14,8 +14,7 @@ use PhpCfdi\Credentials\Credential;
  */
 final class Fiel
 {
-    /** @var Credential */
-    private $credential;
+    private Credential $credential;
 
     public function __construct(Credential $credential)
     {

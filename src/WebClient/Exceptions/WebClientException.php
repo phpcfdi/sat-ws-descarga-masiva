@@ -11,11 +11,9 @@ use Throwable;
 
 class WebClientException extends RuntimeException
 {
-    /** @var Request */
-    private $request;
+    private Request $request;
 
-    /** @var Response */
-    private $response;
+    private Response $response;
 
     public function __construct(string $message, Request $request, Response $response, Throwable $previous = null)
     {

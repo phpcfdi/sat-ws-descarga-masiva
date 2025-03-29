@@ -10,8 +10,7 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class DateTimeTest extends TestCase
 {
-    /** @var string */
-    private $backupTimeZone;
+    private string $backupTimeZone;
 
     protected function setUp(): void
     {

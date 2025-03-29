@@ -16,7 +16,7 @@ final class RfcMatches implements Countable, IteratorAggregate, JsonSerializable
     /** @var array<int, RfcMatch> */
     private $items;
 
-    /** @var int */
+    /** @var int<0, max> */
     private $count;
 
     private function __construct(RfcMatch ...$items)

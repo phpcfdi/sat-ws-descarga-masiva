@@ -19,7 +19,7 @@ use SplTempFileObject;
 final class CsvReader
 {
     /** @var Iterator<mixed> */
-    private $iterator;
+    private Iterator $iterator;
 
     public function __construct(Iterator $iterator)
     {

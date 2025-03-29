@@ -8,11 +8,9 @@ use JsonSerializable;
 
 final class SoapFaultInfo implements JsonSerializable
 {
-    /** @var string */
-    private $code;
+    private string $code;
 
-    /** @var string */
-    private $message;
+    private string $message;
 
     public function __construct(string $code, string $message)
     {

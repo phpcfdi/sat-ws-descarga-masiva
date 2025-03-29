@@ -14,20 +14,15 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
  */
 final class ServiceEndpoints
 {
-    /** @var string */
-    private $authenticate;
+    private string $authenticate;
 
-    /** @var string */
-    private $query;
+    private string $query;
 
-    /** @var string */
-    private $verify;
+    private string $verify;
 
-    /** @var string */
-    private $download;
+    private string $download;
 
-    /** @var ServiceType */
-    private $serviceType;
+    private ServiceType $serviceType;
 
     public function __construct(
         string $authenticate,

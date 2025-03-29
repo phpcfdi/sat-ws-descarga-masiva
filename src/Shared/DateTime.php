@@ -15,8 +15,7 @@ use Throwable;
  */
 final class DateTime implements JsonSerializable
 {
-    /** @var DateTimeImmutable */
-    private $value;
+    private DateTimeImmutable $value;
 
     /**
      * DateTime constructor.

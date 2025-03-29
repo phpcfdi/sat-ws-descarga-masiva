@@ -18,14 +18,11 @@ use Psr\Http\Message\ResponseInterface;
  */
 class GuzzleWebClient implements WebClientInterface
 {
-    /** @var GuzzleClient */
-    private $client;
+    private GuzzleClient $client;
 
-    /** @var Closure|null */
-    public $fireRequestClosure;
+    public ?Closure $fireRequestClosure;
 
-    /** @var Closure|null */
-    public $fireResponseClosure;
+    public ?Closure $fireResponseClosure;
 
     /**
      * GuzzleWebClient constructor.

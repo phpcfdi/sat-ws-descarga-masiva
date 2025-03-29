@@ -9,8 +9,7 @@ use Throwable;
 
 class OpenZipFileException extends RuntimeException implements PackageReaderException
 {
-    /** @var string */
-    private $filename;
+    private string $filename;
 
     private function __construct(string $message, int $code, string $filename, Throwable $previous = null)
     {

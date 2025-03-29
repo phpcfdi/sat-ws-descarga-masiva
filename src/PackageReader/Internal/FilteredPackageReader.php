@@ -19,17 +19,13 @@ use ZipArchive;
  */
 final class FilteredPackageReader implements PackageReaderInterface
 {
-    /** @var string */
-    private $filename;
+    private string $filename;
 
-    /** @var ZipArchive */
-    private $archive;
+    private ZipArchive $archive;
 
-    /** @var bool */
-    private $removeOnDestruct = false;
+    private bool $removeOnDestruct = false;
 
-    /** @var FileFilterInterface */
-    private $filter;
+    private FileFilterInterface $filter;
 
     private function __construct(string $filename, ZipArchive $archive)
     {

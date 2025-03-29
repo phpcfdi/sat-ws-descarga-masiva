@@ -24,17 +24,13 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
  */
 class Service
 {
-    /** @var RequestBuilderInterface */
-    private $requestBuilder;
+    private RequestBuilderInterface $requestBuilder;
 
-    /** @var WebClientInterface */
-    private $webclient;
+    private WebClientInterface $webclient;
 
-    /** @var Token|null */
-    public $currentToken;
+    public ?Token $currentToken;
 
-    /** @var ServiceEndpoints */
-    private $endpoints;
+    private ServiceEndpoints $endpoints;
 
     /**
      * Client constructor of "servicio de consulta y recuperación de comprobantes"

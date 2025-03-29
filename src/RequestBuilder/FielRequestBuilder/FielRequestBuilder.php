@@ -16,8 +16,7 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
  */
 final class FielRequestBuilder implements RequestBuilderInterface
 {
-    /** @var Fiel */
-    private $fiel;
+    private Fiel $fiel;
 
     public function __construct(Fiel $fiel)
     {

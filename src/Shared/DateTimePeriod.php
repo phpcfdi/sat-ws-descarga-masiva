@@ -13,11 +13,9 @@ use JsonSerializable;
  */
 final class DateTimePeriod implements JsonSerializable
 {
-    /** @var DateTime */
-    private $start;
+    private DateTime $start;
 
-    /** @var DateTime */
-    private $end;
+    private DateTime $end;
 
     public function __construct(DateTime $start, DateTime $end)
     {

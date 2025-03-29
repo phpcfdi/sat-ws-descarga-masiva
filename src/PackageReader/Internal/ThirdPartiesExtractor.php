@@ -16,8 +16,7 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
  */
 final class ThirdPartiesExtractor
 {
-    /** @var CsvReader */
-    private $csvReader;
+    private CsvReader $csvReader;
 
     public function __construct(CsvReader $csvReader)
     {

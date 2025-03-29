@@ -14,11 +14,9 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataItem;
  */
 final class MetadataContent
 {
-    /** @var CsvReader */
-    private $csvReader;
+    private CsvReader $csvReader;
 
-    /** @var ThirdPartiesRecords */
-    private $thirdParties;
+    private ThirdPartiesRecords $thirdParties;
 
     /**
      * The $iterator will be used in a foreach loop to create MetadataItems

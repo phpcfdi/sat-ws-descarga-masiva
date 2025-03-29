@@ -8,14 +8,12 @@ use JsonSerializable;
 
 final class Response implements JsonSerializable
 {
-    /** @var int */
-    private $statusCode;
+    private int $statusCode;
 
-    /** @var string */
-    private $body;
+    private string $body;
 
     /** @var array<string, string> */
-    private $headers;
+    private array $headers;
 
     /**
      * Minimal representation of http response object.

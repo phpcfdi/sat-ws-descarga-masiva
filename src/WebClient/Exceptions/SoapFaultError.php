@@ -11,8 +11,7 @@ use Throwable;
 
 class SoapFaultError extends HttpClientError
 {
-    /** @var SoapFaultInfo */
-    private $fault;
+    private SoapFaultInfo $fault;
 
     public function __construct(Request $request, Response $response, SoapFaultInfo $fault, Throwable $previous = null)
     {
