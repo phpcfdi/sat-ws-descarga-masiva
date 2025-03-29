@@ -52,7 +52,7 @@ final class DateTime implements JsonSerializable
      *
      * @param int|string|DateTimeImmutable|null $value
      */
-    public static function create($value = null): self
+    public static function create(mixed $value = null): self
     {
         return new self($value);
     }

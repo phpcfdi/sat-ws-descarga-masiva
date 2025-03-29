@@ -34,8 +34,8 @@ class Service
     public function __construct(
         private RequestBuilderInterface $requestBuilder,
         private WebClientInterface $webclient,
-        public ?Token $currentToken = null,
-        ServiceEndpoints $endpoints = null,
+        private ?Token $currentToken = null,
+        ?ServiceEndpoints $endpoints = null,
     ) {
         $this->endpoints = $endpoints ?? ServiceEndpoints::cfdi();
     }

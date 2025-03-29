@@ -28,7 +28,7 @@ final class MetadataContent
      *
      * @param ThirdPartiesRecords|null $thirdParties
      */
-    public static function createFromContents(string $contents, ThirdPartiesRecords $thirdParties = null): self
+    public static function createFromContents(string $contents, ?ThirdPartiesRecords $thirdParties = null): self
     {
         $thirdParties ??= ThirdPartiesRecords::createEmpty();
 
