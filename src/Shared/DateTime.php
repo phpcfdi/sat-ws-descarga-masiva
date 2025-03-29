@@ -71,7 +71,7 @@ final class DateTime implements JsonSerializable
 
     public function format(string $format, string $timezone = ''): string
     {
-        if (empty($timezone)) {
+        if ('' === $timezone) {
             $timezone = date_default_timezone_get();
         }
 

@@ -17,6 +17,6 @@ class SoapFaultInfoTest extends TestCase
         $this->assertSame($code, $fault->getCode());
         $this->assertSame($message, $fault->getMessage());
         $this->assertSame($message, (string) $fault);
-        $this->assertSame(compact('code', 'message'), json_decode(json_encode($fault) ?: '', true));
+        $this->assertSame(['code' => $code, 'message' => $message], json_decode(json_encode($fault) ?: '', true));
     }
 }

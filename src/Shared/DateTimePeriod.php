@@ -46,7 +46,7 @@ final class DateTimePeriod implements JsonSerializable
      */
     public static function createFromValues($start, $end): self
     {
-        return static::create(DateTime::create($start), DateTime::create($end));
+        return self::create(DateTime::create($start), DateTime::create($end));
     }
 
     public function getStart(): DateTime

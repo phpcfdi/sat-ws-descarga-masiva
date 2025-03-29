@@ -76,7 +76,7 @@ final class Token implements JsonSerializable
      */
     public function isValid(): bool
     {
-        return ! ($this->isValueEmpty() || $this->isExpired());
+        return ! $this->isValueEmpty() && ! $this->isExpired();
     }
 
     /** @return array<string, mixed> */

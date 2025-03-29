@@ -30,7 +30,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     public function authorization(DateTime $created, DateTime $expires, string $securityTokenId = ''): string
     {
-        $uuid = $securityTokenId ?: self::createXmlSecurityTokenId();
+        $uuid = $securityTokenId ?: $this->createXmlSecurityTokenId();
         $certificate = Helpers::cleanPemContents($this->getFiel()->getCertificatePemContents());
 
         $keyInfoData = <<<EOT
@@ -214,7 +214,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         return Helpers::nospaces($xml);
     }
 
-    private static function createXmlSecurityTokenId(): string
+    private function createXmlSecurityTokenId(): string
     {
         $md5 = md5(uniqid());
         return sprintf(

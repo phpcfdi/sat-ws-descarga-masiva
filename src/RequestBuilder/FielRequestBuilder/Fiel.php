@@ -44,10 +44,7 @@ final class Fiel
         if (! $this->credential->certificate()->satType()->isFiel()) {
             return false;
         }
-        if (! $this->credential->certificate()->validOn()) {
-            return false;
-        }
-        return true;
+        return $this->credential->certificate()->validOn();
     }
 
     public function getCertificatePemContents(): string

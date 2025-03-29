@@ -82,7 +82,7 @@ final class FilteredPackageReader implements PackageReaderInterface
 
         // build object
         try {
-            $package = static::createFromFile($tmpfile);
+            $package = self::createFromFile($tmpfile);
         } catch (OpenZipFileException $exception) {
             unlink($tmpfile);
             throw $exception;
