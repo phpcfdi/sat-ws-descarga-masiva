@@ -120,9 +120,7 @@ trait InteractsXmlTrait
     public function findContents(DOMElement $element, string ...$names): array
     {
         return array_map(
-            function (DOMElement $element) {
-                return $this->extractElementContent($element);
-            },
+            fn (DOMElement $element) => $this->extractElementContent($element),
             $this->findElements($element, ...$names)
         );
     }

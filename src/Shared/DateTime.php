@@ -28,7 +28,7 @@ final class DateTime implements JsonSerializable
      */
     public function __construct($value = null)
     {
-        $value = $value ?? 'now';
+        $value ??= 'now';
         if (is_int($value)) {
             $value = sprintf('@%d', $value);
         }

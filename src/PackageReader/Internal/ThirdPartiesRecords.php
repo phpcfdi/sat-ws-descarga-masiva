@@ -56,7 +56,7 @@ final class ThirdPartiesRecords
      */
     public function getDataFromUuid(string $uuid): array
     {
-        return $this->records[$this->formatUuid($uuid)] ?? [
+        return $this->records[self::formatUuid($uuid)] ?? [
             'RfcACuentaTerceros' => '',
             'NombreACuentaTerceros' => '',
         ];

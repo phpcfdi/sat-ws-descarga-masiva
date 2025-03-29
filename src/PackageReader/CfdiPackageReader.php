@@ -40,7 +40,7 @@ final class CfdiPackageReader implements PackageReaderInterface
     public function cfdis()
     {
         foreach ($this->packageReader->fileContents() as $content) {
-            yield $this->obtainUuidFromXmlCfdi($content) => $content;
+            yield self::obtainUuidFromXmlCfdi($content) => $content;
         }
     }
 

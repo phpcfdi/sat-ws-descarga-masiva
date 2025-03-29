@@ -41,7 +41,7 @@ final class MetadataContent
      */
     public static function createFromContents(string $contents, ThirdPartiesRecords $thirdParties = null): self
     {
-        $thirdParties = $thirdParties ?? ThirdPartiesRecords::createEmpty();
+        $thirdParties ??= ThirdPartiesRecords::createEmpty();
 
         // fix known errors on metadata text file
         $preprocessor = new MetadataPreprocessor($contents);
@@ -70,9 +70,7 @@ final class MetadataContent
      */
     private function changeArrayKeysFirstLetterLowerCase(array $data): array
     {
-        $keys = array_map(function ($key): string {
-            return lcfirst((string) $key);
-        }, array_keys($data));
+        $keys = array_map(fn ($key): string => lcfirst((string) $key), array_keys($data));
         return array_combine($keys, $data);
     }
 }

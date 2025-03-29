@@ -40,9 +40,7 @@ final class RfcMatches implements Countable, IteratorAggregate, JsonSerializable
     public static function createFromValues(string ...$values): self
     {
         $values = array_map(
-            static function (string $value): RfcMatch {
-                return ('' === $value) ? RfcMatch::empty() : RfcMatch::create($value);
-            },
+            static fn (string $value): RfcMatch => ('' === $value) ? RfcMatch::empty() : RfcMatch::create($value),
             $values
         );
         return self::create(...$values);
