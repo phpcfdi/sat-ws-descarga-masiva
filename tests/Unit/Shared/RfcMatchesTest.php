@@ -60,11 +60,13 @@ final class RfcMatchesTest extends TestCase
 
     public function testCreateFromValues(): void
     {
+        $first = 'AAA010101001';
+        $second = 'AAA010101002';
         $list = RfcMatches::createFromValues(
             '', // empty
-            $first = 'AAA010101001',
+            $first,
             '', // empty
-            $second = 'AAA010101002',
+            $second,
             $first,   // repeated
             $first,   // repeated
             $second,  // repeated

@@ -40,8 +40,8 @@ final class ThirdPartiesRecords
     }
 
     /**
-     * @param string[] $data
-     * @return string[]
+     * @param array<string, string> $data
+     * @return array<string, string>
      */
     public function addToData(array $data): array
     {
