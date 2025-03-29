@@ -10,6 +10,7 @@ use PhpCfdi\SatWsDescargaMasiva\Service;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
+use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\HttpServerError;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\GuzzleWebClient;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 
@@ -46,7 +47,11 @@ abstract class ConsumeServiceTestCase extends TestCase
 
         $parameters = QueryParameters::create();
 
-        $result = $service->query($parameters);
+        try {
+            $result = $service->query($parameters);
+        } catch (HttpServerError $exception) {
+            $this->markTestSkipped("SAT webservice failing: {$exception->getMessage()}");
+        }
         $this->assertSame(
             305,
             $result->getStatus()->getCode(),
@@ -59,7 +64,11 @@ abstract class ConsumeServiceTestCase extends TestCase
         $service = $this->createService();
 
         $requestId = '3edbd462-9fa0-4363-b60f-bac332338028';
-        $result = $service->verify($requestId);
+        try {
+            $result = $service->verify($requestId);
+        } catch (HttpServerError $exception) {
+            $this->markTestSkipped("SAT webservice failing: {$exception->getMessage()}");
+        }
         $this->assertSame(
             305,
             $result->getStatus()->getCode(),
@@ -72,7 +81,11 @@ abstract class ConsumeServiceTestCase extends TestCase
         $service = $this->createService();
 
         $requestId = '4e80345d-917f-40bb-a98f-4a73939343c5_01';
-        $result = $service->download($requestId);
+        try {
+            $result = $service->download($requestId);
+        } catch (HttpServerError $exception) {
+            $this->markTestSkipped("SAT webservice failing: {$exception->getMessage()}");
+        }
         $this->assertSame(
             305,
             $result->getStatus()->getCode(),
