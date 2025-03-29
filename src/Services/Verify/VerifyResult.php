@@ -41,8 +41,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Status of the verification call
-     *
-     * @return StatusCode
      */
     public function getStatus(): StatusCode
     {
@@ -51,8 +49,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Status of the query
-     *
-     * @return StatusRequest
      */
     public function getStatusRequest(): StatusRequest
     {
@@ -61,8 +57,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Code related to the status of the query
-     *
-     * @return CodeRequest
      */
     public function getCodeRequest(): CodeRequest
     {
@@ -71,8 +65,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Number of CFDI given by the query
-     *
-     * @return int
      */
     public function getNumberCfdis(): int
     {
@@ -91,8 +83,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Count of package identifications
-     *
-     * @return int
      */
     public function countPackages(): int
     {

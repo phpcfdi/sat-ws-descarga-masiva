@@ -18,8 +18,6 @@ final class Response implements JsonSerializable
     /**
      * Minimal representation of http response object.
      *
-     * @param int $statusCode
-     * @param string $body
      * @param array<string, string> $headers
      */
     public function __construct(int $statusCode, string $body, array $headers = [])

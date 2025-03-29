@@ -21,8 +21,6 @@ final class QueryResult implements JsonSerializable
 
     /**
      * Status of the verification call
-     *
-     * @return StatusCode
      */
     public function getStatus(): StatusCode
     {
@@ -31,8 +29,6 @@ final class QueryResult implements JsonSerializable
 
     /**
      * If accepted, contains the request identification required for verification
-     *
-     * @return string
      */
     public function getRequestId(): string
     {

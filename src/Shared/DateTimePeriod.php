@@ -32,7 +32,6 @@ final class DateTimePeriod implements JsonSerializable
      *
      * @param DateTime $start
      * @param DateTime $end
-     * @return self
      */
     public static function create(DateTime $start, DateTime $end): self
     {
@@ -44,7 +43,6 @@ final class DateTimePeriod implements JsonSerializable
      *
      * @param int|string|DateTimeImmutable|null $start
      * @param int|string|DateTimeImmutable|null $end
-     * @return self
      */
     public static function createFromValues($start, $end): self
     {

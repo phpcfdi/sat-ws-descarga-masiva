@@ -30,8 +30,6 @@ final class ResponseTest extends TestCase
     }
 
     /**
-     * @param int $code
-     * @param bool $expected
      * @testWith [200, false]
      *           [399, false]
      *           [400, true]
@@ -45,8 +43,6 @@ final class ResponseTest extends TestCase
     }
 
     /**
-     * @param int $code
-     * @param bool $expected
      * @testWith [200, false]
      *           [399, false]
      *           [400, false]

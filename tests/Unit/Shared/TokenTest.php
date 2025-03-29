@@ -53,10 +53,6 @@ class TokenTest extends TestCase
     }
 
     /**
-     * @param string $created
-     * @param string $expires
-     * @param string $value
-     * @param bool $expected
      * @testWith ["- 10 seconds", "+ 10 seconds", "foo", true]
      *           ["- 10 seconds", "- 1 seconds", "foo", false]
      *           ["- 10 seconds", "+ 10 seconds", "", false]

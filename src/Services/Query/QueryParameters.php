@@ -69,11 +69,6 @@ final class QueryParameters implements JsonSerializable
 
     /**
      * Query static constructor method
-     *
-     * @param DateTimePeriod|null $period
-     * @param DownloadType|null $downloadType
-     * @param RequestType|null $requestType
-     * @return self
      */
     public static function create(
         ?DateTimePeriod $period = null,

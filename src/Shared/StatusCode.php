@@ -23,8 +23,6 @@ final class StatusCode implements JsonSerializable
 
     /**
      * Contains the value of "CodEstatus"
-     *
-     * @return int
      */
     public function getCode(): int
     {
@@ -33,8 +31,6 @@ final class StatusCode implements JsonSerializable
 
     /**
      * Contains the value of "Mensaje"
-     *
-     * @return string
      */
     public function getMessage(): string
     {
@@ -44,8 +40,6 @@ final class StatusCode implements JsonSerializable
     /**
      * Return true when "CodEstatus" is success
      * The only success code is "5000: Solicitud recibida con éxito"
-     *
-     * @return bool
      */
     public function isAccepted(): bool
     {

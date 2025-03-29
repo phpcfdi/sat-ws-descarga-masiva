@@ -61,9 +61,6 @@ final class CfdiPackageReader implements PackageReaderInterface
 
     /**
      * Helper method to extract the UUID from the TimbreFiscalDigital
-     *
-     * @param string $xmlContent
-     * @return string
      */
     public static function obtainUuidFromXmlCfdi(string $xmlContent): string
     {

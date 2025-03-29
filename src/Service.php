@@ -35,8 +35,6 @@ class Service
     /**
      * Client constructor of "servicio de consulta y recuperación de comprobantes"
      *
-     * @param RequestBuilderInterface $requestBuilder
-     * @param WebClientInterface $webclient
      * @param Token|null $currentToken
      * @param ServiceEndpoints|null $endpoints If NULL uses CFDI endpoints
      */
@@ -55,8 +53,6 @@ class Service
     /**
      * This method will reuse the current token,
      * it will create a new one if there is none or the current token is no longer valid
-     *
-     * @return Token
      */
     public function obtainCurrentToken(): Token
     {
@@ -68,8 +64,6 @@ class Service
 
     /**
      * Perform authentication and return a Token, the token might be invalid
-     *
-     * @return Token
      */
     public function authenticate(): Token
     {
@@ -85,9 +79,6 @@ class Service
 
     /**
      * Consume the "SolicitaDescarga" web service
-     *
-     * @param QueryParameters $parameters
-     * @return QueryResult
      */
     public function query(QueryParameters $parameters): QueryResult
     {
@@ -117,9 +108,6 @@ class Service
 
     /**
      * Consume the "VerificaSolicitudDescarga" web service
-     *
-     * @param string $requestId
-     * @return VerifyResult
      */
     public function verify(string $requestId): VerifyResult
     {
@@ -136,9 +124,6 @@ class Service
 
     /**
      * Consume the "Descargar" web service
-     *
-     * @param string $packageId
-     * @return DownloadResult
      */
     public function download(string $packageId): DownloadResult
     {

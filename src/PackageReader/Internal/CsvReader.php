@@ -27,7 +27,6 @@ final class CsvReader
     }
 
     /**
-     * @param string $contents
      * @return SplTempFileObject|EmptyIterator
      */
     public static function createIteratorFromContents(string $contents)

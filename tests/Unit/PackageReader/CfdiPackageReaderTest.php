@@ -161,8 +161,6 @@ class CfdiPackageReaderTest extends TestCase
     }
 
     /**
-     * @param string $source
-     * @param string $expected
      * @dataProvider providerObtainUuidFromXmlCfdi
      */
     public function testObtainUuidFromXmlCfdi(string $source, string $expected): void

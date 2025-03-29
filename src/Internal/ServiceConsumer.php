@@ -43,10 +43,7 @@ class ServiceConsumer
     }
 
     /**
-     * @param string $uri
-     * @param string $body
      * @param array<string, string> $headers
-     * @return Request
      */
     public function createRequest(string $uri, string $body, array $headers): Request
     {
@@ -54,8 +51,6 @@ class ServiceConsumer
     }
 
     /**
-     * @param string $soapAction
-     * @param Token|null $token
      * @return array<string, string>
      */
     public function createHeaders(string $soapAction, ?Token $token): array

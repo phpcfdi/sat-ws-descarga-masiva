@@ -40,8 +40,6 @@ final class ServiceEndpoints
 
     /**
      * Create an object with known endpoints for "CFDI regulares"
-     *
-     * @return self
      */
     public static function cfdi(): self
     {
@@ -56,8 +54,6 @@ final class ServiceEndpoints
 
     /**
      * Create an object with known endpoints for "CFDI de retenciones e información de pagos"
-     *
-     * @return self
      */
     public static function retenciones(): self
     {

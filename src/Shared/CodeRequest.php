@@ -63,8 +63,6 @@ final class CodeRequest extends MicroCatalog implements JsonSerializable
 
     /**
      * Contains the value of "CodigoEstadoSolicitud"
-     *
-     * @return int
      */
     public function getValue(): int
     {

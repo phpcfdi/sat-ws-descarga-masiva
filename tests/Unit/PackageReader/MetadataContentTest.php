@@ -47,8 +47,6 @@ class MetadataContentTest extends TestCase
     }
 
     /**
-     * @param string $sourceValue
-     * @param string $expectedValue
      * @dataProvider providerReadMetadataWithSpecialCharacters
      */
     public function testReadMetadataWithSpecialCharacters(string $sourceValue, string $expectedValue): void

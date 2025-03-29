@@ -24,8 +24,6 @@ final class DownloadResult implements JsonSerializable
 
     /**
      * Status of the download call
-     *
-     * @return StatusCode
      */
     public function getStatus(): StatusCode
     {
@@ -34,8 +32,6 @@ final class DownloadResult implements JsonSerializable
 
     /**
      * If available, contains the package contents
-     *
-     * @return string
      */
     public function getPackageContent(): string
     {
@@ -44,8 +40,6 @@ final class DownloadResult implements JsonSerializable
 
     /**
      * Contains the package contents size in bytes
-     *
-     * @return int
      */
     public function getPackageSize(): int
     {

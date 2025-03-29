@@ -20,9 +20,6 @@ final class Request implements JsonSerializable
     /**
      * Minimal representation of http request object.
      *
-     * @param string $method
-     * @param string $uri
-     * @param string $body
      * @param array<string, string> $headers
      */
     public function __construct(string $method, string $uri, string $body, array $headers)

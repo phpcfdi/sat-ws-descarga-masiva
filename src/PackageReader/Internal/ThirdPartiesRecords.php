@@ -51,7 +51,6 @@ final class ThirdPartiesRecords
     }
 
     /**
-     * @param string $uuid
      * @return array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}
      */
     public function getDataFromUuid(string $uuid): array

@@ -49,8 +49,6 @@ final class Token implements JsonSerializable
 
     /**
      * Token value
-     *
-     * @return string
      */
     public function getValue(): string
     {
@@ -59,8 +57,6 @@ final class Token implements JsonSerializable
 
     /**
      * A token is empty if does not contains an internal value
-     *
-     * @return bool
      */
     public function isValueEmpty(): bool
     {
@@ -69,8 +65,6 @@ final class Token implements JsonSerializable
 
     /**
      * A token is expired if the expiration date is greater or equal to current time
-     *
-     * @return bool
      */
     public function isExpired(): bool
     {
@@ -79,8 +73,6 @@ final class Token implements JsonSerializable
 
     /**
      * A token is valid if contains a value and is not expired
-     *
-     * @return bool
      */
     public function isValid(): bool
     {
