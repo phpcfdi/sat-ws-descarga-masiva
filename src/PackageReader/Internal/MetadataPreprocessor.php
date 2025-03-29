@@ -20,7 +20,7 @@ final class MetadataPreprocessor
     private const CONTROL_CRLF = "\r\n";
 
     /** @var string The data to process */
-    private $contents;
+    private string $contents;
 
     public function __construct(string $contents)
     {

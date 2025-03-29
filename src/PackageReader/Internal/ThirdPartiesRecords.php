@@ -9,7 +9,7 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
 final class ThirdPartiesRecords
 {
     /** @var array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> */
-    private $records;
+    private array $records;
 
     /**
      * @param array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> $records

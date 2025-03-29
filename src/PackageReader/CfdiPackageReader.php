@@ -54,7 +54,7 @@ final class CfdiPackageReader implements PackageReaderInterface
         return iterator_count($this->cfdis());
     }
 
-    public function fileContents()
+    public function fileContents(): Traversable
     {
         yield from $this->packageReader->fileContents();
     }

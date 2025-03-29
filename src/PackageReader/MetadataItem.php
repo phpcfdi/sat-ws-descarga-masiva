@@ -29,7 +29,7 @@ use JsonSerializable;
 final class MetadataItem implements JsonSerializable
 {
     /** @var array<string, string> */
-    private $data;
+    private array $data;
 
     /**
      * MetadataItem constructor.

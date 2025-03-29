@@ -67,7 +67,7 @@ final class MetadataPackageReader implements PackageReaderInterface
         return iterator_count($this->metadata());
     }
 
-    public function fileContents()
+    public function fileContents(): Traversable
     {
         yield from $this->packageReader->fileContents();
     }

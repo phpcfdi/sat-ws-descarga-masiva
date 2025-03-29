@@ -10,6 +10,7 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\FileFilterInt
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\NullFileFilter;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
 use Throwable;
+use Traversable;
 use ZipArchive;
 
 /**
@@ -92,7 +93,7 @@ final class FilteredPackageReader implements PackageReaderInterface
         return $package;
     }
 
-    public function fileContents()
+    public function fileContents(): Traversable
     {
         $archive = $this->getArchive();
         $filter = $this->getFilter();

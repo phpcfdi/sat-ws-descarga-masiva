@@ -40,7 +40,7 @@ interface PackageReaderInterface extends Countable, JsonSerializable
      *
      * @return Traversable<string, string>
      */
-    public function fileContents();
+    public function fileContents(): Traversable;
 
     /**
      * Return the number of elements on the package
