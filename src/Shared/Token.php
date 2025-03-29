@@ -22,6 +22,11 @@ final class Token implements JsonSerializable
         }
     }
 
+    public static function empty(): self
+    {
+        return new self(DateTime::create(0), DateTime::create(0), '');
+    }
+
     /**
      * Token creation date
      * @return DateTime
@@ -50,7 +55,7 @@ final class Token implements JsonSerializable
     }
 
     /**
-     * A token is empty if does not contains an internal value
+     * A token is empty if it does not contain an internal value
      */
     public function isValueEmpty(): bool
     {

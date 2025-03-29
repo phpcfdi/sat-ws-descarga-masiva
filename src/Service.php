@@ -24,6 +24,8 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
  */
 class Service
 {
+    private Token $token;
+
     private ServiceEndpoints $endpoints;
 
     /**
@@ -34,9 +36,10 @@ class Service
     public function __construct(
         private RequestBuilderInterface $requestBuilder,
         private WebClientInterface $webclient,
-        private ?Token $currentToken = null,
+        ?Token $token = null,
         ?ServiceEndpoints $endpoints = null,
     ) {
+        $this->token = $token ?? Token::empty();
         $this->endpoints = $endpoints ?? ServiceEndpoints::cfdi();
     }
 
@@ -46,10 +49,20 @@ class Service
      */
     public function obtainCurrentToken(): Token
     {
-        if (null === $this->currentToken || ! $this->currentToken->isValid()) {
-            $this->currentToken = $this->authenticate();
+        if (! $this->token->isValid()) {
+            $this->token = $this->authenticate();
         }
-        return $this->currentToken;
+        return $this->token;
+    }
+
+    public function getToken(): Token
+    {
+        return $this->token;
+    }
+
+    public function getEndpoints(): ServiceEndpoints
+    {
+        return $this->endpoints;
     }
 
     /**
@@ -62,7 +75,8 @@ class Service
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica',
             $this->endpoints->getAuthenticate(),
-            $soapBody
+            $soapBody,
+            null, // do not use a token
         );
         return $authenticateTranslator->createTokenFromSoapResponse($responseBody);
     }
@@ -128,7 +142,7 @@ class Service
         return $downloadTranslator->createDownloadResultFromSoapResponse($responseBody);
     }
 
-    private function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
+    private function consume(string $soapAction, string $uri, string $body, ?Token $token): string
     {
         return ServiceConsumer::consume($this->webclient, $soapAction, $uri, $body, $token);
     }
