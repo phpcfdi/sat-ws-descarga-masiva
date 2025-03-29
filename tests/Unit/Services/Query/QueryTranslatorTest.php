@@ -24,9 +24,9 @@ class QueryTranslatorTest extends TestCase
         $result = $translator->createQueryResultFromSoapResponse($responseBody);
         $status = $result->getStatus();
 
-        $this->assertEquals($expectedRequestId, $result->getRequestId());
-        $this->assertEquals($expectedStatusCode, $status->getCode());
-        $this->assertEquals($expectedMessage, $status->getMessage());
+        $this->assertSame($expectedRequestId, $result->getRequestId());
+        $this->assertSame($expectedStatusCode, $status->getCode());
+        $this->assertSame($expectedMessage, $status->getMessage());
         $this->assertTrue($status->isAccepted());
     }
 

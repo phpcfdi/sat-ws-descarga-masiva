@@ -25,8 +25,8 @@ class DownloadTranslatorTest extends TestCase
 
         $this->assertGreaterThan(0, $result->getPackageSize());
         $this->assertNotEmpty($result->getPackageContent());
-        $this->assertEquals($expectedStatusCode, $status->getCode());
-        $this->assertEquals($expectedMessage, $status->getMessage());
+        $this->assertSame($expectedStatusCode, $status->getCode());
+        $this->assertSame($expectedMessage, $status->getMessage());
         $this->assertTrue($status->isAccepted());
     }
 
