@@ -53,10 +53,12 @@
     "scripts": {
         "dev:build": ["@dev:fix-style", "@dev:test"],
         "dev:check-style": [
+            "@php tools/composer-normalize normalize --dry-run",
             "@php tools/php-cs-fixer fix --dry-run --verbose",
             "@php tools/phpcs --colors -sp"
         ],
         "dev:fix-style": [
+            "@php tools/composer-normalize normalize",
             "@php tools/php-cs-fixer fix --verbose",
             "@php tools/phpcbf --colors -sp"
         ],
@@ -71,8 +73,8 @@
     },
     "scripts-descriptions": {
         "dev:build": "DEV: run dev:fix-style and dev:tests, run before pull request",
-        "dev:check-style": "DEV: search for code style errors using php-cs-fixer and phpcs",
-        "dev:fix-style": "DEV: fix code style errors using php-cs-fixer and phpcbf",
+        "dev:check-style": "DEV: search for code style errors using composer-normalize, php-cs-fixer and phpcs",
+        "dev:fix-style": "DEV: fix code style errors using composer-normalize, php-cs-fixer and phpcbf",
         "dev:test": "DEV: run dev:check-style, phpunit and phpstan",
         "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
     }
