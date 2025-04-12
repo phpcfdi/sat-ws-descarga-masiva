@@ -1,4 +1,4 @@
-name: coverage
+name: sonarcloud
 on:
   workflow_dispatch:
   push:
