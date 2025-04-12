@@ -99,7 +99,7 @@ class CfdiPackageReaderTest extends TestCase
     }
 
     /** @return array<string, array<string>> */
-    public function providerObtainUuidFromXmlCfdi(): array
+    public static function providerObtainUuidFromXmlCfdi(): array
     {
         return [
             'common' => [<<<XML

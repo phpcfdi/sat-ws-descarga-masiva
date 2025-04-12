@@ -33,7 +33,7 @@ final class UuidTest extends TestCase
     }
 
     /** @return array<string, array{string}> */
-    public function providerInvalidValues(): array
+    public static function providerInvalidValues(): array
     {
         return [
             'empty' => [''],

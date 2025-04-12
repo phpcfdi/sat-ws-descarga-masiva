@@ -26,7 +26,7 @@ class MetadataContentTest extends TestCase
     }
 
     /** @return array<string, array{string, string}> */
-    public function providerReadMetadataWithSpecialCharacters(): array
+    public static function providerReadMetadataWithSpecialCharacters(): array
     {
         return [
             'simple' => ['Receptor SA', 'Receptor SA'],

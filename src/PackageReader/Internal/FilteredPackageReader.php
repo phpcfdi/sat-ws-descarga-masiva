@@ -128,12 +128,12 @@ final class FilteredPackageReader implements PackageReaderInterface
         return $this->filter;
     }
 
-    public function setFilter(?FileFilterInterface $filter): void
+    public function setFilter(FileFilterInterface $filter): void
     {
-        $this->filter = $filter ?? new NullFileFilter();
+        $this->filter = $filter;
     }
 
-    public function changeFilter(?FileFilterInterface $filter): FileFilterInterface
+    public function changeFilter(FileFilterInterface $filter): FileFilterInterface
     {
         $previous = $this->getFilter();
         $this->setFilter($filter);
