@@ -1,9 +1,14 @@
 {
     "name": "phpcfdi/sat-ws-descarga-masiva",
     "description": "Librería para usar el servicio web del SAT de Descarga Masiva",
-    "keywords": ["sat", "cfdi", "download", "descarga", "webservice"],
-    "homepage": "https://github.com/phpcfdi/sat-ws-descarga-masiva",
     "license": "MIT",
+    "keywords": [
+        "sat",
+        "cfdi",
+        "download",
+        "descarga",
+        "webservice"
+    ],
     "authors": [
         {
             "name": "Cesar Aguilera",
@@ -14,28 +19,29 @@
             "email": "eclipxe13@gmail.com"
         }
     ],
+    "homepage": "https://github.com/phpcfdi/sat-ws-descarga-masiva",
     "support": {
-        "source": "https://github.com/phpcfdi/sat-ws-descarga-masiva",
         "issues": "https://github.com/phpcfdi/sat-ws-descarga-masiva/issues",
-        "chat": "https://discord.gg/aFGYXvX"
+        "chat": "https://discord.gg/aFGYXvX",
+        "source": "https://github.com/phpcfdi/sat-ws-descarga-masiva"
     },
     "require": {
         "php": ">=8.1",
-        "ext-openssl": "*",
         "ext-dom": "*",
         "ext-json": "*",
-        "ext-zip": "*",
-        "ext-mbstring": "*",
         "ext-libxml": "*",
-        "phpcfdi/credentials": "^1.3",
-        "phpcfdi/rfc": "^1.2",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-zip": "*",
         "eclipxe/enum": "^0.2.0",
-        "eclipxe/micro-catalog": "^0.1.2"
+        "eclipxe/micro-catalog": "^0.1.2",
+        "phpcfdi/credentials": "^1.3",
+        "phpcfdi/rfc": "^1.2"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.2.0",
-        "robrichards/xmlseclibs": "^3.1.0",
-        "phpunit/phpunit": "^10.5.45"
+        "phpunit/phpunit": "^10.5.45",
+        "robrichards/xmlseclibs": "^3.1.0"
     },
     "suggest": {
         "guzzlehttp/guzzle": "To use GuzzleWebClient implementation"
@@ -51,11 +57,17 @@
         }
     },
     "scripts": {
-        "dev:build": ["@dev:fix-style", "@dev:test"],
+        "dev:build": [
+            "@dev:fix-style",
+            "@dev:test"
+        ],
         "dev:check-style": [
             "@php tools/composer-normalize normalize --dry-run",
             "@php tools/php-cs-fixer fix --dry-run --verbose",
             "@php tools/phpcs --colors -sp"
+        ],
+        "dev:coverage": [
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html build/coverage/html/"
         ],
         "dev:fix-style": [
             "@php tools/composer-normalize normalize",
@@ -66,16 +78,13 @@
             "@dev:check-style",
             "@php vendor/bin/phpunit --testdox --stop-on-failure",
             "@php tools/phpstan analyse --no-interaction --no-progress"
-        ],
-        "dev:coverage": [
-            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {
         "dev:build": "DEV: run dev:fix-style and dev:tests, run before pull request",
         "dev:check-style": "DEV: search for code style errors using composer-normalize, php-cs-fixer and phpcs",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/",
         "dev:fix-style": "DEV: fix code style errors using composer-normalize, php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run dev:check-style, phpunit and phpstan",
-        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
+        "dev:test": "DEV: run dev:check-style, phpunit and phpstan"
     }
 }
