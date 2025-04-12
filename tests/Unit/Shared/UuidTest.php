@@ -52,6 +52,11 @@ final class UuidTest extends TestCase
         Uuid::create($value);
     }
 
+    public function testCheckValidValue(): void
+    {
+        $this->assertTrue(Uuid::check('96623061-61fe-49de-b298-c7156476aa8b'));
+    }
+
     /** @dataProvider providerInvalidValues */
     public function testCheckInvalidValue(string $value): void
     {

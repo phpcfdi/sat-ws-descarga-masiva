@@ -41,6 +41,11 @@ final class AbstractRfcFilterTest extends TestCase
         RfcFilterImplementation::create($value);
     }
 
+    public function testCheckValidValue(): void
+    {
+        $this->assertTrue(RfcFilterImplementation::check('XXX01010199A'));
+    }
+
     /** @dataProvider providerInvalidValues */
     public function testCheckInvalidValue(string $value): void
     {
