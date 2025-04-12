@@ -11,6 +11,10 @@
     2020-05-01: Version 0.3.0 93%
     2019-12-06: Version 0.2.4 92%
 
+- Usar enumeradores de PHP en lugar de `eclipxe/enum`.
+
+- Cambiar de *getters* a propiedades públicas de solo lectura.
+
 ## Posibles ideas
 
 - Separar `PhpCfdi\SatWsDescargaMasiva\RequestBuilder` y `PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Fiel`
