@@ -9,9 +9,9 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 final class DownloadResult implements JsonSerializable
 {
-    private int $packageSize;
+    private readonly int $packageSize;
 
-    public function __construct(private StatusCode $status, private string $packageContent)
+    public function __construct(private readonly StatusCode $status, private readonly string $packageContent)
     {
         $this->packageSize = strlen($this->packageContent);
     }

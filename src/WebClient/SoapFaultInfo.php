@@ -9,7 +9,7 @@ use Stringable;
 
 final class SoapFaultInfo implements JsonSerializable, Stringable
 {
-    public function __construct(private string $code, private string $message)
+    public function __construct(private readonly string $code, private readonly string $message)
     {
     }
 

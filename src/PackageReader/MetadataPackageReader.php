@@ -12,9 +12,9 @@ use Traversable;
 
 final class MetadataPackageReader implements PackageReaderInterface
 {
-    private ThirdPartiesRecords $thirdParties;
+    private readonly ThirdPartiesRecords $thirdParties;
 
-    private function __construct(private PackageReaderInterface $packageReader)
+    private function __construct(private readonly PackageReaderInterface $packageReader)
     {
         $this->thirdParties = ThirdPartiesRecords::createFromPackageReader($this->packageReader);
     }

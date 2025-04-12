@@ -18,7 +18,7 @@ use SplTempFileObject;
  */
 final class CsvReader
 {
-    public function __construct(private Iterator $iterator)
+    public function __construct(private readonly Iterator $iterator)
     {
     }
 

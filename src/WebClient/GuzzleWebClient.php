@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class GuzzleWebClient implements WebClientInterface
 {
-    private GuzzleClient $client;
+    private readonly GuzzleClient $client;
 
     /**
      * @param GuzzleClient|null $client If NULL will create an empty Guzzle Client object
@@ -27,8 +27,8 @@ class GuzzleWebClient implements WebClientInterface
      */
     public function __construct(
         ?GuzzleClient $client = null,
-        private ?Closure $onFireRequest = null,
-        private ?Closure $onFireResponse = null,
+        private readonly ?Closure $onFireRequest = null,
+        private readonly ?Closure $onFireResponse = null,
     ) {
         $this->client = $client ?? new GuzzleClient();
     }

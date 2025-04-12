@@ -1,4 +1,5 @@
 {
+    "serviceType":"cfdi",
     "period": {
         "start": 1546322400,
         "end": 1546322640

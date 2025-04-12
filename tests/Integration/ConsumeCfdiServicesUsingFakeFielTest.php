@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Integration;
 
-use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoCfdi;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
@@ -16,7 +15,6 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RequestType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcOnBehalf;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceEndpoints;
-use PhpCfdi\SatWsDescargaMasiva\Shared\ServiceType;
 use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 
 final class ConsumeCfdiServicesUsingFakeFielTest extends ConsumeServiceTestCase
@@ -67,16 +65,5 @@ final class ConsumeCfdiServicesUsingFakeFielTest extends ConsumeServiceTestCase
             $result->getStatus()->getCode(),
             'Expected to receive a 305 - Certificado Inválido from SAT since FIEL is for testing'
         );
-    }
-
-    public function testServiceEndpointsDifferentThanQueryEndpointsThrowsError(): void
-    {
-        $service = $this->createService();
-
-        $otherServiceType = ServiceType::retenciones();
-        $parameters = QueryParameters::create()->withServiceType($otherServiceType);
-
-        $this->expectException(LogicException::class);
-        $service->query($parameters);
     }
 }

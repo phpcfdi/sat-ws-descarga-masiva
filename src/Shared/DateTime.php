@@ -15,7 +15,7 @@ use Throwable;
  */
 final class DateTime implements JsonSerializable
 {
-    private DateTimeImmutable $value;
+    private readonly DateTimeImmutable $value;
 
     /**
      * If $value is an integer is used as a timestamp, if is a string is evaluated

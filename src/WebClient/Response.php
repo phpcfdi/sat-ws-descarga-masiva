@@ -13,7 +13,7 @@ final class Response implements JsonSerializable
      *
      * @param array<string, string> $headers
      */
-    public function __construct(private int $statusCode, private string $body, private array $headers = [])
+    public function __construct(private readonly int $statusCode, private readonly string $body, private readonly array $headers = [])
     {
     }
 

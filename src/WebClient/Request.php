@@ -9,14 +9,14 @@ use JsonSerializable;
 final class Request implements JsonSerializable
 {
     /** @var array<string, string> */
-    private array $headers;
+    private readonly array $headers;
 
     /**
      * Minimal representation of http request object.
      *
      * @param array<string, string> $headers
      */
-    public function __construct(private string $method, private string $uri, private string $body, array $headers)
+    public function __construct(private readonly string $method, private readonly string $uri, private readonly string $body, array $headers)
     {
         /** @var array<string, string> $headers */
         $headers = array_filter(array_merge($this->defaultHeaders(), $headers));

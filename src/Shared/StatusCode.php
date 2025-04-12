@@ -11,7 +11,7 @@ use JsonSerializable;
  */
 final class StatusCode implements JsonSerializable
 {
-    public function __construct(private int $code, private string $message)
+    public function __construct(private readonly int $code, private readonly string $message)
     {
     }
 

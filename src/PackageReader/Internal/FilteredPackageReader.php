@@ -24,7 +24,7 @@ final class FilteredPackageReader implements PackageReaderInterface
 
     private FileFilterInterface $filter;
 
-    private function __construct(private string $filename, private ZipArchive $archive)
+    private function __construct(private readonly string $filename, private readonly ZipArchive $archive)
     {
         $this->filter = new NullFileFilter();
     }

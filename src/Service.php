@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
-use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\Internal\ServiceConsumer;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
@@ -26,7 +25,7 @@ class Service
 {
     private Token $token;
 
-    private ServiceEndpoints $endpoints;
+    private readonly ServiceEndpoints $endpoints;
 
     /**
      * Client constructor of "servicio de consulta y recuperación de comprobantes"
@@ -34,8 +33,8 @@ class Service
      * @param ServiceEndpoints|null $endpoints If NULL uses CFDI endpoints
      */
     public function __construct(
-        private RequestBuilderInterface $requestBuilder,
-        private WebClientInterface $webclient,
+        private readonly RequestBuilderInterface $requestBuilder,
+        private readonly WebClientInterface $webclient,
         ?Token $token = null,
         ?ServiceEndpoints $endpoints = null,
     ) {
@@ -86,18 +85,8 @@ class Service
      */
     public function query(QueryParameters $parameters): QueryResult
     {
-        // fix parameters service type
-        if (! $parameters->hasServiceType()) {
-            $parameters = $parameters->withServiceType($this->endpoints->getServiceType());
-        }
         if (! $this->endpoints->getServiceType()->equalTo($parameters->getServiceType())) {
-            throw new LogicException(
-                sprintf(
-                    'The service type endpoints [%s] does not match with the service type query [%s]',
-                    $parameters->getServiceType()->value(),
-                    $this->endpoints->getServiceType()->value()
-                )
-            );
+            $parameters = $parameters->withServiceType($this->endpoints->getServiceType());
         }
         $queryTranslator = new QueryTranslator();
         $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);

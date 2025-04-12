@@ -10,7 +10,7 @@ use Throwable;
 
 final class Uuid implements JsonSerializable
 {
-    private function __construct(private string $value)
+    private function __construct(private readonly string $value)
     {
     }
 

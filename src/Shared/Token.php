@@ -13,9 +13,9 @@ use JsonSerializable;
 final class Token implements JsonSerializable
 {
     public function __construct(
-        private DateTime $created,
-        private DateTime $expires,
-        private string $value,
+        private readonly DateTime $created,
+        private readonly DateTime $expires,
+        private readonly string $value,
     ) {
         if ($this->expires->compareTo($this->created) < 0) {
             throw new InvalidArgumentException('Cannot create a token with expiration lower than creation');

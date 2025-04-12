@@ -19,14 +19,12 @@ final class MetadataContent
      * The first iteration must contain an array of header names that will be renamed to lower case first letter
      * The next iterations must contain an array with data
      */
-    public function __construct(private CsvReader $csvReader, private ThirdPartiesRecords $thirdParties)
+    public function __construct(private readonly CsvReader $csvReader, private readonly ThirdPartiesRecords $thirdParties)
     {
     }
 
     /**
      * This method apply the preprocessor fixes on the contents
-     *
-     * @param ThirdPartiesRecords|null $thirdParties
      */
     public static function createFromContents(string $contents, ?ThirdPartiesRecords $thirdParties = null): self
     {

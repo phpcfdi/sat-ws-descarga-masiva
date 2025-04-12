@@ -14,10 +14,10 @@ use Traversable;
 final class RfcMatches implements Countable, IteratorAggregate, JsonSerializable
 {
     /** @var array<int, RfcMatch> */
-    private $items;
+    private readonly array $items;
 
     /** @var int<0, max> */
-    private int $count;
+    private readonly int $count;
 
     private function __construct(RfcMatch ...$items)
     {
