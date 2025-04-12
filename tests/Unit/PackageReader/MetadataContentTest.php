@@ -66,4 +66,11 @@ class MetadataContentTest extends TestCase
         $this->assertSame($expectedValue, $extracted[0]);
         $this->assertCount(2, $extracted);
     }
+
+    public function testOneLineMetadataWithoutLineFeed(): void
+    {
+        $contents = implode('~', ['id', 'value', 'foo', 'bar']);
+        $reader = MetadataContent::createFromContents($contents);
+        $this->assertSame([], iterator_to_array($reader->eachItem()));
+    }
 }

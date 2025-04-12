@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Tests\Unit\PackageReader\Internal;
 
+use ArrayIterator;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\CsvReader;
 use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
@@ -54,5 +55,26 @@ final class CsvReaderTest extends TestCase
         $reader = CsvReader::createFromContents('');
         $combined = $reader->combine($keys, $values);
         $this->assertSame($expected, $combined);
+    }
+
+    public function testRecordsWhenIteratorDoesNotProvideAnArrayOfData(): void
+    {
+        $data = [
+            ['xee', 'foo'],
+            ['x-xee', 'x-foo'],
+            null,
+            ['y-xee', 'y-foo'],
+            'text',
+            ['z-xee', 'z-foo'],
+        ];
+        $expected = [
+            ['xee' => 'x-xee', 'foo' => 'x-foo'],
+            ['xee' => 'y-xee', 'foo' => 'y-foo'],
+            ['xee' => 'z-xee', 'foo' => 'z-foo'],
+        ];
+        $iterator = new ArrayIterator($data);
+        $reader = new CsvReader($iterator);
+        $records = iterator_to_array($reader->records());
+        $this->assertSame($expected, $records);
     }
 }

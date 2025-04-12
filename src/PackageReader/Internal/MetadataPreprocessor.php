@@ -33,7 +33,7 @@ final class MetadataPreprocessor
 
     public function fix(): void
     {
-        // all the fixes should exists here
+        // all the fixes should exist here
         $this->fixEolCrLf();
     }
 

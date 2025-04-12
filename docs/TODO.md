@@ -6,11 +6,6 @@
 
 ## Tareas pendientes
 
-- Llevar el code coverage a 100% con las pruebas
-    2020-10-09: Version 0.4.0 99%
-    2020-05-01: Version 0.3.0 93%
-    2019-12-06: Version 0.2.4 92%
-
 - Usar enumeradores de PHP en lugar de `eclipxe/enum`.
 
 - Cambiar de *getters* a propiedades públicas de solo lectura.
@@ -24,6 +19,12 @@
   la lectura de los paquetes con el uso del servicio del SAT.
 
 ## Tareas resueltas
+
+- Llevar el code coverage a 100% con las pruebas
+  2025-04-12: Version 1.0.0 100%
+  2020-10-09: Version 0.4.0 99%
+  2020-05-01: Version 0.3.0 93%
+  2019-12-06: Version 0.2.4 92%
 
 - Remover el método `DownloadResult::getPackageLenght()`.
     2025-03-29: Hecho en v0.5.
