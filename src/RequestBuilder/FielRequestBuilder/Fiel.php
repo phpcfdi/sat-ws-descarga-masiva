@@ -14,12 +14,8 @@ use PhpCfdi\Credentials\Credential;
  */
 final class Fiel
 {
-    /** @var Credential */
-    private $credential;
-
-    public function __construct(Credential $credential)
+    public function __construct(private readonly Credential $credential)
     {
-        $this->credential = $credential;
     }
 
     /**
@@ -28,7 +24,6 @@ final class Fiel
      * @param string $certificateContents Contents of X.509 formats PEM, DER or DER as base64
      * @param string $privateKeyContents Contents of PKCS#8 DER, PKCS#8 PEM or PKCS#5 PEM
      * @param string $passPhrase Private key pass phrase
-     * @return self
      */
     public static function create(string $certificateContents, string $privateKeyContents, string $passPhrase): self
     {
@@ -46,10 +41,7 @@ final class Fiel
         if (! $this->credential->certificate()->satType()->isFiel()) {
             return false;
         }
-        if (! $this->credential->certificate()->validOn()) {
-            return false;
-        }
-        return true;
+        return $this->credential->certificate()->validOn();
     }
 
     public function getCertificatePemContents(): string

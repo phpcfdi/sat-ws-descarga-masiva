@@ -14,10 +14,10 @@ use Traversable;
 final class RfcMatches implements Countable, IteratorAggregate, JsonSerializable
 {
     /** @var array<int, RfcMatch> */
-    private $items;
+    private readonly array $items;
 
-    /** @var int */
-    private $count;
+    /** @var int<0, max> */
+    private readonly int $count;
 
     private function __construct(RfcMatch ...$items)
     {
@@ -40,9 +40,7 @@ final class RfcMatches implements Countable, IteratorAggregate, JsonSerializable
     public static function createFromValues(string ...$values): self
     {
         $values = array_map(
-            static function (string $value): RfcMatch {
-                return ('' === $value) ? RfcMatch::empty() : RfcMatch::create($value);
-            },
+            static fn (string $value): RfcMatch => ('' === $value) ? RfcMatch::empty() : RfcMatch::create($value),
             $values
         );
         return self::create(...$values);

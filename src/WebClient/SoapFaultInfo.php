@@ -5,19 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
 use JsonSerializable;
+use Stringable;
 
-final class SoapFaultInfo implements JsonSerializable
+final class SoapFaultInfo implements JsonSerializable, Stringable
 {
-    /** @var string */
-    private $code;
-
-    /** @var string */
-    private $message;
-
-    public function __construct(string $code, string $message)
+    public function __construct(private readonly string $code, private readonly string $message)
     {
-        $this->code = $code;
-        $this->message = $message;
     }
 
     public function getCode(): string

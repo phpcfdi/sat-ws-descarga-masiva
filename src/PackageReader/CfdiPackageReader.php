@@ -10,12 +10,8 @@ use Traversable;
 
 final class CfdiPackageReader implements PackageReaderInterface
 {
-    /** @var PackageReaderInterface */
-    private $packageReader;
-
-    private function __construct(PackageReaderInterface $packageReader)
+    private function __construct(private readonly PackageReaderInterface $packageReader)
     {
-        $this->packageReader = $packageReader;
     }
 
     public static function createFromFile(string $filename): self
@@ -41,7 +37,7 @@ final class CfdiPackageReader implements PackageReaderInterface
     public function cfdis()
     {
         foreach ($this->packageReader->fileContents() as $content) {
-            yield $this->obtainUuidFromXmlCfdi($content) => $content;
+            yield self::obtainUuidFromXmlCfdi($content) => $content;
         }
     }
 
@@ -55,16 +51,13 @@ final class CfdiPackageReader implements PackageReaderInterface
         return iterator_count($this->cfdis());
     }
 
-    public function fileContents()
+    public function fileContents(): Traversable
     {
         yield from $this->packageReader->fileContents();
     }
 
     /**
      * Helper method to extract the UUID from the TimbreFiscalDigital
-     *
-     * @param string $xmlContent
-     * @return string
      */
     public static function obtainUuidFromXmlCfdi(string $xmlContent): string
     {

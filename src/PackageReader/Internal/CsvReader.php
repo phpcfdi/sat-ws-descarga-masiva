@@ -18,19 +18,11 @@ use SplTempFileObject;
  */
 final class CsvReader
 {
-    /** @var Iterator<mixed> */
-    private $iterator;
-
-    public function __construct(Iterator $iterator)
+    public function __construct(private readonly Iterator $iterator)
     {
-        $this->iterator = $iterator;
     }
 
-    /**
-     * @param string $contents
-     * @return SplTempFileObject|EmptyIterator
-     */
-    public static function createIteratorFromContents(string $contents)
+    public static function createIteratorFromContents(string $contents): Iterator
     {
         if ('' === $contents) {
             return new EmptyIterator();
@@ -56,7 +48,8 @@ final class CsvReader
     {
         $headers = [];
         foreach ($this->iterator as $data) {
-            if (! is_array($data) || [] === $data || [null] === $data) {
+            $data = $this->normalizeData($data);
+            if ([] === $data) {
                 continue;
             }
 
@@ -67,6 +60,22 @@ final class CsvReader
 
             yield $this->combine($headers, $data);
         }
+    }
+
+    /**
+     * @param mixed $data
+     * @return array<int|string, string>
+     */
+    private function normalizeData($data): array
+    {
+        if (! is_array($data)) {
+            return [];
+        }
+        return array_filter(
+            $data,
+            fn ($value, $key): bool => (is_int($key)) && is_string($value),
+            ARRAY_FILTER_USE_BOTH
+        );
     }
 
     /**

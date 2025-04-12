@@ -13,11 +13,9 @@ use JsonSerializable;
  */
 final class DateTimePeriod implements JsonSerializable
 {
-    /** @var DateTime */
-    private $start;
+    private readonly DateTime $start;
 
-    /** @var DateTime */
-    private $end;
+    private readonly DateTime $end;
 
     public function __construct(DateTime $start, DateTime $end)
     {
@@ -34,7 +32,6 @@ final class DateTimePeriod implements JsonSerializable
      *
      * @param DateTime $start
      * @param DateTime $end
-     * @return self
      */
     public static function create(DateTime $start, DateTime $end): self
     {
@@ -46,11 +43,10 @@ final class DateTimePeriod implements JsonSerializable
      *
      * @param int|string|DateTimeImmutable|null $start
      * @param int|string|DateTimeImmutable|null $end
-     * @return self
      */
     public static function createFromValues($start, $end): self
     {
-        return static::create(DateTime::create($start), DateTime::create($end));
+        return self::create(DateTime::create($start), DateTime::create($end));
     }
 
     public function getStart(): DateTime

@@ -8,15 +8,11 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
 
 final class ThirdPartiesRecords
 {
-    /** @var array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> */
-    private $records;
-
     /**
      * @param array<string, array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}> $records
      */
-    public function __construct(array $records)
+    public function __construct(private array $records)
     {
-        $this->records = $records;
     }
 
     public static function createEmpty(): self
@@ -40,8 +36,8 @@ final class ThirdPartiesRecords
     }
 
     /**
-     * @param string[] $data
-     * @return string[]
+     * @param array<string, string> $data
+     * @return array<string, string>
      */
     public function addToData(array $data): array
     {
@@ -51,12 +47,11 @@ final class ThirdPartiesRecords
     }
 
     /**
-     * @param string $uuid
      * @return array{RfcACuentaTerceros: string, NombreACuentaTerceros: string}
      */
     public function getDataFromUuid(string $uuid): array
     {
-        return $this->records[$this->formatUuid($uuid)] ?? [
+        return $this->records[self::formatUuid($uuid)] ?? [
             'RfcACuentaTerceros' => '',
             'NombreACuentaTerceros' => '',
         ];

@@ -26,7 +26,7 @@ class MetadataContentTest extends TestCase
     }
 
     /** @return array<string, array{string, string}> */
-    public function providerReadMetadataWithSpecialCharacters(): array
+    public static function providerReadMetadataWithSpecialCharacters(): array
     {
         return [
             'simple' => ['Receptor SA', 'Receptor SA'],
@@ -47,8 +47,6 @@ class MetadataContentTest extends TestCase
     }
 
     /**
-     * @param string $sourceValue
-     * @param string $expectedValue
      * @dataProvider providerReadMetadataWithSpecialCharacters
      */
     public function testReadMetadataWithSpecialCharacters(string $sourceValue, string $expectedValue): void

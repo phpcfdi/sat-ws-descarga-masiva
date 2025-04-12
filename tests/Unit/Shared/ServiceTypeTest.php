@@ -19,7 +19,7 @@ final class ServiceTypeTest extends TestCase
     }
 
     /** @return array<string, array{ServiceType}> */
-    public function providerServiceTypes(): array
+    public static function providerServiceTypes(): array
     {
         return [
             'cfdi' => [ServiceType::cfdi()],

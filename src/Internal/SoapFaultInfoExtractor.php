@@ -30,7 +30,7 @@ final class SoapFaultInfoExtractor
              * @noinspection PhpUsageOfSilenceOperatorInspection
              */
             $env = @$this->readXmlElement($source);
-        } catch (Throwable $exception) {
+        } catch (Throwable) {
             return null;
         }
 

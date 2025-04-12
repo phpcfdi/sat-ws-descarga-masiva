@@ -8,27 +8,13 @@ use JsonSerializable;
 
 final class Response implements JsonSerializable
 {
-    /** @var int */
-    private $statusCode;
-
-    /** @var string */
-    private $body;
-
-    /** @var array<string, string> */
-    private $headers;
-
     /**
      * Minimal representation of http response object.
      *
-     * @param int $statusCode
-     * @param string $body
      * @param array<string, string> $headers
      */
-    public function __construct(int $statusCode, string $body, array $headers = [])
+    public function __construct(private readonly int $statusCode, private readonly string $body, private readonly array $headers = [])
     {
-        $this->statusCode = $statusCode;
-        $this->body = $body;
-        $this->headers = $headers;
     }
 
     public function getStatusCode(): int

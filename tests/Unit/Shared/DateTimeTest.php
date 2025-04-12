@@ -10,8 +10,7 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class DateTimeTest extends TestCase
 {
-    /** @var string */
-    private $backupTimeZone;
+    private string $backupTimeZone;
 
     protected function setUp(): void
     {
@@ -69,10 +68,9 @@ class DateTimeTest extends TestCase
 
     public function testCreateDateTimeWithInvalidArgument(): void
     {
-        /** @var int $knownInvalidInput */
         $knownInvalidInput = [];
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to create a Datetime');
-        DateTime::create($knownInvalidInput);
+        DateTime::create($knownInvalidInput); /** @phpstan-ignore argument.type */
     }
 }

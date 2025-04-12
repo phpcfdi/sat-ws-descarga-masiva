@@ -14,6 +14,13 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 1.0.0 2025-04-12
+
+La versión `1.0.0` es una actualización al código para poderlo mantener más fácilmente.
+Se usa la numeración de versión mayor 1.0.
+Ahora la versión mínima de PHP es 8.1.
+Lea las notas para [Actualizar de `0.5.x` a `1.0.x`](UPGRADE_0.5_1.0.md).
+
 ## Versión 0.5.4 2024-04-17
 
 - Se corrige un bug donde en algunas ocasiones falla al procesar la respuesta de una descarga de paquetes.

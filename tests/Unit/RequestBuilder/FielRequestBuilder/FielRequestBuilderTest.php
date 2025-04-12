@@ -83,7 +83,7 @@ class FielRequestBuilderTest extends TestCase
         $otherRequestBody = $requestBuilder->authorization($created, $expires);
         $otherSecurityTokenId = $this->extractSecurityTokenFromXml($otherRequestBody);
         $this->assertNotEmpty($otherSecurityTokenId);
-        $this->assertNotEquals($securityTokenId, $otherSecurityTokenId, 'Both generated tokens must not be equal');
+        $this->assertNotSame($securityTokenId, $otherSecurityTokenId, 'Both generated tokens must not be equal');
     }
 
     private function extractSecurityTokenFromXml(string $requestBody): string
@@ -201,7 +201,7 @@ class FielRequestBuilderTest extends TestCase
         $requestBody = $requestBuilder->verify($requestId);
 
         $document = new DOMDocument();
-        $this->assertSame(true, $document->loadXML($requestBody));
+        $this->assertTrue($document->loadXML($requestBody));
         $xpath = new DOMXPath($document);
         $this->assertSame($requestId, $this->xpathValue($xpath, '//des:solicitud/@IdSolicitud'));
         $this->assertSame($rfc, $this->xpathValue($xpath, '//des:solicitud/@RfcSolicitante'));
@@ -249,7 +249,7 @@ class FielRequestBuilderTest extends TestCase
         $requestBody = $requestBuilder->download($packageId);
 
         $document = new DOMDocument();
-        $this->assertSame(true, $document->loadXML($requestBody));
+        $this->assertTrue($document->loadXML($requestBody));
         $xpath = new DOMXPath($document);
         $this->assertSame($packageId, $this->xpathValue($xpath, '//des:peticionDescarga/@IdPaquete'));
         $this->assertSame($rfc, $this->xpathValue($xpath, '//des:peticionDescarga/@RfcSolicitante'));

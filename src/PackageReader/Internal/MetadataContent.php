@@ -14,36 +14,21 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\MetadataItem;
  */
 final class MetadataContent
 {
-    /** @var CsvReader */
-    private $csvReader;
-
-    /** @var ThirdPartiesRecords */
-    private $thirdParties;
-
     /**
      * The $iterator will be used in a foreach loop to create MetadataItems
      * The first iteration must contain an array of header names that will be renamed to lower case first letter
      * The next iterations must contain an array with data
-     *
-     * @param CsvReader $csvReader
-     * @param ThirdPartiesRecords $thirdParties
      */
-    public function __construct(CsvReader $csvReader, ThirdPartiesRecords $thirdParties)
+    public function __construct(private readonly CsvReader $csvReader, private readonly ThirdPartiesRecords $thirdParties)
     {
-        $this->csvReader = $csvReader;
-        $this->thirdParties = $thirdParties;
     }
 
     /**
      * This method apply the preprocessor fixes on the contents
-     *
-     * @param string $contents
-     * @param ThirdPartiesRecords|null $thirdParties
-     * @return MetadataContent
      */
-    public static function createFromContents(string $contents, ThirdPartiesRecords $thirdParties = null): self
+    public static function createFromContents(string $contents, ?ThirdPartiesRecords $thirdParties = null): self
     {
-        $thirdParties = $thirdParties ?? ThirdPartiesRecords::createEmpty();
+        $thirdParties ??= ThirdPartiesRecords::createEmpty();
 
         // fix known errors on metadata text file
         $preprocessor = new MetadataPreprocessor($contents);
@@ -72,9 +57,7 @@ final class MetadataContent
      */
     private function changeArrayKeysFirstLetterLowerCase(array $data): array
     {
-        $keys = array_map(function ($key): string {
-            return lcfirst((string) $key);
-        }, array_keys($data));
+        $keys = array_map(fn ($key): string => lcfirst($key), array_keys($data));
         return array_combine($keys, $data);
     }
 }

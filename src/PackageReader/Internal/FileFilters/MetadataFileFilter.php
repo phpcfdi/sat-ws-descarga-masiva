@@ -18,6 +18,6 @@ class MetadataFileFilter implements FileFilterInterface
 
     public function filterContents(string $contents): bool
     {
-        return 'Uuid~RfcEmisor~' === substr($contents, 0, 15);
+        return str_starts_with($contents, 'Uuid~RfcEmisor~');
     }
 }

@@ -11,22 +11,12 @@ use JsonSerializable;
  */
 final class StatusCode implements JsonSerializable
 {
-    /** @var int */
-    private $code;
-
-    /** @var string */
-    private $message;
-
-    public function __construct(int $code, string $message)
+    public function __construct(private readonly int $code, private readonly string $message)
     {
-        $this->code = $code;
-        $this->message = $message;
     }
 
     /**
      * Contains the value of "CodEstatus"
-     *
-     * @return int
      */
     public function getCode(): int
     {
@@ -35,8 +25,6 @@ final class StatusCode implements JsonSerializable
 
     /**
      * Contains the value of "Mensaje"
-     *
-     * @return string
      */
     public function getMessage(): string
     {
@@ -46,8 +34,6 @@ final class StatusCode implements JsonSerializable
     /**
      * Return true when "CodEstatus" is success
      * The only success code is "5000: Solicitud recibida con éxito"
-     *
-     * @return bool
      */
     public function isAccepted(): bool
     {

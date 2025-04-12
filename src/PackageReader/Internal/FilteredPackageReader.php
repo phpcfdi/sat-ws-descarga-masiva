@@ -10,6 +10,7 @@ use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\FileFilterInt
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\Internal\FileFilters\NullFileFilter;
 use PhpCfdi\SatWsDescargaMasiva\PackageReader\PackageReaderInterface;
 use Throwable;
+use Traversable;
 use ZipArchive;
 
 /**
@@ -19,22 +20,13 @@ use ZipArchive;
  */
 final class FilteredPackageReader implements PackageReaderInterface
 {
-    /** @var string */
-    private $filename;
+    private bool $removeOnDestruct = false;
 
-    /** @var ZipArchive */
-    private $archive;
+    private FileFilterInterface $filter;
 
-    /** @var bool */
-    private $removeOnDestruct = false;
-
-    /** @var FileFilterInterface */
-    private $filter;
-
-    private function __construct(string $filename, ZipArchive $archive)
+    private function __construct(private readonly string $filename, private readonly ZipArchive $archive)
     {
-        $this->filename = $filename;
-        $this->archive = $archive;
+        $this->filter = new NullFileFilter();
     }
 
     public function __destruct()
@@ -85,7 +77,7 @@ final class FilteredPackageReader implements PackageReaderInterface
 
         // build object
         try {
-            $package = static::createFromFile($tmpfile);
+            $package = self::createFromFile($tmpfile);
         } catch (OpenZipFileException $exception) {
             unlink($tmpfile);
             throw $exception;
@@ -96,7 +88,7 @@ final class FilteredPackageReader implements PackageReaderInterface
         return $package;
     }
 
-    public function fileContents()
+    public function fileContents(): Traversable
     {
         $archive = $this->getArchive();
         $filter = $this->getFilter();
@@ -136,12 +128,12 @@ final class FilteredPackageReader implements PackageReaderInterface
         return $this->filter;
     }
 
-    public function setFilter(?FileFilterInterface $filter): void
+    public function setFilter(FileFilterInterface $filter): void
     {
-        $this->filter = $filter ?? new NullFileFilter();
+        $this->filter = $filter;
     }
 
-    public function changeFilter(?FileFilterInterface $filter): FileFilterInterface
+    public function changeFilter(FileFilterInterface $filter): FileFilterInterface
     {
         $previous = $this->getFilter();
         $this->setFilter($filter);

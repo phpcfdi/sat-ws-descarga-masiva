@@ -13,11 +13,9 @@ final class DownloadTranslatorContentsTest extends TestCase
 {
     private const FILE_SIZE_LIMIT = 10 * 1024 * 1024; // 10 MiB
 
-    /** @var string */
-    private $hugeZipFile;
+    private string $hugeZipFile;
 
-    /** @var string */
-    private $hugeResponse;
+    private string $hugeResponse;
 
     protected function setUp(): void
     {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use JsonSerializable;
-use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoInterface;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoUndefined;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTimePeriod;
@@ -24,94 +23,46 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
  */
 final class QueryParameters implements JsonSerializable
 {
-    /** @var ?ServiceType */
-    private $serviceType = null;
-
-    /** @var DateTimePeriod */
-    private $period;
-
-    /** @var DownloadType */
-    private $downloadType;
-
-    /** @var RequestType */
-    private $requestType;
-
-    /** @var DocumentType */
-    private $documentType;
-
-    /** @var ComplementoInterface */
-    private $complement;
-
-    /** @var DocumentStatus */
-    private $documentStatus;
-
-    /** @var Uuid */
-    private $uuid;
-
-    /** @var RfcOnBehalf */
-    private $rfcOnBehalf;
-
-    /** @var RfcMatches */
-    private $rfcMatches;
-
     private function __construct(
-        DateTimePeriod $period,
-        DownloadType $downloadType,
-        RequestType $requestType,
-        DocumentType $documentType,
-        ComplementoInterface $complement,
-        DocumentStatus $documentStatus,
-        Uuid $uuid,
-        RfcOnBehalf $rfcOnBehalf,
-        RfcMatches $rfcMatches
+        private readonly DateTimePeriod $period,
+        private readonly DownloadType $downloadType,
+        private readonly RequestType $requestType,
+        private readonly DocumentType $documentType,
+        private readonly ComplementoInterface $complement,
+        private readonly DocumentStatus $documentStatus,
+        private readonly Uuid $uuid,
+        private readonly RfcOnBehalf $rfcOnBehalf,
+        private readonly RfcMatches $rfcMatches,
+        private readonly ServiceType $serviceType,
     ) {
-        $this->period = $period;
-        $this->downloadType = $downloadType;
-        $this->requestType = $requestType;
-        $this->documentType = $documentType;
-        $this->complement = $complement;
-        $this->documentStatus = $documentStatus;
-        $this->uuid = $uuid;
-        $this->rfcOnBehalf = $rfcOnBehalf;
-        $this->rfcMatches = $rfcMatches;
     }
 
     /**
      * Query static constructor method
-     *
-     * @param DateTimePeriod|null $period
-     * @param DownloadType|null $downloadType
-     * @param RequestType|null $requestType
-     * @return self
      */
     public static function create(
         ?DateTimePeriod $period = null,
         ?DownloadType $downloadType = null,
-        ?RequestType $requestType = null
+        ?RequestType $requestType = null,
+        ?ServiceType $serviceType = null,
     ): self {
+        $currentTime = time();
         return new self(
-            $period ?? DateTimePeriod::createFromValues($currentTime = time(), $currentTime),
-            $downloadType ?? DownloadType::issued(),
-            $requestType ?? RequestType::metadata(),
-            DocumentType::undefined(),
-            ComplementoUndefined::undefined(),
-            DocumentStatus::undefined(),
-            Uuid::empty(),
-            RfcOnBehalf::empty(),
-            RfcMatches::create()
+            period: $period ?? DateTimePeriod::createFromValues($currentTime, $currentTime),
+            downloadType: $downloadType ?? DownloadType::issued(),
+            requestType: $requestType ?? RequestType::metadata(),
+            documentType: DocumentType::undefined(),
+            complement: ComplementoUndefined::undefined(),
+            documentStatus: DocumentStatus::undefined(),
+            uuid: Uuid::empty(),
+            rfcOnBehalf: RfcOnBehalf::empty(),
+            rfcMatches: RfcMatches::create(),
+            serviceType: $serviceType ?? ServiceType::cfdi(),
         );
-    }
-
-    public function hasServiceType(): bool
-    {
-        return null !== $this->serviceType;
     }
 
     public function getServiceType(): ServiceType
     {
-        if (null === $this->serviceType) {
-            throw new LogicException('Service type has not been set');
-        }
         return $this->serviceType;
     }
 
@@ -220,18 +171,29 @@ final class QueryParameters implements JsonSerializable
         return $this->with('rfcMatches', RfcMatches::create($rfcMatch));
     }
 
-    /** @param mixed $value */
-    private function with(string $property, $value): self
+    private function with(string $property, mixed $value): self
     {
-        $clone = clone $this;
-        $clone->{$property} = $value;
-        return $clone;
+        $properties = [
+            $property => $value,
+        ] + [
+            'period' => $this->period,
+            'downloadType' => $this->downloadType,
+            'requestType' => $this->requestType,
+            'documentType' => $this->documentType,
+            'complement' => $this->complement,
+            'documentStatus' => $this->documentStatus,
+            'uuid' => $this->uuid,
+            'rfcOnBehalf' => $this->rfcOnBehalf,
+            'rfcMatches' => $this->rfcMatches,
+            'serviceType' => $this->serviceType,
+        ];
+        return new self(...$properties); /** @phpstan-ignore argument.type */
     }
 
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
-        return array_filter([
+        return [
             'serviceType' => $this->serviceType,
             'period' => $this->period,
             'downloadType' => $this->downloadType,
@@ -242,6 +204,6 @@ final class QueryParameters implements JsonSerializable
             'uuid' => $this->uuid,
             'rfcOnBehalf' => $this->rfcOnBehalf,
             'rfcMatches' => $this->rfcMatches,
-        ]);
+        ];
     }
 }

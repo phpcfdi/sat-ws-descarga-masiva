@@ -9,22 +9,12 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 final class QueryResult implements JsonSerializable
 {
-    /** @var StatusCode */
-    private $status;
-
-    /** @var string */
-    private $requestId;
-
-    public function __construct(StatusCode $statusCode, string $requestId)
+    public function __construct(private readonly StatusCode $status, private readonly string $requestId)
     {
-        $this->status = $statusCode;
-        $this->requestId = $requestId;
     }
 
     /**
      * Status of the verification call
-     *
-     * @return StatusCode
      */
     public function getStatus(): StatusCode
     {
@@ -33,8 +23,6 @@ final class QueryResult implements JsonSerializable
 
     /**
      * If accepted, contains the request identification required for verification
-     *
-     * @return string
      */
     public function getRequestId(): string
     {

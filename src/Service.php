@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva;
 
-use LogicException;
 use PhpCfdi\SatWsDescargaMasiva\Internal\ServiceConsumer;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Authenticate\AuthenticateTranslator;
@@ -24,56 +23,49 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
  */
 class Service
 {
-    /** @var RequestBuilderInterface */
-    private $requestBuilder;
+    private Token $token;
 
-    /** @var WebClientInterface */
-    private $webclient;
-
-    /** @var Token|null */
-    public $currentToken;
-
-    /** @var ServiceEndpoints */
-    private $endpoints;
+    private readonly ServiceEndpoints $endpoints;
 
     /**
      * Client constructor of "servicio de consulta y recuperación de comprobantes"
      *
-     * @param RequestBuilderInterface $requestBuilder
-     * @param WebClientInterface $webclient
-     * @param Token|null $currentToken
      * @param ServiceEndpoints|null $endpoints If NULL uses CFDI endpoints
      */
     public function __construct(
-        RequestBuilderInterface $requestBuilder,
-        WebClientInterface $webclient,
-        Token $currentToken = null,
-        ServiceEndpoints $endpoints = null
+        private readonly RequestBuilderInterface $requestBuilder,
+        private readonly WebClientInterface $webclient,
+        ?Token $token = null,
+        ?ServiceEndpoints $endpoints = null,
     ) {
-        $this->requestBuilder = $requestBuilder;
-        $this->webclient = $webclient;
-        $this->currentToken = $currentToken;
+        $this->token = $token ?? Token::empty();
         $this->endpoints = $endpoints ?? ServiceEndpoints::cfdi();
     }
 
     /**
      * This method will reuse the current token,
      * it will create a new one if there is none or the current token is no longer valid
-     *
-     * @return Token
      */
     public function obtainCurrentToken(): Token
     {
-        if (null === $this->currentToken || ! $this->currentToken->isValid()) {
-            $this->currentToken = $this->authenticate();
+        if (! $this->token->isValid()) {
+            $this->token = $this->authenticate();
         }
-        return $this->currentToken;
+        return $this->token;
+    }
+
+    public function getToken(): Token
+    {
+        return $this->token;
+    }
+
+    public function getEndpoints(): ServiceEndpoints
+    {
+        return $this->endpoints;
     }
 
     /**
      * Perform authentication and return a Token, the token might be invalid
-     *
-     * @return Token
      */
     public function authenticate(): Token
     {
@@ -82,31 +74,19 @@ class Service
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica',
             $this->endpoints->getAuthenticate(),
-            $soapBody
+            $soapBody,
+            null, // do not use a token
         );
         return $authenticateTranslator->createTokenFromSoapResponse($responseBody);
     }
 
     /**
      * Consume the "SolicitaDescarga" web service
-     *
-     * @param QueryParameters $parameters
-     * @return QueryResult
      */
     public function query(QueryParameters $parameters): QueryResult
     {
-        // fix parameters service type
-        if (! $parameters->hasServiceType()) {
-            $parameters = $parameters->withServiceType($this->endpoints->getServiceType());
-        }
         if (! $this->endpoints->getServiceType()->equalTo($parameters->getServiceType())) {
-            throw new LogicException(
-                sprintf(
-                    'The service type endpoints [%s] does not match with the service type query [%s]',
-                    $parameters->getServiceType()->value(),
-                    $this->endpoints->getServiceType()->value()
-                )
-            );
+            $parameters = $parameters->withServiceType($this->endpoints->getServiceType());
         }
         $queryTranslator = new QueryTranslator();
         $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
@@ -121,9 +101,6 @@ class Service
 
     /**
      * Consume the "VerificaSolicitudDescarga" web service
-     *
-     * @param string $requestId
-     * @return VerifyResult
      */
     public function verify(string $requestId): VerifyResult
     {
@@ -140,9 +117,6 @@ class Service
 
     /**
      * Consume the "Descargar" web service
-     *
-     * @param string $packageId
-     * @return DownloadResult
      */
     public function download(string $packageId): DownloadResult
     {
@@ -157,7 +131,7 @@ class Service
         return $downloadTranslator->createDownloadResultFromSoapResponse($responseBody);
     }
 
-    private function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
+    private function consume(string $soapAction, string $uri, string $body, ?Token $token): string
     {
         return ServiceConsumer::consume($this->webclient, $soapAction, $uri, $body, $token);
     }

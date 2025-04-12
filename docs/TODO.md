@@ -2,7 +2,7 @@
 
 ## Ejecutar deprecaciones
 
-- [ ] Remover el método `DownloadResult::getPackageLenght()`.
+- No hay deprecaciones actualmente.
 
 ## Tareas pendientes
 
@@ -10,6 +10,10 @@
     2020-10-09: Version 0.4.0 99%
     2020-05-01: Version 0.3.0 93%
     2019-12-06: Version 0.2.4 92%
+
+- Usar enumeradores de PHP en lugar de `eclipxe/enum`.
+
+- Cambiar de *getters* a propiedades públicas de solo lectura.
 
 ## Posibles ideas
 
@@ -20,6 +24,9 @@
   la lectura de los paquetes con el uso del servicio del SAT.
 
 ## Tareas resueltas
+
+- Remover el método `DownloadResult::getPackageLenght()`.
+    2025-03-29: Hecho en v0.5.
 
 - Mover la herramienta CLI de consumo con credenciales válidas a su propio proyecto dependiente de este.
     2020-10-14: Ya inició el desarrollo de `phpcfdi/sat-ws-descarga-masiva-cli`

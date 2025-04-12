@@ -10,12 +10,8 @@ use Throwable;
 
 final class Uuid implements JsonSerializable
 {
-    /** @var string */
-    private $value;
-
-    private function __construct(string $value)
+    private function __construct(private readonly string $value)
     {
-        $this->value = $value;
     }
 
     public static function create(string $value): self
@@ -37,7 +33,7 @@ final class Uuid implements JsonSerializable
         try {
             self::create($value);
             return true;
-        } catch (Throwable $exception) {
+        } catch (Throwable) {
             return false;
         }
     }

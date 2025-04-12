@@ -14,39 +14,21 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusRequest;
  */
 final class VerifyResult implements JsonSerializable
 {
-    /** @var StatusCode */
-    private $status;
-
-    /** @var StatusRequest */
-    private $statusRequest;
-
-    /** @var CodeRequest */
-    private $codeRequest;
-
-    /** @var int */
-    private $numberCfdis;
-
-    /** @var string[] */
-    private $packagesIds;
+    /** @var list<string> */
+    private readonly array $packagesIds;
 
     public function __construct(
-        StatusCode $statusCode,
-        StatusRequest $statusRequest,
-        CodeRequest $codeRequest,
-        int $numberCfdis,
-        string ...$packagesIds
+        private readonly StatusCode $status,
+        private readonly StatusRequest $statusRequest,
+        private readonly CodeRequest $codeRequest,
+        private readonly int $numberCfdis,
+        string ...$packagesIds,
     ) {
-        $this->status = $statusCode;
-        $this->statusRequest = $statusRequest;
-        $this->codeRequest = $codeRequest;
-        $this->numberCfdis = $numberCfdis;
-        $this->packagesIds = $packagesIds;
+        $this->packagesIds = array_values($packagesIds);
     }
 
     /**
      * Status of the verification call
-     *
-     * @return StatusCode
      */
     public function getStatus(): StatusCode
     {
@@ -55,8 +37,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Status of the query
-     *
-     * @return StatusRequest
      */
     public function getStatusRequest(): StatusRequest
     {
@@ -65,8 +45,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Code related to the status of the query
-     *
-     * @return CodeRequest
      */
     public function getCodeRequest(): CodeRequest
     {
@@ -75,8 +53,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Number of CFDI given by the query
-     *
-     * @return int
      */
     public function getNumberCfdis(): int
     {
@@ -95,8 +71,6 @@ final class VerifyResult implements JsonSerializable
 
     /**
      * Count of package identifications
-     *
-     * @return int
      */
     public function countPackages(): int
     {

@@ -14,12 +14,7 @@ use RuntimeException;
 class EnvelopSignatureVerifier
 {
     /**
-     * @param string $soapMessage
-     * @param string $namespaceURI
-     * @param string $mainNodeName
      * @param string[] $includeNamespaces
-     * @param string $certificateContents
-     * @return bool
      * @throws Exception If an error on RobRichards\XMLSecLibs occurs
      */
     public function verify(
@@ -27,7 +22,7 @@ class EnvelopSignatureVerifier
         string $namespaceURI,
         string $mainNodeName,
         array $includeNamespaces = [],
-        string $certificateContents = ''
+        string $certificateContents = '',
     ): bool {
         $soapDocument = new DOMDocument();
         $soapDocument->loadXML($soapMessage);

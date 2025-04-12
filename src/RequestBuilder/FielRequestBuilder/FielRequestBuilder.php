@@ -16,12 +16,8 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
  */
 final class FielRequestBuilder implements RequestBuilderInterface
 {
-    /** @var Fiel */
-    private $fiel;
-
-    public function __construct(Fiel $fiel)
+    public function __construct(private readonly Fiel $fiel)
     {
-        $this->fiel = $fiel;
     }
 
     public function getFiel(): Fiel
@@ -111,12 +107,10 @@ final class FielRequestBuilder implements RequestBuilderInterface
             ];
             if (! $rfcReceivers->isEmpty()) {
                 $xmlRfcReceived = implode('', array_map(
-                    function (RfcMatch $rfcMatch): string {
-                        return sprintf(
-                            '<des:RfcReceptor>%s</des:RfcReceptor>',
-                            $this->parseXml($rfcMatch->getValue())
-                        );
-                    },
+                    fn (RfcMatch $rfcMatch): string => sprintf(
+                        '<des:RfcReceptor>%s</des:RfcReceptor>',
+                        $this->parseXml($rfcMatch->getValue())
+                    ),
                     iterator_to_array($rfcReceivers)
                 ));
                 $xmlRfcReceived = "<des:RfcReceptores>$xmlRfcReceived</des:RfcReceptores>";
@@ -125,16 +119,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         $solicitudAttributes = array_filter(
             $solicitudAttributes,
-            static function (string $value): bool {
-                return '' !== $value;
-            }
+            static fn (string $value): bool => '' !== $value
         );
         ksort($solicitudAttributes);
 
         $solicitudAttributesAsText = implode(' ', array_map(
-            function (string $name, string $value): string {
-                return sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value));
-            },
+            fn (string $name, string $value): string => sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value)),
             array_keys($solicitudAttributes),
             $solicitudAttributes,
         ));
@@ -221,7 +211,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         return Helpers::nospaces($xml);
     }
 
-    private static function createXmlSecurityTokenId(): string
+    private function createXmlSecurityTokenId(): string
     {
         $md5 = md5(uniqid());
         return sprintf(

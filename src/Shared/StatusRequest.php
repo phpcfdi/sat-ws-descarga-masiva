@@ -50,8 +50,6 @@ final class StatusRequest extends MicroCatalog implements JsonSerializable
 
     /**
      * Contains the "EstadoSolicitud" value
-     *
-     * @return int
      */
     public function getValue(): int
     {

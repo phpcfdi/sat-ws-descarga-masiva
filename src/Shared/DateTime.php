@@ -15,21 +15,18 @@ use Throwable;
  */
 final class DateTime implements JsonSerializable
 {
-    /** @var DateTimeImmutable */
-    private $value;
+    private readonly DateTimeImmutable $value;
 
     /**
-     * DateTime constructor.
-     *
      * If $value is an integer is used as a timestamp, if is a string is evaluated
      * as an argument for DateTimeImmutable and if it is DateTimeImmutable is used as is.
      *
      * @param int|string|DateTimeImmutable|mixed $value
      * @throws InvalidArgumentException if unable to create a DateTime
      */
-    public function __construct($value = null)
+    public function __construct(mixed $value = null)
     {
-        $value = $value ?? 'now';
+        $value ??= 'now';
         if (is_int($value)) {
             $value = sprintf('@%d', $value);
         }
@@ -54,9 +51,8 @@ final class DateTime implements JsonSerializable
      * as an argument for DateTimeImmutable and if it is DateTimeImmutable is used as is.
      *
      * @param int|string|DateTimeImmutable|null $value
-     * @return self
      */
-    public static function create($value = null): self
+    public static function create(mixed $value = null): self
     {
         return new self($value);
     }
@@ -73,7 +69,7 @@ final class DateTime implements JsonSerializable
 
     public function format(string $format, string $timezone = ''): string
     {
-        if (empty($timezone)) {
+        if ('' === $timezone) {
             $timezone = date_default_timezone_get();
         }
 

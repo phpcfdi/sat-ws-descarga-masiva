@@ -14,39 +14,12 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
  */
 final class ServiceEndpoints
 {
-    /** @var string */
-    private $authenticate;
-
-    /** @var string */
-    private $query;
-
-    /** @var string */
-    private $verify;
-
-    /** @var string */
-    private $download;
-
-    /** @var ServiceType */
-    private $serviceType;
-
-    public function __construct(
-        string $authenticate,
-        string $query,
-        string $verify,
-        string $download,
-        ServiceType $serviceType
-    ) {
-        $this->authenticate = $authenticate;
-        $this->query = $query;
-        $this->verify = $verify;
-        $this->download = $download;
-        $this->serviceType = $serviceType;
+    public function __construct(private readonly string $authenticate, private readonly string $query, private readonly string $verify, private readonly string $download, private readonly ServiceType $serviceType)
+    {
     }
 
     /**
      * Create an object with known endpoints for "CFDI regulares"
-     *
-     * @return self
      */
     public static function cfdi(): self
     {
@@ -61,8 +34,6 @@ final class ServiceEndpoints
 
     /**
      * Create an object with known endpoints for "CFDI de retenciones e información de pagos"
-     *
-     * @return self
      */
     public static function retenciones(): self
     {

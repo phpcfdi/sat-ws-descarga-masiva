@@ -18,7 +18,6 @@ interface PackageReaderInterface extends Countable, JsonSerializable
     /**
      * Open a file as a package
      *
-     * @param string $filename
      * @return static
      * @throws OpenZipFileException
      */
@@ -28,7 +27,6 @@ interface PackageReaderInterface extends Countable, JsonSerializable
      * Open the given content as a package
      * If it creates a temporary file the file must be removed automatically
      *
-     * @param string $content
      * @return static
      * @throws CreateTemporaryZipFileException
      * @throws OpenZipFileException
@@ -40,19 +38,15 @@ interface PackageReaderInterface extends Countable, JsonSerializable
      *
      * @return Traversable<string, string>
      */
-    public function fileContents();
+    public function fileContents(): Traversable;
 
     /**
      * Return the number of elements on the package
-     *
-     * @return int
      */
     public function count(): int;
 
     /**
      * Retrieve the currently open file name
-     *
-     * @return string
      */
     public function getFilename(): string;
 }

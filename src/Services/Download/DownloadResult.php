@@ -9,26 +9,15 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
 
 final class DownloadResult implements JsonSerializable
 {
-    /** @var StatusCode */
-    private $status;
+    private readonly int $packageSize;
 
-    /** @var string */
-    private $packageContent;
-
-    /** @var int */
-    private $packageSize;
-
-    public function __construct(StatusCode $statusCode, string $packageContent)
+    public function __construct(private readonly StatusCode $status, private readonly string $packageContent)
     {
-        $this->status = $statusCode;
-        $this->packageContent = $packageContent;
         $this->packageSize = strlen($this->packageContent);
     }
 
     /**
      * Status of the download call
-     *
-     * @return StatusCode
      */
     public function getStatus(): StatusCode
     {
@@ -37,8 +26,6 @@ final class DownloadResult implements JsonSerializable
 
     /**
      * If available, contains the package contents
-     *
-     * @return string
      */
     public function getPackageContent(): string
     {
@@ -47,27 +34,10 @@ final class DownloadResult implements JsonSerializable
 
     /**
      * Contains the package contents size in bytes
-     *
-     * @return int
      */
     public function getPackageSize(): int
     {
         return $this->packageSize;
-    }
-
-    /**
-     * If available, contains the package contents length in bytes
-     *
-     * @return int
-     * @deprecated 0.5.0
-     */
-    public function getPackageLenght(): int
-    {
-        trigger_error(
-            'Method DownloadResult::getPackageLenght() is deprecated, use DownloadResult::getPackageSize() instead',
-            E_USER_DEPRECATED
-        );
-        return $this->getPackageSize();
     }
 
     /** @return array<string, mixed> */

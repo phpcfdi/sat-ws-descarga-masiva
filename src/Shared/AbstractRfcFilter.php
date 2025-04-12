@@ -12,12 +12,8 @@ use Throwable;
 
 abstract class AbstractRfcFilter implements JsonSerializable
 {
-    /** @var Rfc|null */
-    private $value;
-
-    final protected function __construct(?Rfc $value)
+    final protected function __construct(private readonly ?Rfc $value)
     {
-        $this->value = $value;
     }
 
     /** @return static */
@@ -41,7 +37,7 @@ abstract class AbstractRfcFilter implements JsonSerializable
         try {
             self::create($value);
             return true;
-        } catch (Throwable $exception) {
+        } catch (Throwable) {
             return false;
         }
     }

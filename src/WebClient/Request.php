@@ -8,31 +8,16 @@ use JsonSerializable;
 
 final class Request implements JsonSerializable
 {
-    /** @var string */
-    private $method;
-
-    /** @var string */
-    private $uri;
-
-    /** @var string */
-    private $body;
-
     /** @var array<string, string> */
-    private $headers;
+    private readonly array $headers;
 
     /**
      * Minimal representation of http request object.
      *
-     * @param string $method
-     * @param string $uri
-     * @param string $body
      * @param array<string, string> $headers
      */
-    public function __construct(string $method, string $uri, string $body, array $headers)
+    public function __construct(private readonly string $method, private readonly string $uri, private readonly string $body, array $headers)
     {
-        $this->method = $method;
-        $this->uri = $uri;
-        $this->body = $body;
         /** @var array<string, string> $headers */
         $headers = array_filter(array_merge($this->defaultHeaders(), $headers));
         $this->headers = $headers;

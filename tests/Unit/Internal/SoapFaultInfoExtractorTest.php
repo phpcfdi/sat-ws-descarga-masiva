@@ -33,7 +33,6 @@ class SoapFaultInfoExtractorTest extends TestCase
     }
 
     /**
-     * @param string $source
      * @testWith ["not valid xml"]
      *           [""]
      *           ["</malformed>"]

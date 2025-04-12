@@ -43,10 +43,6 @@ trait InteractsXmlTrait
 
     /**
      * Find the element determined by the chain of children
-     *
-     * @param DOMElement $element
-     * @param string ...$names
-     * @return DOMElement|null
      */
     public function findElement(DOMElement $element, string ...$names): ?DOMElement
     {
@@ -88,8 +84,6 @@ trait InteractsXmlTrait
     }
 
     /**
-     * @param DOMElement $element
-     * @param string ...$names
      * @return DOMElement[]
      */
     public function findElements(DOMElement $element, string ...$names): array
@@ -113,16 +107,12 @@ trait InteractsXmlTrait
     }
 
     /**
-     * @param DOMElement $element
-     * @param string ...$names
      * @return string[]
      */
     public function findContents(DOMElement $element, string ...$names): array
     {
         return array_map(
-            function (DOMElement $element) {
-                return $this->extractElementContent($element);
-            },
+            fn (DOMElement $element) => $this->extractElementContent($element),
             $this->findElements($element, ...$names)
         );
     }
@@ -131,8 +121,6 @@ trait InteractsXmlTrait
      * Find the element determined by the chain of children and return the attributes as an
      * array using the attribute name as array key and attribute value as entry value.
      *
-     * @param DOMElement $element
-     * @param string ...$search
      * @return array<string, string>
      */
     public function findAttributes(DOMElement $element, string ...$search): array

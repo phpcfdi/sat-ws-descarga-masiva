@@ -12,23 +12,19 @@ use JsonSerializable;
  */
 final class Token implements JsonSerializable
 {
-    /** @var DateTime */
-    private $created;
-
-    /** @var DateTime */
-    private $expires;
-
-    /** @var string */
-    private $value;
-
-    public function __construct(DateTime $created, DateTime $expires, string $value)
-    {
-        if ($expires->compareTo($created) < 0) {
+    public function __construct(
+        private readonly DateTime $created,
+        private readonly DateTime $expires,
+        private readonly string $value,
+    ) {
+        if ($this->expires->compareTo($this->created) < 0) {
             throw new InvalidArgumentException('Cannot create a token with expiration lower than creation');
         }
-        $this->created = $created;
-        $this->expires = $expires;
-        $this->value = $value;
+    }
+
+    public static function empty(): self
+    {
+        return new self(DateTime::create(0), DateTime::create(0), '');
     }
 
     /**
@@ -52,8 +48,6 @@ final class Token implements JsonSerializable
 
     /**
      * Token value
-     *
-     * @return string
      */
     public function getValue(): string
     {
@@ -61,9 +55,7 @@ final class Token implements JsonSerializable
     }
 
     /**
-     * A token is empty if does not contains an internal value
-     *
-     * @return bool
+     * A token is empty if it does not contain an internal value
      */
     public function isValueEmpty(): bool
     {
@@ -72,8 +64,6 @@ final class Token implements JsonSerializable
 
     /**
      * A token is expired if the expiration date is greater or equal to current time
-     *
-     * @return bool
      */
     public function isExpired(): bool
     {
@@ -82,12 +72,10 @@ final class Token implements JsonSerializable
 
     /**
      * A token is valid if contains a value and is not expired
-     *
-     * @return bool
      */
     public function isValid(): bool
     {
-        return ! ($this->isValueEmpty() || $this->isExpired());
+        return ! $this->isValueEmpty() && ! $this->isExpired();
     }
 
     /** @return array<string, mixed> */

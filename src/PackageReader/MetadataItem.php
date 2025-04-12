@@ -28,17 +28,9 @@ use JsonSerializable;
  */
 final class MetadataItem implements JsonSerializable
 {
-    /** @var array<string, string> */
-    private $data;
-
-    /**
-     * MetadataItem constructor.
-     *
-     * @param array<string, string> $data
-     */
-    public function __construct(array $data)
+    /** @param array<string, string> $data */
+    public function __construct(private array $data)
     {
-        $this->data = $data;
     }
 
     public function __get(string $name): string

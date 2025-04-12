@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-    cacheResultFile="./build/phpunit.result.cache"
-    bootstrap="./tests/bootstrap.php"
-    convertDeprecationsToExceptions="true"
-    colors="true"
-    >
-    <testsuites>
-        <testsuite name="Default">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <coverage>
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
+  xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+  cacheDirectory="build/phpunit.cache"
+  bootstrap="./tests/bootstrap.php"
+  colors="true"
+  >
+  <testsuites>
+    <testsuite name="Default">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
 </phpunit>

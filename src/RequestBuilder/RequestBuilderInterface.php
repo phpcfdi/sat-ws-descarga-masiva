@@ -16,10 +16,7 @@ interface RequestBuilderInterface
     /**
      * Creates an authorization signed xml message
      *
-     * @param DateTime $created
-     * @param DateTime $expires
      * @param string $securityTokenId if empty, the authentication method will create one by its own
-     * @return string
      * @throws RequestBuilderException
      */
     public function authorization(DateTime $created, DateTime $expires, string $securityTokenId = ''): string;
@@ -27,8 +24,6 @@ interface RequestBuilderInterface
     /**
      * Creates a query signed xml message
      *
-     * @param QueryParameters $queryParameters
-     * @return string
      * @throws RequestBuilderException
      */
     public function query(QueryParameters $queryParameters): string;
@@ -36,8 +31,6 @@ interface RequestBuilderInterface
     /**
      * Creates a verify signed xml message
      *
-     * @param string $requestId
-     * @return string
      * @throws RequestBuilderException
      */
     public function verify(string $requestId): string;
@@ -45,8 +38,6 @@ interface RequestBuilderInterface
     /**
      * Creates a download signed xml message
      *
-     * @param string $packageId
-     * @return string
      * @throws RequestBuilderException
      */
     public function download(string $packageId): string;
