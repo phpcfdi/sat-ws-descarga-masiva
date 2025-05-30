@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
+use DOMElement;
 use PhpCfdi\SatWsDescargaMasiva\Internal\InteractsXmlTrait;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
@@ -13,22 +14,25 @@ class QueryTranslator
 {
     use InteractsXmlTrait;
 
-    private function resolveResponsePath(QueryParameters $parameters): array
+    private function resolveResponsePath(DOMElement $envelope): array
     {
-        $responsePath = $parameters->getDownloadType()->isReceived()
-            ? ['body', 'solicitaDescargaRecibidosResponse', 'solicitaDescargaRecibidosResult']
-            : ['body', 'solicitaDescargaEmitidosResponse', 'solicitaDescargaEmitidosResult'];
-        if (!$parameters->getUuid()->isEmpty()) {
-            $responsePath = ['body', 'solicitaDescargaFolioResponse', 'solicitaDescargaFolioResult'];
-        }
-        return $responsePath;
+        return match (true) {
+            null !== $this->findElement($envelope, 'body', 'solicitaDescargaEmitidosResponse')
+                => ['body', 'solicitaDescargaEmitidosResponse', 'solicitaDescargaEmitidosResult'],
+            null !== $this->findElement($envelope, 'body', 'solicitaDescargaRecibidosResponse')
+                => ['body', 'solicitaDescargaRecibidosResponse', 'solicitaDescargaRecibidosResult'],
+            null !== $this->findElement($envelope, 'body', 'SolicitaDescargaFolioResponse')
+                => ['body', 'SolicitaDescargaFolioResponse', 'SolicitaDescargaFolioResult'],
+            default => [], // throw an InvalidArgumentException ?
+        };
     }
 
-    public function createQueryResultFromSoapResponse(string $content, QueryParameters $parameters): QueryResult
+    public function createQueryResultFromSoapResponse(string $content): QueryResult
     {
         $env = $this->readXmlElement($content);
+        $path = $this->resolveResponsePath($env);
 
-        $values = $this->findAttributes($env, ...$this->resolveResponsePath($parameters));
+        $values = $this->findAttributes($env, ...$path);
         $status = new StatusCode(intval($values['codestatus'] ?? 0), strval($values['mensaje'] ?? ''));
         $requestId = strval($values['idsolicitud'] ?? '');
         return new QueryResult($status, $requestId);

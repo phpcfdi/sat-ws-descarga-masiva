@@ -97,7 +97,7 @@ class Service
             $soapBody,
             $this->obtainCurrentToken()
         );
-        return $queryTranslator->createQueryResultFromSoapResponse($responseBody, $parameters);
+        return $queryTranslator->createQueryResultFromSoapResponse($responseBody);
     }
 
     /**
