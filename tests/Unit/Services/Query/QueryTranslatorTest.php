@@ -21,7 +21,7 @@ class QueryTranslatorTest extends TestCase
 
         $translator = new QueryTranslator();
         $responseBody = Helpers::nospaces($this->fileContents('query/response-with-id.xml'));
-        $result = $translator->createQueryResultFromSoapResponse($responseBody);
+        $result = $translator->createQueryResultFromSoapResponse($responseBody, QueryParameters::create());
         $status = $result->getStatus();
 
         $this->assertSame($expectedRequestId, $result->getRequestId());

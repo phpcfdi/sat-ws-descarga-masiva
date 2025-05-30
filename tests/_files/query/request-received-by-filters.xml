@@ -2,24 +2,21 @@
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
   <s:Header/>
   <s:Body>
-    <des:SolicitaDescarga>
-      <des:solicitud Complemento="nomina12" EstadoComprobante="1" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcACuentaTerceros="XXX01010199A" RfcEmisor="AAA010101AAA" RfcSolicitante="EKU9003173C9" TipoComprobante="N" TipoSolicitud="CFDI">
-        <des:RfcReceptores>
-          <des:RfcReceptor>EKU9003173C9</des:RfcReceptor>
-        </des:RfcReceptores>
+    <des:SolicitaDescargaRecibidos>
+      <des:solicitud Complemento="nomina12" EstadoComprobante="Vigente" FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcACuentaTerceros="XXX01010199A" RfcEmisor="AAA010101AAA" RfcReceptor="EKU9003173C9" RfcSolicitante="EKU9003173C9" TipoComprobante="N" TipoSolicitud="CFDI">
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
           <SignedInfo>
-            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
             <Reference URI="">
               <Transforms>
-                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
               </Transforms>
-              <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <DigestValue>urJ4pg32vV2oozJcBBKRcxoAydo=</DigestValue>
+              <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+              <DigestValue>kb02ycztMva0O2fcJU4VMV2gOkg=</DigestValue>
             </Reference>
           </SignedInfo>
-          <SignatureValue>At91HNvPZVv9pbasARo0yrbq4zCTJOKXzIRBP8K5twgnXbFjcBRPl3zQ3fUDggFlJ6e4CEgRJd9UQbBG8c+KL9mJ1WuUUIrRuGn3a7X1nwNNPG2N/j8MyQiUCkh7oa7moYn0oC6IaDP1MZrnYmz96jx3r+iLuUQUn2PpIKgtHKDE5ZuorZg72ywzAGSapo3LSNbvJryquwx1MrC/JHUo62RvvcCudmyF6mgQhj28KN63vhgFr/amxNgk1HxM44+Ml1aVF34cKS3idxdeXfBjDzIJb16h9l9aTV099GEvnaMRNgmfM7X5z6tHbqYtolM1HRL+FcPHqObpunY0F+m/HA==</SignatureValue>
+          <SignatureValue>Z2q9IvrEL/sDwHxAgc9ZPB2uJN5I6/kqhrXtIRdNwMJfXVKO+QSewanPkJutMefNE2qUPpPCkwC1ia0wSrygft9irS7N5TSqI7q1wCeNilFIjIxS3/SfHmZ5LjgqghkENiPb3pB5CfUMoyvhfZsgY9rn61yxHaKV+5hCSjTpuAbO9HRbiP8oUzEl4n2NZGoZVfkKrgxaJg4av6uFXVlytMyWcYka+MaR79xxXoku7XufFfP08WeEtqhMAinAFKKzauFC9cioOlyw1OJSGSsUJjAwCUHacqIEJzZc1lDWVX3hX840udgpt0SMeRuL776HQ2SNwubCmZi21rjRh7ZgEg==</SignatureValue>
           <KeyInfo>
             <X509Data>
               <X509IssuerSerial>
@@ -31,6 +28,6 @@
           </KeyInfo>
         </Signature>
       </des:solicitud>
-    </des:SolicitaDescarga>
+    </des:SolicitaDescargaRecibidos>
   </s:Body>
 </s:Envelope>

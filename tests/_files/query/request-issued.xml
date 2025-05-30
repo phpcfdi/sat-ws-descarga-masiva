@@ -2,21 +2,21 @@
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
   <s:Header/>
   <s:Body>
-    <des:SolicitaDescarga>
+    <des:SolicitaDescargaEmitidos>
       <des:solicitud FechaFinal="2019-01-01T00:04:00" FechaInicial="2019-01-01T00:00:00" RfcEmisor="EKU9003173C9" RfcSolicitante="EKU9003173C9" TipoSolicitud="Metadata">
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
           <SignedInfo>
-            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
             <Reference URI="">
               <Transforms>
-                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
               </Transforms>
-              <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <DigestValue>d6h7Fcn0bVGiSGPNK39LEkMfI/M=</DigestValue>
+              <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+              <DigestValue>/MhXJI+j7+tTJAmB2sxZFIyKKSU=</DigestValue>
             </Reference>
           </SignedInfo>
-          <SignatureValue>XYRjWMmBO1VoBDlqVhl46Upn9cwRW27EdEQG1GCJe9ZYaqRbyVImt9euQ14gWQ7dW5k7l50sCqjAAAdCeL0yAt3bQ78zVnnP/HI2LJhYIA68AYstmDaXS3kHgCo7hK3qmmCxb4RCY4dYPih2Orc+iUoMXEWk1a0I3LwWK4k1pRTKURwM4xpmknYLENukvpgAGEDDiYUzOyATj3L+AjM6CfXhoWm3BBAEPQL1ciU332fKCzv+rvd1c4oNTddAN59yPkAWUBM0VdWYph+o5MgPvnBXwuG9dzHpiAViIdzzlvC/0RpPOIwVO+BQj2qXYYrJYJ/IXHbVDeczgM/ITmFsDA==</SignatureValue>
+          <SignatureValue>wbFWOJIMfdXPlpMw+tfmgXDuHP3mBu+Uzw51jDk55tEaiZab8h2c/YBp0PHVHhGopOY030ddJWhh5H7deiVIE3rhpHqt7AeP4y5FlivaBUVlV6Zq9uos5Rr1ATRvzgPuIKe5doX8M4zpnR7QFkMH+yzVRrHlskiP+6gAoeesuuxunEb1PYLjfH68o5SFWBE1DNxEl5kmZHAlktZxdHkdWEmPyRZOVyMSnpn+mGwpjpoP+B2YMnKDqwcakxoGkIbhNVBOmDiiPCdOLggfaTZ/grXm+0IQSzLWScy6LhAiHh0PssPoAQkXd/TYRO5XKsDLqLzcxUn/z5kdlYvDbRRErw==</SignatureValue>
           <KeyInfo>
             <X509Data>
               <X509IssuerSerial>
@@ -28,6 +28,6 @@
           </KeyInfo>
         </Signature>
       </des:solicitud>
-    </des:SolicitaDescarga>
+    </des:SolicitaDescargaEmitidos>
   </s:Body>
 </s:Envelope>

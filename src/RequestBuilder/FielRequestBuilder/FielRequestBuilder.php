@@ -81,7 +81,9 @@ final class FielRequestBuilder implements RequestBuilderInterface
         ];
 
         if ($queryByUuid) {
-            $solicitudAttributes = $solicitudAttributes + [
+            $downloadTypeNodeName = 'SolicitaDescargaFolio';
+            $solicitudAttributes = [
+                'RfcSolicitante' => $rfcSigner,
                 'Folio' => $queryParameters->getUuid()->getValue(),
             ];
         } else {
@@ -96,6 +98,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
                 $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
             }
+
             $solicitudAttributes = $solicitudAttributes + [
                 'FechaInicial' => $start,
                 'FechaFinal' => $end,
@@ -105,7 +108,15 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
                 'Complemento' => $queryParameters->getComplement()->value(),
             ];
-            if (! $rfcReceivers->isEmpty()) {
+            if ($queryParameters->getDownloadType()->isReceived()) {
+                $solicitudAttributes['RfcReceptor'] = $this->getFiel()->getRfc();
+            }
+            // If the request type is XML and the download type is "received", the EstadoComprobante must be "Vigente" only
+            if ($queryParameters->getRequestType()->isXml() && $queryParameters->getDownloadType()->isReceived()) {
+                $solicitudAttributes['EstadoComprobante'] = 'Vigente';
+            }
+            // Only when a download type is issued
+            if (! $rfcReceivers->isEmpty() && $queryParameters->getDownloadType()->isIssued()) {
                 $xmlRfcReceived = implode('', array_map(
                     fn (RfcMatch $rfcMatch): string => sprintf(
                         '<des:RfcReceptor>%s</des:RfcReceptor>',
@@ -129,12 +140,16 @@ final class FielRequestBuilder implements RequestBuilderInterface
             $solicitudAttributes,
         ));
 
+        if (! $queryByUuid) {
+            $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued() ? 'SolicitaDescargaEmitidos' : 'SolicitaDescargaRecibidos';
+        }
+
         $toDigestXml = <<<EOT
-            <des:SolicitaDescarga xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+            <des:$downloadTypeNodeName xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
                 <des:solicitud $solicitudAttributesAsText>
                     $xmlRfcReceived
                 </des:solicitud>
-            </des:SolicitaDescarga>
+            </des:$downloadTypeNodeName>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
 
@@ -142,12 +157,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
             <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
                 <s:Header/>
                 <s:Body>
-                    <des:SolicitaDescarga>
+                    <des:$downloadTypeNodeName>
                         <des:solicitud $solicitudAttributesAsText>
                             $xmlRfcReceived
                             $signatureData
                         </des:solicitud>
-                    </des:SolicitaDescarga>
+                    </des:$downloadTypeNodeName>
                 </s:Body>
             </s:Envelope>
             EOT;

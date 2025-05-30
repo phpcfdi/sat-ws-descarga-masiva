@@ -13,11 +13,20 @@ class QueryTranslator
 {
     use InteractsXmlTrait;
 
-    public function createQueryResultFromSoapResponse(string $content): QueryResult
+    private function resolveResponsePath(QueryParameters $parameters): array
+    {
+        $responsePath = $parameters->getDownloadType()->isReceived() ? ['body', 'solicitaDescargaRecibidosResponse', 'solicitaDescargaRecibidosResult'] : ['body', 'solicitaDescargaEmitidosResponse', 'solicitaDescargaEmitidosResult'];
+        if (! $parameters->getUuid()->isEmpty()) {
+            $responsePath = ['body', 'solicitaDescargaFolioResponse', 'solicitaDescargaFolioResult'];
+        }
+        return $responsePath;
+    }
+
+    public function createQueryResultFromSoapResponse(string $content, QueryParameters $parameters): QueryResult
     {
         $env = $this->readXmlElement($content);
 
-        $values = $this->findAttributes($env, 'body', 'solicitaDescargaResponse', 'solicitaDescargaResult');
+        $values = $this->findAttributes($env, ...$this->resolveResponsePath($parameters));
         $status = new StatusCode(intval($values['codestatus'] ?? 0), strval($values['mensaje'] ?? ''));
         $requestId = strval($values['idsolicitud'] ?? '');
         return new QueryResult($status, $requestId);

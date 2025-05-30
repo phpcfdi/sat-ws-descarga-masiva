@@ -115,7 +115,7 @@ class FielRequestBuilderTest extends TestCase
         );
 
         $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescargaRecibidos');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
@@ -135,7 +135,7 @@ class FielRequestBuilderTest extends TestCase
         );
 
         $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescargaFolio');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
@@ -156,7 +156,7 @@ class FielRequestBuilderTest extends TestCase
         );
 
         $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescargaEmitidos');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 

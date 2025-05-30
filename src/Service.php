@@ -90,13 +90,14 @@ class Service
         }
         $queryTranslator = new QueryTranslator();
         $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
+        $soapAction = $this->resolveSoapAction($parameters);
         $responseBody = $this->consume(
-            'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
+            "http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/$soapAction",
             $this->endpoints->getQuery(),
             $soapBody,
             $this->obtainCurrentToken()
         );
-        return $queryTranslator->createQueryResultFromSoapResponse($responseBody);
+        return $queryTranslator->createQueryResultFromSoapResponse($responseBody, $parameters);
     }
 
     /**
@@ -129,6 +130,15 @@ class Service
             $this->obtainCurrentToken()
         );
         return $downloadTranslator->createDownloadResultFromSoapResponse($responseBody);
+    }
+
+    private function resolveSoapAction(QueryParameters $parameters): string
+    {
+        $soapAction = $parameters->getDownloadType()->isReceived() ? 'SolicitaDescargaRecibidos' : 'SolicitaDescargaEmitidos';
+        if (! $parameters->getUuid()->isEmpty()) {
+            $soapAction = 'SolicitaDescargaFolio';
+        }
+        return $soapAction;
     }
 
     private function consume(string $soapAction, string $uri, string $body, ?Token $token): string
