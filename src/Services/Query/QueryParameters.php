@@ -48,7 +48,7 @@ final class QueryParameters implements JsonSerializable
     ): self {
         $currentTime = time();
         return new self(
-            period: $period ?? DateTimePeriod::createFromValues($currentTime, $currentTime + 1),
+            period: $period ?? DateTimePeriod::createFromValues($currentTime, $currentTime+1),
             downloadType: $downloadType ?? DownloadType::issued(),
             requestType: $requestType ?? RequestType::metadata(),
             documentType: DocumentType::undefined(),

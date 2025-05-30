@@ -8,6 +8,7 @@ use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 
@@ -70,7 +71,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     public function query(QueryParameters $queryParameters): string
     {
-        $queryByUuid = ! $queryParameters->getUuid()->isEmpty();
+        $queryByUuid = !$queryParameters->getUuid()->isEmpty();
         $xmlRfcReceived = '';
         $requestType = $queryParameters->getRequestType()->getQueryAttributeValue($queryParameters->getServiceType());
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
@@ -83,9 +84,9 @@ final class FielRequestBuilder implements RequestBuilderInterface
         if ($queryByUuid) {
             $downloadTypeNodeName = 'SolicitaDescargaFolio';
             $solicitudAttributes = [
-                'RfcSolicitante' => $rfcSigner,
-                'Folio' => $queryParameters->getUuid()->getValue(),
-            ];
+                    'RfcSolicitante' => $rfcSigner,
+                    'Folio' => $queryParameters->getUuid()->getValue(),
+                ];
         } else {
             $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
             $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
@@ -100,14 +101,14 @@ final class FielRequestBuilder implements RequestBuilderInterface
             }
 
             $solicitudAttributes = $solicitudAttributes + [
-                'FechaInicial' => $start,
-                'FechaFinal' => $end,
-                'RfcEmisor' => $rfcIssuer,
-                'TipoComprobante' => $queryParameters->getDocumentType()->value(),
-                'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
-                'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
-                'Complemento' => $queryParameters->getComplement()->value(),
-            ];
+                    'FechaInicial' => $start,
+                    'FechaFinal' => $end,
+                    'RfcEmisor' => $rfcIssuer,
+                    'TipoComprobante' => $queryParameters->getDocumentType()->value(),
+                    'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
+                    'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
+                    'Complemento' => $queryParameters->getComplement()->value(),
+                ];
             if ($queryParameters->getDownloadType()->isReceived()) {
                 $solicitudAttributes['RfcReceptor'] = $this->getFiel()->getRfc();
             }
@@ -116,9 +117,9 @@ final class FielRequestBuilder implements RequestBuilderInterface
                 $solicitudAttributes['EstadoComprobante'] = 'Vigente';
             }
             // Only when a download type is issued
-            if (! $rfcReceivers->isEmpty() && $queryParameters->getDownloadType()->isIssued()) {
+            if (!$rfcReceivers->isEmpty() && $queryParameters->getDownloadType()->isIssued()) {
                 $xmlRfcReceived = implode('', array_map(
-                    fn (RfcMatch $rfcMatch): string => sprintf(
+                    fn(RfcMatch $rfcMatch): string => sprintf(
                         '<des:RfcReceptor>%s</des:RfcReceptor>',
                         $this->parseXml($rfcMatch->getValue())
                     ),
@@ -130,18 +131,20 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         $solicitudAttributes = array_filter(
             $solicitudAttributes,
-            static fn (string $value): bool => '' !== $value
+            static fn(string $value): bool => '' !== $value
         );
         ksort($solicitudAttributes);
 
         $solicitudAttributesAsText = implode(' ', array_map(
-            fn (string $name, string $value): string => sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value)),
+            fn(string $name, string $value): string => sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value)),
             array_keys($solicitudAttributes),
             $solicitudAttributes,
         ));
 
-        if (! $queryByUuid) {
-            $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued() ? 'SolicitaDescargaEmitidos' : 'SolicitaDescargaRecibidos';
+        if (!$queryByUuid) {
+            $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued()
+                ? 'SolicitaDescargaEmitidos'
+                : 'SolicitaDescargaRecibidos';
         }
 
         $toDigestXml = <<<EOT

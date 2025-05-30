@@ -134,8 +134,10 @@ class Service
 
     private function resolveSoapAction(QueryParameters $parameters): string
     {
-        $soapAction = $parameters->getDownloadType()->isReceived() ? 'SolicitaDescargaRecibidos' : 'SolicitaDescargaEmitidos';
-        if (! $parameters->getUuid()->isEmpty()) {
+        $soapAction = $parameters->getDownloadType()->isReceived()
+            ? 'SolicitaDescargaRecibidos'
+            : 'SolicitaDescargaEmitidos';
+        if (!$parameters->getUuid()->isEmpty()) {
             $soapAction = 'SolicitaDescargaFolio';
         }
         return $soapAction;
