@@ -92,7 +92,7 @@ class FielRequestBuilderTest extends TestCase
         return $matches['id'] ?? '';
     }
 
-    public function testQueryReceivedByFilters(): void
+    public function testQueryReceived(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $parameters = QueryParameters::create()
@@ -108,9 +108,9 @@ class FielRequestBuilderTest extends TestCase
         ;
         $requestBody = $requestBuilder->query($parameters);
 
-        /** @see tests/_files/query/request-received-by-filters.xml */
+        /** @see tests/_files/query/request-received.xml */
         $this->assertSame(
-            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-filters.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received.xml'))),
             $this->xmlFormat($requestBody)
         );
 
@@ -119,7 +119,7 @@ class FielRequestBuilderTest extends TestCase
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
-    public function testQueryReceivedByUuid(): void
+    public function testQueryByUuid(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $parameters = QueryParameters::create()
@@ -128,9 +128,9 @@ class FielRequestBuilderTest extends TestCase
         ;
         $requestBody = $requestBuilder->query($parameters);
 
-        /** @see tests/_files/query/request-received-by-uuid.xml */
+        /** @see tests/_files/query/request-item.xml */
         $this->assertSame(
-            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-uuid.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-item.xml'))),
             $this->xmlFormat($requestBody)
         );
 

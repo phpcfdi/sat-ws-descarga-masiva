@@ -71,88 +71,96 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
     public function query(QueryParameters $queryParameters): string
     {
-        $queryByUuid = !$queryParameters->getUuid()->isEmpty();
+        if (! $queryParameters->getUuid()->isEmpty()) {
+            return $this->queryFolio($queryParameters);
+        }
+        return $this->queryIssuedReceived($queryParameters);
+    }
+
+    private function queryFolio(QueryParameters $queryParameters): string
+    {
+        $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
+        $attributes = [
+            'RfcSolicitante' => $rfcSigner,
+            'Folio' => $queryParameters->getUuid()->getValue(),
+        ];
+        return $this->buildFinalXml('SolicitaDescargaFolio', $attributes, '');
+    }
+
+    private function queryIssuedReceived(QueryParameters $queryParameters): string
+    {
         $xmlRfcReceived = '';
         $requestType = $queryParameters->getRequestType()->getQueryAttributeValue($queryParameters->getServiceType());
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
 
-        $solicitudAttributes = [
+        $attributes = [
             'RfcSolicitante' => $rfcSigner,
             'TipoSolicitud' => $requestType,
         ];
 
-        if ($queryByUuid) {
-            $downloadTypeNodeName = 'SolicitaDescargaFolio';
-            $solicitudAttributes = [
-                    'RfcSolicitante' => $rfcSigner,
-                    'Folio' => $queryParameters->getUuid()->getValue(),
-                ];
+        $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
+        $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
+        if ($queryParameters->getDownloadType()->isIssued()) {
+            // issued documents, counterparts are receivers
+            $rfcIssuer = $rfcSigner;
+            $rfcReceivers = $queryParameters->getRfcMatches();
         } else {
-            $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
-            $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
-            if ($queryParameters->getDownloadType()->isIssued()) {
-                // issued documents, counterparts are receivers
-                $rfcIssuer = $rfcSigner;
-                $rfcReceivers = $queryParameters->getRfcMatches();
-            } else {
-                // received documents, counterpart is issuer
-                $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
-                $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
-            }
-
-            $solicitudAttributes = $solicitudAttributes + [
-                    'FechaInicial' => $start,
-                    'FechaFinal' => $end,
-                    'RfcEmisor' => $rfcIssuer,
-                    'TipoComprobante' => $queryParameters->getDocumentType()->value(),
-                    'EstadoComprobante' => $queryParameters->getDocumentStatus()->value(),
-                    'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
-                    'Complemento' => $queryParameters->getComplement()->value(),
-                ];
-            if ($queryParameters->getDownloadType()->isReceived()) {
-                $solicitudAttributes['RfcReceptor'] = $this->getFiel()->getRfc();
-            }
-            // If the request type is XML and the download type is "received", the EstadoComprobante must be "Vigente" only
-            if ($queryParameters->getRequestType()->isXml() && $queryParameters->getDownloadType()->isReceived()) {
-                $solicitudAttributes['EstadoComprobante'] = 'Vigente';
-            }
-            // Only when a download type is issued
-            if (!$rfcReceivers->isEmpty() && $queryParameters->getDownloadType()->isIssued()) {
-                $xmlRfcReceived = implode('', array_map(
-                    fn(RfcMatch $rfcMatch): string => sprintf(
-                        '<des:RfcReceptor>%s</des:RfcReceptor>',
-                        $this->parseXml($rfcMatch->getValue())
-                    ),
-                    iterator_to_array($rfcReceivers)
-                ));
-                $xmlRfcReceived = "<des:RfcReceptores>$xmlRfcReceived</des:RfcReceptores>";
-            }
+            // received documents, counterpart is issuer
+            $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
+            $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
         }
 
-        $solicitudAttributes = array_filter(
-            $solicitudAttributes,
+        $attributes = $attributes + [
+            'FechaInicial' => $start,
+            'FechaFinal' => $end,
+            'RfcEmisor' => $rfcIssuer,
+            'TipoComprobante' => $queryParameters->getDocumentType()->value(),
+            'EstadoComprobante' => $queryParameters->getDocumentStatus()->getQueryAttributeValue(),
+            'RfcACuentaTerceros' => $queryParameters->getRfcOnBehalf()->getValue(),
+            'Complemento' => $queryParameters->getComplement()->value(),
+        ];
+        if ($queryParameters->getDownloadType()->isReceived()) {
+            $attributes['RfcReceptor'] = $this->getFiel()->getRfc();
+        }
+
+        if ($queryParameters->getDownloadType()->isIssued() && ! $rfcReceivers->isEmpty()) {
+            $xmlRfcReceived = implode('', array_map(
+                fn(RfcMatch $rfcMatch): string => sprintf(
+                    '<des:RfcReceptor>%s</des:RfcReceptor>',
+                    $this->parseXml($rfcMatch->getValue())
+                ),
+                iterator_to_array($rfcReceivers)
+            ));
+            $xmlRfcReceived = "<des:RfcReceptores>$xmlRfcReceived</des:RfcReceptores>";
+        }
+
+        $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued()
+            ? 'SolicitaDescargaEmitidos'
+            : 'SolicitaDescargaRecibidos';
+
+        return $this->buildFinalXml($downloadTypeNodeName, $attributes, $xmlRfcReceived);
+    }
+
+    private function buildFinalXml(string $nodeName, array $attributes, string $xmlExtra): string
+    {
+        $attributes = array_filter(
+            $attributes,
             static fn(string $value): bool => '' !== $value
         );
-        ksort($solicitudAttributes);
+        ksort($attributes);
 
         $solicitudAttributesAsText = implode(' ', array_map(
             fn(string $name, string $value): string => sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value)),
-            array_keys($solicitudAttributes),
-            $solicitudAttributes,
+            array_keys($attributes),
+            $attributes,
         ));
 
-        if (!$queryByUuid) {
-            $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued()
-                ? 'SolicitaDescargaEmitidos'
-                : 'SolicitaDescargaRecibidos';
-        }
-
         $toDigestXml = <<<EOT
-            <des:$downloadTypeNodeName xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
+            <des:$nodeName xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx">
                 <des:solicitud $solicitudAttributesAsText>
-                    $xmlRfcReceived
+                    $xmlExtra
                 </des:solicitud>
-            </des:$downloadTypeNodeName>
+            </des:$nodeName>
             EOT;
         $signatureData = $this->createSignature($toDigestXml);
 
@@ -160,12 +168,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
             <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
                 <s:Header/>
                 <s:Body>
-                    <des:$downloadTypeNodeName>
+                    <des:$nodeName>
                         <des:solicitud $solicitudAttributesAsText>
-                            $xmlRfcReceived
+                            $xmlExtra
                             $signatureData
                         </des:solicitud>
-                    </des:$downloadTypeNodeName>
+                    </des:$nodeName>
                 </s:Body>
             </s:Envelope>
             EOT;
