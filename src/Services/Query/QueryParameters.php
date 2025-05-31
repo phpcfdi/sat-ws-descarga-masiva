@@ -190,6 +190,13 @@ final class QueryParameters implements JsonSerializable
         return new self(...$properties); /** @phpstan-ignore argument.type */
     }
 
+    /** @return list<string> */
+    public function validate(): array
+    {
+        $validator = new QueryValidator();
+        return $validator->validate($this);
+    }
+
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {

@@ -318,6 +318,35 @@ $query = QueryParameters::create()
 ;
 ```
 
+#### Prevalidación de una consulta
+
+Hay algunos casos que seguramente resultarán en un error al momento de presentar la consulta al SAT.
+Para prevenir esta situación *opcionalmente* se puede validar la consulta antes de presentarla.
+Estos errores son devueltos en un listado de cadenas de caracteres.
+
+```php
+<?php
+
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
+
+$query = QueryParameters::create()
+    ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
+    ->withDocumentType(DocumentType::nomina())
+    ->withDocumentStatus(DocumentStatus::active())
+;
+
+// obtener el listado de errores
+$errors = $query->validate();
+if ([] !== $errors) { // si hay errores
+    foreach ($errors as $error) {
+        echo 'Error de consulta: ', $error, PHP_EOL;
+    }
+}
+```
+
 ### Verificar una consulta
 
 La verificación depende de que la consulta haya sido aceptada.
