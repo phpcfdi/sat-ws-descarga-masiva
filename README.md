@@ -557,8 +557,8 @@ A la fecha de liberación del *Servicio web de descarga masiva de terceros para 
 el SAT no ha publicado información oficial en su página. Esta información se ha recopilado por miembros de la comunidad
 de diferentes fuentes.
 
-- URL productivas para implementar el Servicio web de descarga masiva de terceros para CFDI y CFDI de Retenciones:
-  <https://ampocdevbuk01a.s3.us-east-1.amazonaws.com/0_UR_Ls_WS_Descarga_Masiva_V1_5_VF_33e2cca681.pdf>
+- Información oficial del SAT (apartado de *Documentos relacionados*):
+  <https://www.sat.gob.mx/portal/public/tramites/factura-electronica>
 - Solicitud de descargas para CFDI y retenciones:
   <https://ampocdevbuk01a.s3.us-east-1.amazonaws.com/1_WS_Solicitud_Descarga_Masiva_V1_5_VF_89183c42e9.pdf>
 - Verificación de descargas de solicitudes exitosas:
