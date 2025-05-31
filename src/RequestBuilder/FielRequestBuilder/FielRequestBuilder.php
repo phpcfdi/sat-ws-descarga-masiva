@@ -8,7 +8,6 @@ use PhpCfdi\SatWsDescargaMasiva\Internal\Helpers;
 use PhpCfdi\SatWsDescargaMasiva\RequestBuilder\RequestBuilderInterface;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
 use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
-use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatch;
 use PhpCfdi\SatWsDescargaMasiva\Shared\RfcMatches;
 
@@ -125,7 +124,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
 
         if ($queryParameters->getDownloadType()->isIssued() && ! $rfcReceivers->isEmpty()) {
             $xmlRfcReceived = implode('', array_map(
-                fn(RfcMatch $rfcMatch): string => sprintf(
+                fn (RfcMatch $rfcMatch): string => sprintf(
                     '<des:RfcReceptor>%s</des:RfcReceptor>',
                     $this->parseXml($rfcMatch->getValue())
                 ),
@@ -134,9 +133,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
             $xmlRfcReceived = "<des:RfcReceptores>$xmlRfcReceived</des:RfcReceptores>";
         }
 
-        $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued()
-            ? 'SolicitaDescargaEmitidos'
-            : 'SolicitaDescargaRecibidos';
+        $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued() ? 'SolicitaDescargaEmitidos' : 'SolicitaDescargaRecibidos';
 
         return $this->buildFinalXml($downloadTypeNodeName, $attributes, $xmlRfcReceived);
     }
@@ -145,12 +142,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
     {
         $attributes = array_filter(
             $attributes,
-            static fn(string $value): bool => '' !== $value
+            static fn (string $value): bool => '' !== $value
         );
         ksort($attributes);
 
         $solicitudAttributesAsText = implode(' ', array_map(
-            fn(string $name, string $value): string => sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value)),
+            fn (string $name, string $value): string => sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value)),
             array_keys($attributes),
             $attributes,
         ));
