@@ -22,6 +22,9 @@ Esta versión compatibiliza la versión actual con el nuevo servicio.
 Adicionalmente, se agrega un método de prevalidación para una consulta a través del método `QueryParameters::validate()`
 que devuelve un arreglo con una lista de mensajes con los errores encontrados.
 
+Se regresa la capacidad de cambiar el *token* en el *servicio.
+Es importante para poder restablecer el *token* desde una capa de persistencia.
+
 Gracias a todos los miembros de PhpCfdi que han colaborado con la elaboración de esta versión.
 En especial a `@blacktrue` y `@TheSpectroMx` por su atención y trabajo.
 
