@@ -6,9 +6,16 @@
 
 ## Tareas pendientes
 
+- Hacer una clase para validar la solicitud y así prevenir un error antes de enviarla al SAT.
+
 - Usar enumeradores de PHP en lugar de `eclipxe/enum`.
 
 - Cambiar de *getters* a propiedades públicas de solo lectura.
+
+- En la siguiente versión mayor cambiar `DocumentStatus` para que los valores contengan los datos del SAT.
+- 
+- En la siguiente versión mayor cambiar `RequestType::getQueryAttributeValue` para que
+  no reciba el parámetro `ServiceType $serviceType`.
 
 ## Posibles ideas
 
