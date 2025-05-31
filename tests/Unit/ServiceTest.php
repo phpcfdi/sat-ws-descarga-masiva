@@ -39,4 +39,18 @@ final class ServiceTest extends TestCase
         $this->assertSame($token, $service->getToken());
         $this->assertSame($endpoints, $service->getEndpoints());
     }
+
+    public function testChangeToken(): void
+    {
+        $requestBuilder = $this->createMock(RequestBuilderInterface::class);
+        $webClient = $this->createMock(WebClientInterface::class);
+        $token = new Token(DateTime::now(), DateTime::now(), 'token-value');
+        $endpoints = ServiceEndpoints::retenciones();
+
+        $service = new Service($requestBuilder, $webClient, $token, $endpoints);
+        $otherToken = new Token(DateTime::now(), DateTime::now(), 'token-other');
+        $service->setToken($otherToken);
+
+        $this->assertSame($otherToken, $service->getToken());
+    }
 }

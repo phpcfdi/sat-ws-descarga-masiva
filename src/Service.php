@@ -59,6 +59,11 @@ class Service
         return $this->token;
     }
 
+    public function setToken(Token $token): void
+    {
+        $this->token = $token;
+    }
+
     public function getEndpoints(): ServiceEndpoints
     {
         return $this->endpoints;
