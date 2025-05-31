@@ -136,12 +136,12 @@ Si no se especifica crea un periodo del segundo exacto de la creación del objet
 
 #### Tipo de descarga (`DownloadType`)
 
-Especifica si la solicitud es de documentos emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
+Establece si la solicitud es de documentos emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
 Si no se especifica utiliza el valor de emitidos.
 
 #### Tipo de solicitud (`RequestType`)
 
-Especifica si la solicitud es de Metadatos `RequestType::metadata()` o archivos XML `RequestType::xml()`.
+Establece si la solicitud es de Metadatos `RequestType::metadata()` o archivos XML `RequestType::xml()`.
 Si no se especifica utiliza el valor de Metadatos.
 
 #### Tipo de comprobante (`DocumentType`)
@@ -316,6 +316,35 @@ use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
 $query = QueryParameters::create()
     ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
 ;
+```
+
+#### Prevalidación de una consulta
+
+Hay algunos casos que seguramente resultarán en un error al momento de presentar la consulta al SAT.
+Para prevenir esta situación *opcionalmente* se puede validar la consulta antes de presentarla.
+Estos errores son devueltos en un listado de cadenas de caracteres.
+
+```php
+<?php
+
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentType;
+use PhpCfdi\SatWsDescargaMasiva\Shared\Uuid;
+
+$query = QueryParameters::create()
+    ->withUuid(Uuid::create('96623061-61fe-49de-b298-c7156476aa8b'))
+    ->withDocumentType(DocumentType::nomina())
+    ->withDocumentStatus(DocumentStatus::active())
+;
+
+// obtener el listado de errores
+$errors = $query->validate();
+if ([] !== $errors) { // si hay errores
+    foreach ($errors as $error) {
+        echo 'Error de consulta: ', $error, PHP_EOL;
+    }
+}
 ```
 
 ### Verificar una consulta
@@ -524,19 +553,25 @@ demuestres que eres tú y te extienda un nuevo permiso.
 
 ### Información oficial
 
-- Liga oficial del SAT
-  <https://www.sat.gob.mx/consultas/42968/consulta-y-recuperacion-de-comprobantes-(nuevo)>
+A la fecha de liberación del *Servicio web de descarga masiva de terceros para CFDI y CFDI de Retenciones* (2025-05-30)
+el SAT no ha publicado información oficial en su página. Esta información se ha recopilado por miembros de la comunidad
+de diferentes fuentes.
+
+- URL productivas para implementar el Servicio web de descarga masiva de terceros para CFDI y CFDI de Retenciones:
+  <https://ampocdevbuk01a.s3.us-east-1.amazonaws.com/0_UR_Ls_WS_Descarga_Masiva_V1_5_VF_33e2cca681.pdf>
 - Solicitud de descargas para CFDI y retenciones:
-  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1461175180762&ssbinary=true>
+  <https://ampocdevbuk01a.s3.us-east-1.amazonaws.com/1_WS_Solicitud_Descarga_Masiva_V1_5_VF_89183c42e9.pdf>
 - Verificación de descargas de solicitudes exitosas:
-  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716409&ssbinary=true>
+  <https://ampocdevbuk01a.s3.us-east-1.amazonaws.com/2_WS_Verificacion_de_Descarga_Masiva_V1_5_VF_5e53cc2bb5.pdf>
 - Descarga de solicitudes exitosas:
-  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716395&ssbinary=true>
+  <https://ampocdevbuk01a.s3.us-east-1.amazonaws.com/3_WS_Descarga_de_Solicitudes_Exitosas_V1_5_VF_74f66e46ec.pdf>
 
 Notas importantes del web service:
 
 - Podrás recuperar hasta 200 mil registros por petición y hasta 1,000,000 en metadata.
 - No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de dos ocasiones un XML.
+- No se pueden consultar comprobantes a un periodo máximo de cinco años hacia atrás.
+- No se pueden consultar comprobantes a un periodo máximo de seis ejercicios, incluyendo el actual.
 
 ### Notas de uso
 
@@ -562,9 +597,11 @@ y puede ser desde minutos a horas. Por lo general es raro que excedan 24 horas.
 Sin embargo, varios usuarios han experimentado casos raros (posiblemente por problemas en el SAT) en donde las
 solicitudes han llegado a tardar hasta 72 horas para ser completadas.
 
-## Problemas conocidos
+- En la versión 1.5 (2025-05-30) ya no es posible consultar un instante.
 
-- [ ] [Problema: Filtros no aplicados](docs/problema-filtros-no-aplicados.md)
+El SAT ha puesto la restricción de que la fecha de inicio de la consulta debe ser menor (y no igual)
+a la fecha final de la consulta. Por lo que es imposible consultar un solo instante.
+Es obligatorio ahora consultar como mínimo un intervalo de dos segundos.
 
 ## Compatibilidad
 

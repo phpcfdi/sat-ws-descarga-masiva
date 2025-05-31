@@ -1,20 +1,25 @@
 # phpcfdi/sat-ws-descarga-masiva To Do List
 
-## Ejecutar deprecaciones
-
-- No hay deprecaciones actualmente.
-
-## Tareas pendientes
+## Tareas pendientes para la siguiente versión mayor 
 
 - Usar enumeradores de PHP en lugar de `eclipxe/enum`.
 
 - Cambiar de *getters* a propiedades públicas de solo lectura.
 
+- Cambiar `DocumentStatus` para que los valores contengan los datos del SAT.
+
+- Cambiar `RequestType::getQueryAttributeValue` para que no reciba el parámetro `ServiceType $serviceType`.
+
+## Ejecutar deprecaciones
+
+- No hay deprecaciones actualmente.
+
 ## Posibles ideas
 
 - Separar `PhpCfdi\SatWsDescargaMasiva\RequestBuilder` y `PhpCfdi\SatWsDescargaMasiva\RequestBuilder\Fiel`
   a sus propios proyectos de librería. O implementar un "monorepo" que genere las tres librerías:
-  `phpcfdi/sat-ws-descarga-masiva`, `phpcfdi/sat-ws-request-builder` y , `phpcfdi/sat-ws-request-builder-fiel`.
+  `phpcfdi/sat-ws-descarga-masiva`, `phpcfdi/sat-ws-request-builder` y `phpcfdi/sat-ws-request-builder-fiel`.
+
 - Separar `PhpCfdi\SatWsDescargaMasiva\PackageReader` a su propio proyecto, no es necesario combinar
   la lectura de los paquetes con el uso del servicio del SAT.
 
@@ -43,25 +48,25 @@
     2020-10-09: Hecho en v0.4
 
 - Poner la versión mínima de PHP a 7.3
-    2020-05-01: Hecho!
+    2020-05-01: ¡Hecho!
 
 - Traducir CHANGELOG.md a español
-    2019-12-06: Hecho!
+    2019-12-06: ¡Hecho!
 
 - Crear documentación de la librería y README, CI, etc.
-    2019-09-09: Hecho!
+    2019-09-09: ¡Hecho!
 
 - Crear un objeto para los valores del servicio de verificación de CodigoEstadoSolicitud
-    2019-09-09: Hecho!
+    2019-09-09: ¡Hecho!
  
 - Crear un objeto para los valores del servicio de verificación de EstadoSolicitud 
-    2019-09-09: Hecho!
+    2019-09-09: ¡Hecho!
 
 - Crear lector de archivos ZIP de Metadata
-    2019-09-09: Hecho!
+    2019-09-09: ¡Hecho!
 
 - Crear lector de archivos ZIP de CFDI
-    2019-09-09: Hecho!
+    2019-09-09: ¡Hecho!
 
 - Mejorar los objetos Result para que puedan compartir la misma lógica donde la comparten
     2019-08-08: Se creó el StatusCode para exponer el código y mensaje en los servicios comúnes

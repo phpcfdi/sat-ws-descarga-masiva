@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-    <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <SolicitaDescargaResponse xmlns="http://DescargaMasivaTerceros.sat.gob.mx">
-            <SolicitaDescargaResult IdSolicitud="d49af78d-1c80-4221-a48d-345ace91626b" CodEstatus="5000" Mensaje="Solicitud Aceptada" />
-        </SolicitaDescargaResponse>
-    </s:Body>
-</s:Envelope>
