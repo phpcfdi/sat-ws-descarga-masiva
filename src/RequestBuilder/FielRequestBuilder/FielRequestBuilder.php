@@ -138,6 +138,7 @@ final class FielRequestBuilder implements RequestBuilderInterface
         return $this->buildFinalXml($downloadTypeNodeName, $attributes, $xmlRfcReceived);
     }
 
+    /** @param array<string, string> $attributes */
     private function buildFinalXml(string $nodeName, array $attributes, string $xmlExtra): string
     {
         $attributes = array_filter(

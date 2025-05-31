@@ -14,6 +14,7 @@ class QueryTranslator
 {
     use InteractsXmlTrait;
 
+    /** @return list<string> */
     private function resolveResponsePath(DOMElement $envelope): array
     {
         return match (true) {
