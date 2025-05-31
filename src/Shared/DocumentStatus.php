@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Shared;
 
 use Eclipxe\Enum\Enum;
 use JsonSerializable;
+use LogicException;
 
 /**
  * Defines the request type (cfdi or metadata)
@@ -32,5 +33,15 @@ final class DocumentStatus extends Enum implements JsonSerializable
     public function jsonSerialize(): string
     {
         return $this->value();
+    }
+
+    public function getQueryAttributeValue(): string
+    {
+        return match (true) {
+            $this->isUndefined() => 'Todos',
+            $this->isActive() => 'Vigente',
+            $this->isCancelled() => 'Cancelado',
+            default => throw new LogicException('Impossible case'),
+        };
     }
 }

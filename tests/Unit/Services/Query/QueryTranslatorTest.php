@@ -13,14 +13,48 @@ use PhpCfdi\SatWsDescargaMasiva\Tests\TestCase;
 
 class QueryTranslatorTest extends TestCase
 {
-    public function testCreateQueryResultFromSoapResponse(): void
+    public function testCreateQueryResultIssuedFromSoapResponse(): void
     {
         $expectedRequestId = 'd49af78d-1c80-4221-a48d-345ace91626b';
         $expectedStatusCode = 5000;
         $expectedMessage = 'Solicitud Aceptada';
 
         $translator = new QueryTranslator();
-        $responseBody = Helpers::nospaces($this->fileContents('query/response-with-id.xml'));
+        $responseBody = Helpers::nospaces($this->fileContents('query/response-issued.xml'));
+        $result = $translator->createQueryResultFromSoapResponse($responseBody);
+        $status = $result->getStatus();
+
+        $this->assertSame($expectedRequestId, $result->getRequestId());
+        $this->assertSame($expectedStatusCode, $status->getCode());
+        $this->assertSame($expectedMessage, $status->getMessage());
+        $this->assertTrue($status->isAccepted());
+    }
+
+    public function testCreateQueryResultReceivedFromSoapResponse(): void
+    {
+        $expectedRequestId = 'd49af78d-1c80-4221-a48d-345ace91626b';
+        $expectedStatusCode = 5000;
+        $expectedMessage = 'Solicitud Aceptada';
+
+        $translator = new QueryTranslator();
+        $responseBody = Helpers::nospaces($this->fileContents('query/response-received.xml'));
+        $result = $translator->createQueryResultFromSoapResponse($responseBody);
+        $status = $result->getStatus();
+
+        $this->assertSame($expectedRequestId, $result->getRequestId());
+        $this->assertSame($expectedStatusCode, $status->getCode());
+        $this->assertSame($expectedMessage, $status->getMessage());
+        $this->assertTrue($status->isAccepted());
+    }
+
+    public function testCreateQueryResultItemFromSoapResponse(): void
+    {
+        $expectedRequestId = 'd49af78d-1c80-4221-a48d-345ace91626b';
+        $expectedStatusCode = 5000;
+        $expectedMessage = 'Solicitud Aceptada';
+
+        $translator = new QueryTranslator();
+        $responseBody = Helpers::nospaces($this->fileContents('query/response-item.xml'));
         $result = $translator->createQueryResultFromSoapResponse($responseBody);
         $status = $result->getStatus();
 

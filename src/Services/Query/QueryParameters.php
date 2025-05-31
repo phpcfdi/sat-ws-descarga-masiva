@@ -48,7 +48,7 @@ final class QueryParameters implements JsonSerializable
     ): self {
         $currentTime = time();
         return new self(
-            period: $period ?? DateTimePeriod::createFromValues($currentTime, $currentTime),
+            period: $period ?? DateTimePeriod::createFromValues($currentTime, $currentTime + 1),
             downloadType: $downloadType ?? DownloadType::issued(),
             requestType: $requestType ?? RequestType::metadata(),
             documentType: DocumentType::undefined(),
@@ -188,6 +188,13 @@ final class QueryParameters implements JsonSerializable
             'serviceType' => $this->serviceType,
         ];
         return new self(...$properties); /** @phpstan-ignore argument.type */
+    }
+
+    /** @return list<string> */
+    public function validate(): array
+    {
+        $validator = new QueryValidator();
+        return $validator->validate($this);
     }
 
     /** @return array<string, mixed> */

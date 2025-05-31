@@ -14,6 +14,20 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 1.1.0 2025-05-30
+
+El SAT liberó el 2025-05-30 una nueva versión del *Servicio Web de Descarga Masiva de CFDI y Retenciones*.
+Esta versión compatibiliza la versión actual con el nuevo servicio.
+
+Adicionalmente, se agrega un método de prevalidación para una consulta a través del método `QueryParameters::validate()`
+que devuelve un arreglo con una lista de mensajes con los errores encontrados.
+
+Se regresa la capacidad de cambiar el *token* en el *servicio.
+Es importante para poder restablecer el *token* desde una capa de persistencia.
+
+Gracias a todos los miembros de PhpCfdi que han colaborado con la elaboración de esta versión.
+En especial a `@blacktrue` y `@TheSpectroMx` por su atención y trabajo.
+
 ## Versión 1.0.0 2025-04-12
 
 La versión `1.0.0` es una actualización al código para poderlo mantener más fácilmente.
