@@ -136,12 +136,12 @@ Si no se especifica crea un periodo del segundo exacto de la creación del objet
 
 #### Tipo de descarga (`DownloadType`)
 
-Especifica si la solicitud es de documentos emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
+Establece si la solicitud es de documentos emitidos `DownloadType::issued()` o recibidos `DownloadType::received()`.
 Si no se especifica utiliza el valor de emitidos.
 
 #### Tipo de solicitud (`RequestType`)
 
-Especifica si la solicitud es de Metadatos `RequestType::metadata()` o archivos XML `RequestType::xml()`.
+Establece si la solicitud es de Metadatos `RequestType::metadata()` o archivos XML `RequestType::xml()`.
 Si no se especifica utiliza el valor de Metadatos.
 
 #### Tipo de comprobante (`DocumentType`)
