@@ -91,12 +91,6 @@ final class FielRequestBuilder implements RequestBuilderInterface
         $xmlRfcReceived = '';
         $requestType = $queryParameters->getRequestType()->getQueryAttributeValue($queryParameters->getServiceType());
         $rfcSigner = mb_strtoupper($this->getFiel()->getRfc());
-
-        $attributes = [
-            'RfcSolicitante' => $rfcSigner,
-            'TipoSolicitud' => $requestType,
-        ];
-
         $start = $queryParameters->getPeriod()->getStart()->format('Y-m-d\TH:i:s');
         $end = $queryParameters->getPeriod()->getEnd()->format('Y-m-d\TH:i:s');
         if ($queryParameters->getDownloadType()->isIssued()) {
@@ -106,10 +100,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
         } else {
             // received documents, counterpart is issuer
             $rfcIssuer = $queryParameters->getRfcMatches()->getFirst()->getValue();
-            $rfcReceivers = RfcMatches::createFromValues($rfcSigner);
+            $rfcReceivers = RfcMatches::create();
         }
 
-        $attributes = $attributes + [
+        $attributes = [
+            'RfcSolicitante' => $rfcSigner,
+            'TipoSolicitud' => $requestType,
             'FechaInicial' => $start,
             'FechaFinal' => $end,
             'RfcEmisor' => $rfcIssuer,
@@ -119,10 +115,9 @@ final class FielRequestBuilder implements RequestBuilderInterface
             'Complemento' => $queryParameters->getComplement()->value(),
         ];
         if ($queryParameters->getDownloadType()->isReceived()) {
-            $attributes['RfcReceptor'] = $this->getFiel()->getRfc();
+            $attributes['RfcReceptor'] = $rfcSigner;
         }
-
-        if ($queryParameters->getDownloadType()->isIssued() && ! $rfcReceivers->isEmpty()) {
+        if (! $rfcReceivers->isEmpty()) {
             $xmlRfcReceived = implode('', array_map(
                 fn (RfcMatch $rfcMatch): string => sprintf(
                     '<des:RfcReceptor>%s</des:RfcReceptor>',
@@ -133,9 +128,9 @@ final class FielRequestBuilder implements RequestBuilderInterface
             $xmlRfcReceived = "<des:RfcReceptores>$xmlRfcReceived</des:RfcReceptores>";
         }
 
-        $downloadTypeNodeName = $queryParameters->getDownloadType()->isIssued() ? 'SolicitaDescargaEmitidos' : 'SolicitaDescargaRecibidos';
+        $nodeName = $queryParameters->getDownloadType()->isIssued() ? 'SolicitaDescargaEmitidos' : 'SolicitaDescargaRecibidos';
 
-        return $this->buildFinalXml($downloadTypeNodeName, $attributes, $xmlRfcReceived);
+        return $this->buildFinalXml($nodeName, $attributes, $xmlRfcReceived);
     }
 
     /** @param array<string, string> $attributes */
