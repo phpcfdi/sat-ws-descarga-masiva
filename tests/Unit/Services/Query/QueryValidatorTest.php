@@ -53,7 +53,20 @@ final class QueryValidatorTest extends TestCase
             ->withDocumentStatus(DocumentStatus::cancelled())
         ;
         $this->assertContains(
-            'No es posible hacer una consulta de XML Recibidos Cancelados.',
+            'No es posible hacer una consulta de XML Recibidos que contenga Cancelados. Solicitado: Cancelado.',
+            $query->validate(),
+        );
+    }
+
+    public function testQueryReceivedXmlUndefined(): void
+    {
+        $query = QueryParameters::create()
+            ->withDownloadType(DownloadType::received())
+            ->withRequestType(RequestType::xml())
+            ->withDocumentStatus(DocumentStatus::undefined())
+        ;
+        $this->assertContains(
+            'No es posible hacer una consulta de XML Recibidos que contenga Cancelados. Solicitado: Todos.',
             $query->validate(),
         );
     }

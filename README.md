@@ -611,6 +611,28 @@ ahora el límite inferior es la fecha actual seis años atrás sin tiempo.
 Por ejemplo, si la fecha actual fuera `2025-01-13 14:15:16`, entonces el límite inferior sería `2019-01-13 00:00:00`.
 Si se solicita `2019-01-12 23:59:59` como fecha de inicio del periodo entonces la consulta falla.
 
+- En la versión 1.5 (2025-05-30) falla al solicitar Recibidos XML que incluyan cancelados.
+
+El SAT en su nueva versión del webservice ha puesto una nueva validación en la que,
+al presentar una solicitud de documentos recibidos (`DownloadType::received()`)
+y el tipo de paquete solicitado sea XML (`DownloadType::xml()`),
+fallará a menos que se especifique que se solicitan los documentos con estado activo (`DocumentStatus::active()`).
+
+Para corregir este problema se recomienda que implementes algo como el siguiente ejemplo:
+
+```php
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
+
+/**
+ * @var QueryParameters $query Consulta elaborada previamente, antes de presentarla.  
+ */
+
+if ($query->getDownloadType()->isReceived() && $query->getRequestType()->isXml()) {
+    $query = $query->withDocumentStatus(DocumentStatus::active());
+}
+```
+
 ## Compatibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con

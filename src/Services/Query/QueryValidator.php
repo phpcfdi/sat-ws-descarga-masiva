@@ -70,9 +70,12 @@ final class QueryValidator
         if (
             $query->getDownloadType()->isReceived()
             && $query->getRequestType()->isXml()
-            && $query->getDocumentStatus()->isCancelled()
+            && ! $query->getDocumentStatus()->isActive()
         ) {
-            $errors[] = 'No es posible hacer una consulta de XML Recibidos Cancelados.';
+            $errors[] = sprintf(
+                'No es posible hacer una consulta de XML Recibidos que contenga Cancelados. Solicitado: %s.',
+                $query->getDocumentStatus()->getQueryAttributeValue()
+            );
         }
 
         if ($query->getDownloadType()->isReceived() && $query->getRfcMatches()->count() > 1) {
