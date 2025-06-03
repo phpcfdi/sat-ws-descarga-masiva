@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoCfdi;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoRetenciones;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 
 final class QueryValidator
 {
@@ -57,12 +58,24 @@ final class QueryValidator
             );
         }
 
+        $minimalDate = DateTime::now()->modify('-6 years midnight');
+        if ($query->getPeriod()->getStart() < $minimalDate) {
+            $errors[] = sprintf(
+                'La fecha de inicio (%s) no puede ser menor a hoy menos 6 años atrás (%s).',
+                $query->getPeriod()->getStart()->format('Y-m-d H:i:s'),
+                $minimalDate->format('Y-m-d H:i:s'),
+            );
+        }
+
         if (
             $query->getDownloadType()->isReceived()
             && $query->getRequestType()->isXml()
-            && $query->getDocumentStatus()->isCancelled()
+            && ! $query->getDocumentStatus()->isActive()
         ) {
-            $errors[] = 'No es posible hacer una consulta de XML Recibidos Cancelados.';
+            $errors[] = sprintf(
+                'No es posible hacer una consulta de XML Recibidos que contenga Cancelados. Solicitado: %s.',
+                $query->getDocumentStatus()->getQueryAttributeValue()
+            );
         }
 
         if ($query->getDownloadType()->isReceived() && $query->getRfcMatches()->count() > 1) {

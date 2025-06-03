@@ -20,7 +20,7 @@
 También te esperamos en [el canal #phpcfdi de discord](https://discord.gg/aFGYXvX)
 
 Esta librería contiene un cliente (consumidor) del servicio del SAT de
-**Servicio Web de Descarga Masiva de CFDI y Retenciones**.
+**Servicio Web de Descarga Masiva de CFDI y Retenciones** versión 1.5 (2025-05-30).
 
 ## Instalación
 
@@ -341,8 +341,9 @@ $query = QueryParameters::create()
 // obtener el listado de errores
 $errors = $query->validate();
 if ([] !== $errors) { // si hay errores
+    echo 'Errores de consulta: ', PHP_EOL;
     foreach ($errors as $error) {
-        echo 'Error de consulta: ', $error, PHP_EOL;
+        echo '  - ', $error, PHP_EOL;
     }
 }
 ```
@@ -597,11 +598,43 @@ y puede ser desde minutos a horas. Por lo general es raro que excedan 24 horas.
 Sin embargo, varios usuarios han experimentado casos raros (posiblemente por problemas en el SAT) en donde las
 solicitudes han llegado a tardar hasta 72 horas para ser completadas.
 
-- En la versión 1.5 (2025-05-30) ya no es posible consultar un instante.
+#### Cambios en el webservice versión 1.5 (2025-05-30)
+
+- Ya no es posible consultar un instante.
 
 El SAT ha puesto la restricción de que la fecha de inicio de la consulta debe ser menor (y no igual)
 a la fecha final de la consulta. Por lo que es imposible consultar un solo instante.
 Es obligatorio ahora consultar como mínimo un intervalo de dos segundos.
+
+- Cambia el límite inferior en el periodo de consulta.
+
+El SAT ha cambiado su validación del límite inferior en la fecha consultada,
+ahora el límite inferior es la fecha actual seis años atrás sin tiempo.
+
+Por ejemplo, si la fecha actual fuera `2025-01-13 14:15:16`, entonces el límite inferior sería `2019-01-13 00:00:00`.
+Si se solicita `2019-01-12 23:59:59` como fecha de inicio del periodo entonces la consulta falla.
+
+- Falla al solicitar Recibidos XML que incluyan cancelados.
+
+El SAT en su nueva versión del webservice ha puesto una nueva validación en la que,
+al presentar una solicitud de documentos recibidos (`DownloadType::received()`)
+y el tipo de paquete solicitado sea XML (`DownloadType::xml()`),
+fallará a menos que se especifique que se solicitan los documentos con estado activo (`DocumentStatus::active()`).
+
+Para corregir este problema se recomienda que implementes algo como el siguiente ejemplo:
+
+```php
+use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryParameters;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DocumentStatus;
+
+/**
+ * @var QueryParameters $query Consulta elaborada previamente, antes de presentarla.  
+ */
+
+if ($query->getDownloadType()->isReceived() && $query->getRequestType()->isXml()) {
+    $query = $query->withDocumentStatus(DocumentStatus::active());
+}
+```
 
 ## Compatibilidad
 

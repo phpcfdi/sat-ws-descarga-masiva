@@ -14,6 +14,13 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 1.1.1 2025-06-02
+
+Se mejora la documentación y las validaciones previas a enviar una consulta al SAT.
+
+- Se revisa que no se exceda el límite inferior de la consulta.
+- Se revisa que al solicitar XML de tipo recibidos entonces se soliciten solo los vigentes. 
+
 ## Versión 1.1.0 2025-05-30
 
 El SAT liberó el 2025-05-30 una nueva versión del *Servicio Web de Descarga Masiva de CFDI y Retenciones*.
