@@ -14,7 +14,7 @@ class SoapFaultError extends HttpClientError
     /** @var SoapFaultInfo */
     private $fault;
 
-    public function __construct(Request $request, Response $response, SoapFaultInfo $fault, Throwable $previous = null)
+    public function __construct(Request $request, Response $response, SoapFaultInfo $fault, ?Throwable $previous = null)
     {
         $message = sprintf('Fault: %s - %s', $fault->getCode(), $fault->getMessage());
         parent::__construct($message, $request, $response, $previous);

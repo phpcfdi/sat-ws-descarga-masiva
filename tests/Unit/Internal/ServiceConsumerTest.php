@@ -16,6 +16,7 @@ use PhpCfdi\SatWsDescargaMasiva\WebClient\Request;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Response;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\WebClientInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 
 /**
  * @covers \PhpCfdi\SatWsDescargaMasiva\Internal\ServiceConsumer
@@ -37,6 +38,30 @@ class ServiceConsumerTest extends TestCase
         $return = $consumer->execute($webClient, 'soap-action', 'uri', 'body', $token);
 
         $this->assertSame($responseBody, $return);
+    }
+
+    public function testExecuteWithError(): void
+    {
+        // the response is valid and does not contain any error
+        $response = new Response(500, 'Internal Server Error for Testing.');
+        $request = new Request('POST', 'uri', 'request', []);
+
+        /** @var WebClientInterface&MockObject $webClient */
+        $webClient = $this->getMockBuilder(WebClientInterface::class)->getMock();
+        $exception = new WebClientException('Testing exception', $request, $response);
+        $webClient->expects($this->once())->method('call')->willThrowException($exception);
+
+        $consumer = new ServiceConsumer();
+        $token = new Token(new DateTime('2020-01-13 14:15:16'), new DateTime('2020-01-13 14:15:16'), 'token-value');
+
+        $catchedException = null;
+        try {
+            $consumer->execute($webClient, 'soap-action', 'uri', 'body', $token);
+        } catch (Throwable $thrownException) {
+            $catchedException = $thrownException;
+        }
+        $this->assertInstanceOf(HttpServerError::class, $catchedException);
+        $this->assertSame($catchedException->getPrevious(), $exception);
     }
 
     public function testCreateRequest(): void

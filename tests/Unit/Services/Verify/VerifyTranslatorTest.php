@@ -27,14 +27,14 @@ class VerifyTranslatorTest extends TestCase
         $codeRequest = $result->getCodeRequest();
 
         $this->assertTrue($status->isAccepted());
-        $this->assertEquals($expectedStatusCode, $status->getCode());
-        $this->assertEquals($expectedMessage, $status->getMessage());
-        $this->assertEquals($expectedStatusRequest, $statusRequest->getValue());
+        $this->assertSame($expectedStatusCode, $status->getCode());
+        $this->assertSame($expectedMessage, $status->getMessage());
+        $this->assertSame($expectedStatusRequest, $statusRequest->getValue());
         $this->assertTrue($statusRequest->isRejected());
-        $this->assertEquals($expectedCodeRequest, $codeRequest->getValue());
+        $this->assertSame($expectedCodeRequest, $codeRequest->getValue());
         $this->assertTrue($codeRequest->isEmptyResult());
-        $this->assertEquals($expectedNumberCfdis, $result->getNumberCfdis());
-        $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
+        $this->assertSame($expectedNumberCfdis, $result->getNumberCfdis());
+        $this->assertSame($expectedPackagesIds, $result->getPackagesIds());
     }
 
     public function testCreateVerifyResultFromSoapResponseWithTwoPackages(): void
@@ -47,7 +47,7 @@ class VerifyTranslatorTest extends TestCase
         $translator = new VerifyTranslator();
         $responseBody = Helpers::nospaces($this->fileContents('verify/response-2-packages.xml'));
         $result = $translator->createVerifyResultFromSoapResponse($responseBody);
-        $this->assertEquals($expectedPackagesIds, $result->getPackagesIds());
+        $this->assertSame($expectedPackagesIds, $result->getPackagesIds());
         $this->assertSame(2, $result->countPackages());
     }
 

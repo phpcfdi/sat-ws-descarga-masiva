@@ -22,13 +22,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return strval(@file_get_contents(static::filePath($filename))) ?: '';
     }
 
-    public function createFielRequestBuilderUsingTestingFiles(string $password = null): FielRequestBuilder
+    public function createFielRequestBuilderUsingTestingFiles(?string $password = null): FielRequestBuilder
     {
         $fiel = $this->createFielUsingTestingFiles($password);
         return new FielRequestBuilder($fiel);
     }
 
-    public function createFielUsingTestingFiles(string $password = null): Fiel
+    public function createFielUsingTestingFiles(?string $password = null): Fiel
     {
         return new Fiel(
             Credential::openFiles(
