@@ -17,15 +17,16 @@ class QueryTranslator
     /** @return list<string> */
     private function resolveResponsePath(DOMElement $envelope): array
     {
-        return match (true) {
-            null !== $this->findElement($envelope, 'body', 'solicitaDescargaEmitidosResponse')
-                => ['body', 'solicitaDescargaEmitidosResponse', 'solicitaDescargaEmitidosResult'],
-            null !== $this->findElement($envelope, 'body', 'solicitaDescargaRecibidosResponse')
-                => ['body', 'solicitaDescargaRecibidosResponse', 'solicitaDescargaRecibidosResult'],
-            null !== $this->findElement($envelope, 'body', 'SolicitaDescargaFolioResponse')
-                => ['body', 'SolicitaDescargaFolioResponse', 'SolicitaDescargaFolioResult'],
-            default => [], // throw an InvalidArgumentException ?
-        };
+        if (null !== $this->findElement($envelope, 'body', 'solicitaDescargaEmitidosResponse')) {
+            return ['body', 'solicitaDescargaEmitidosResponse', 'solicitaDescargaEmitidosResult'];
+        }
+        if (null !== $this->findElement($envelope, 'body', 'solicitaDescargaRecibidosResponse')) {
+            return ['body', 'solicitaDescargaRecibidosResponse', 'solicitaDescargaRecibidosResult'];
+        }
+        if (null !== $this->findElement($envelope, 'body', 'SolicitaDescargaFolioResponse')) {
+            return ['body', 'SolicitaDescargaFolioResponse', 'SolicitaDescargaFolioResult'];
+        }
+        return [];
     }
 
     public function createQueryResultFromSoapResponse(string $content): QueryResult

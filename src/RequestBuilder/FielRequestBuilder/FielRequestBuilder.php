@@ -123,10 +123,12 @@ final class FielRequestBuilder implements RequestBuilderInterface
         }
         if (! $rfcReceivers->isEmpty()) {
             $xmlRfcReceived = implode('', array_map(
-                fn (RfcMatch $rfcMatch): string => sprintf(
-                    '<des:RfcReceptor>%s</des:RfcReceptor>',
-                    $this->parseXml($rfcMatch->getValue())
-                ),
+                function (RfcMatch $rfcMatch): string {
+                    return sprintf(
+                        '<des:RfcReceptor>%s</des:RfcReceptor>',
+                        $this->parseXml($rfcMatch->getValue())
+                    );
+                },
                 iterator_to_array($rfcReceivers)
             ));
             $xmlRfcReceived = "<des:RfcReceptores>$xmlRfcReceived</des:RfcReceptores>";
@@ -142,12 +144,16 @@ final class FielRequestBuilder implements RequestBuilderInterface
     {
         $attributes = array_filter(
             $attributes,
-            static fn (string $value): bool => '' !== $value
+            static function (string $value): bool {
+                return '' !== $value;
+            }
         );
         ksort($attributes);
 
         $solicitudAttributesAsText = implode(' ', array_map(
-            fn (string $name, string $value): string => sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value)),
+            function (string $name, string $value): string {
+                return sprintf('%s="%s"', $this->parseXml($name), $this->parseXml($value));
+            },
             array_keys($attributes),
             $attributes,
         ));

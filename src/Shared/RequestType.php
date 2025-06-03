@@ -20,15 +20,7 @@ final class RequestType extends Enum implements JsonSerializable
 {
     public function getQueryAttributeValue(ServiceType $serviceType): string
     {
-        if ($this->isXml() && $serviceType->isCfdi()) {
-            return 'CFDI';
-        }
-
-        if ($this->isXml() && $serviceType->isRetenciones()) {
-            return 'Retencion';
-        }
-
-        return 'Metadata';
+        return $this->isXml() ? 'CFDI' : 'Metadata';
     }
 
     public function jsonSerialize(): string
