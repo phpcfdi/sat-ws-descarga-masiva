@@ -603,6 +603,14 @@ El SAT ha puesto la restricción de que la fecha de inicio de la consulta debe s
 a la fecha final de la consulta. Por lo que es imposible consultar un solo instante.
 Es obligatorio ahora consultar como mínimo un intervalo de dos segundos.
 
+- En la versión 1.5 (2025-05-30) cambia el límite inferior en el periodo de consulta.
+
+El SAT ha cambiado su validación del límite inferior en la fecha consultada,
+ahora el límite inferior es la fecha actual seis años atrás sin tiempo.
+
+Por ejemplo, si la fecha actual fuera `2025-01-13 14:15:16`, entonces el límite inferior sería `2019-01-13 00:00:00`.
+Si se solicita `2019-01-12 23:59:59` como fecha de inicio del periodo entonces la consulta falla.
+
 ## Compatibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con

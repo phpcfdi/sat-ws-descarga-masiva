@@ -31,6 +31,20 @@ final class QueryValidatorTest extends TestCase
         );
     }
 
+    public function testQueryPeriodStartDateExceedsLowerBound(): void
+    {
+        $now = DateTime::now();
+        $lowerBound = $now->modify('-6 years midnight');
+        $start = $lowerBound->modify('-1 second');
+        $query = QueryParameters::create(DateTimePeriod::create($start, $now));
+        $expectedMessage = sprintf(
+            'La fecha de inicio (%s) no puede ser menor a hoy menos 6 años atrás (%s).',
+            $start->format('Y-m-d H:i:s'),
+            $lowerBound->format('Y-m-d H:i:s'),
+        );
+        $this->assertContains($expectedMessage, $query->validate());
+    }
+
     public function testQueryReceivedXmlCancelled(): void
     {
         $query = QueryParameters::create()

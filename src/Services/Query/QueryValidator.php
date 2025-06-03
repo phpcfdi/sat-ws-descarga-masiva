@@ -6,6 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\Services\Query;
 
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoCfdi;
 use PhpCfdi\SatWsDescargaMasiva\Shared\ComplementoRetenciones;
+use PhpCfdi\SatWsDescargaMasiva\Shared\DateTime;
 
 final class QueryValidator
 {
@@ -54,6 +55,15 @@ final class QueryValidator
                 'La fecha de inicio (%s) no puede ser mayor o igual a la fecha final (%s) del periodo de consulta.',
                 $query->getPeriod()->getStart()->format('Y-m-d H:i:s'),
                 $query->getPeriod()->getEnd()->format('Y-m-d H:i:s'),
+            );
+        }
+
+        $minimalDate = DateTime::now()->modify('-6 years midnight');
+        if ($query->getPeriod()->getStart() < $minimalDate) {
+            $errors[] = sprintf(
+                'La fecha de inicio (%s) no puede ser menor a hoy menos 6 años atrás (%s).',
+                $query->getPeriod()->getStart()->format('Y-m-d H:i:s'),
+                $minimalDate->format('Y-m-d H:i:s'),
             );
         }
 
