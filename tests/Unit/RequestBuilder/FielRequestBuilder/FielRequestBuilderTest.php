@@ -83,7 +83,7 @@ class FielRequestBuilderTest extends TestCase
         $otherRequestBody = $requestBuilder->authorization($created, $expires);
         $otherSecurityTokenId = $this->extractSecurityTokenFromXml($otherRequestBody);
         $this->assertNotEmpty($otherSecurityTokenId);
-        $this->assertNotEquals($securityTokenId, $otherSecurityTokenId, 'Both generated tokens must not be equal');
+        $this->assertNotSame($securityTokenId, $otherSecurityTokenId, 'Both generated tokens must not be equal');
     }
 
     private function extractSecurityTokenFromXml(string $requestBody): string
@@ -92,7 +92,7 @@ class FielRequestBuilderTest extends TestCase
         return $matches['id'] ?? '';
     }
 
-    public function testQueryReceivedByFilters(): void
+    public function testQueryReceived(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $parameters = QueryParameters::create()
@@ -108,18 +108,18 @@ class FielRequestBuilderTest extends TestCase
         ;
         $requestBody = $requestBuilder->query($parameters);
 
-        /** @see tests/_files/query/request-received-by-filters.xml */
+        /** @see tests/_files/query/request-received.xml */
         $this->assertSame(
-            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-filters.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received.xml'))),
             $this->xmlFormat($requestBody)
         );
 
         $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescargaRecibidos');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
-    public function testQueryReceivedByUuid(): void
+    public function testQueryByUuid(): void
     {
         $requestBuilder = $this->createFielRequestBuilderUsingTestingFiles();
         $parameters = QueryParameters::create()
@@ -128,14 +128,14 @@ class FielRequestBuilderTest extends TestCase
         ;
         $requestBody = $requestBuilder->query($parameters);
 
-        /** @see tests/_files/query/request-received-by-uuid.xml */
+        /** @see tests/_files/query/request-item.xml */
         $this->assertSame(
-            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-received-by-uuid.xml'))),
+            $this->xmlFormat(Helpers::nospaces($this->fileContents('query/request-item.xml'))),
             $this->xmlFormat($requestBody)
         );
 
         $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescargaFolio');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
@@ -156,7 +156,7 @@ class FielRequestBuilderTest extends TestCase
         );
 
         $xmlSecVerification = (new EnvelopSignatureVerifier())
-            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescarga');
+            ->verify($requestBody, 'http://DescargaMasivaTerceros.sat.gob.mx', 'SolicitaDescargaEmitidos');
         $this->assertTrue($xmlSecVerification, 'The signature cannot be verified using XMLSecLibs');
     }
 
@@ -201,7 +201,7 @@ class FielRequestBuilderTest extends TestCase
         $requestBody = $requestBuilder->verify($requestId);
 
         $document = new DOMDocument();
-        $this->assertSame(true, $document->loadXML($requestBody));
+        $this->assertTrue($document->loadXML($requestBody));
         $xpath = new DOMXPath($document);
         $this->assertSame($requestId, $this->xpathValue($xpath, '//des:solicitud/@IdSolicitud'));
         $this->assertSame($rfc, $this->xpathValue($xpath, '//des:solicitud/@RfcSolicitante'));
@@ -249,7 +249,7 @@ class FielRequestBuilderTest extends TestCase
         $requestBody = $requestBuilder->download($packageId);
 
         $document = new DOMDocument();
-        $this->assertSame(true, $document->loadXML($requestBody));
+        $this->assertTrue($document->loadXML($requestBody));
         $xpath = new DOMXPath($document);
         $this->assertSame($packageId, $this->xpathValue($xpath, '//des:peticionDescarga/@IdPaquete'));
         $this->assertSame($rfc, $this->xpathValue($xpath, '//des:peticionDescarga/@RfcSolicitante'));

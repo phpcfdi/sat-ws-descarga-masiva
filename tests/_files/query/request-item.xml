@@ -2,21 +2,21 @@
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
   <s:Header/>
   <s:Body>
-    <des:SolicitaDescarga>
-      <des:solicitud Folio="96623061-61fe-49de-b298-c7156476aa8b" RfcSolicitante="EKU9003173C9" TipoSolicitud="Metadata">
+    <des:SolicitaDescargaFolio>
+      <des:solicitud Folio="96623061-61fe-49de-b298-c7156476aa8b" RfcSolicitante="EKU9003173C9">
         <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
           <SignedInfo>
-            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></CanonicalizationMethod>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></SignatureMethod>
             <Reference URI="">
               <Transforms>
-                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"></Transform>
               </Transforms>
-              <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-              <DigestValue>A0teWlShxOD/65O111KTBA+TOSk=</DigestValue>
+              <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>
+              <DigestValue>H2TUJWzcQWOWYmOUgFlHcBeZX08=</DigestValue>
             </Reference>
           </SignedInfo>
-          <SignatureValue>iCuD+MJm/U1Gs/DRvfoXYG8d4apE6WiKhn4R1jBshliHWGwi00pl32zZtofXbrsYG7vxuySgykIwd/bWE2io9OxmaX8kZfPCCI9M5LVB0RjGC+9iuAJrv6dvaAJZ6txKlj8B5eX2JvxXkuA5Uq7E9/KK4Zwbw3SlYd67wYffeXnnRG4WAdmstTpOJuSrD3Ma5xTT/oScWvuTYG24Z3y+bN9AxAZri/qeoHaxgnbyrgX7ukJMUbC+2Rut6fhpCVzFF16kCZlAIZCUlHKIJMS3KCwvTn/Xab9EYgJL5dcL0fhiuK13QLLaa8hX3RtZdWCWYBDqt7/uFi8E2VXjSCU2TQ==</SignatureValue>
+          <SignatureValue>nocn1fF0odlipNhhxzzgdhU56ExLLGWUAgZmCL8QrrBCy30t/Trs4GEaYDPicvAWTczqv/a2tfWRkKjOsRI5R04nWC5V3Hs6PuLYDRx8wJOONBbvkTR0O61mRsIVZccb9CodbHtPXG89g2o8MhdpD48TVaI81mXL+b2IKF2B0jXuIzVsN6Z+17uJzDvB7ZvuV3vM1TDfNW438fAM2g2MXwfwHgW5ZsMk2rcgx3UdbxlYgZI7wAQ4zhcxzDxeBNpk8Ab4EQMyC0ZSoCIiEGaRDLM8I2+ewzH+n5MpXyogwaX4lnkXJkTcvR5ygmUTa++j7c+ugYOJKC8B0pvl5JNOgA==</SignatureValue>
           <KeyInfo>
             <X509Data>
               <X509IssuerSerial>
@@ -28,6 +28,6 @@
           </KeyInfo>
         </Signature>
       </des:solicitud>
-    </des:SolicitaDescarga>
+    </des:SolicitaDescargaFolio>
   </s:Body>
 </s:Envelope>

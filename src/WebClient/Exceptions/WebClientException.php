@@ -17,7 +17,7 @@ class WebClientException extends RuntimeException
     /** @var Response */
     private $response;
 
-    public function __construct(string $message, Request $request, Response $response, Throwable $previous = null)
+    public function __construct(string $message, Request $request, Response $response, ?Throwable $previous = null)
     {
         parent::__construct($message, 0, $previous);
         $this->request = $request;

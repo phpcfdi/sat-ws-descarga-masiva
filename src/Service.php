@@ -47,8 +47,8 @@ class Service
     public function __construct(
         RequestBuilderInterface $requestBuilder,
         WebClientInterface $webclient,
-        Token $currentToken = null,
-        ServiceEndpoints $endpoints = null
+        ?Token $currentToken = null,
+        ?ServiceEndpoints $endpoints = null
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->webclient = $webclient;
@@ -82,7 +82,8 @@ class Service
         $responseBody = $this->consume(
             'http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica',
             $this->endpoints->getAuthenticate(),
-            $soapBody
+            $soapBody,
+            null
         );
         return $authenticateTranslator->createTokenFromSoapResponse($responseBody);
     }
@@ -110,8 +111,9 @@ class Service
         }
         $queryTranslator = new QueryTranslator();
         $soapBody = $queryTranslator->createSoapRequest($this->requestBuilder, $parameters);
+        $soapAction = $this->resolveSoapAction($parameters);
         $responseBody = $this->consume(
-            'http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga',
+            "http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/$soapAction",
             $this->endpoints->getQuery(),
             $soapBody,
             $this->obtainCurrentToken()
@@ -157,7 +159,16 @@ class Service
         return $downloadTranslator->createDownloadResultFromSoapResponse($responseBody);
     }
 
-    private function consume(string $soapAction, string $uri, string $body, ?Token $token = null): string
+    private function resolveSoapAction(QueryParameters $parameters): string
+    {
+        if (! $parameters->getUuid()->isEmpty()) {
+            return 'SolicitaDescargaFolio';
+        }
+
+        return $parameters->getDownloadType()->isReceived() ? 'SolicitaDescargaRecibidos' : 'SolicitaDescargaEmitidos';
+    }
+
+    private function consume(string $soapAction, string $uri, string $body, ?Token $token): string
     {
         return ServiceConsumer::consume($this->webclient, $soapAction, $uri, $body, $token);
     }
