@@ -341,8 +341,9 @@ $query = QueryParameters::create()
 // obtener el listado de errores
 $errors = $query->validate();
 if ([] !== $errors) { // si hay errores
+    echo 'Errores de consulta: ', PHP_EOL;
     foreach ($errors as $error) {
-        echo 'Error de consulta: ', $error, PHP_EOL;
+        echo '  - ', $error, PHP_EOL;
     }
 }
 ```
