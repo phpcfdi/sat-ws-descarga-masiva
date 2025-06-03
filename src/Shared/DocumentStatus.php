@@ -37,11 +37,15 @@ final class DocumentStatus extends Enum implements JsonSerializable
 
     public function getQueryAttributeValue(): string
     {
-        return match (true) {
-            $this->isUndefined() => 'Todos',
-            $this->isActive() => 'Vigente',
-            $this->isCancelled() => 'Cancelado',
-            default => throw new LogicException('Impossible case'),
-        };
+        if ($this->isUndefined()) {
+            return 'Todos';
+        }
+        if ($this->isActive()) {
+            return 'Vigente';
+        }
+        if ($this->isCancelled()) {
+            return 'Cancelado';
+        }
+        throw new LogicException('Impossible case');
     }
 }
