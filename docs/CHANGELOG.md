@@ -14,12 +14,16 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
-## Versión 0.5.6 2025-06-03
+## Versión 0.5.7 2025-06-03
 
 Se agrega la compatibilidad con el nuevo webservice de descarga masiva del SAT versión 1.5 (2025-05-30).
 Es importante entender que esta versión de compatibilidad no es un compromiso a futuro.
 Debes actualizar tu aplicación a versiones de PHP soportadas.
 En esta versión de compatibilidad tampoco se implementan nuevas características como el prevalidador de consultas.
+
+## Versión 0.5.6 2025-06-03
+
+Este release fue un intento fallido de crear una versión compatible con PHP 7.3 o mayor.
 
 ## Versión 0.5.5 2025-06-03
 
