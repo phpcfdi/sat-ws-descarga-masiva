@@ -6,7 +6,7 @@ namespace PhpCfdi\SatWsDescargaMasiva\WebClient;
 
 use Closure;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ResponseException;
 use GuzzleHttp\Psr7\Exception\MalformedUriException;
 use PhpCfdi\SatWsDescargaMasiva\WebClient\Exceptions\WebClientException;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -56,7 +56,7 @@ class GuzzleWebClient implements WebClientInterface
                 'body' => $request->getBody(),
             ]);
         } catch (ClientExceptionInterface | MalformedUriException $exception) {
-            $psr7Response = ($exception instanceof RequestException) ? $exception->getResponse() : null;
+            $psr7Response = ($exception instanceof ResponseException) ? $exception->getResponse() : null;
             $response = $this->createResponseFromPsr7Response($psr7Response);
             $message = sprintf('Error connecting to %s', $request->getUri());
             throw new WebClientException($message, $request, $response, $exception);
