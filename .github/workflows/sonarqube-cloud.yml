@@ -6,7 +6,7 @@ on:
 
 # Actions
 # shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
-# SonarSource/sonarqube-scan-action@v7 https://github.com/marketplace/actions/official-sonarqube-scan
+# SonarSource/sonarqube-scan-action@v8 https://github.com/marketplace/actions/official-sonarqube-scan
 
 jobs:
 
@@ -21,7 +21,7 @@ jobs:
             exit 1
           fi
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Unshallow clone to provide blame information
         run: git fetch --unshallow
       - name: Setup PHP
@@ -34,7 +34,7 @@ jobs:
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -48,6 +48,6 @@ jobs:
           sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/junit.xml > build/sonar-junit.xml
           sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/clover.xml > build/sonar-coverage.xml
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v7
+        uses: SonarSource/sonarqube-scan-action@v8
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

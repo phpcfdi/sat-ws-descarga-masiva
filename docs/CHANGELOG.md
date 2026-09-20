@@ -14,6 +14,24 @@ que nombraremos así: ` Breaking . Feature . Fix `, donde:
 **Importante:** Las reglas de SEMVER no aplican si estás usando una rama (por ejemplo `main-dev`)
 o estás usando una versión cero (por ejemplo `0.18.4`).
 
+## Versión 1.1.4 2026-09-19
+
+La clase `GuzzleWebClient` ahora captura correctamente las excepciones `MalformedUriException` y
+`ClientExceptionInterface` en lugar de `GuzzleException`.
+
+La clase `GuzzleWebClient` ahora obtiene correctamente el objeto *Response* de la excepción de Guzzle.
+
+Cambios en el entorno de desarrollo:
+
+- La librería `guzzlehttp/guzzle` es actualizada a la versión 8.2.
+- El cliente de `robrichards/xmlseclibs` es actualizado a la versión 4.0.
+- Se cambió `EnvelopSignatureVerifier` para adecuarse a `xmlseclibs`. 
+- En los flujos de trabajo de GitHub:
+  - Se actualiza `sonarqube-scan-action` a la versión 7.
+  - Se actualizan las acciones de GitHub a sus últimas versiones.
+  - Se actualiza el trabajo `php-cs-fixer` para ejecutarse en PHP 8.5.
+- Se actualizan las herramientas de desarrollo.
+
 ## Versión 1.1.3 2026-04-07
 
 Esta es una actualización de mantenimiento que tiene cambios mínimos en el código y compatibilidad con PHP 8.5.
