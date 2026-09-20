@@ -41,7 +41,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "^8.2",
         "phpunit/phpunit": "^10.5.45",
-        "robrichards/xmlseclibs": "^3.1.0"
+        "robrichards/xmlseclibs": "^4.0"
     },
     "suggest": {
         "guzzlehttp/guzzle": "To use GuzzleWebClient implementation"
